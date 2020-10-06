@@ -22,6 +22,7 @@ main
 
 //Nomi di variabili non riconosciute devono essere cercati nello spazio dei nomi standard
 //Standard (= std) - (i.e. cout, cin)
+//è veramente bad Practice lo so ma whatever
 using namespace std;
 
 //Contiene il programma principale - ed è l'entry point del programma
