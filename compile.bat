@@ -1,0 +1,1 @@
+g++ ./theory/statements.cpp -o output
