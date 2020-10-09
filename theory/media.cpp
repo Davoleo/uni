@@ -47,15 +47,17 @@ int main() {
     //Istruzione di input
     //cin nome stream di input (= tastiera) - può essere concatenato
     //NB: legge da cin valori del tipo delle variabili passate - Legge il primo poi passa al successivo, se non c'è nessun valore presente aspetta
-    cin >> x >> y >> z;
+    cin >> n1 >> n2 >> n3;
 
     // = operatore di assegnamento
     // a destra c'è un espressione composta
     // dopo averla valutata si assegna ad 'average'
     // / = operatore di divisione (se gli input sono tutti e due interi il risultato della divisione sarà troncato ad intero)
-    average = (x + y + z) / 3.0;
+    average = (n1 + n2 + n3) / 3.0;
 
     cout << "La media è: " << average << endl;
+
+    system("pause");
 
     //no errori
     return 0;
