@@ -9,3 +9,6 @@ g++ ./theory/statements.cpp -o ./build/statements
 
 ::Compile date validator
 g++ ./exercises/date_validator.cpp -o ./build/date_validator
+
+::Compile Equation Resolver
+g++ ./exercises/eq2_resolver.cpp -o ./build/eq2_resolver
