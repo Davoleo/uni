@@ -1,3 +1,7 @@
+/*-------------------
+ | Coded by Davoleo |
+ -------------------*/
+ 
 package net.davoleo.numbaseconv;
 
 import net.davoleo.numbaseconv.form.IntConverter;
