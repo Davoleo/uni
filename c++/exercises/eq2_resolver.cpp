@@ -16,6 +16,7 @@ int main() {
 
     float delta = pow(b, 2) - (4 * a * c);
 
+    //Can't resolve when delta is less than 0
     if (delta < 0)
     {
         std::cout << "Discriminante Negativa!" << std::endl;
@@ -23,7 +24,6 @@ int main() {
         return 0;
     }
     
-
     float x1 = (-b + sqrt(delta)) / (2 * a);
     float x2 = (-b - sqrt(delta)) / (2 * a);
 
