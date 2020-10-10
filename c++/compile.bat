@@ -1,7 +1,9 @@
 ::Coded by Davoleo::
+mkdir ./build/theory
+mkdir ./build/exercises
 
 :: Compile the averager source file
-g++ ./theory/media.cpp -o ./build/media
+g++ ./theory/media.cpp -o ./build/theory/media
 
 :: Compile the statement theory file
-g++ ./theory/statements.cpp -o ./build/statements
+g++ ./theory/statements.cpp -o ./build/theory/statements
