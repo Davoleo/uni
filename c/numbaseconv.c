@@ -12,7 +12,6 @@ const char* decimalToCustom(int decimal, int base);
 int main() {
 
     int base1;
-    int base2;
     const char* number;
 
     puts("=========================");
@@ -21,9 +20,9 @@ int main() {
     puts("");
 
     printf("Please input the first base: ");
-    scanf("%i", base1);
-    printf("Base: %i\n", base1);
-    
+    scanf("%d", &base1);
+    printf("Base: %d \n", base1);
+
     if (base1 < 2 || base1 > 37) 
     {
         puts("Base can't be smaller than binary or bigger than 37, the program will terminate now");
@@ -32,16 +31,19 @@ int main() {
     }
     
     if (base1 <= 10)
-        printf("You can use digits from 0 to %i to describe your number", base1 - 1);
+        printf("You can use digits from 0 to %d to describe your number: ", base1 - 1);
     else
-        printf("You can use digits from 0 to 9 and letters from A to %c to describe your number", alpha[base1 - 11]);
+        printf("You can use digits from 0 to 9 and letters from A to %c to describe your number: ", alpha[base1 - 11]);
     
-    scanf("%s", number);
+    scanf("%s", &number);
 
+    int base2;
     printf("Please insert the base you want to convert your nunber to [2, 37]: ");
-    scanf("%s", &base2);
+    scanf("%d", &base2);
 
     int decimalNumber = customToDecimal(number, base1);
+
+    printf("Decimal number is: %d", decimalNumber);
 
     const char* finalNumber = decimalToCustom(decimalNumber, base2);
 
@@ -59,11 +61,15 @@ int customToDecimal(const char* number, int base)
         {
             int converted = (number[i] - numToValueshift) * base;
             decimalSum += converted;
+            puts("1");
         }
 
-        if (number[i] >= 65)
+        puts("djaskkldjaklsdjlkd");
+
+        if (number[i] >= 65) //The char is an extended digit from the alpha array
         {
             int converted = (number[i] - charToValueShift) * base;
+            puts("2");
             decimalSum += converted;
         }
     }
