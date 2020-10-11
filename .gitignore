@@ -5,3 +5,6 @@
 
 # Compiled C++ sources
 c++/build
+
+# Compiled C Files
+c/numbaseconv.exe
