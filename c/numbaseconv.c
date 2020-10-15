@@ -131,7 +131,7 @@ void decimalToCustom(int decimal, int base, char (*converted)[])
     while(decimal != 0) {
 
         int result = decimal % base;
-        printf("Resto: %d\n", result);
+        printf("Resto: %d |", result);
         
         if (result > 9) {
             (*converted)[i] = alpha[result - 10];
@@ -143,6 +143,5 @@ void decimalToCustom(int decimal, int base, char (*converted)[])
         i++;
         decimal /= base;
         printf("Nuovo quoziente: %d\n", decimal);
-        system("pause");
     }
 }
