@@ -49,6 +49,18 @@ int main() {
         i++;
     }
 
+    char c;
+    char vocalCount = 0;
+    cout << "Inserisci una sequenza di caratteri terminata da '.'" << endl;
+    
+    cin >> c;
+    while(c != '.') {
+        if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+            vocalCount++;
+        cin >> c;
+    }
+
+    cout << "La sequenza contiene " << vocalCount << " vocali" << endl;
     system("pause");
 
     return 0;
