@@ -61,6 +61,19 @@ int main() {
     }
 
     cout << "La sequenza contiene " << vocalCount << " vocali" << endl;
+
+    //condizione tra le istruzioni
+    //La condizionedeve essere specificata 2 volte ergo meno ottimizzato
+    //a meno che non si usi lo statement di salto chiamato break che permette di uscire dal loop prima
+    do {
+        cin >> x;
+        if (x < 0 || x > 10) {
+            cout << "Numero non valido" << endl;
+        }
+        else break;
+    } while(true);
+
+
     system("pause");
 
     return 0;
