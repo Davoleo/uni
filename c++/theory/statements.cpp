@@ -73,6 +73,16 @@ int main() {
         else break;
     } while(true);
 
+    do {
+        //se cin è in stato failed
+        if (cin.fail())
+        {
+            cout << "Errore, ripeti l'input" << endl;
+            //Resetta lo stato a non failed (il dato errato rimane)
+            cin.clear();
+            cin.ignore(256, '\n');
+        } else break;
+    } while (true);
 
     system("pause");
 
