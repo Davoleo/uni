@@ -5,6 +5,10 @@
         "cstdlib": "c",
         "system_error": "c",
         "typeinfo": "c",
-        "cstdio": "cpp"
+        "cstdio": "cpp",
+        "istream": "c",
+        "functional": "c",
+        "limits": "c",
+        "tuple": "c"
     }
 }
