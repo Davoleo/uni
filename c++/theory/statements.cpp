@@ -84,7 +84,41 @@ int main() {
         } else break;
     } while (true);
 
+    // Risolvi espressioni //
+
+    int num1, num2;
+    char op;
+    bool error;
+    float result;
+
+    cout << "Inserisci un operazione algebrica (senza spazi): ";
+    cin >> num1 >> op >> num2;
+
+   /* switch(op) {
+        case '+':
+        case '-':
+        case '*':
+        case 'x':
+        case '/':
+        case ':':
+    }*/
+
+    //in questo caso si può anche evitare la specifica del numero di slot
+    char vocali[5] = {'a', 'e', 'i', 'o', 'u'};
+
+    float fl = 1;
+    double db = 1;
+
+    for (int i = 0; i < 10; i++) {
+        fl -= 0.1;
+        db -= 0.1;
+    }
+
+    cout << "Float: " << fl << endl << "Double: " << db << endl;
+
     system("pause");
 
     return 0;
+
+    
 }
