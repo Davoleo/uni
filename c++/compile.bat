@@ -17,4 +17,7 @@ g++ ./theory/statements.cpp -o ./build/statements
 :: g++ ./exercises/weighted_average.cpp -o ./build/weighted_average
 
 ::Compile Inches <-> cms Excercise
- g++ ./exercises/inches_cm_converter.cpp -o ./build/inches_cm_converter
+g++ ./exercises/inches_cm_converter.cpp -o ./build/inches_cm_converter
+
+:: Tryangle builder
+g++ ./exercises/tryangle.cpp -o ./build/tryangle
