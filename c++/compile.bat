@@ -21,3 +21,6 @@ g++ ./exercises/inches_cm_converter.cpp -o ./build/inches_cm_converter
 
 :: Tryangle builder
 g++ ./exercises/tryangle.cpp -o ./build/tryangle
+
+:: Int Operations menu
+g++ ./exercises/operations.cpp -o ./build/operations
