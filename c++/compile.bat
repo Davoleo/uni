@@ -8,19 +8,19 @@ g++ ./theory/media.cpp -o ./build/media
 g++ ./theory/statements.cpp -o ./build/statements
 
 ::Compile date validator Excercise
-:: g++ ./exercises/date_validator.cpp -o ./build/date_validator
+:: g++ ./exercises/1_date_validator.cpp -o ./build/1_date_validator
 
 ::Compile Equation Resolver Excercise
-:: g++ ./exercises/eq2_resolver.cpp -o ./build/eq2_resolver
+:: g++ ./exercises/2_eq2_resolver.cpp -o ./build/2_eq2_resolver
 
 ::Compile Weighted Average Excercise
-:: g++ ./exercises/weighted_average.cpp -o ./build/weighted_average
+:: g++ ./exercises/3_weighted_average.cpp -o ./build/3_weighted_average
 
 ::Compile Inches <-> cms Excercise
-g++ ./exercises/inches_cm_converter.cpp -o ./build/inches_cm_converter
+g++ ./exercises/4_inches_cm_converter.cpp -o ./build/4_inches_cm_converter
 
 :: Tryangle builder
-g++ ./exercises/tryangle.cpp -o ./build/tryangle
+g++ ./exercises/5_tryangle.cpp -o ./build/5_tryangle
 
 :: Int Operations menu
-g++ ./exercises/operations.cpp -o ./build/operations
+g++ ./exercises/6_operations.cpp -o ./build/6_operations
