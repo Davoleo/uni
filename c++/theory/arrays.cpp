@@ -50,4 +50,26 @@ int main() {
     std::cin >> n;
     int semiDynamicCArray[n];
 
+    //---------------------
+
+    const int maxLength = 1000;
+    char sentence[maxLength];
+    std::cout << "Inserisci una frase (terminata da punto - max 1000 caratteri)...";
+
+    int i = 0;
+    char c;
+
+    while (i < maxLength) {
+        c = std::cin.get();
+        if (c == '.')
+            break;
+        sentence[i] = c;
+    }
+
+    for (int j = i - 1; j >= 0; j--) {
+        std::cout.put(sentence[j]);
+    }
+
+        
+
 }
