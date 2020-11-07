@@ -14,19 +14,20 @@ int main() {
     char letter = '\0';
     int i = 0;
 
-    while (letter != '\n' && i < MAX_LENGTH) {
+    while (std::cin.peek() != '\n' && i < MAX_LENGTH) {
         std::cin.get(letter);
         sequence[i] = letter;
         i++;
     }
 
-    std::cout << "i = " << sequence[i - 2] << std::endl;
-    std::cout << "i = " << i << std::endl;
+    //The last char of the array is a weird character so I'm just going to remove it
+    sequence[i] = '\0';
+    i--;
 
     const int ACTUAL_LENGTH = i + 1;
-
     std::cout << "\n\nQueste sono le possibili rotazioni degli oggetti dell'array stampate: " << std::endl;
 
+    
     for (int rot = 0; rot < ACTUAL_LENGTH; rot++) {
 
         for (int i = rot; i < ACTUAL_LENGTH + rot; i++) {
