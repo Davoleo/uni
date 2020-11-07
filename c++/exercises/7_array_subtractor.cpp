@@ -7,9 +7,16 @@ int main() {
     std::cout << "+------------------+" << std::endl << std::endl;
 
     //Get the first input sequence
-    std::cout << "Inserisci il numero di elementi della prima sequenza: ";
     int count1;
+
+    std::cout << "Inserisci il numero di elementi della prima sequenza: ";
     std::cin >> count1;
+
+    while(count1 <= 0) {
+        std::cout << "Errore!";
+        std::cout << "Inserisci il numero di elementi della prima sequenza: ";
+        std::cin >> count1;
+    }
 
     int array1[count1];
     for (int i = 0; i < count1; i++) {
@@ -20,9 +27,16 @@ int main() {
     std::cout << std::endl;
 
     //Get the second input sequence
-    std::cout << "Inserisci il numero di elementi della seconda sequenza: ";
     int count2;
+
+    std::cout << "Inserisci il numero di elementi della seconda sequenza: ";
     std::cin >> count2;
+
+    while(count2 <= 0) {
+        std::cout << "Errore!";
+        std::cout << "Inserisci il numero di elementi della seconda sequenza: ";
+        std::cin >> count2;
+    }
 
     int array2[count2];
     for (int i = 0; i < count2; i++) {
@@ -48,13 +62,18 @@ int main() {
     std::cout << "La differenza insiemistica tra le 2 sequenze e': " << std::endl;
 
     //Loop over the result array and print it on the console
-    for (int i = 0; i < count1; i++) {
-        if (result[i] == 0)
-            continue;
+    bool empty = true;
 
-        std::cout << result[i] << ", ";
+    for (int i = 0; i < count1; i++) {
+        if (result[i] != 0) {
+            std::cout << result[i] << ", ";
+            empty = false;
+        }
     }
 
+    if (empty)
+        std::cout << "Insieme Vuoto";
+    
     std::cout << std::endl;
 
     system("pause");
