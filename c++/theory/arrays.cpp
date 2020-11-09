@@ -70,6 +70,38 @@ int main() {
         std::cout.put(sentence[j]);
     }
 
-        
 
+    const int DAYS = 7;
+    const int HOURS = 24;
+
+    float tempMatrix[DAYS][HOURS];
+
+    //Lettura e caricamento della matrice
+    for (int day = 0; day < DAYS; i++) 
+    {
+        for (int hour = 0; hour < HOURS; hour++)
+        {
+            std::cout << "Inserire un valore di temperatura per il giorno " << day << " all'ora " << hour << ": ";
+            std::cin >> tempMatrix[day][hour];
+        }
+    }
+
+    int subZero = 0;
+    for (int day = 0; day < DAYS; i++) 
+    {
+        for (int hour = 0; hour < HOURS; hour++)
+        {
+            if (tempMatrix[day][hour] < 0)
+            {
+                subZero++;
+                //Esci dal ciclo più interno
+                break;
+            }
+        }
+    }
+    cout << "La temperatura è scesa sotto zero in " << subZero << " giorni." << std::endl;
+
+
+    char nome[32];
+    cin >> nome;
 }
