@@ -16,5 +16,6 @@ int main() {
     //strcat(string1, string2);
     //strcmp(string1, string2); //int
 
+    system("pause");
     return 0;
 }
