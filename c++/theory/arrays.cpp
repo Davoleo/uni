@@ -99,9 +99,9 @@ int main() {
             }
         }
     }
-    cout << "La temperatura è scesa sotto zero in " << subZero << " giorni." << std::endl;
+    std::cout << "La temperatura è scesa sotto zero in " << subZero << " giorni." << std::endl;
 
 
     char nome[32];
-    cin >> nome;
+    std::cin >> nome;
 }
