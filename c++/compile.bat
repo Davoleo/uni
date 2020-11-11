@@ -30,3 +30,6 @@ g++ ./exercises/7_array_subtractor.cpp -o ./build/7_array_subtractor
 
 :: Rotation Printer
 g++ ./exercises/8_rotation_printer.cpp -o ./build/8_rotation_printer
+
+:: Trials
+g++ ./exercises/9_trials.cpp -o ./build/9_trials
