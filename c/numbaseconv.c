@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
-#include <ctype.h>
-
-const char alpha[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 
-    'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-const int charToValueShift = 55;
-const int numToValueshift = 48;
+#include "utilfunctions.h"
 
 static inline short isBaseValid(int base) 
 {
@@ -19,9 +10,6 @@ static inline short isBaseValid(int base)
 
     return 1;
 }
-
-int customToDecimal(const char number[], int base);
-int decimalToCustom(int decimal, int base, char (*converted)[]);
 
 int main() {
 
@@ -76,16 +64,19 @@ int main() {
         return 0;
     }
 
-    int decimalNumber;
-
+    float decimalNumber;
+    
     if (base1 != 10) {
-        decimalNumber = customToDecimal(number, base1);
+        if(strstr(number, ".") == NULL)
+            decimalNumber = halfCustomToDecimal(number, base1, 1);
+        else
+            decimalNumber = floatCustomToDecimal(number, base1);
     }
     else {
         decimalNumber = atoi(number);
     }
 
-    printf("Decimal number is: %d\n", decimalNumber);
+    printf("Decimal number is: %f\n", decimalNumber);
 
     if (base2 != 10)
     {
@@ -106,55 +97,4 @@ int main() {
     system("pause");
 
     return 0;
-}
-
-int customToDecimal(const char number[], int base) 
-{
-    int decimalSum = 0;
-
-    short length = strlen(number);
-
-    for (int i = 0; i < length; i++) 
-    {
-        if (number[i] <= 57) //the char is a normal digit
-        {
-            int converted = (number[i] - numToValueshift) * pow(base, length - i - 1);
-            //printf("Numero shiftato: %d\n", (number[i] - numToValueshift));
-            decimalSum += converted;
-        }
-
-        if (number[i] >= 65) //The char is an extended digit from the alpha array
-        {
-            int converted = (number[i] - charToValueShift) * pow(base, length - i - 1);
-            //printf("Numero shiftato: %d\n", (number[i] - charToValueShift));
-            decimalSum += converted;
-        }
-    }
-
-    return decimalSum;
-}
-
-//Returns the length of the converted number
-int decimalToCustom(int decimal, int base, char (*converted)[])
-{
-    int index = 0;
-
-    while(decimal != 0) {
-
-        int result = decimal % base;
-        //printf("Resto: %d |", result);
-        
-        if (result > 9) {
-            (*converted)[index] = alpha[result - 10];
-        }
-        else {
-            (*converted)[index] = result + numToValueshift;
-        }
-
-        index++;
-        decimal /= base;
-        //printf("Nuovo quoziente: %d\n", decimal);
-    }
-
-    return index;
 }

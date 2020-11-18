@@ -1,2 +1,2 @@
 ::Compile the c base converter file
-gcc numbaseconv.c -o numbaseconv
+gcc numbaseconv.c utilfunctions.h -o numbaseconv
