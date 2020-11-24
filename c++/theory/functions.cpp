@@ -22,3 +22,11 @@ int main() {
 
     return 0;
 }
+
+int fatt(int x) {
+    if (x == 0)
+        return 1;
+    else {
+        return fatt(x - 1) * x;
+    }
+}
