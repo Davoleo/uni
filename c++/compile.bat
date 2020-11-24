@@ -33,3 +33,6 @@ g++ ./exercises/8_rotation_printer.cpp -o ./build/8_rotation_printer
 
 :: Trials
 g++ ./exercises/9_trials.cpp -o ./build/9_trials
+
+:: Subzero temperatures
+g++ ./exercises/10_subzero_temps.cpp -o ./build/10_subzero_temps
