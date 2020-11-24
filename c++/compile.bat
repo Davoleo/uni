@@ -36,3 +36,6 @@ g++ ./theory/statements.cpp -o ./build/statements
 
 :: Subzero temperatures
 g++ ./exercises/10_subzero_temps.cpp -o ./build/10_subzero_temps
+
+:: Word Comparator
+g++ ./exercises/11_word_comparator.cpp -o ./build/11_word_comparator

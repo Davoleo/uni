@@ -16,7 +16,7 @@ int loadInputTemperatures(float matrix[][RECORDS_IN_A_DAY]) {
                 return days;
         }
         days++;
-    } 
+    }
     while (days <= 365);
     return 365;
 }
