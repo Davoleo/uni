@@ -39,3 +39,6 @@ g++ ./exercises/10_subzero_temps.cpp -o ./build/10_subzero_temps
 
 :: Word Comparator
 g++ ./exercises/11_word_comparator.cpp -o ./build/11_word_comparator
+
+:: Phone Numbers Table
+g++ ./exercises/12_phone_numbers_table.cpp -o ./build/12_phone_numbers_table
