@@ -19,7 +19,7 @@ int main() {
 
     int contactCount = loadInputs(contactsTable);
 
-    std::cout << "Dati inseriti correttamente!" << std::endl;
+    std::cout << "Dati inseriti correttamente!" << std::endl << std::endl;
 
     std::cout << "Scegli un'operazione:" << std::endl;
     std::cout << "1. ricerca il numero di telefono" << std::endl;
@@ -27,14 +27,12 @@ int main() {
     std::cout << "3. stampa l'intera rubrica" << std::endl;
     std::cout << "4. Esci" << std::endl << std::endl;
 
-    std::cout << contactsTable[0].name << " " << contactsTable[0].phoneNumber;
-
     int choice = 0;
 
     do {
         if (std::cin.fail()) {
             std::cin.clear();
-            std::cin.ignore(256, '\n');
+            std::cin.ignore();   
         }
 
         std::cout << "Operazione? ";
@@ -45,9 +43,10 @@ int main() {
         case 1:
             std::cout << "Inserisci il nome: ";
             char name[50];
+            std::cin.ignore();
             std::cin.getline(name, 50, '\n');
             for (int i = 0; i < contactCount; i++) {
-                if (contactsTable[i].name == name)
+                if (strcmp(contactsTable[i].name, name) == 0)
                     std::cout << "Il numero di telefono di " << name << " e': " << contactsTable[i].phoneNumber << std::endl;
             }
             break;
@@ -55,44 +54,37 @@ int main() {
         case 2:
             std::cout << "Inserisci il numero di telefono: ";
             char numb[50];
+            std::cin.ignore();
             std::cin.getline(numb, 50, '\n');
             for (int i = 0; i < contactCount; i++) {
-                if (numb == contactsTable[i].phoneNumber)
+                if (strcmp(contactsTable[i].phoneNumber, numb) == 0)
                     std::cout << "Il numero " << numb << " e' di " << contactsTable[i].name << std::endl;
             }
             break;
             
         case 3:
-            std::cout << "-------------------------------------------" << std::endl;
+            std::cout << "------------------------" << std::endl;
             for (int i = 0; i < contactCount; i++)
                 std::cout << "| " << contactsTable[i].name << " | " << contactsTable[i].phoneNumber << " |" << std::endl;
-            std::cout << "-------------------------------------------" << std::endl;
+            std::cout << "------------------------" << std::endl;
             break;
         case 4:
-            std::cout << "Breaking the looops...";
+            std::cout << "Breaking the looops..." << std::endl;
             break;
         default:
-            std::cout << "Scelta non valida!";
+            std::cout << "Scelta non valida!" << std::endl;
             break;
         }
 
     } while (choice != 4);
 
-    system("pause");
-
-}
-
-void printCString(char array[]) {
-    for (int i = 0; i < strlen(array); i++) {
-        std::cout.put(array[i]);
-    }
 }
 
 int loadInputs(Contact contacts[]) {
 
-    int n = 1;
+    int n = 0;
 
-    while(n <= 100) {
+    while(n < 100) {
 
         char name[50];
         char number[50];
@@ -106,8 +98,10 @@ int loadInputs(Contact contacts[]) {
         std::cout << "Inserisci il numero di telefono relativo al contatto: ";
         std::cin.getline(number, 50, '\n');
 
-        Contact contact = { *name, *number };
-        contacts[n - 1] = contact;
+        Contact contact;
+        strcpy(contact.name, name);
+        strcpy(contact.phoneNumber, number);
+        contacts[n] = contact;
         n++;
     }
 
