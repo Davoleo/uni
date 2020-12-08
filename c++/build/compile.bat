@@ -35,10 +35,13 @@
 ::g++ ../exercises/12_phone_numbers_table.cpp -o ./12_phone_numbers_table
 
 :: Int Operations Menu V2
-g++ ../exercises/13_operations_v2.cpp -o ./13_operations_v2
+::g++ ../exercises/13_operations_v2.cpp -o ./13_operations_v2
 
 :: Divide Positive and Negative Numbers
-g++ ../exercises/14_filter_negative_numbers.cpp -o ./14_filter_negative_numbers
+::g++ ../exercises/14_filter_negative_numbers.cpp -o ./14_filter_negative_numbers
 
 :: Update Function
-g++ ../exercises/15_edit_function.cpp -o ./15_edit_function
+::g++ ../exercises/15_edit_function.cpp -o ./15_edit_function
+
+:: Update Function
+g++ ../exercises/16_replace_per_x.cpp -o ./16_replace_per_x
