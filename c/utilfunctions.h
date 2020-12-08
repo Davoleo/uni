@@ -9,6 +9,7 @@ const char alpha[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'
 const int charToValueShift = 55;
 const int numToValueshift = 48;
 
+// Generic function that converts the given int number to the given base
 float halfCustomToDecimal(const char number[], int base, short sign) 
 {
     float decimalSum = 0;
@@ -41,6 +42,8 @@ float halfCustomToDecimal(const char number[], int base, short sign)
     return decimalSum;
 }
 
+// Uses the above halfCustomToDecimal function one time 
+// on the integer part and another time on the decimal part of a floating point number
 float floatCustomToDecimal(char number[], int base) 
 {
     char* token = strtok(number, ".");
@@ -75,6 +78,36 @@ int decimalToCustom(int decimal, int base, char (*converted)[])
         index++;
         decimal /= base;
         //printf("Nuovo quoziente: %d\n", decimal);
+    }
+
+    return index;
+}
+
+int floatDecimalToCustom(double decimal, int base, char (*converted)[], int offset) {
+
+    //printf("\nFloat number passato alla funzione: %f\n", decimal);
+
+    int index = 0;
+
+    while(decimal != 0.0) {
+
+        decimal *= base;
+        //the integer part of the multiplied number
+        int intPart = decimal;
+        // the floating part of the multiplied number became the "decimal"
+        decimal -= intPart;
+        
+        //0.30 * 2 = 0.60 < 1 
+        //0.30 * 16 = 4.8 --> 4   0.8
+
+        if (intPart > 9) {
+            (*converted)[index + offset] = alpha[intPart - 10];
+        }
+        else {
+            (*converted)[index + offset] = intPart + numToValueshift;
+        }
+
+        index++;
     }
 
     return index;

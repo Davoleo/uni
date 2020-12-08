@@ -63,8 +63,7 @@ int main() {
         system("pause");
         return 0;
     }
-
-    float decimalNumber;
+    double decimalNumber;
     
     if (base1 != 10) {
         if(strstr(number, ".") == NULL)
@@ -73,25 +72,32 @@ int main() {
             decimalNumber = floatCustomToDecimal(number, base1);
     }
     else {
-        decimalNumber = atoi(number);
+        decimalNumber = atof(number);
     }
 
     printf("Decimal number is: %f\n", decimalNumber);
 
     if (base2 != 10)
     {
-        char finalNumber[256] = "";
+        char finalNumber[128] = "";
 
-        const int finalNumLength = decimalToCustom(decimalNumber, base2, &finalNumber);
+        const int intPartLength = decimalToCustom((int) decimalNumber, base2, &finalNumber);
+        finalNumber[intPartLength] = '.';
+        const int floatingPartLength = floatDecimalToCustom(decimalNumber - (int) decimalNumber, base2, &finalNumber, intPartLength + 1);
         
-        for(int r = 0; r < (finalNumLength / 2); r++) 
+        //Reverse the int part
+        for(int r = 0; r < (intPartLength / 2); r++) 
         {
             char temp = finalNumber[r];
-            finalNumber[r] = finalNumber[finalNumLength - r - 1];
-            finalNumber[finalNumLength - r - 1] = temp;
+            finalNumber[r] = finalNumber[intPartLength - r - 1];
+            finalNumber[intPartLength - r - 1] = temp;
         }
-        
-        printf("The final converted number is: %s\n", finalNumber);
+
+        char truncatedFinalNumber[128];
+        memcpy(truncatedFinalNumber, &finalNumber[0], intPartLength + 7);
+        truncatedFinalNumber[intPartLength + 7] = '\0';
+
+        printf("The final converted number is: %s\n", truncatedFinalNumber);
     }
 
     system("pause");
