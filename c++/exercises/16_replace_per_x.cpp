@@ -23,7 +23,7 @@ int main() {
     if (inputStream.fail()) {
         std::cout << "Il file specificato non esiste, riavviare il programma e riprovare." << std::endl;
         system("pause");
-        return 1;
+        return 0;
     }
 
     std::ofstream outStream;
@@ -61,6 +61,6 @@ int main() {
 
     std::cout << "\"per\" e' stato sostituito con \"x\" " << count << " volte" << std::endl;
     system("pause");
-    return 1;
+    return 0;
     
 }

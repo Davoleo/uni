@@ -50,7 +50,7 @@ int main() {
     std::cout << std::endl;
     system("pause");
 
-    return 1;
+    return 0;
 }
 
 ArrayLengths separate(int original[], int length, int negativeNums[], int positiveNums[]) {

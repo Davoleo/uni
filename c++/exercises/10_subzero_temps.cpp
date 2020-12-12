@@ -67,4 +67,5 @@ int main() {
     std::cout << "La temperatura media per la prima registrazione di ogni giornata e' di: " << average << " gradi" << std::endl;
 
     system("pause");
+    return 0;
 }

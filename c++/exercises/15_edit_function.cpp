@@ -32,7 +32,7 @@ int main() {
         std::cout << elems[i].name << ": " << elems[i].count << " volte" << std::endl;
 
     system("pause");
-    return 1;
+    return 0;
 }
 
 void edit(Element elements[], int& lastIndex, char name[]) {

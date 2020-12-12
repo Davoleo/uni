@@ -54,6 +54,7 @@ int main() {
     }
 
     system("pause");
+    return 0;
 }
 
 void printIsPrefix(char possiblePrefix[], char containingWord[]) {

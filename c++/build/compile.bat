@@ -45,3 +45,6 @@
 
 :: Update Function
 g++ ../exercises/16_replace_per_x.cpp -o ./16_replace_per_x
+
+:: Concat Files
+g++ ../exercises/17_file_concat.cpp -o ./17_file_concat

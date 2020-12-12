@@ -78,6 +78,7 @@ int main() {
 
     } while (choice != 4);
 
+    return 0;
 }
 
 int loadInputs(Contact contacts[]) {
