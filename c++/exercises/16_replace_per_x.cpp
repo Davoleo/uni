@@ -34,8 +34,10 @@ int main() {
 
     int count = 0;
 
+    char readChar = inputStream.get();
+
     while (!inputStream.eof()) {
-        char readChar = inputStream.get();
+        
         char banane = '\t';
         char mandorle = '\t';
 
@@ -57,6 +59,8 @@ int main() {
             outStream.put(banane);
         if (mandorle != '\t')
             outStream.put(mandorle);
+
+        readChar = inputStream.get();
     }
 
     std::cout << "\"per\" e' stato sostituito con \"x\" " << count << " volte" << std::endl;

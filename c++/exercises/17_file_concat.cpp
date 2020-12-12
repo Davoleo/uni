@@ -23,9 +23,12 @@ void loadFile(std::ifstream& stream, char filename[MAX_FILENAME_LENGTH]) {
 }
 
 void copyContent(std::ifstream& input, std::ofstream& output) {
+
+    char ch = input.get();
+
     while (!input.eof()) {
-        char ch = input.get();
         output.put(ch);
+        ch = input.get();
     }
 
     input.close();
