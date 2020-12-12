@@ -36,6 +36,10 @@ void copyContent(std::ifstream& input, std::ofstream& output) {
 
 int main() {
 
+    std::cout << "+---------------------------+" << std::endl;
+    std::cout << "| Concatenate Files Content |" << std::endl;
+    std::cout << "+---------------------------+" << std::endl << std::endl;
+
     std::ifstream file1;
     std::ifstream file2;
 
