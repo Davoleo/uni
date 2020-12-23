@@ -44,10 +44,13 @@
 ::g++ ../exercises/15_edit_function.cpp -o ./15_edit_function
 
 :: Update Function
-g++ ../exercises/16_replace_per_x.cpp -o ./16_replace_per_x
+::g++ ../exercises/16_replace_per_x.cpp -o ./16_replace_per_x
 
 :: Concat Files
-g++ ../exercises/17_file_concat.cpp -o ./17_file_concat
+::g++ ../exercises/17_file_concat.cpp -o ./17_file_concat
 
 :: Field Arrays
-g++ ../exercises/18_field_arrays.cpp -o ./18_field_arrays
+::g++ ../exercises/18_field_arrays.cpp -o ./18_field_arrays
+
+:: Load Dynamic Array
+g++ ../exercises/19_load_dynamic_array.cpp -o ./19_load_dynamic_array
