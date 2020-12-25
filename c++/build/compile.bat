@@ -54,3 +54,6 @@
 
 :: Load Dynamic Array
 g++ ../exercises/19_load_dynamic_array.cpp -o ./19_load_dynamic_array
+
+:: Pointers Array
+g++ ../exercises/20_pointers_array.cpp -o ./20_pointers_array
