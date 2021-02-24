@@ -1,6 +1,6 @@
 #include <iostream>
 
-class Date {
+class date {
 
 private:
     int day;
@@ -25,27 +25,26 @@ public:
             day = month = year = 0;
             return false;
         }
-        
     }
 
     void print() {
         std::cout << day << '/' << month << '/' << year << std::endl;
     }
 
-    bool compare(Date other) {
-        //Code...
+    bool equals(date other) {
+        return year == other.year && month == other.month && day == other.day;
     }
 };
 
 int main() {
 
-    Date date;
-    date.read();
-    date.print();
+    date dat;
+    dat.read();
+    dat.print();
 
-    Date date2;
-    date2.read();
-    date2.print();
+    date dat2;
+    dat2.read();
+    dat2.print();
 
     
     return 0;
