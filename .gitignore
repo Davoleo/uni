@@ -7,4 +7,5 @@
 c++/build/*.exe
 
 # Compiled C Files
-c/numbaseconv.exe
+c/misc/*.exe
+c/theory/*.exe
