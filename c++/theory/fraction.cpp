@@ -9,6 +9,27 @@ private:
     int d;
 
 public:
+    fraction() {
+        n = 0;
+        d = 1;
+    }
+
+    fraction(int n) {
+        this->n = n;
+        d = 1;
+    }
+
+    fraction(int n, int d) {
+        this->n = n;
+
+        if(d == 0) {
+            std::cout << "ERROR: Denominatore Nullo!" << std::endl;
+            this->d = 1;
+        }
+        else
+            this->d = d;
+    }
+
     void print() {
         std::cout << n << '/' << d;
     }
@@ -47,7 +68,14 @@ public:
 using namespace std;
 
 int main() {
-    fraction a;
+    fraction a = fraction(2, 3);
     a.read();
     a.print();
+
+    fraction* frac = new fraction(2, 3);
+    frac->print();
+
+    //Chained Calls and anonymous object initialization
+    fraction(1000, 3920).sum(fraction(100, 328)).print();
+    return 0;
 }
