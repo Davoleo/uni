@@ -14,6 +14,7 @@ public:
         d = 1;
     }
 
+    //explicit
     fraction(int n) {
         this->n = n;
         d = 1;
@@ -35,13 +36,13 @@ public:
     }
 
     //TODO WIP
-    void read() {
+    void read(std::istream& src) {
         char separator;
 
         std::cout << "Inserisci una frazione (formato: n/d):";
-        std::cin >> n;
-        std::cin >> separator;
-        std::cin >> d;
+        src >> n;
+        src >> separator;
+        src >> d;
 
         if (d == 0) {
             std::cout << "ERROR: Denominatore Nullo!" << std::endl;
@@ -63,13 +64,24 @@ public:
         return result;        
     }
 
+    fraction operator+ (fraction other) {
+        return sum(other);
+    }
+
+    fraction operator+(int other) {
+        return sum(fraction(other));
+    }
+
+    bool operator>(fraction other) {
+        return this->n * other.d > this->d * other.n;
+    }
 };
 
 using namespace std;
 
 int main() {
     fraction a = fraction(2, 3);
-    a.read();
+    a.read(cin);
     a.print();
 
     fraction* frac = new fraction(2, 3);

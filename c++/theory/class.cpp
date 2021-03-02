@@ -36,6 +36,10 @@ public:
     }
 };
 
+bool operator==(date date1, date date2) {
+    return date1.equals(date2);
+}
+
 int main() {
 
     date dat;
@@ -45,7 +49,7 @@ int main() {
     date dat2;
     dat2.read();
     dat2.print();
-
+    //std::cin è di tipo std::istream ed è più generico di std::ifstream
     
     return 0;
 }
