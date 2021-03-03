@@ -31,8 +31,8 @@ public:
             this->d = d;
     }
 
-    void print() {
-        std::cout << n << '/' << d;
+    void print(std::ostream& out) {
+        out << n << '/' << d;
     }
 
     //TODO WIP
@@ -75,19 +75,56 @@ public:
     bool operator>(fraction other) {
         return this->n * other.d > this->d * other.n;
     }
+
+    int get_num() {
+        return this->n;
+    }
+
+    int get_den() {
+        return this->d;
+    }
+
+    void set_num(int num) {
+        this->n = num;
+        return;
+    }
+
+    void set_den(int den) {
+        if (den == 0) {
+            std::cout << "WARNING! denominatore nullo" << std::endl;
+            this->d = 1;
+        }
+        else 
+            this->d = den;
+        return;
+    }
+
+    //Dichiarate nella classe ma definite fuori (permettono di non usare i getter e i setter)
+    friend ostream& operator<<(ostream&, fraction);
+    friend istream& operator>>(istream&, fraction);
 };
 
 using namespace std;
 
+ostream& operator<<(ostream& out, fraction fraction) {
+    fraction.print(out);
+    return out;
+}
+
+istream& operator>>(istream& in, fraction& fraction) {
+    fraction.read(in);
+    return in;
+}
+
 int main() {
     fraction a = fraction(2, 3);
     a.read(cin);
-    a.print();
+    a.print(cout);
 
     fraction* frac = new fraction(2, 3);
-    frac->print();
+    frac->print(cout);
 
     //Chained Calls and anonymous object initialization
-    fraction(1000, 3920).sum(fraction(100, 328)).print();
+    fraction(1000, 3920).sum(fraction(100, 328)).print(cout);
     return 0;
 }
