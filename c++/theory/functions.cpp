@@ -22,6 +22,12 @@ void increment(int* num) {
     (*num)++;
 }
 
+//B è inizializzato con valore di default 0
+//Nella chiamata è possible omettere il valore del secondo parametro
+int sum(int a, int b = 0) {
+    return a + b;
+}
+
 int main() {
 
     //Chiamata di funzione
