@@ -7,6 +7,8 @@ private:
     int n;
     //denominator
     int d;
+    
+    bool validate();
 
 public:
     fraction() {
@@ -114,6 +116,10 @@ ostream& operator<<(ostream& out, const fraction fraction) {
 istream& operator>>(istream& in, fraction& fraction) {
     fraction.read(in);
     return in;
+}
+
+bool fraction::validate() {
+    return true;
 }
 
 int main() {
