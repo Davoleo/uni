@@ -9,3 +9,5 @@ c++/build/*.exe
 # Compiled C Files
 c/misc/*.exe
 c/theory/*.exe
+
+*.exe
