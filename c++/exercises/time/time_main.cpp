@@ -24,7 +24,7 @@ int main() {
 	else cout << "o1 != o2" << endl;
 	cout << endl;
 	
-	int o1_sec = o1.to_seconds();
+	int o1_sec = o1.to_second();
 	cout << "secondi corrispondenti a o1: " << o1_sec << endl;
 	Orario o4(o1_sec);
 	if (o4 == o1) cout << "ok" << endl;
