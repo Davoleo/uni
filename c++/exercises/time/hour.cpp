@@ -9,17 +9,22 @@ bool validate() {
     if (hours < 0 || hours >= 24) {
         std::cout << "Errore Convalida Orario: Le ore sono fuori dal range consentito" << std::endl;
         this->hours = 0;
+        return false;
     }
 
     if (minutes < 0 || minutes >= 60) {
         std::cout << "Errore Convalida Orario: I minuti sono fuori dal range consentito" << std::endl;
         this->minutes = 0;
+        return false;
     }
 
     if (seconds < 0 || seconds >= 60) {
         std::cout << "Errore Convalida Orario: I secondi sono fuori dal range consentito" << std::endl;
         this->seconds = 0;
+        return false;
     }
+
+    return true;
 }
 
 public:
@@ -63,7 +68,29 @@ public:
         return hToS + mToS + seconds;
     }
 
-    //Operators
+    // Stream I/O
+
+    std::istream& read(std::istream& stream) {
+        
+        stream >> hours;
+        stream.get();
+        stream >> minutes;
+        stream.get();
+        stream >> seconds;
+        //std::cout << "Qui: H:" << hours << " m:" << minutes << " s:" << seconds << std::endl;
+        
+        if (!validate())
+            std::cout << "Il dato errato e' stato ripristinato" << std::endl;
+
+        return stream;
+    }
+
+    std::ostream& print(std::ostream& stream) {
+        return stream << hours << ':' << minutes << ':' << seconds;
+    }
+
+    //Operators ---------------------------
+
     bool operator==(Orario other) {
         return this->hours == other.hours && this->minutes == other.minutes && this->seconds == other.seconds;
     }
@@ -73,20 +100,22 @@ public:
         int newMins = this->minutes + other.minutes;
         int newHours = this->hours + other.hours;
 
-        if (int deltaSec = (newSecs - 60) >= 0) {
-            newSecs = deltaSec;
+        //std::cout << "Sto facendo la somma h: " << newHours << " m: " << newMins << " s: " << newSecs << std::endl;
+
+        if (newSecs >= 60) {
+            newSecs -= 60;
             newMins++;
         }
 
-        if (int deltaMin = (newMins - 60) >= 0) {
-            newMins = deltaMin;
+        if (newMins >= 60) {
+            newMins -= 60;
             newHours++;
         }
 
         if (newHours > 23)
             newHours -= 23;
 
-        return Orario(this->hours + other.hours, this->minutes + other.minutes, this->seconds + other.seconds);
+        return Orario(newHours, newMins, newSecs);
     }
 
     Orario operator+(int secondsToAdd) {
@@ -108,23 +137,6 @@ public:
         else {
             return false;
         }
-    }
-
-    std::istream& read(std::istream& stream) {
-        do {
-            char separator;
-            stream >> hours;
-            stream.get();
-            stream >> minutes;
-            stream.get();
-            stream >> seconds;
-        }
-        while (!validate());
-        return stream;
-    }
-
-    std::ostream& print(std::ostream& stream) {
-        return stream << hours << ':' << minutes << ':' << seconds;
     }
 };
 
