@@ -7,6 +7,8 @@ private:
     int n;
     //denominator
     int d;
+    
+    bool validate();
 
 public:
     fraction() {
@@ -31,7 +33,7 @@ public:
             this->d = d;
     }
 
-    void print(std::ostream& out) {
+    void print(std::ostream& out) const {
         out << n << '/' << d;
     }
 
@@ -53,7 +55,7 @@ public:
             std::cout << "WARNING: Separatore Invalido!" << std::endl;
     }
 
-    fraction sum(fraction other) {
+    fraction sum(fraction other) const {
         fraction result;
         
         //Compute the minimum common denominator
@@ -64,11 +66,11 @@ public:
         return result;        
     }
 
-    fraction operator+ (fraction other) {
+    fraction operator+ (fraction other) const {
         return sum(other);
     }
 
-    fraction operator+(int other) {
+    fraction operator+(int other) const {
         return sum(fraction(other));
     }
 
@@ -106,7 +108,7 @@ public:
 
 using namespace std;
 
-ostream& operator<<(ostream& out, fraction fraction) {
+ostream& operator<<(ostream& out, const fraction fraction) {
     fraction.print(out);
     return out;
 }
@@ -114,6 +116,10 @@ ostream& operator<<(ostream& out, fraction fraction) {
 istream& operator>>(istream& in, fraction& fraction) {
     fraction.read(in);
     return in;
+}
+
+bool fraction::validate() {
+    return true;
 }
 
 int main() {
