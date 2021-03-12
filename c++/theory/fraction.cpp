@@ -26,8 +26,7 @@ public:
         this->n = n;
 
         if(d == 0) {
-            std::cout << "ERROR: Denominatore Nullo!" << std::endl;
-            this->d = 1;
+            throw 1;
         }
         else
             this->d = d;
@@ -46,13 +45,14 @@ public:
         src >> separator;
         src >> d;
 
-        if (d == 0) {
-            std::cout << "ERROR: Denominatore Nullo!" << std::endl;
-            d = 1;
-        }
+        if (src.fail())
+            throw -1;
 
+        if (d == 0)
+            throw 1;
+        
         if (separator != '/')
-            std::cout << "WARNING: Separatore Invalido!" << std::endl;
+            throw 0;
     }
 
     fraction sum(fraction other) const {
@@ -93,8 +93,7 @@ public:
 
     void set_den(int den) {
         if (den == 0) {
-            std::cout << "WARNING! denominatore nullo" << std::endl;
-            this->d = 1;
+            throw 1;
         }
         else 
             this->d = den;
@@ -132,5 +131,23 @@ int main() {
 
     //Chained Calls and anonymous object initialization
     fraction(1000, 3920).sum(fraction(100, 328)).print(cout);
+
+    try {
+        fraction exc = fraction(1, 0);
+    }
+    catch (int x) {
+        if (x == 1)
+            std::cout << "ERROR: Denominatore Nullo!" << std::endl;
+        else if (x == 0) {
+            std::cout << "ERROR: Separatore Invalido!" << std::endl;
+        }
+        else {
+            std::cout << "ERROR: Codice errore imprevisto!" << std::endl;
+        }
+    }
+    //Will catch any exception
+    catch (...) {
+        std::cout << "Eccezione non prevista" << std::endl;
+    }
     return 0;
 }
