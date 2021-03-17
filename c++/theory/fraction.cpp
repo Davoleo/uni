@@ -32,6 +32,10 @@ public:
             this->d = d;
     }
 
+    ~fraction() {
+        std::cout << "una frazione sta morendo..." << std::endl;
+    }
+
     void print(std::ostream& out) const {
         out << n << '/' << d;
     }
