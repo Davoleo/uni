@@ -104,6 +104,13 @@ public:
         return;
     }
 
+    // Comportamento di default dell'operatore per la classe fraction
+    //fraction& operator=(const fraction& other) {   
+    //    this->n = other.n;
+    //    this->d = other.d;
+    //    return *this;
+    //}
+
     //Dichiarate nella classe ma definite fuori (permettono di non usare i getter e i setter)
     friend ostream& operator<<(ostream&, fraction);
     friend istream& operator>>(istream&, fraction);

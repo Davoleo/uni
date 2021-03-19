@@ -59,8 +59,23 @@ public:
         return array[--head];
     }
 
+    void clear() {
+        this->head = 0;
+    }
+
     int size() const {
         return head;
+    }
+
+    int_stack& operator=(const int_stack& other) {
+        
+        this->clear();
+        for (int i = 0; i < other.head; i++)
+            push(other.array[i]);
+
+        this->maxSize = other.maxSize;
+        this->head = other.head;
+        return *this;
     }
 
 };
