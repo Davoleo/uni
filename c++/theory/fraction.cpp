@@ -32,6 +32,12 @@ public:
             this->d = d;
     }
 
+    //Copy constructor - Default behaviour per la classe fraction
+    fraction(const fraction& original) {
+        this->n = original.n;
+        this->d = original.d;
+    }
+
     ~fraction() {
         std::cout << "una frazione sta morendo..." << std::endl;
     }

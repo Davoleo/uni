@@ -37,6 +37,16 @@ public:
         head = 0;
     }
 
+    int_stack(const int_stack& source) {
+        array = new int[source.maxSize];
+        for (int i = 0; i < source.head; i++) {
+            this->array[i] = source.array[i];
+        }
+
+        this->maxSize = source.maxSize;
+        this->head = source.head;
+    }
+
     ~int_stack() {
         delete[] array;
     }
