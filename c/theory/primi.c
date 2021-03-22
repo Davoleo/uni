@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 bool primo(int n) {
     if (n <= 1)
