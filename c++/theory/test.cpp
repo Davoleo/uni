@@ -1,5 +1,9 @@
 #include <iostream>
 
+#include <algorithm>
+#include <vector>
+#include <string>
+
 using namespace std;
 
 void customGetline(char string[], int max, char delim) {
@@ -24,10 +28,46 @@ bool calcola(int n, int m, int& ris) {
     return nondivBy0;
 }
 
+template <typename T>
+void swapCustom(T& x, T& y) {
+    T z(x); //Costruttore di copia di T
+    x = y;
+    y = z;
+}
+
 int main() {
 
-    char string[10];
+    int x = 5, y = 7;
+    swap(x, y);
 
-    customGetline(string, 10, '\n');
+    vector<int> v1;
+    cout << " v1.size(): " << v1.size() << endl;
+    cout << " v1.capacity(): " << v1.capacity() << endl;
+
+    vector<char> v2(5, '*');
+    cout << " v2.size(): " << v2.size() << endl;
+    cout << " v2.capacity(): " << v2.capacity() << endl;
+
+    vector<string> v3(7, "empty");
+    cout << " v3.size(): " << v3.size() << endl;
+    cout << " v3.capacity(): " << v3.capacity() << endl;
+
+    v3.reserve(30);
+    cout << " v3.size(): " << v3.size() << endl;
+    cout << " v3.capacity(): " << v3.capacity() << endl;
+
+    cout << "v2[3]: " << v2[3] << endl;
+    cout << "v2[10]: " << v2[10] << endl;
+    v2[3] = 'a';
+    cout << "v2[3]: " << v2[3] << endl;
+
+    v2.push_back('c');
+    //Returns a reference to the last element in the array
+    v2.back();
+    //Pops the last element
+    v2.pop_back();
+
+    char kek[10];
+    customGetline(kek, 10, '\n');
     return 0;
 }
