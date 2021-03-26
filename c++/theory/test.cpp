@@ -6,6 +6,16 @@
 
 using namespace std;
 
+struct TestStruct {
+    int c1;
+    char c2;
+}
+
+struct LLUnit {
+    char* ptr;
+    char;
+}
+
 void customGetline(char string[], int max, char delim) {
     int i = 0;
     do {
@@ -66,6 +76,11 @@ int main() {
     v2.back();
     //Pops the last element
     v2.pop_back();
+
+    TestStruct* pointer;
+    pointer = new TestStruct;
+    (*pointer).c1;
+    pointer->c2;
 
     char kek[10];
     customGetline(kek, 10, '\n');
