@@ -6,7 +6,7 @@ private:
     int seconds;
 
 bool validate() {
-    if (hours < 0 || hours >= 24) {
+    if (hours < 0 /*|| hours >= 24*/) {
         std::cout << "Errore Convalida Orario: Le ore sono fuori dal range consentito" << std::endl;
         this->hours = 0;
         return false;
@@ -112,8 +112,8 @@ public:
             newHours++;
         }
 
-        if (newHours > 23)
-            newHours -= 23;
+        //if (newHours > 23)
+        //    newHours -= 23;
 
         return Orario(newHours, newMins, newSecs);
     }

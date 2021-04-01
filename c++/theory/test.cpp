@@ -9,12 +9,12 @@ using namespace std;
 struct TestStruct {
     int c1;
     char c2;
-}
+};
 
 struct LLUnit {
     char* ptr;
-    char;
-}
+    char info;
+};
 
 void customGetline(char string[], int max, char delim) {
     int i = 0;
