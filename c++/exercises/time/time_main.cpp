@@ -3,13 +3,33 @@
 
 using namespace std;
 
+#include <fstream>
+#include <cstring>
+#include <vector>
+#include <string>
+
 #include "hour.cpp"
+
+const vector<string> explode(const string& s, const char& c)
+{
+	string buff{""};
+	vector<string> v;
+	
+	for(auto n:s)
+	{
+		if(n != c) buff+=n; else
+		if(n == c && buff != "") { v.push_back(buff); buff = ""; }
+	}
+	if(buff != "") v.push_back(buff);
+	
+	return v;
+}
 
 int main() {
     Orario o1(9,42,10);  // crea un oggetto di classe Orario
     Orario o2(5221);   // crea un oggetto di classe Orario
     Orario o3;
-    
+
     cout << "orario 1: " << o1 << endl;
     cout << "orario 2: " << o2 << endl;
     cout << "orario 3: " << o3 << endl << endl;
@@ -42,7 +62,6 @@ int main() {
     cout << "Immetti un orario errato (h:m:s): ";
     cin >> orario_in;
     cout << "L'orario immesso e' " <<  orario_in << endl << endl;
-
     return 0;    
 }
 
