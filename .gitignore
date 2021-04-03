@@ -11,3 +11,6 @@ c/misc/*.exe
 c/theory/*.exe
 
 *.exe
+
+# Main testing files
+c++/exercises/**/*main.cpp
