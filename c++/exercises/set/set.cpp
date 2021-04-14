@@ -155,7 +155,7 @@ public:
 };
 
 template <typename T>
-ostream& operator<<(ostream& out, Insieme<T> set) {
+std::ostream& operator<<(std::ostream& out, Insieme<T> set) {
     std::string repr = set.join(true, ',');
     return out << repr.c_str();
 }
