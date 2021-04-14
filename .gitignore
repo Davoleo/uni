@@ -1,3 +1,7 @@
+# VSCode settings and associations
+.vscode/
+
+
 # Java Project files and outputs
 **/.idea
 **/out
