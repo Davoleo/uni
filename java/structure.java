@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class HelloWorld {
+class HelloWorld {
     //campo dati
     private int x;
 
@@ -16,7 +16,6 @@ public class HelloWorld {
 
     //Metodo Main (chiamato all'inizio dell'avvio del programma)
     public static void main(String[] args) {
-        private int x, y, z;
 
         System.out.print("Quanti numeri vuoi dare? (> 0): ");
 
@@ -26,15 +25,15 @@ public class HelloWorld {
         int count;
         do {
             count = scanner.nextInt();
-            if (n > 0)
+            if (count > 0)
                 break;
             else
-                System.out.println("Valore non valido. Ripetere")
+                System.out.println("Valore non valido. Ripetere");
         }
         while (true);
 
         int sum = 0;
-        int num;
+        int num = 0;
         for (int i = 0; i < count; i++) {
             System.out.print("Inserisci un numero: ");
             num = scanner.nextInt();
@@ -42,7 +41,6 @@ public class HelloWorld {
         }
 
         float average = (float) sum / num;
-
         System.out.println("La media è: " + average + " | La somma è " + sum);
         scanner.close();
     }
