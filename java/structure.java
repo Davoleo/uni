@@ -18,22 +18,32 @@ public class HelloWorld {
     public static void main(String[] args) {
         private int x, y, z;
 
-        System.out.println("Inserisci 3 numeri: ");
+        System.out.print("Quanti numeri vuoi dare? (> 0): ");
 
         //Crea un oggetto di tipo Scanner e lo assegna alla reference scanner
         Scanner scanner = new Scanner(System.in);
 
-        //Analizza ed estrae un intero (se riesce) dalla stringa in System.in
-        x = scanner.nextInt(); 
-        y = scanner.nextInt();
-        z = scanner.nextInt();
+        int count;
+        do {
+            count = scanner.nextInt();
+            if (n > 0)
+                break;
+            else
+                System.out.println("Valore non valido. Ripetere")
+        }
+        while (true);
 
-        //Typecasting della costante 3 a float
-        float average = (x + y + z) / 3F;
+        int sum = 0;
+        int num;
+        for (int i = 0; i < count; i++) {
+            System.out.print("Inserisci un numero: ");
+            num = scanner.nextInt();
+            sum += num;
+        }
 
-        //Concatenazione tra stringhe
-        System.out.println("La media è: " + average);
+        float average = (float) sum / num;
 
+        System.out.println("La media è: " + average + " | La somma è " + sum);
         scanner.close();
     }
 }
