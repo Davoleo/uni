@@ -1,3 +1,5 @@
+package net.davoleo;
+
 import java.util.Scanner;
 
 class HelloWorld {
