@@ -1,4 +1,4 @@
-package net.davoleo.exercises.vectormenu;
+package net.davoleo.unipr.exercises.vectormenu;
 
 public class VectorString {
 

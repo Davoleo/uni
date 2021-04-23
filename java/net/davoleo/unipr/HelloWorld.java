@@ -1,4 +1,4 @@
-package net.davoleo;
+package net.davoleo.unipr;
 
 import java.util.Scanner;
 
@@ -44,6 +44,10 @@ class HelloWorld {
 
         float average = (float) sum / num;
         System.out.println("La media è: " + average + " | La somma è " + sum);
+
+        Fraction fraction1 = new Fraction(2, 3);
+        fraction1.print(System.out);
+
         scanner.close();
     }
 }
