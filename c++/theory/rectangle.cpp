@@ -1,4 +1,6 @@
-class rectangle {
+#include "shape.cpp"
+
+class rectangle : public shape {
 private:
     //Field (Attributi) Stato interno dell'oggetto
     int length; 
@@ -23,8 +25,17 @@ public:
         return 2 * length + 2 * width;
     }
 
-    int area() {
+    double area() {
         return length * width;
     }
     //...
 };
+
+int main() {
+
+    //Call super Method through scope resolution
+    rectangle rect;
+    rect.shape::area();
+
+    return 0;
+}
