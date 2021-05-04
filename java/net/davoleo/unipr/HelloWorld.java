@@ -48,6 +48,10 @@ class HelloWorld {
         Fraction fraction1 = new Fraction(2, 3);
         fraction1.print(System.out);
 
+        Rectangle rect = new Rectangle(5, 7);
+        Rectangle.Square square = new Rectangle.Square(4);
+        System.out.println(rect.area());
+
         scanner.close();
     }
 }
