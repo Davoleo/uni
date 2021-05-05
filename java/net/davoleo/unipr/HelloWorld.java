@@ -55,9 +55,9 @@ class HelloWorld {
         Object o1 = new Rectangle(2, 3);
 
         //Compile-time Error
-        o1.area();
+        //o1.area();
         // OK at compile-time (equals is a method of Object)
-        o1.equals();
+        o1.equals(123);
         //Quale equals richiama? (a run-time)
         //Regola:
         //Controlla per prima la classe d'origine dell'oggetto dell'oggetto puntato (in questo caso Rectangle)
@@ -69,9 +69,13 @@ class HelloWorld {
         ((Rectangle) o1).area();
         //OK a compile-time
         //OK a run-time (visto che la sua classe d'origine è Rectangle e quindi è possibile fare il downcasting)
-        ((String) o1).area();
+        //((String) o1).area();
         //Errore a compile-time (perché area non è un metodo di String)
-        ((Rectangle.Square) o1).area();
+        try {
+            ((Rectangle.Square) o1).area();
+        } catch (ClassCastException e) {
+            System.out.println("Class Downcast exception!");
+        }
         //OK a compile-time (perché area è un metodo di quadrato)
         //Errore a run-time (ClassCastException o1 che è un Rectangle non può essere castato a Square perché è una sottoclasse)
 

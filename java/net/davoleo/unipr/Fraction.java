@@ -85,6 +85,22 @@ public class Fraction {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Fraction) {
+            Fraction frac = ((Fraction) obj);
+            return this.num == frac.num && this.den == frac.den;
+        }
+        else if (obj instanceof Integer) {
+            if (this.num % this.den == 0) {
+                int div = num / den;
+                return div == 0;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    @Override
     public String toString()
     {
         return String.valueOf(num) + '/' + den;

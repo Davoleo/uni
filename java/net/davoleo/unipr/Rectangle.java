@@ -1,3 +1,5 @@
+package net.davoleo.unipr;
+
 public class Rectangle {
     protected int width;
     protected int height;
