@@ -14,7 +14,9 @@ c++/build/*.exe
 c/misc/*.exe
 c/theory/*.exe
 
+# Compiled executables and pdfs
 *.exe
+*.pdf
 
 # Main testing files
 c++/exercises/**/*main.cpp
