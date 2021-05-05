@@ -52,6 +52,29 @@ class HelloWorld {
         Rectangle.Square square = new Rectangle.Square(4);
         System.out.println(rect.area());
 
+        Object o1 = new Rectangle(2, 3);
+
+        //Compile-time Error
+        o1.area();
+        // OK at compile-time (equals is a method of Object)
+        o1.equals();
+        //Quale equals richiama? (a run-time)
+        //Regola:
+        //Controlla per prima la classe d'origine dell'oggetto dell'oggetto puntato (in questo caso Rectangle)
+        //In questo caso se Rectangle contiene equals -> lo chiama 
+        //Altrimenti cerca equals in una delle superclassi di Rectangle
+
+        //Per chiamare il metodo area devo downcastare o1 a Rectangle
+        //quindi:
+        ((Rectangle) o1).area();
+        //OK a compile-time
+        //OK a run-time (visto che la sua classe d'origine è Rectangle e quindi è possibile fare il downcasting)
+        ((String) o1).area();
+        //Errore a compile-time (perché area non è un metodo di String)
+        ((Rectangle.Square) o1).area();
+        //OK a compile-time (perché area è un metodo di quadrato)
+        //Errore a run-time (ClassCastException o1 che è un Rectangle non può essere castato a Square perché è una sottoclasse)
+
         scanner.close();
     }
 }
