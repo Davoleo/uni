@@ -49,6 +49,7 @@ int dichotomic_search(int key, int array[], int n) {
     return VALUE_NOT_FOUND;
 }
 
+//L'insertion sort può essere usato come ordinamento online man mano che i dati arrivano
 bool insertion_sort(int array[], int n) {
     if (array == NULL)
         return false;
@@ -72,6 +73,108 @@ bool insertion_sort(int array[], int n) {
         if (j != i - 1)
             array[j + 1] = elem;
     }
+
+    return true;
+}
+
+bool selection_sort(int array[], int n) {
+    if (n <= 0)
+        return false;
+    if (n < 2)
+        return true;
+
+    for (int i = 0; i < n - 1; i++) {
+        int min = array[i];
+        int min_index = i;
+
+        for (int j = i + 1; j < n; j++) {
+            if (array[j] < min) {
+                min = array[j];
+                min_index = j;
+            }
+
+            if (min_index != i) {
+                array[min_index] = array[i];
+                array[i] = min;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool bubble_sort(int array[], int n) {
+    if (array == NULL || n <= 0)
+        return false;
+
+    if (n == 1)
+        return true;
+
+    for (int i = 1; i < n; i++) {
+        for (int j = n - 1; j >= i; j--) {
+            if (array[j] < array[j - 1]) {
+                int temp = array[j - 1];
+
+                array[j - 1] = array[j];
+                array[j] = temp;
+            }
+        }
+    }
+    return true;
+}
+
+
+void merge(int array[], int left, int mid, int right) {
+    int temp[right - left + 1];
+
+    int i = left;
+    int j = mid + 1;
+    int k = 0;
+
+    while (i <= mid && j <= right) {
+        if (array[i] < array[j]) {
+            temp[k] = array[i];
+            i++;
+        }
+        else {
+            temp[k] = array[j];
+            j++;
+        }
+
+        k++;
+    }
+
+    while (i <= mid) {
+        temp[k] = array[i];
+        i++;
+        k++;
+    }
+
+    while (j <= right) {
+        temp[k] = array[j];
+        j++;
+        k++;
+    }
+
+    for (k = left; k <= right; k++) {
+        array[k] = temp[k - left];
+    }
+}
+
+bool merge_sort(int array[], int left, int right) {
+    if (left > right || left < 0 || right < 0)
+        return false;
+
+    if (left == right) 
+        return true;
+
+    int mid = (left + right) / 2;
+
+    merge_sort(array, left, mid);
+
+    merge_sort(array, mid + 1, right);
+
+    merge(array, left, mid, right);
 
     return true;
 }
