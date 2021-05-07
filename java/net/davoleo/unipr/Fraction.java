@@ -27,7 +27,7 @@ public class Fraction {
         if (den != 0)
             this.den = den;
         else
-            throw new ArithmeticException("Denominator can't be 0");
+            throw new NullDenominatorException("Fraction was initialized with null denominator!");
     }
 
     public void print(PrintStream stream)

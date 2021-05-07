@@ -1,13 +1,14 @@
 package net.davoleo.unipr;
 
+import java.io.IOException;
 import java.util.Scanner;
 
-class HelloWorld {
+class Main {
     //campo dati
     private int x;
 
     //Costruttore
-    public HelloWorld() {
+    public Main() {
 
     }
 
@@ -17,7 +18,8 @@ class HelloWorld {
     }
 
     //Metodo Main (chiamato all'inizio dell'avvio del programma)
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException
+    {
 
         System.out.print("Quanti numeri vuoi dare? (> 0): ");
 
@@ -47,6 +49,30 @@ class HelloWorld {
 
         Fraction fraction1 = new Fraction(2, 3);
         fraction1.print(System.out);
+
+        try {
+            fraction1 = new Fraction(2, 0);
+        }
+        catch (NullDenominatorException e) {
+            System.out.println("Denominatore Nullo! Eccezione, " + e);
+        }
+
+        try {
+            fraction1 = null;
+            fraction1.print(System.out);
+        }
+        catch (NullPointerException e) {
+            System.out.println("Frazione nulla");
+        }
+
+        try
+        {
+            failureFunction();
+        }
+        catch (Failure failure)
+        {
+            failure.printStackTrace();
+        }
 
         Rectangle rect = new Rectangle(5, 7);
         Rectangle.Square square = new Rectangle.Square(4);
@@ -80,5 +106,12 @@ class HelloWorld {
         //Errore a run-time (ClassCastException o1 che è un Rectangle non può essere castato a Square perché è una sottoclasse)
 
         scanner.close();
+    }
+
+    public static void failureFunction() throws Failure, IOException
+    {
+        char c = (char) System.in.read();
+        System.out.println(c);
+        throw new Failure();
     }
 }
