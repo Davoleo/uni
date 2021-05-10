@@ -179,6 +179,48 @@ bool merge_sort(int array[], int left, int right) {
     return true;
 }
 
+bool quick_sort(int array[], int left, int right) {
+
+    //Mancano le precondizioni perché non c'è stato su
+
+    int pivot = array[(left + right) / 2];
+    //Builds the right zone and starts from the left because the zone could be the whole array
+    int i = left;
+    //Builds the left zone and starts from the right because the zone could be the whole array
+    int j = right;
+
+    while(i <= j) {
+        while (array[i] < pivot)
+            i++;
+        
+        while(array[j] > pivot)
+            j--;
+
+        if (i <= j) {
+            if (i != j) {
+                int temp = array[i];
+
+                array[i] = array[j];
+
+                array[j] = temp;
+            }
+
+            i++;
+            j--;
+        }
+    }
+
+    if (left < j) {
+        quick_sort(array, left, j);
+    }
+
+    if (i < right) {
+        quick_sort(array, i, right);
+    }
+
+    return true;
+}
+
 int main() {
     int array[] = {-5, -1, 0, 4, 5, 10, 11, 13, 20, 55, 130, 200};
 
