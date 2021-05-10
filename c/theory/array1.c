@@ -221,6 +221,55 @@ bool quick_sort(int array[], int left, int right) {
     return true;
 }
 
+void heap(int array[], int left, int right) {
+    if (array == NULL)
+        return;
+    
+    if (left > right || left < 0 || right < 0)
+        return;
+
+    int x = array[left];
+    int i = left;
+    int j = 2 * left;
+
+    while (j <= right) {
+        if (j != right && array[j + 1] > array[j])
+            j++;
+
+        if (x >= array[j])
+            break;
+        else {
+            array[i] = array[j];
+            i = j; 
+            j = 2 * i;
+        }
+    }
+
+    if (i != left)
+        array[i] = x;
+}
+
+bool heap_sort(int array[], int n) {
+    if (array == NULL)
+        return false;
+    if (n == 1)
+        return true;
+
+    for (int left = n / 2; left >= 0; --left)
+        heap(array, left, n - 1);
+    
+    for (int right = n - 1; right > 0; --right) {
+        int temp = array[0];
+
+        array[0] = array[right];
+        array[right] = temp;
+
+        heap(array, 0, right - 1);
+    }
+
+    return true;
+}
+
 int main() {
     int array[] = {-5, -1, 0, 4, 5, 10, 11, 13, 20, 55, 130, 200};
 
