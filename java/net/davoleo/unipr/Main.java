@@ -1,8 +1,9 @@
 package net.davoleo.unipr;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.*;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 class Main {
     //campo dati
     private int x;
@@ -106,6 +107,36 @@ class Main {
         //Errore a run-time (ClassCastException o1 che è un Rectangle non può essere castato a Square perché è una sottoclasse)
 
         scanner.close();
+
+        //Set
+        //Elementi non considerati con un loro ordine (no concetto di primo elemento)
+        //No duplicati
+        //No Accesso tramite indice
+        Set set = new HashSet();
+        set.add(5);
+        Integer x = 3;
+        set.add(x);
+        set.containsAll(set);
+
+        if (set.equals(set))
+            System.out.println("KEKEKEK");
+
+        Vector vec = new Vector();
+        vec.add(5);
+        vec.add(8);
+        System.out.println(vec);
+        System.out.println(vec.size());
+        vec.add(1, 7);
+        vec.contains(3);
+        vec.indexOf(x);
+        vec.set(1, 9);
+        vec.get(0); //-> returns the object at index 0
+
+        //List
+        //Elementi considerati con un ordine
+        //Possibili duplicati
+        //Possibile accesso tramite indice
+        List<Integer> list = new ArrayList<>();
     }
 
     public static void failureFunction() throws Failure, IOException
