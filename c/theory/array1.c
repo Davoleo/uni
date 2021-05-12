@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
 
 static const int VALUE_NOT_FOUND = -1;
@@ -274,20 +275,32 @@ int main() {
     int array[] = {-5, -1, 0, 4, 5, 10, 11, 13, 20, 55, 130, 200};
 
     //Ricerca Lineare Iterativa
-    int index = linear_search(55, array, 10);
+    int index1 = linear_search(55, array, 10);
 
-    if (index != VALUE_NOT_FOUND)
-        printf("Il valore e' presente nell'array in posizione %d\n", index);
-    else
-        printf("Il valore non è presente nell'array");
+    //if (index != VALUE_NOT_FOUND)
+    //    printf("Il valore e' presente nell'array in posizione %d\n", index);
+    //else
+    //    printf("Il valore non è presente nell'array");
 
     //Ricerca Dicotomica Iterativa
-    int index = dichotomic_search(55, array, 10);
+    int index2 = dichotomic_search(55, array, 10);
 
-    if (index != VALUE_NOT_FOUND)
-        printf("Il valore e' presente nell'array in posizione %d\n", index);
-    else
-        printf("Il valore non è presente nell'array");
+    //if (index != VALUE_NOT_FOUND)
+    //    printf("Il valore e' presente nell'array in posizione %d\n", index);
+    //else
+    //    printf("Il valore non è presente nell'array");
+
+
+    int array1[] = {4, 1, 5, 6, 1, 8, 20, 3, 14, 24, 15, 25};
+    const int length = 12;
+    
+    bool sorted = merge_sort(array1, 0, length - 1);
+
+    for(int i=0; i < length; i++)
+    {
+        printf("%d ", array1[i]);        
+    }
+
 
     return EXIT_SUCCESS;
 }
