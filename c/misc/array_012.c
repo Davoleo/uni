@@ -28,10 +28,7 @@ int min_occurrences(int array[], int length) {
 }
 
 void reverse_sort_special(int array[], int length) {
-    int min_occs = min_occurrences(array, length);
-
     int resultArray[length];
-
     int count = 0;
 
     for (int key = 2; key >= 0; key--) {
@@ -57,26 +54,27 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    int array[] = {0, 1, 2, 0, 1, 2, 2, 0, 1};
-
-    reverse_sort_special(array, 9);
-
-    for (int i = 0; i < 9; i++) {
-        printf("%d ", array[i]);
-    }
-
+    int array[length];
 
     for (int i = 0; i < length; i++) {
         int value;
+        printf("Elemento %d:", i);
         scanf("%d", &value);
+        array[i] = value;
 
         if (value > 2 || value < 0) {
             printf("Valore non valido, ripetere l'input.");
             i--;
             continue;
         }
-        printf("Elemento %d:", i);
     }
 
+    min_occurrences(array, length);
+
+    reverse_sort_special(array, length);
+
+    for (int i = 0; i < length; i++) {
+        printf("%d ", array[i]);
+    }
     return EXIT_SUCCESS;
 }
