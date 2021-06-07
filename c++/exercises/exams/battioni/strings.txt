@@ -1,0 +1,3 @@
+alfa beta gamma
+frase di prova
+a 1 b 2
