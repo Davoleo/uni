@@ -1,3 +1,6 @@
+#ifndef _LIST_H_
+#define _LIST_H_
+
 typedef struct _list_node {
     int data;
     _list_node* next;
@@ -41,3 +44,5 @@ extern bool list_remove_if(list* list, list_visitor predFun, void* data);
 
 extern list_iterator* list_create_iterator(list* list);
 extern bool list_delete_iterator(list_iterator* iter);
+
+#endif
