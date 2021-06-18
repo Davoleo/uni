@@ -1,7 +1,7 @@
 package net.davoleo.unipr.exam;
 
 /**
- * Studente: Leonardo Davoli
+ * Studente: ***REDACTED***
  * Numero compito: 21
  *
  * Lanciata quando si incontra un errore di formato nel range di valori della classe {@link Orario}

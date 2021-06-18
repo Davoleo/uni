@@ -3,7 +3,7 @@ package net.davoleo.unipr.exam;
 import java.util.Scanner;
 
 /**
- * Studente: Leonardo Davoli
+ * Studente: ***REDACTED***
  * Numero compito: 21
  */
 public class Main {

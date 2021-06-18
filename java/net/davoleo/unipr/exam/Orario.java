@@ -1,7 +1,7 @@
 package net.davoleo.unipr.exam;
 
 /**
- * Studente: Leonardo Davoli
+ * Studente: ***REDACTED***
  * Numero compito: 21
  */
 public class Orario {
