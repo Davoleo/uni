@@ -3,8 +3,8 @@
 
 typedef struct _list_node {
     int data;
-    _list_node* next;
-    _list_node* prev;
+    struct _list_node* next;
+    struct _list_node* prev;
 } node;
 
 typedef struct {
