@@ -4,6 +4,10 @@
 #include <vector>
 #include <string>
 
+#include <limits>
+#include <cmath>
+#include <stdint.h>
+
 using namespace std;
 
 struct TestStruct {
@@ -47,6 +51,15 @@ void swapCustom(T& x, T& y) {
 
 int main() {
 
+#ifdef __SIZEOF_INT128__
+    cout << "Max of unsigned long long: " <<  sizeof(__int128_t) << endl;
+#endif
+
+    cout << sizeof(__uint128_t) << endl;
+
+    unsigned long long int test = ULLONG_MAX + 1;
+    cout << "Max of unsigned long long: " <<  test << " | " << log2(ULLONG_MAX) << endl;
+
     int x = 5, y = 7;
     swap(x, y);
 
@@ -82,7 +95,8 @@ int main() {
     (*pointer).c1;
     pointer->c2;
 
-    char kek[10];
-    customGetline(kek, 10, '\n');
+    //char kek[10];
+    //customGetline(kek, 10, '\n');
+
     return 0;
 }
