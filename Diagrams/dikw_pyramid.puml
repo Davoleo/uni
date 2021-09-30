@@ -1,0 +1,16 @@
+@startuml
+'bottom to top direction
+
+
+label "Mondo Reale" as realworld
+rectangle DATI
+rectangle INFORMAZIONE
+rectangle CONOSCENZA
+rectangle SAGGEZZA
+
+realworld -up-> DATI : Osservazione
+DATI -up-> INFORMAZIONE : "Constesto / Inferenza"
+INFORMAZIONE -up-> CONOSCENZA : "Esperienza / Certezza"
+CONOSCENZA -up-> SAGGEZZA : Sintesi
+
+@enduml

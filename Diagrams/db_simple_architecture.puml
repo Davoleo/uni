@@ -1,0 +1,11 @@
+@startuml
+actor utente
+rectangle "Schema Logico" as LogicScheme
+rectangle "Schema Interno" as InternalScheme
+database BD
+
+utente--LogicScheme
+LogicScheme--InternalScheme
+InternalScheme--BD
+
+@enduml
