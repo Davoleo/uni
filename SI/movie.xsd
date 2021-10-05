@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="title" type="xs:string"/>
+    <xs:element name="director" type="xs:string"/> 
+    <xs:element name="year" type="xs:int"/>
+    <xs:element name="genre" type="xs:string"/>
+    <xs:element name="actor" type="xs:string"/>
+
+    <xs:element name="actors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="actor" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="movie">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="director"></xs:element>
+                <xs:element ref="title"></xs:element>
+                <xs:element ref="year"></xs:element>
+                <xs:element ref="genre"></xs:element>
+                <xs:element ref="actors"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<movie xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="movie.xsd">
+    <director>Peter Webber</director>
+    <title>Hannibal Lecter: Le origini del male</title>
+    <year>2007</year>
+    <genre>Thriller Drammatico</genre>
+    <actors>
+        <actor>Gaspard Ulliel</actor>
+        <actor>Gong Li</actor>
+    </actors>
+</movie>
