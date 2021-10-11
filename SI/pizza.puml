@@ -1,0 +1,23 @@
+@startuml pizza
+
+start
+
+:prenoto un posto in pizzeria;
+:vado in pizzeria e mi siedo al tavolo;
+
+:ordino da bere;
+:ordino la pizza;
+repeat
+    :attendo la pizza;
+    :mangio un grissino;
+repeat while (pizza?) is (no)
+->si;
+:taglio la pizza;
+:mangio la pizza;
+:pago;
+:esco;
+
+
+stop
+
+@enduml

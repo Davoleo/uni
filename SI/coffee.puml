@@ -1,0 +1,18 @@
+@startuml coffee
+
+actor utente
+usecase (aggiunta del credito) as credito
+usecase (scelta del tipo di coffee) as caffe
+usecase (scelta della quantità di zucchero) as zucchero
+usecase (preparazione del caffè) as preparazione
+
+utente-up->credito
+utente->caffe
+utente->zucchero
+
+caffe-->preparazione
+zucchero->preparazione
+
+preparazione->(erogazione del caffè)
+(erogazione del caffè)->utente
+@enduml

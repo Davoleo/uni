@@ -1,0 +1,11 @@
+@startuml bancomat
+
+actor Utente del bancomat as utente
+
+utente->(Prelievo) : compie
+utente->(Richiesta Estratto conto) : compie
+
+(Prelievo)->(Autenticazione) : usa
+(Richiesta Estratto conto)->(Autenticazione) : usa
+
+@enduml

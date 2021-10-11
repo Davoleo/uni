@@ -1,0 +1,10 @@
+@startuml addebito
+
+start
+:calcolare il costo totale;
+if () then (label)
+    :test;
+else (label)
+    :test2;
+stop
+@enduml
