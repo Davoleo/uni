@@ -1,1 +1,1 @@
-linguist-detectable *.sql
+*.sql linguist-detectable 
