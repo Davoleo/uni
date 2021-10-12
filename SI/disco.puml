@@ -1,0 +1,52 @@
+@startuml disco
+
+class Track {
+    String title
+    String lyrics
+    Score sheet
+}
+class MusicAuthor
+class LyricsAuthor
+class MusicArtist
+class Producer
+class Character
+class Edition {
+    int duration
+}
+class Interpreter {
+    int newAttr
+}
+class Album
+class MusicLabel
+class Band {
+    String name
+}
+
+Track-->LyricsAuthor
+Track-->MusicAuthor
+Track-->Character
+Track--Edition
+
+MusicAuthor--Band
+LyricsAuthor--Band
+MusicArtist--Band
+Producer--Band
+
+Interpreter--Edition
+Band--Interpreter
+
+Edition--Album
+Producer--Edition
+
+MusicLabel--Album
+
+enum Genre
+Edition-->Genre
+enum TechnologySupport
+Edition-->TechnologySupport
+class Video {
+    int length
+}
+Edition-->Video
+
+@enduml

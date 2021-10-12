@@ -1,0 +1,16 @@
+@startuml movie
+
+class Movie {
+    int year
+}
+class Actor
+class Director
+enum Genre
+class Producer
+
+Movie "1..*" --> "1..*" Actor
+Movie "1" -- "1..*" Genre
+Movie "1..*" -- "1" Director
+Movie "1" -- "1..*" Producer
+
+@enduml
