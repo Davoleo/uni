@@ -13,6 +13,16 @@ CREATE DOMAIN Voto
     AS SMALLINT DEFAULT NULL
     CHECK (value >= 18 AND value <= 30);
 
+-- Join esplicito
+SELECT madre, paternita.figlio, padre, madre FROM maternita JOIN paternita ON paternita.figlio = maternita.figlio
+
+SELECT madre, figlio, padre FROM maternita NATURAL JOIN paternita;
+
+-- Ordine
+SELECT nome, reddito 
+FROM persone
+WHERE eta < 30
+ORDER BY nome;
 
 SELECT nome, reddito
 FROM Persone
