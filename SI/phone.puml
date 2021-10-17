@@ -1,0 +1,17 @@
+@startuml phone calls
+
+CUtente -\\ SistemaTelefonico : Attiva Linea
+SistemaTelefonico -> CUtente : Segnala Linea Libera
+
+CUtente -> SistemaTelefonico : ComponiNumero(num)
+activate SistemaTelefonico
+note over SistemaTelefonico : Crea Circuito
+SistemaTelefonico -> Chiamata : Crea()
+deactivate SistemaTelefonico
+
+Chiamata -> RUtente : Suona()
+RUtente -\\ Chiamata : Rispondi
+
+RUtente <-> CUtente : Connessione
+
+@enduml

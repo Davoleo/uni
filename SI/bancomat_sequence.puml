@@ -1,0 +1,22 @@
+@startuml bancomat
+
+Cliente -> Bancomat : Inserimento Codice
+activate Bancomat
+note over Bancomat : Verifica Codice
+Bancomat -> Cliente : Abilitazione / Rifiuto
+deactivate Bancomat
+
+Cliente -> Bancomat : Indicazione contante
+activate Bancomat
+note over Bancomat : Verifica disponibilità
+Bancomat -> Cliente : NO: fondi insufficienti
+Bancomat -> Dispenser : SI: Dispensa il contante
+deactivate Bancomat
+
+activate Dispenser
+note over Dispenser : Preparazione Banconote
+deactivate Dispenser
+Dispenser -> Cliente : contante
+deactivate Dispenser
+
+@enduml

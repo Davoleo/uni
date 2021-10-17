@@ -1,8 +1,8 @@
 @startuml bancomat
 
-actor Utente del bancomat as utente
+actor "Utente del bancomat" as utente
 
-utente->(Prelievo) : compie
+utente-->(Prelievo) : compie
 utente->(Richiesta Estratto conto) : compie
 
 (Prelievo)->(Autenticazione) : usa
