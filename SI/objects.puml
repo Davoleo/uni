@@ -1,0 +1,21 @@
+@startuml process
+
+start
+:Attività 1;
+:Processo 1>
+:Attività 2;
+stop
+
+
+start
+:<<abstract>>\nOrdine\]
+repeat
+:Produzione;
+:<<Physical>>\nProdotto [costruito]\]
+backward :<<Information>>\nFeedback sul Prodotto/
+repeat while (Verifica del Prodotto)
+
+:<<Physical>>\nProdotto [verificato]\]
+stop
+
+@enduml

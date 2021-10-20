@@ -1,0 +1,23 @@
+@startuml sequence_examples
+
+activate Cliente 
+note over Cliente : Preparazione Richiesta di offerta
+Cliente -> Fornitore: Invio Richiesta di offerta
+deactivate Cliente
+
+activate Fornitore
+note over Fornitore : Preparazione Offerta
+Fornitore -> Cliente : Invio offerta
+deactivate Fornitore
+
+activate Cliente
+note over Cliente : Accettazione / Preparazione Ordine
+Cliente -> Fornitore : Invio Ordine
+deactivate Cliente
+
+activate Fornitore
+note over Fornitore : Preparazione spedizione
+Fornitore -> Cliente : Invio merci
+deactivate Fornitore
+
+@enduml

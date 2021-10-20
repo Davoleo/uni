@@ -1,0 +1,11 @@
+@startuml addebito
+
+start
+:calcolare il costo totale;
+if () then (Costo <= €200)
+else (Costo > €200)
+    :Richiedere Autorizzazione;
+endif
+:Addebitare il cliente;
+stop
+@enduml
