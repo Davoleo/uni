@@ -1,1 +1,6 @@
+# SQL
 *.sql linguist-detectable 
+
+# XML Data
+*.xml linguist-detectable
+*.xsd linguist-detectable
