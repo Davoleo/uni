@@ -27,3 +27,28 @@ ORDER BY nome;
 SELECT nome, reddito
 FROM Persone
 WHERE eta < 30;
+
+
+-- Viste Ricorsive
+-- Definiscimi una Vista virtuale (temporanea, in vita solo per il tempo che serve per eseguire la query) con questi attributi AS (
+
+-- In questo caso è ricorsiva perché nella definizione della vista viene richiamata la select su una vista dello stesso tipo
+WITH RECURSIVE Discendenza(Antenato, Discendente) AS (
+    SELECT Padre, Figlio
+    FROM Paternita
+    UNION ALL
+        SELECT D.Antenato, Figlio
+        FROM Discendenza AS D, Paternita
+        WHERE D.Discendente = Padre
+)
+SELECT *
+FROM Discendenza
+
+WITH RECURSIVE numeri_pari(num) AS (
+    SELECT 0
+    UNION
+        SELECT num + 2
+        FROM numeri_pari
+        WHERE num <= 98
+)
+SELECT num FROM numeri_pari;
