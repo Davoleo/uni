@@ -1,1 +1,9 @@
+# SQL
 *.sql linguist-detectable 
+
+# XML Data
+*.xml linguist-detectable
+*.xsd linguist-detectable
+
+# PlantUML
+*.puml linguist-detectable
