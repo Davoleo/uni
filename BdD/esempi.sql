@@ -100,3 +100,10 @@ WITH RECURSIVE numeri_pari(num) AS (
         WHERE num <= 98
 )
 SELECT num FROM numeri_pari;
+
+CREATE VIEW ImpiegatiAmminPoveri AS
+    SELECT *
+    FROM ImpiegatiAmmin
+    WHERE stipendio < 50
+    WITH CHECK OPTION
+-- CHECK OPTION permette modifiche ma solo a condizione che la ennupla continui ad appartenere alla vista, quindi senza violare il where
