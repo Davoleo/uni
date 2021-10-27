@@ -107,3 +107,34 @@ CREATE VIEW ImpiegatiAmminPoveri AS
     WHERE stipendio < 50
     WITH CHECK OPTION
 -- CHECK OPTION permette modifiche ma solo a condizione che la ennupla continui ad appartenere alla vista, quindi senza violare il where
+
+-- coalesce restituisce il primo valore nonnullo Fallback ad un valore dato se non esistono valori nonnulli
+-- nullif -> Se il valore è uguale ad un valore dato specifico allora è considerato e convertito a NULL
+SELECT nome, cognom, coalesce(dipart, 'Ignoto')
+FROM Impiegato
+
+-- Implementazione di un if a cascata (o switch)
+SELECT targa
+    CASE tipo
+        WHEN 'Auto' THEN 2.58 * KWatt
+        WHEN 'Moto' THEN (22.00 + 1.00 * KWatt)
+        ELSE NULL
+    END AS tassa
+FROM Veicolo
+WHERE anno > 1975;
+
+--Esempio elaborato di CASE
+SET search_path = docenti;
+SELECT A.descrizione, 
+    sum(CASE O.genere 
+        WHEN 'M' THEN 1
+        ELSE 0 
+    END) AS cont_m, 
+    sum(CASE O.genere
+        WHEN 'F' THEN 1
+        ELSE 0
+    END) AS cont_f
+FROM organico AS O, atenei AS A
+WHERE A.codice = O.ateneo
+GROUP BY A.descrizione
+ORDER BY A.descrizione ASC;
