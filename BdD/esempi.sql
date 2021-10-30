@@ -61,21 +61,30 @@ INSERT INTO Persone(nome, reddito) VALUES('Lino', 55);
 INSERT INTO Persone (nome) 
 SELECT padre
 FROM Paternita
-WHERE padre NOT IN (SELECT nome FROM persone);
+WHERE padre NOT IN (
+    SELECT nome FROM persone
+);
 
 -- Se NULL rimane
 -- DELETE FROM usa una sola tabella (NO JOIN, non sono standard)
-DELETE FROM Persone WHERE eta < 35;
-DELETE FROM Paternita WHERE figlio NOT IN (SELECT nome FROM persone);
+DELETE FROM Persone 
+WHERE eta < 35;
+DELETE FROM Paternita 
+WHERE figlio NOT IN (
+    SELECT nome 
+    FROM persone
+);
 
 -- Cancella tutte le ennuple da Paternita
 DELETE FROM Paternita
 
-UPDATE Persone SET reddito = 45 WHERE nome = 'Piero';
+UPDATE Persone 
+SET reddito = 45 
+WHERE nome = 'Piero';
 
-UPDATE Persone SET reddito = reddito * 1.1 WHERE eta < 30;
-
-
+UPDATE Persone 
+SET reddito = reddito * 1.1 
+WHERE eta < 30;
 
 -- Viste Ricorsive
 -- Definiscimi una Vista virtuale (temporanea, in vita solo per il tempo che serve per eseguire la query) con questi attributi AS (

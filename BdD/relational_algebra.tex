@@ -1,0 +1,7 @@
+% 5. esprimere come espressione dell'algebra relazionale 
+% il vincolo che impone che ogni studente sia maggiorenne quando effettua l'iscrizione ad un corso
+% [Espressione che estrae le ennuple che violano il vincolo = { }]
+% in relational_algebra.tex
+\begin{equation*}
+SEL_{PROJ_{data_iscrizione}(Iscrizioni) - PROJ_{data_nascita}(Studenti) < 18 * 365}(Iscrizioni \bowtie_{studente = matricola} Studenti) = \emptyset
+\end{equation*}
