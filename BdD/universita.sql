@@ -99,3 +99,8 @@ WHERE ssd IN ('INF/01', 'ING-INF/05') AND crediti = 5;
 -- il vincolo che impone che ogni studente sia maggiorenne quando effettua l'iscrizione ad un corso
 -- [Espressione che estrae le ennuple che violano il vincolo = { }]
 -- in relational_algebra.tex
+--
+-- Versione SQL della select per fare il vincolo nell'algebra relazionale
+SELECT *
+FROM Iscrizioni INNER JOIN Studenti ON Studenti.matricola = Iscrizioni.studente
+WHERE (Iscrizioni.data_iscrizione - Studenti.data_nascita) < 18 * 365
