@@ -147,3 +147,13 @@ FROM organico AS O, atenei AS A
 WHERE A.codice = O.ateneo
 GROUP BY A.descrizione
 ORDER BY A.descrizione ASC;
+
+-- Example transaction without autocommit
+START TRANSACTION
+UPDATE ContoCorrente
+    SET Saldo = Saldo - 10
+    WHERE NumeroConto = 12345;
+UPDATE ContoCorrente
+    SET Saldo = Saldo + 10
+    WHERE NumeroConto = 55555;
+COMMIT WORK;
