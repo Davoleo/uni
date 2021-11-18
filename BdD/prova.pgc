@@ -1,0 +1,40 @@
+int main() {
+    EXEC SQL CONNECT TO zaffanella@127.0.0.1:5432
+        AS my_connection
+        IDENTIFIED BY segreto
+
+    if (sqlca.sqlcode == 0)
+        printf("Connected to DB zaffanella");
+    else {
+        printf("Error while opening connection\n");
+        printf("sqlstate == %s\n", sqlca.sqlerrm.sqlerrmc);
+        return -1;
+    }
+
+    EXEC SQL BEGIN DECLARE SECTION;
+    int codice;
+    char universita[256];
+    EXEC SQL END DECLARE SECTION;
+
+    EXEC SQL DECLARE a_cursor CURSOR FOR
+        SELECT codice, descrizione
+        FROM docenti.atenei
+        ORDER BY descrizione
+        FOR READ ONLY;
+
+    EXEC SQL OPEN a_cursor;
+
+    if (sqlca.sqlcode != 0) {
+        printf("Error while opening cursor.\n);
+        return -1;
+    }
+
+    EXEC SQL FETCH a_cursor INTO :codice, :universita;
+    while(sqlca.sqlcode == 0) {
+        printf("Codice = %d Nome = %s\n", codice, universita);
+        EXEC SQL FETCH NEXT a_cursor INTO :codice, :universita;
+    }
+    EXEC SQL CLOSE a_cursor;
+
+    EXEC SQL DISCONNECT my_connection;
+}
