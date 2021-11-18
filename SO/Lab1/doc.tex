@@ -1,0 +1,63 @@
+\documentclass{article}
+
+\begin{document}
+\section{Laboratorio 1 Esercizi}
+
+\subsection{Esplorare il file system. Qual è il pathname della vostra home directory?}
+Per trovare il path della mia home directory devo innanzitutto controllare di trovarmi in essa osservando il prompt della shell.
+
+Una volta che mi trovo in quella cartella uso il comando \texttt{pwd} 
+per ottenere stampata la directory corrente su cui stiamo lavorando nella shell.
+
+Il risultato è: \texttt{/home/l.davoli9}
+
+\subsection{Visualizzate i file della home directory ordinati in base alla dimensione.}
+Per visualizzare I file nella cartella home in base alla dimensione ho utilizzato il comando \texttt{ls};\\
+Le rispettive flag che ho usato sono:
+\begin{itemize}
+    \item \texttt{-l} --- per mostrare più informazioni sui file tra le quali la dimensione dei file
+    \item \texttt{-S} --- per ordinare i file per dimensione dal più grande al più piccolo
+    \item \texttt{-r} --- per invertire l'ordine di stampa dei file
+\end{itemize}
+
+Il Comando \texttt{ls -Sl} ha restituito il seguente output:
+\begin{verbatim}
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 603 nov 18 12:17 big_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 112 nov 18 12:24 medium_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users  14 nov 18 12:16 small_file.txt
+\end{verbatim}
+mentre il comando \texttt{ls -rSl} ha restituito il seguente output:
+\begin{verbatim}
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users  14 nov 18 12:16 small_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 112 nov 18  2021 medium_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 603 nov 18 12:17 big_file.txt
+\end{verbatim}
+
+\subsection{Che Differenza c'è tra i comandi \texttt{more}, \texttt{less} seguiti da un nmome di file?}
+\texttt{more} e \texttt{less} seguiti dal nome di un file hanno entrambi lo scopo di stampare il contenuto del file a terminale,
+simile al comportamento del comando \texttt{cat}, però entrambi troncano il contenuto del file in modo che si possa vedere solo
+il contenuto che sta all'interno della finestra del terminale, in entrambi i casi è possibile navigare il file il modo da mostrare
+il resto del contenuto a schermo, la differenza tra questi 2 comandi sta nel fatto che il primo permette la navigazione premendo il tasto
+\texttt{ENTER} per scorrere verso il basso, mentre il secondo permette la navigazione in entrambi i versi con l'utilizzo delle frecce.
+
+\subsection{Elencare i file contenuti in \texttt{/bin}}
+Comando: \texttt{ls -1 /bin > root\_bin\_files.txt}\\
+Output: \texttt{root\_bin\_files.txt}\\
+In seguito ho spostato il file di output sulla mia macchina locale tramite il comando \texttt{scp} e poi allegato insieme alla relazione.
+
+\subsection{I seguenti comandi che effetto producono? Perché?}
+\begin{itemize}
+    \item \texttt{cd}: il comando permette di cambiare la directory corrente di lavoro alla propria directory home
+    (è un alternativa a \texttt{cd ~})
+    \item \texttt{mkdir d1}: crea una directory con nome "d1" all'interno della directory in cui si sta lavorando
+    \item \texttt{chmod 444 d1}: Imposta i permessi per tutti gli ruoli: proprietario, gruppo del proprietario e tutti gli altri utenti. 
+    Dando solo i permessi di lettura a tutti.\\ 
+    Si tratta dei permessi di lettura perché il numero 4 in binario corrisponde a 100 ovvero alla sola attivazione della prima flag
+    che corrisponde ai permessi di lettura, essendo il 4 ripetuto 3 volte questa modifica è applicata a tutti e 3 gli ruoli, 
+    si può inoltre notare che il permesso di sola lettura per una cartella corrisponde a elencare gli elementi che si trovano dentro quella cartella
+    non è perciò possibile ne attraversarla ne modificarla.
+    \item \texttt{cd d1} cambia la directory corrente di lavoro alla sottocartella \texttt{d1}, il risultato di questo comando dopo il precedente da
+    un errore di permessi negati in quanto il permesso di attraversare e accedere ad una cartella corrisponde alla flag di esecuzione che non è attiva
+\end{itemize}
+
+\end{document}
