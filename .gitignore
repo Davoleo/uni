@@ -7,16 +7,9 @@
 **/out
 *.iml
 
-# Compiled C++ sources
-c++/build/*.exe
-
-# Compiled C Files
-c/misc/*.exe
-c/theory/*.exe
-
 # Compiled executables and pdfs
 *.exe
 *.pdf
 
-# Main testing files
-c++/exercises/**/*main.cpp
+# HTML Exported Document
+SO/Lab1/doc/*

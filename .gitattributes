@@ -6,4 +6,4 @@
 *.xsd linguist-detectable
 
 # PlantUML
-*.puml linguist-detectable
+# *.puml linguist-detectable
