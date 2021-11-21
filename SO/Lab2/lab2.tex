@@ -1,0 +1,56 @@
+\documentclass{article}
+
+\begin{document}
+\setcounter{section}{1} % one less
+\section{Laboratorio - Esercizi}
+
+\subsection{Scrivere un comando (con pipe) per:}
+\begin{itemize}
+    \item Contare quanti studenti hanno un account sulla macchina (home directory):
+    \begin{itemize}
+        \item Comando: \texttt{cd /home ; ls -1 | wc -l}
+        \item Output: \texttt{917}
+    \end{itemize}
+    \item Contare quanti file sono presenti nella home:
+    \begin{itemize}
+        \item Comando: \texttt{cd ; ls -l | grep -c 1\symbol{92} UNIPR}
+        \item Output: \texttt{5}
+    \end{itemize}
+    \item lista dei file in \texttt{/dev} che sono composti da due caratteri alfanumerici seguiti da una cifra 0-9:
+    \begin{itemize}
+        \item Comando: \texttt{cd /dev ; ls -1 | grep ??[0-9]}
+        \item Output: \texttt{grep: sg0: Permesso negato}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Qual è la differenza tra i seguenti comandi?}
+\begin{itemize}
+    \item \texttt{ls > ls}: Ridirezione l'output di \texttt{ls} nella cartella corrente in un file di nome "ls"
+    \item \texttt{ps | ls}: Esegue il comando \texttt{ps} passando l'output al comando \texttt{ls}
+    \item \texttt{ls | ps}: Esegue il comando \texttt{ls} passando l'output al comando \texttt{ps}
+\end{itemize}
+
+\subsection{Quale effetto producono i seguenti comandi? }
+\begin{itemize}
+    \item \texttt{cat file | sort | uniq}, dove "file" è il nome di un file: Stampa il contenuto del file ordinandolo secondo l'ordine naturale
+    e rimuovendo le linee duplicate
+    \item \texttt{who | wc -l}: Conta tutti gli utenti connessi alla macchina e stampa il risultato a schermo.
+    \item \texttt{ps -e | wc -l}: Conta tutti i processi attivi in quel momento.
+\end{itemize}
+
+\subsection{Definire il comando \texttt{ll} in modo che venga chiamato \texttt{ls -l}}
+Comando:
+\begin{verbatim}
+    alias ll='ls -l'
+\end{verbatim}
+
+\subsection{Quale stringa devo impostare per avere un prompt che indichi il path completo?}
+Devo impostare la stringa: \texttt{"\symbol{92}w>"} nella variabile \texttt{PS1}
+
+\subsection{Stampare a video l'ultimo comando lanciato}
+Comando: \texttt{history | tail -2 | head -1}\\
+\textit{Nota: Mantiene il numero dietro al nome del comando di quando si chiama il comando history.}
+
+\subsection{Scrivere un comando che fornisca il numero dei comandi distinti contenuti nella history list.}
+
+\end{document}
