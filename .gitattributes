@@ -7,3 +7,5 @@
 
 # PlantUML
 # *.puml linguist-detectable
+
+* text eol=lf
