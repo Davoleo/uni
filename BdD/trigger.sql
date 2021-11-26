@@ -1,9 +1,3 @@
--- Esempio di Trigger per implementare un vincolo di ennupla
-CREATE TRIGGER alessandro_immortale_trg
-BEFORE DELETE OR UPDATE ON organico
-FOR EACH ROW 
-EXECUTE PROCEDURE alessandro_immortale();
-
 -- in funzioni e procedure non si possono chiamare statement che interferiscono con la transazione:
 -- NO COMMIT, NO BEGIN TRANSACTION, NO ROLLBACK
 
@@ -24,4 +18,30 @@ BEGIN
 END
 $BODY$
 LANGUAGE plpgsql;
+
+-- Esempio di Trigger per implementare un vincolo di ennupla
+CREATE TRIGGER alessandro_immortale_trig
+BEFORE DELETE OR UPDATE ON organico
+FOR EACH ROW 
+EXECUTE PROCEDURE alessandro_immortale();
+
+
+-----------------------------------------------
+
+
+--Cambia i nomi e cognomi dell'anagrafica in modo che siano normalizzati
+CREATE FUNCTION anagrafica_normalizzare() RETURNS TRIGGER AS
+$BODY$
+BEGIN
+    new.cognome := upper(new.cognome);
+    new.nome := initcap(new.nome);
+    RETURN new;
+END
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER anagrafica_normalizzata_trig
+BEFORE INSERT ON anagrafica
+FOR EACH ROW
+EXECUTE PROCEDURE anagrafica_normalizzata();
 
