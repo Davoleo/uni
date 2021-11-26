@@ -9,12 +9,14 @@ BEGIN
     -- DELETE: new contiene NULL mentre old contiene la vecchia riga
     -- UPDATE: new contiene il nuovo valore old contiene il vecchio valore
     -- INSERT: new è la riga appena inserita old contiene NULL
-    IF (OLD.nome = 'Alessandro' AND (NEW.nome IS NULL OR NEW.nome != OLD.nome))
+    IF (old.nome = 'Alessandro' AND (old.nome IS NULL OR old.nome != old.nome))
     THEN 
-    RAISE EXCEPTION 'non toccare alessandro! gsoidfjklgj'
+        RAISE NOTICE 'non toccare alessandro! akjsfklasjflak'
+        RETURN NULL; -- Permette di annullare le modifiche su questa ennupla
+        -- RAISE EXCEPTION 'non toccare alessandro! gsoidfjklgj'
     END IF;
     -- le funzioni che lavorano su trigger devono restituire il numero della riga su cui stanno lavorando
-    RETURN NEW;
+    RETURN new;
 END
 $BODY$
 LANGUAGE plpgsql;
