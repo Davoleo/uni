@@ -48,9 +48,49 @@ Comando:
 Devo impostare la stringa: \texttt{"\symbol{92}w>"} nella variabile \texttt{PS1}
 
 \subsection{Stampare a video l'ultimo comando lanciato}
-Comando: \texttt{history | tail -2 | head -1}\\
-\textit{Nota: Mantiene il numero dietro al nome del comando di quando si chiama il comando history.}
+Comando: \texttt{history | tail -2 | head -1 | cut -d\symbol{92}\space -f5-}\\
+Il comando cut come delimitatore prende '\symbol{92} ' che sarebbe uno spazio protetto da escape character,
+in seguito prendo dal quinto field fino alla fine tramite la flag \texttt{-f} con valore \texttt{5-}, 
+si tratta del quinto campo perché l'indice del comando nella history è circondato da 2 spazi sia prima che dopo.
 
 \subsection{Scrivere un comando che fornisca il numero dei comandi distinti contenuti nella history list.}
+Comando: \texttt{history | cut -d\symbol{92}\space -f5- | sort | uniq | wc -l}\\
+Sfrutto il comando precedente che rimuoveva l'indice di comando della history tramite \texttt{cut}, rimuovendo i comandi \texttt{head e tail}
+utilizzati per restringere la stampa all'ultimo comando inserito, aggiungendo \texttt{sort e uniq} per riordinare e rimuovere linee duplicate e 
+poi contandole con \texttt{wc -l}
+
+\subsection{Come si lancia un eseguibile solo se la compilazione ha avuto successo?}
+Comando: \texttt{gcc test.c -o test\_compiled \&\& ./test\_compiled}\\
+\textit{Nota: L'esempio utilizza GCC come compilatore d'esempio e un semplice file c con dummy code}
+
+\subsection{Elencare tutti i vostri file che contengono una 'a'.}
+Comando: \texttt{ls *a*}\\
+Il metacarattere '*' è una wildcard per 0 o più caratteri.
+
+\subsection{Qual è l'effetto dei seguenti comandi?}
+\begin{itemize}
+    \item \texttt{ls -R || (echo file non accessibili > tmp)}:\\ elenca gli elementi della cartella corrente
+    e di tutte le sottocartelle ricorsivamente, nel caso il comando fallisca 
+    (probabilmente per una mancanza di permessi di lettura/esecuzione sulle cartelle), scrive dentro a al file tmp "file non accessibili"
+    \item \texttt{cat /etc/issue > temp.txt; cat /etc/issue >> temp.txt;\\ cat temp.txt | uniq}:
+    Sequenza di 3 comandi:
+    \begin{itemize}
+        \item Il primo estrae il contenuto del file \texttt{/etc/issue} e lo scrive dentro il file \texttt{temp.txt} nella cartella stessa
+        \item Il secondo estrae il contenuto dallo stesso file ma invece di\\ sovrascriverlo al precedente dentro \texttt{temp.txt} lo appende 
+        alla fine di esso (\texttt{>>})
+        \item Il terzo comando estrae il contenuto da \texttt{temp.txt} ridirezionandolo in input a uniq che però non cancella 
+        le righe duplicate in quanto le righe identiche non sono adiacenti nel file.
+    \end{itemize}
+    \item \texttt{(cd /bin ; pwd ; ls | wc -l)}:
+    Sequenza di 3 comandi:
+    \begin{itemize}
+        \item Il primo cambia la directory di lavoro corrente a \texttt{/bin}
+        \item Il secondo stampa la directory di lavoro corrente su terminale (sarà \texttt{/bin})
+        \item Il terzo elenca gli elementi di quella directory ridirezionando l'output a \texttt{wc -l} 
+        che, a sua volta, ritornerà il numero di linee quindi il numero di file in /bin
+    \end{itemize}
+    \textit{Tutti i 3 comandi sono raggruppati quindi il comando \texttt{cd} 
+    non avrà side-effect sul terminale dopo che l'esecuzione dei 3 comandi è finita}
+\end{itemize}
 
 \end{document}
