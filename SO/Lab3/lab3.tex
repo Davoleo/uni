@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\begin{document}
+\setcounter{section}{2} % one less
+\section{Laboratorio - Esercizi}
+
+\subsection{Costruire una manipolazione dell'output di \texttt{ps} che ordini i processi per PID}
+Comando: \texttt{ps | tr -s ' ' | egrep \^{}\symbol{92} [0\-9]+ | sort -t' ' -k1 -r}
+\begin{itemize}
+    \item \texttt{ps} ottiene la lista di processi dell'utente corrente
+    \item \texttt{tr -s ' '} rimuove gli spazi in più compressandoli in uno unico
+    \item \texttt{egrep \^{}\symbol{92}\space[0-9]+} filtra solo le linee che iniziano con uno spazio e il PID (rimuove l'header)
+    \item \texttt{sort -t' ' -k1} ordina i processi per il primo campo con delimitatore '\space' 
+    (ho aggiunto -r in modo che siano ordinati in senso decrescente visto che il comando ps di default ordina i processi per PID crescente)
+\end{itemize}
+
+\subsection{Fare alcuni esperimenti per scoprire qual è l'effetto del comando 
+\texttt{tr str1 str2} se le 2 stringhe hanno lunghezze diverse.}
+Nel caso in cui la prima stringa sia più piccola della seconda i caratteri extra nella seconda non verranno 
+mai utilizzati da tr durante la sostituzione; Mentre nel caso la seconda stringa sia più piccola della prima i caratteri extra della prima 
+stringa vengono sostituiti tutti con l'ultimo carattere della prima stringa.
+
+\subsection{Scrivere un comando per sostituire modificare l'output di \texttt{ls -l} 
+in modo che al posto degli spazi sia mostrato un carattere \texttt{<Tab>} 
+(non devono comparire più \texttt{<Tab>} consecutivi)}
+Comando: \texttt{ls -l | tr -s ' ' '\symbol{92}t' > out}\\
+Il comando permette comprime gli spazi di divisione tra gli elementi dell'output ad 1 spazio e li sostituisce con \textbackslash t 
+la sequenza di escape che produce il carattere \texttt{<Tab>}, in questo modo tutti i campi dell'output sono divisi da 1 e un solo tab.
+\textit{Nota: Ho ridirezionato l'output ad un file esterno perché il terminale mi mostrava gli spazi nonostante avessi applicato il comando tr}
+
+\subsection{Scrivere una pipeline che permetta di scoprire quante linee ripetute ci sono in un file.}
+Comando: 
+
+
+\end{document}

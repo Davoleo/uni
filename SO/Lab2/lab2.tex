@@ -49,7 +49,7 @@ Devo impostare la stringa: \texttt{"\symbol{92}w>"} nella variabile \texttt{PS1}
 
 \subsection{Stampare a video l'ultimo comando lanciato}
 Comando: \texttt{history | tail -2 | head -1 | cut -d\symbol{92}\space -f5-}\\
-Il comando cut come delimitatore prende '\symbol{92} ' che sarebbe uno spazio protetto da escape character,
+Il comando cut come delimitatore prende '\textbackslash\space' che sarebbe uno spazio protetto da escape character,
 in seguito prendo dal quinto field fino alla fine tramite la flag \texttt{-f} con valore \texttt{5-}, 
 si tratta del quinto campo perché l'indice del comando nella history è circondato da 2 spazi sia prima che dopo.
 
@@ -61,7 +61,7 @@ poi contandole con \texttt{wc -l}
 
 \subsection{Come si lancia un eseguibile solo se la compilazione ha avuto successo?}
 Comando: \texttt{gcc test.c -o test\_compiled \&\& ./test\_compiled}\\
-\textit{Nota: L'esempio utilizza GCC come compilatore d'esempio e un semplice file c con dummy code}
+\textit{Nota: Il comando utilizza GCC come compilatore d'esempio e un semplice file c con dummy code}
 
 \subsection{Elencare tutti i vostri file che contengono una 'a'.}
 Comando: \texttt{ls *a*}\\
