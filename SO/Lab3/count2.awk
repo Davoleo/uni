@@ -1,0 +1,21 @@
+BEGIN {
+    print "scanning lines: "
+}
+
+{
+    printf "%d...", NR;
+    if (NF == 0)
+        zeroFieldLines++;
+    if (NF == 1)
+        oneFieldLines++;
+    if (NF == 2)
+        twoFieldLines++;
+    if (NF == 3)
+        threeFieldLines++;
+}
+
+END {
+    print "\n\n"
+    printf "0 words lines: %d\n1 word lines: %d\n2 words lines: %d\n3 words lines: %d\n", 
+    zeroFieldLines, oneFieldLines, twoFieldLines, threeFieldLines;
+}
