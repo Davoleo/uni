@@ -1,4 +1,5 @@
 #!/bin/bash
+# Draws a triangle on std output based on a size argument
 
 if [ $# -ne 1 ]
 then
