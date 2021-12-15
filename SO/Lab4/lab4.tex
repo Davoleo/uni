@@ -9,7 +9,7 @@
     backgroundcolor=\color{lbcolor},
     tabsize=4,
     rulecolor=,
-    language=sh,
+    language=make,
     basicstyle=\normalsize\ttfamily,
     upquote=true,
     aboveskip={1.5\baselineskip},
@@ -42,7 +42,7 @@ e disegna sullo standard output un triangolo (utilizzando i caratteri -, / e \te
 
 Script Allegato: \texttt{draw\_triangle.sh}
 
-\subsection{Progettare uno script che prende in input come parametro il nome di una directory e conta quanti file hanno dimensione 
+\subsection{Progettare uno script che prende in input come para\-metro il nome di una directory e conta quanti file hanno dimensione 
 $\leq 1KB, \leq 1MB, \leq 1GB, > 1GB$}
 
 Script Allegato: \texttt{file\_sizes.sh}
@@ -58,5 +58,45 @@ Funzioni dello script:
 \end{enumerate}
 
 Script Allegato: \texttt{processi.sh}
+
+\subsection{Makefile: Introduzione}
+
+Le componenti che creano un \texttt{Makefile} sono:
+\begin{itemize}
+    \item \textbf{Target}: è l'obbiettivo di una recipe, può essere un file concreto o un concetto più astratto come un cleanup
+    \item \textbf{Prerequisite}: sono gli input della ricetta, ovvero i file di cui ha bisogno obbligatoriamente per funzionare (possono anche essere 0)
+    \item \textbf{Recipe}: La sequenza di uno o più comandi da eseguire sui prerequisite per ottenere il target
+    \item \textbf{Rule}: Spiega quando e come rifare una ricetta su dei requisiti per riottenere un target (ed è il componente base dei Makefile)
+\end{itemize}
+
+Un esempio di utilizzo standard di un Makefile può essere per fare il build di un progetto C, attraverso le diverse fasi di compilazione e linking.
+Quindi un target ad esempio potrebbero essere i file oggetto mentre i prerequisite potrebbero essere i file sorgente C e gli header:
+\begin{lstlisting}
+main.o : main.c defs.h
+	cc -c main.c
+\end{lstlisting}
+
+Esempio di rule di cleanup che rimuove i file oggetto della compilazione precedente
+\begin{lstlisting}
+clean :
+    rm edit main.o kbd.o command.o display.o \
+        insert.o search.o files.o utils.o
+\end{lstlisting}
+\textit{Nota: questa rule ha 0 prerequisite il che significa che non verrà mai eseguita automaticamente da make}
+
+\subsubsection*{Processing dei Makefile}
+Un Makefile che viene processato in ordine prende la prima rule (non prefissata da .) 
+come 'default goal' questo sarà l'obbiettivo principale del Makefile
+\textit{Il 'default goal' si può sovrascrivere cambiando la variabile \texttt{.DEFAULT\_GOAL}}\\
+
+Una volta che \texttt{make} è eseguito nella directory del progetto ed processa la prima regola.
+Se la prima regola necessita di file (come prerequisiti) 
+per i quali sono presenti altre regole esegue anche quest'ultime.\\
+Se una regola non ha una dipendenza sul default goal essa non è eseguita automaticamente da make.
+
+Make riesegue la regola relativa al default goal ogni volta che ad esempio il file eseguibile 
+non esiste oppure è più vecchio rispetto ad uno dei file oggetto compilati 
+o dei file sorgente modificati; in questi casi make riesegue le recipe necessarie per il global goal 
+e infine riesegue la task principale.
 
 \end{document}
