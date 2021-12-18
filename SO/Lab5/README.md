@@ -59,3 +59,8 @@ File descriptor:
 - http://www.linuxdidattica.org/docs/prg_C/cgiprg15.html
 
 1:34:10
+
+## [Doxygen](www.doxygen.org)
+Tool per la generazione automatica di documentazione a partire dai commenti (like javadoc)<br>
+Diversi tipi di formati disponibili tra cui: html, man, latex, rtf.
+

@@ -10,6 +10,3 @@
 # Compiled executables and pdfs
 *.exe
 *.pdf
-
-# HTML Exported Document
-SO/Lab1/doc/*
