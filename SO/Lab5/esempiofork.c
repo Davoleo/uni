@@ -28,14 +28,14 @@ int temp; //!< Questa e' una Variabile globale
 
 /************************  main() ***********************/
 /*!
-    \brief  Questa e' la funzione principale
-    \param  argc Il numero di argomenti
-    \param  argv Il vettore degli argomenti
-    \return 0 = Esecuzione terminata con successo
-    \return -1 = Esecuzione ha generato un errore
+  \brief  Questa e' la funzione principale
+  \param  argc Il numero di argomenti
+  \param  argv Il vettore degli argomenti
+  \return 0 = Esecuzione terminata con successo
+  \return -1 = Esecuzione ha generato un errore
 
-    Lo scopo di questa funzione e` quello di lanciare un processo figlio
-    e attendere la sua terminazione
+  Lo scopo di questa funzione e` quello di lanciare un processo figlio
+  e attendere la sua terminazione
 */
 
 int main(int argc, char *argv[])
@@ -46,18 +46,19 @@ int main(int argc, char *argv[])
 
   switch(pid = fork()) {
   case -1:
-      printf("Errore in creazione figlio\n");
-      exit(-1);
+    printf("Errore in creazione figlio\n");
+    exit(-1);
   case 0 : 
-      printf("Figlio here, il mio PID e': %d, mentre il PID di mio padre e': %d", getpid(), getppid());
-      printf("Figlio sospende per 2 secondi...\n"); // figlio
-      sleep(2); 
-      printf("Figlio si risveglia\n");
-      exit(3);
+    printf("Figlio here, il mio PID e': %d, mentre il PID di mio padre e': %d\n", getpid(), getppid());
+    printf("Figlio sospende per 2 secondi...\n"); // figlio
+    sleep(2); 
+    printf("Figlio si risveglia\n");
+    exit(3);
   default: 
-      printf("Padre esegue e attende figlio\n"); // padre
-      wait(&retv); 
-      printf("Padre riceve da figlio exit status %d\n", WEXITSTATUS(retv));
+    printf("Verifica PID Padre: %d\n", getpid());
+    printf("Padre esegue e attende figlio\n"); // padre
+    wait(&retv); 
+    printf("Padre riceve da figlio exit status %d\n", WEXITSTATUS(retv));
   }
 
   return 0;

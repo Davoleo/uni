@@ -1,3 +1,6 @@
+### [Guida Gapil](https://gapil.gnulinux.it/download/)
+
+
 # Processi in UNIX
 - Creati con la syscall `fork()`, il figlio è una copia del padre ma eseguito indipendente e con un nuovo PID
 - Il padre attende il figlio tramite `wait()` o `waitpid()`
