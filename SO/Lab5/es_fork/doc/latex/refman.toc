@@ -1,0 +1,8 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Esempio Fork}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introduzione}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}File Index}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}File List}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}File Documentation}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}esempiofork.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{5}{section.3.1}%
+\contentsline {chapter}{Index}{7}{section*.1}%
