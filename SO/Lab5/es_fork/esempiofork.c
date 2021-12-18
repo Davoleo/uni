@@ -52,8 +52,9 @@ int main(int argc, char *argv[])
     printf("Figlio here, il mio PID e': %d, mentre il PID di mio padre e': %d\n", getpid(), getppid());
     printf("Figlio sospende per 2 secondi...\n"); // figlio
     sleep(2); 
-    printf("Figlio si risveglia\n");
-    exit(3);
+    printf("Figlio si risveglia ed esegue ls\n");
+    int cod = execl("/bin/ls", "ls", "-al", (char*) NULL);
+    exit(cod);
   default: 
     printf("Verifica PID Padre: %d\n", getpid());
     printf("Padre esegue e attende figlio\n"); // padre
