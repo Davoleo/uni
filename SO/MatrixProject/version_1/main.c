@@ -50,7 +50,7 @@ void load_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int* x, int* y, const ch
 /**
  * TODO Document
  */
-void multiply_matrix(
+void multiply_matrices(
                         long result_matrix[MATRIX_SIZE][MATRIX_SIZE], 
                         long matrix1[MATRIX_SIZE][MATRIX_SIZE],
                         long matrix2[MATRIX_SIZE][MATRIX_SIZE], 
@@ -74,7 +74,10 @@ void multiply_matrix(
             result_matrix[y][y1] = res_val;
         }
     }
+}
 
+void multiply_matrices_procs() {
+    
 }
 
 
@@ -100,7 +103,7 @@ int main() {
 
     long result[MATRIX_SIZE][MATRIX_SIZE];
 
-    multiply_matrix(result, matrix1, matrix2, matrix1_x, matrix1_y);
+    multiply_matrices(result, matrix1, matrix2, matrix1_x, matrix1_y);
 
     print_matrix(result, matrix1_x, matrix1_y);
 
