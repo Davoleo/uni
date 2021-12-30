@@ -45,6 +45,7 @@ void load_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int* x, int* y, const ch
     }
     (*y)++;
 
+    close(matrix_fd);
 }
 
 /**
@@ -93,8 +94,8 @@ int main() {
 
 
     //Mastrix (CIT. Zambo 28/12/2021 10:57)
-    load_matrix(matrix1, &matrix1_x, &matrix1_y, "matrice1.txt");
-    load_matrix(matrix2, &matrix2_x, &matrix2_y, "matrice2.txt");
+    load_matrix(matrix1, &matrix1_x, &matrix1_y, "../matrice1.txt");
+    load_matrix(matrix2, &matrix2_x, &matrix2_y, "../matrice2.txt");
 
     //At this point matrix*_x and matrix*_y are the length of the matrices
     
