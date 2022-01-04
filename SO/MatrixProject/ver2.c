@@ -1,16 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
 #include "utils.h"
-
-void error(const char* message) {
-	printf("%s\n", message);
-	exit(-1);
-}
 
 /**
  * \param pipe The pipe through which column values are sent and received
@@ -21,12 +12,13 @@ void error(const char* message) {
 void compute_row(int pipe[2], long row[MATRIX_SIZE], int row_i, long result_row[MATRIX_SIZE]) {
 
 	long col_vals[3];
-		for(int i=0; i < MATRIX_SIZE; i++)
+	
+	for(int i=0; i < MATRIX_SIZE; i++)
 	{
-		puts("yo boi eccomi");
+		printf("yo boi eccomi %d\n", getpid());
 
-		while(read(pipe[0], col_vals, 3 * sizeof(long)) == 0) {
-			//wait if the pipe is empty
+		while(read(pipe[0], col_vals, 3 * sizeof(long)) <= 0) {
+			// Read wait
 		}
 	
 		printf("column values: %ld %ld %ld\n", col_vals[0], col_vals[1], col_vals[2]);
@@ -54,6 +46,20 @@ int main() {
 	int pipe2[2];
 	int pipe3[2];
 	
+	//Pipe creation (pipes are created globally so that everyone has knoweledge of their descriptors)
+	pipe(pipe1);
+	pipe(pipe2);
+	pipe(pipe3);
+	
+	/*
+	//Pipe Linkining	
+	//reading end of pipe 1 to writing end of pipe 2
+	dup2(pipe2[1], pipe1[0]);
+	//reading end of pipe 3 to writing end of pipe 1
+	dup2(pipe1[1], pipe3[0]);
+	//reading end of pipe 2 to writing end of pipe 3
+	dup2(pipe3[1], pipe2[0]);
+	*/
 
 	int pid1 = fork();
 	if (pid1 == -1) {
@@ -61,15 +67,11 @@ int main() {
 	}
 	else if(pid1 == 0) {	
 		//1st Child Process
-		//Pipe creation
-		pipe(pipe1);
-		//Pipe linking
-		//writing end of pipe 2 to reading end of pipe 1
-		dup2(pipe2[1], pipe1[0]);
-		//writing end of pipe 1 to reading end of pipe 3
-		dup2(pipe1[1], pipe3[0]);
+		printf("child 1 : %d\n", getpid());
 
 		compute_row(pipe1, matrix1[0], 0, result[0]);
+
+		puts("end of child 1");
 	}
 	else {	// THE PARENT
 		
@@ -80,16 +82,16 @@ int main() {
 		}
 		if(pid2 == 0) {
 			// child 2
-			//Pipe creation
-			pipe(pipe2);
-			//Pipe linking
-			//writing end of pipe 3 to reading end of pipe 2
-			dup2(pipe3[1], pipe2[0]);
-			//writing end of pipe 2 to reading end of pipe 1
-			dup2(pipe2[1], pipe1[0]);
-			
+			printf("child 2 : %d\n", getpid());
+
 			long arr[] = {1, 2, 3};
-			write(pipe2[1], arr, 3 * sizeof(long));
+			
+			for(int i=0; i < MATRIX_SIZE; i++) {
+				int status = write(pipe1[1], arr, 3 * sizeof(long));
+				printf("write status %d\n", status);
+			}
+
+			puts("End of Child 2");
 		}
 		else { // THE PARENT
 			
@@ -98,23 +100,19 @@ int main() {
 				error("ERROR: while forking the first process");
 			}
 			if(pid3 == 0) {
+				
 				//child 3
-				//Pipe creation
-				pipe(pipe2);
-				//Pipe linking
-				//writing end of pipe 1 to reading end of pipe 3
-				dup2(pipe1[1], pipe3[0]);
-				//writing end of pipe 3 to reading end of pipe 2
-				dup2(pipe3[1], pipe2[0]);
+				printf("child 3 : %d\n", getpid());
+				
+				puts("End of child 3");
 			}
 			else {
-				
+				wait(NULL);
+				wait(NULL);
+				wait(NULL);
+				puts("PADRE KEK");
 			}
 		}
 		// ----- 2nd process if finished -----
 	}
-
-	puts("End of padre");
 }
-
-

@@ -1,6 +1,11 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <stdlib.h>
+#include <stdio.h>
+
+#include <fcntl.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #define MATRIX_SIZE 32
@@ -44,6 +49,11 @@ void load_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int* x, int* y, const ch
 	(*y)++;
 
 	close(matrix_fd);
+}
+
+void error(const char* message) {
+	printf("%s\n", message);
+	exit(-1);
 }
 
 #endif
