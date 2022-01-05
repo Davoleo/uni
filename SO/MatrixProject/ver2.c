@@ -3,6 +3,7 @@
 
 #include "utils.h"
 
+///The Actual Matrix length (only 1 value because exercise is simplified to square matrices)
 static int matrix_length = 0;
 
 /**
@@ -13,25 +14,29 @@ static int matrix_length = 0;
  */
 void compute_row(int pipe[2], long row[matrix_length]) {
 
+	///Storage array for column values read from the pipe
 	long col_vals[matrix_length];
 	
-	//Allocate and initialize result array
-	long res_vals[matrix_length];
-	memset(res_vals, 0, matrix_length * sizeof(long));
+	///Result Row Array -> Will contain the result values of the row this process is working on
+	long res_row[matrix_length];
+	memset(res_row, 0, matrix_length * sizeof(long));
 
+	printf("Process %d begins computing row\n", getpid());
+
+	//For each row value we read 3 column values from the second matrix (sent via pipe) 
 	for(int i=0; i < matrix_length; i++) {
 
-		printf("yo boi eccomi %d\n", getpid());
-
 		while(read(pipe[0], col_vals, matrix_length * sizeof(long)) <= 0) {
-			// Read wait
+			//Wait until 3 values have been read from the pipe
 		}
-		//printf("column values: %ld %ld %ld\n", col_vals[0], col_vals[1], col_vals[2]);
+		
+		printf("column values: %ld %ld %ld\n", col_vals[0], col_vals[1], col_vals[2]);
 	
-		// Moltiplicazione tra riga e colonna
+		// Multiply RowCell from Matrix 1 and ColumnCell from Matrix 2 -> increment results in res_row
 		for(int j=0; j < matrix_length; j++)
-			res_vals[j] += row[j] * col_vals[j];
+			res_row[j] += row[j] * col_vals[j];
 
+		//TODO output values
 		//write(pipeout)
 		
 	}
@@ -40,6 +45,7 @@ void compute_row(int pipe[2], long row[matrix_length]) {
 
 int main() {
 	
+	///Arrays Storing the two matrices
 	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
@@ -106,7 +112,8 @@ int main() {
 			puts("End of Child 2");
 		}
 		else { // THE PARENT
-			
+
+			// ----- creating the 3rd process -----
 			int pid3 = fork();
 			if (pid3 == -1) {
 				error("ERROR: while forking the first process");
@@ -124,6 +131,7 @@ int main() {
 				wait(NULL);
 				puts("PADRE KEK");
 			}
+			// ----- 3rd process if finished -----
 		}
 		// ----- 2nd process if finished -----
 	}
