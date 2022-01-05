@@ -3,26 +3,37 @@
 
 #include "utils.h"
 
+static int matrix_length = 0;
+
 /**
  * \param pipe The pipe through which column values are sent and received
  * \param row The row of the first matrix this process is working on
- * \param row_i The index of the first element of the row the process is working on
- * \param result_row The row of the resulting matrix
+ * //\param row_i The index of the first element of the row the process is working on
+ * //\param result_row The row of the resulting matrix
  */
-void compute_row(int pipe[2], long row[MATRIX_SIZE], int row_i, long result_row[MATRIX_SIZE]) {
+void compute_row(int pipe[2], long row[matrix_length]) {
 
-	long col_vals[3];
+	long col_vals[matrix_length];
 	
-	for(int i=0; i < MATRIX_SIZE; i++)
-	{
+	//Allocate and initialize result array
+	long res_vals[matrix_length];
+	memset(res_vals, 0, matrix_length * sizeof(long));
+
+	for(int i=0; i < matrix_length; i++) {
+
 		printf("yo boi eccomi %d\n", getpid());
 
-		while(read(pipe[0], col_vals, 3 * sizeof(long)) <= 0) {
+		while(read(pipe[0], col_vals, matrix_length * sizeof(long)) <= 0) {
 			// Read wait
 		}
+		//printf("column values: %ld %ld %ld\n", col_vals[0], col_vals[1], col_vals[2]);
 	
-		printf("column values: %ld %ld %ld\n", col_vals[0], col_vals[1], col_vals[2]);
+		// Moltiplicazione tra riga e colonna
+		for(int j=0; j < matrix_length; j++)
+			res_vals[j] += row[j] * col_vals[j];
 
+		//write(pipeout)
+		
 	}
 
 }
@@ -31,16 +42,17 @@ int main() {
 	
 	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
-	long result[MATRIX_SIZE][MATRIX_SIZE];
 
 	int matrix1_x = 0;
 	int matrix1_y = 0;
 	int matrix2_x = 0;
 	int matrix2_y = 0;
 
-
 	load_matrix(matrix1, &matrix1_x, &matrix1_y, "matrice1.txt");
 	load_matrix(matrix2, &matrix2_x, &matrix2_y, "matrice2.txt");
+	
+
+	matrix_length = matrix1_x;
 
 	int pipe1[2];
 	int pipe2[2];
@@ -69,7 +81,7 @@ int main() {
 		//1st Child Process
 		printf("child 1 : %d\n", getpid());
 
-		compute_row(pipe1, matrix1[0], 0, result[0]);
+		compute_row(pipe1, matrix1[0]);
 
 		puts("end of child 1");
 	}
@@ -86,7 +98,7 @@ int main() {
 
 			long arr[] = {1, 2, 3};
 			
-			for(int i=0; i < MATRIX_SIZE; i++) {
+			for(int i=0; i < matrix_length; i++) {
 				int status = write(pipe1[1], arr, 3 * sizeof(long));
 				printf("write status %d\n", status);
 			}
