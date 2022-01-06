@@ -7,9 +7,6 @@
 
 #include "utils.h"
 
-#define MATRIX_SIZE 32
-
-
 /**
  * TODO Document
  */
@@ -66,9 +63,9 @@ int main() {
 
     long result[MATRIX_SIZE][MATRIX_SIZE];
 
-    multiply_matrices(result, matrix1, matrix2, matrix1_x, matrix1_y);
+    BENCHMARK(multiply_matrices(result, matrix1, matrix2, matrix1_x, matrix1_y))
 
-    print_matrix(result, matrix1_x, matrix1_y);
+    //print_matrix(result, matrix1_x, matrix1_y);
 
     return 0;
 }

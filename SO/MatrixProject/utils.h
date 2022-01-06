@@ -8,8 +8,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+//Benchmarking
+#include <time.h>
+
 //Maximum Matrix Size constant (can be modified) [used to initialize arrays at the beginning of programs execution]
-#define MATRIX_SIZE 32
+#define MATRIX_SIZE 200
 
 /**
  * \brief Prints a matrix to the standard output (debug purposes)
@@ -29,7 +32,7 @@ void print_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int x_limit, int y_limi
 }
 
 /**
- * \brief Loads a matrix from a text file
+ * \brief Loads a matrix from a text file (super inefficient as we're loading it char by char)
  * The Matrix in the text file is written in rows with each cell horizontally 
  * separated by a non-numerical character (not a '\n') from others in the same row
  * \param out_matrix the matrix that is loaded from the text file
@@ -78,5 +81,13 @@ void error(const char* message) {
 	printf("ERROR! %s\n", message);
 	exit(-1);
 }
+
+/**
+ * \brief Macro with the code to benchmark as parameter
+ **/
+#define BENCHMARK(code) clock_t bench_begin = clock(); \
+code; \
+clock_t bench_end = clock(); \
+printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
 
 #endif
