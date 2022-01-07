@@ -97,8 +97,9 @@ int main() {
                         long initial_values[matrix_length];
 
                         for(int j=0; j < matrix_length; j++)
-                        {       
-                                int idx = (matrix_length - i) + j % matrix_length;
+                        {     
+                                //(matrix_length - i) + j % matrix_length;  
+                                int idx = (i + j) % matrix_length;
                                 initial_values[j] = matrix2[idx][j];
                         }
                        
