@@ -37,10 +37,6 @@ void multiply_matrices(
     }
 }
 
-void multiply_matrices_procs() {
-    
-}
-
 
 int main() {
 
@@ -50,8 +46,8 @@ int main() {
     int matrix_length = 0;
 
     //Mastrix (CIT. Zambo 28/12/2021 10:57)
-    load_matrix(matrix1, &matrix_length, "matrice1.txt");
-    load_matrix(matrix2, &matrix_length, "matrice2.txt");
+    load_matrix(matrix1, &matrix_length, "matrice100-1.txt");
+    load_matrix(matrix2, &matrix_length, "matrice100-2.txt");
     
     //print_matrix(matrix1, matrix1_x, matrix1_y);
     //print_matrix(matrix2, matrix2_x, matrix2_y);

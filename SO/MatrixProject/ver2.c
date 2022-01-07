@@ -57,8 +57,8 @@ int main() {
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
 
-	load_matrix(matrix1, &matrix_length, "matrice1.txt");
-	load_matrix(matrix2, &matrix_length, "matrice2.txt");
+	load_matrix(matrix1, &matrix_length, "matrice100-1.txt");
+	load_matrix(matrix2, &matrix_length, "matrice100-2.txt");
 
 	printf("MATRIX length %d\n", matrix_length);
 
@@ -72,7 +72,6 @@ int main() {
 	pipe(parent_pipe);
 
 	// Allocate and initialize pipes
-	////int** pipe_arr = malloc(matrix_length * sizeof(int *));
 	int pipe_arr[matrix_length][2];
 	for(int i=0; i < matrix_length; i++)
 	{

@@ -13,7 +13,7 @@
 #include <time.h>
 
 //Maximum Matrix Size constant (can be modified) [used to initialize arrays at the beginning of programs execution]
-#define MATRIX_SIZE 32
+#define MATRIX_SIZE 150
 
 /**
  * \brief Prints a matrix to the standard output (debug purposes)
