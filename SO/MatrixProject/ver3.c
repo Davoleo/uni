@@ -15,15 +15,18 @@ long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 long matrix_res[MATRIX_SIZE][MATRIX_SIZE];
 
 
-void compute_row(int cords[2]) {
+void compute_cell(int cords[2]) {
 	int x = cords[0];
 	int y = cords[1];
 
 	for(int i=0; i < matrix_length; i++) {
-		printf("x: %d, y: %d, i: %d\n", x, y, i);
 
 		pthread_mutex_lock(&result_matrix_lock);
-		matrix_res[x][i] += matrix1[x][y] * matrix2[x][i];
+		if (x == 2)
+		 	printf("mult: %ld\n", matrix1[x][y] * matrix2[y][i]);
+		matrix_res[x][i] += matrix1[x][y] * matrix2[y][i];
+		if(x == 2)
+			printf("res: %ld\n", matrix_res[x][i]);
 		pthread_mutex_unlock(&result_matrix_lock);
 	}
 
@@ -43,6 +46,16 @@ int main() {
 
 	printf("MATRIX length %d\n", matrix_length);
 
+
+	puts("Matrix: ");
+	for(int x=0; x < matrix_length; x++) {
+		for(int y=0; y < matrix_length; y++) {	
+			printf("%ld ", matrix1[x][y]);
+		}	
+		puts("");
+	}
+
+
 	pthread_t thread_arr[matrix_length][matrix_length];
 
 	int cords[2];
@@ -52,13 +65,15 @@ int main() {
 		for(int y=0; y < matrix_length; y++) {
 			cords[0] = x;
 			cords[1] = y;
-			pthread_create(&thread_arr[x][y], NULL, (void*)compute_row, (void*)cords);
+			pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords);
 		}
 	}
 
 	for(int x=0; x < matrix_length; x++) {
 		for(int y=0; y < matrix_length; y++) {
-			while(pthread_join(thread_arr[x][y], NULL) != 0) {}
+			while(pthread_join(thread_arr[x][y], NULL) != 0) {
+
+			}
 		}
 	}
 
