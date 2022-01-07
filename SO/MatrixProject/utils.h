@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <math.h>
 
 //Maximum Matrix Size constant (can be modified) [used to initialize arrays at the beginning of programs execution]
 #define MATRIX_SIZE 32
@@ -38,37 +39,20 @@ void print_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int x_limit, int y_limi
  * \param filename the name of the file containing the matrix
  */
 void load_matrix(long out_matrix[MATRIX_SIZE][MATRIX_SIZE], int* x, int* y, const char* filename) {
-	int matrix_fd = open(filename, O_RDONLY);
 	
-	//char_buff contains the current char read from the text file
-	char char_buff;
+	FILE* matrix_fd = fopen(filename, "r");
 	*x = 0;
 	*y = 0;
 
-	while(read(matrix_fd, &char_buff, 1) != 0) {
-
-		//char is a digit
-		if(char_buff >= '0' && char_buff <= '9') {
-			//Add it to the output matrix while offsetting it by the ASCII value of '0'
-			out_matrix[*x][*y] = char_buff - 48;
-			//Increment column counter
-			(*x)++;
-		}
-		else if(char_buff == '\n')
-		{
-			//Char is a new line -> next matrix row:
-			//reset column counter and increment row counter
-			(*y)++;
-			(*x) = 0;
-		}
-
-		//Every other character is ignored
+	while(fscanf(matrix_fd, "%ld", &out_matrix[*x][*y]) > 0) {
+		(*x)++;
 	}
-	//Increment row counter by 1 at the end as there are no new lines at the end.
-	(*y)++;
+
+	*y = sqrt(*x);
+	*x = *y;
 
 	//Close matrix file descriptor
-	close(matrix_fd);
+	fclose(matrix_fd);
 }
 
 /**
