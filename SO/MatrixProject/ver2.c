@@ -24,16 +24,12 @@ void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int r
 	long res_row[matrix_length];
 	memset(res_row, 0, matrix_length * sizeof(long));
 
-	printf("Process %d begins computing row\n", row_id);
-
 	//For each row value we read 3 column values from the second matrix (sent via pipe) 
 	for(int i=0; i < matrix_length; i++) {
 
 		while(read(pipe[0], col_vals, matrix_length * sizeof(long)) <= 0) {
 			//Wait until 3 values have been read from the pipe
 		}
-		
-		//printf("column values: %d %ld %ld %ld\n", row_id, col_vals[0], col_vals[1], col_vals[2]);
 
 		// Multiply RowCell from Matrix 1 and ColumnCell from Matrix 2 -> increment results in res_row
 		for(int j = 0; j < matrix_length; j++)
@@ -41,8 +37,6 @@ void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int r
 			int idx = ((matrix_length - i) + j) % matrix_length;
 			res_row[j] += row[idx] * col_vals[idx];
 		}
-
-		//printf("Pid %d %ld %ld %ld\n", row_id, res_row[0], res_row[1], res_row[2]);
 		write(pipe[1], col_vals, matrix_length * sizeof(long));
 	}
 	
@@ -54,9 +48,6 @@ void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int r
 	arr_arr[matrix_length] = row_id;
 
 	write(parent_pipe[1], arr_arr, (matrix_length+1) * sizeof(long));
-
-	//printf("Result %d -> %ld %ld %ld\n", row_id, res_row[0], res_row[1], res_row[2]);
-
 }
 
 int main() {
@@ -88,6 +79,7 @@ int main() {
 		pipe(pipe_arr[i]);
 	}
 
+	clock_t bench_begin = clock();
 
 	// Process id array
 	int proc_id[matrix_length];
@@ -101,7 +93,7 @@ int main() {
 		}
 		else if(proc_id[i] == 0) {	
 			
-			printf("child %d : %d\n",i, getpid());
+			printf("Process %d started!\n",i, getpid());
 			
 			long initial_values[matrix_length];
 
@@ -112,8 +104,6 @@ int main() {
 				int idx = ((matrix_length - 1 - i) + j) % matrix_length; 
 				initial_values[j] = matrix2[idx][j];
 			}
-
-			//printf("initial: %ld %ld %ld %ld\n", initial_values[0], initial_values[1], initial_values[2], initial_values[3]);
 		       
 			if((i+1) == matrix_length)
 				dup2(pipe_arr[0][1], pipe_arr[i][1]);
@@ -127,7 +117,7 @@ int main() {
 			
 			compute_row(pipe_arr[i], parent_pipe, initial_values, i);
 
-			printf("end of child %d ----------------------------------------\n", i);
+			printf("Process %d ended!\n", i);
 			
 			close(pipe_arr[i][0]);
 			close(pipe_arr[i][1]);
@@ -139,7 +129,8 @@ int main() {
 	for(int i=0; i < matrix_length; i++)
 		wait(NULL);
 
-	puts("end of wait");
+	clock_t bench_end = clock();
+	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
 
 	long result_matrix[matrix_length][matrix_length];
 	long res_row[matrix_length+1];
@@ -160,20 +151,12 @@ int main() {
 		close(pipe_arr[i][1]);
 	}
 
-	printf("\nResult --------------------\n");
 
-
+	puts("Result: ");
 	for(int x=0; x < matrix_length; x++) {
 		for(int y=0; y < matrix_length; y++) {	
 			printf("%ld ", result_matrix[x][y]);
 		}	
 		puts("");
 	}
-
-	puts("----------------");
-
-	//print_matrix(result_matrix, matrix_length, matrix_length);
-
-
-	puts("PADRE KEK"); 
 }

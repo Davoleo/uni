@@ -58,7 +58,7 @@ int main() {
 
     long result[MATRIX_SIZE][MATRIX_SIZE];
 
-    multiply_matrices(result, matrix1, matrix2, matrix_length, matrix_length);
+    BENCHMARK(multiply_matrices(result, matrix1, matrix2, matrix_length, matrix_length))
 
     print_matrix(result, matrix_length, matrix_length);
 
