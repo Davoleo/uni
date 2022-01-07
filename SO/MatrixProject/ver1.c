@@ -7,11 +7,9 @@
 
 #include "utils.h"
 
-#define MATRIX_SIZE 32
-
 
 /**
- * TODO Document
+ * \brief matrix multiplication without any parallel computations
  */
 void multiply_matrices(
                         long result_matrix[MATRIX_SIZE][MATRIX_SIZE], 
@@ -49,26 +47,20 @@ int main() {
     long matrix1[MATRIX_SIZE][MATRIX_SIZE];
     long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
-    int matrix1_x = 0;
-    int matrix1_y = 0;
-    int matrix2_x = 0;
-    int matrix2_y = 0;
-
+    int matrix_length = 0;
 
     //Mastrix (CIT. Zambo 28/12/2021 10:57)
-    load_matrix(matrix1, &matrix1_x, &matrix1_y, "matrice1.txt");
-    load_matrix(matrix2, &matrix2_x, &matrix2_y, "matrice2.txt");
-
-    //At this point matrix*_x and matrix*_y are the length of the matrices
+    load_matrix(matrix1, &matrix_length, "matrice1.txt");
+    load_matrix(matrix2, &matrix_length, "matrice2.txt");
     
     //print_matrix(matrix1, matrix1_x, matrix1_y);
     //print_matrix(matrix2, matrix2_x, matrix2_y);
 
     long result[MATRIX_SIZE][MATRIX_SIZE];
 
-    multiply_matrices(result, matrix1, matrix2, matrix1_x, matrix1_y);
+    multiply_matrices(result, matrix1, matrix2, matrix_length, matrix_length);
 
-    print_matrix(result, matrix1_x, matrix1_y);
+    print_matrix(result, matrix_length, matrix_length);
 
     return 0;
 }
