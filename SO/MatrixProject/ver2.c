@@ -33,7 +33,7 @@ void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int r
 			//Wait until 3 values have been read from the pipe
 		}
 		
-		printf("column values: %d %ld %ld %ld\n", row_id, col_vals[0], col_vals[1], col_vals[2]);
+		//printf("column values: %d %ld %ld %ld\n", row_id, col_vals[0], col_vals[1], col_vals[2]);
 
 		// Multiply RowCell from Matrix 1 and ColumnCell from Matrix 2 -> increment results in res_row
 		for(int j = 0; j < matrix_length; j++)
@@ -42,14 +42,20 @@ void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int r
 			res_row[j] += row[idx] * col_vals[idx];
 		}
 
-		printf("Pid %d %ld %ld %ld\n", row_id, res_row[0], res_row[1], res_row[2]);
+		//printf("Pid %d %ld %ld %ld\n", row_id, res_row[0], res_row[1], res_row[2]);
 		write(pipe[1], col_vals, matrix_length * sizeof(long));
 	}
 	
-	write(parent_pipe[1], &row_id, sizeof(int));
-	write(parent_pipe[1], res_row, matrix_length * sizeof(long));
+	long arr_arr[matrix_length+1];
 
-	printf("Result %d -> %ld %ld %ld\n", row_id, res_row[0], res_row[1], res_row[2]);
+	for(int i=0; i < matrix_length; i++)
+		arr_arr[i] = res_row[i];
+	
+	arr_arr[matrix_length] = row_id;
+
+	write(parent_pipe[1], arr_arr, (matrix_length+1) * sizeof(long));
+
+	//printf("Result %d -> %ld %ld %ld\n", row_id, res_row[0], res_row[1], res_row[2]);
 
 }
 
@@ -136,16 +142,16 @@ int main() {
 	puts("end of wait");
 
 	long result_matrix[matrix_length][matrix_length];
-	long res_row[matrix_length];
-	int row_id;
+	long res_row[matrix_length+1];
+	long row_id;
 
 	for(int x=0; x < matrix_length; x++) {
-		while(read(parent_pipe[0], &row_id, sizeof(int)) <= 0) {}
-		while(read(parent_pipe[0], res_row, matrix_length * sizeof(long)) <= 0) {}
-		
+		while(read(parent_pipe[0], res_row, (matrix_length+1) * sizeof(long)) <= 0) {}
+		row_id = res_row[matrix_length];
+
 		for(int y=0; y < matrix_length; y++) {
 			int shift_val = (y + row_id) % matrix_length;
-			result_matrix[x][y] = res_row[shift_val];
+			result_matrix[row_id][y] = res_row[shift_val];
 		}
 	}
 
@@ -156,16 +162,15 @@ int main() {
 
 	printf("\nResult --------------------\n");
 
-	for(int i =0; i < matrix_length; i++)
-		printf("%ld ", result_matrix[0][i]);
-	puts("");
-	for(int i =0; i < matrix_length; i++)
-		printf("%ld ", result_matrix[1][i]);
-	puts("");
-	for(int i =0; i < matrix_length; i++)
-		printf("%ld ", result_matrix[2][i]);
 
-	
+	for(int x=0; x < matrix_length; x++) {
+		for(int y=0; y < matrix_length; y++) {	
+			printf("%ld ", result_matrix[x][y]);
+		}	
+		puts("");
+	}
+
+	puts("----------------");
 
 	//print_matrix(result_matrix, matrix_length, matrix_length);
 

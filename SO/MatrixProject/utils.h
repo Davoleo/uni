@@ -22,9 +22,9 @@
  * \param y_limit the vertical length of the matrix
  */
 void print_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int x_limit, int y_limit) {
-	for(int y=0; y < y_limit; y++)
+	for(int x=0; x < x_limit; x++)
 	{
-		for(int x=0; x < x_limit; x++)
+		for(int y=0; y < y_limit; y++)
 		{
 			printf("%ld ", matrix[x][y]);
 		}
