@@ -48,17 +48,16 @@ void load_matrix(long out_matrix[MATRIX_SIZE][MATRIX_SIZE], int* length, const c
 
 	*length = 0;
 
-	//getline default delim is \n of course
+	//fgets default delim is \n of course
 	while(fgets(row_buff, MATRIX_SIZE * 3, matrix_file) != NULL) {
 		
-		int x = 0;
+		int y = 0;
 		char* token = strtok(row_buff, " ");
 		while (token != NULL) {
-			out_matrix[x][*length] = strtol(token, NULL, 10);
-			x++;
+			out_matrix[*length][y] = strtol(token, NULL, 10);
 			token = strtok(NULL, " ");
+			y++;
 		}
-
 		(*length)++;
 	}
 
