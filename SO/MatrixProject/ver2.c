@@ -56,17 +56,16 @@ int main() {
 	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
         
-	int matrix1_x = 0;
-	int matrix1_y = 0;
-	int matrix2_x = 0;
-	int matrix2_y = 0;
+	int matrix_length = 0;
 
-	load_matrix(matrix1, &matrix1_x, &matrix1_y, "matrice1.txt");
-	load_matrix(matrix2, &matrix2_x, &matrix2_y, "matrice2.txt");
+	load_matrix(matrix1, &matrix_length, "matrice1.txt");
+	load_matrix(matrix2, &matrix_length, "matrice2.txt");
 
-        printf("MATRIX x1 %d y1 %d x2 %d y2 %d", matrix1_x, matrix1_y, matrix2_x, matrix2_y);
+        printf("MATRIX length %d\n", matrix_length);
 
-	matrix_length = matrix1_x;
+        print_matrix(matrix1, matrix_length, matrix_length);
+        print_matrix(matrix2, matrix_length, matrix_length);
+        exit(0);
         
         int parent_pipe[2];
         pipe(parent_pipe);

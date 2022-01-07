@@ -7,13 +7,13 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <math.h>
+#include <string.h>
 
 //Benchmarking
 #include <time.h>
 
 //Maximum Matrix Size constant (can be modified) [used to initialize arrays at the beginning of programs execution]
-#define MATRIX_SIZE 200
+#define MATRIX_SIZE 32
 
 /**
  * \brief Prints a matrix to the standard output (debug purposes)
@@ -41,21 +41,29 @@ void print_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int x_limit, int y_limi
  * \param y used as a row counter inside of this function (equals the actual vertical matrix length at the end of the function)
  * \param filename the name of the file containing the matrix
  */
-void load_matrix(long out_matrix[MATRIX_SIZE][MATRIX_SIZE], int* x, int* y, const char* filename) {
+void load_matrix(long out_matrix[MATRIX_SIZE][MATRIX_SIZE], int* length, const char* filename) {
 	
-	FILE* matrix_fd = fopen(filename, "r");
-	*x = 0;
-	*y = 0;
+	FILE* matrix_file = fopen(filename, "r");
+	char row_buff[MATRIX_SIZE * 3];
 
-	while(fscanf(matrix_fd, "%ld", &out_matrix[*x][*y]) > 0) {
-		(*x)++;
+	*length = 0;
+
+	//getline default delim is \n of course
+	while(fgets(row_buff, MATRIX_SIZE * 3, matrix_file) != NULL) {
+		
+		int x = 0;
+		char* token = strtok(row_buff, " ");
+		while (token != NULL) {
+			out_matrix[x][*length] = strtol(token, NULL, 10);
+			x++;
+			token = strtok(NULL, " ");
+		}
+
+		(*length)++;
 	}
 
-	*y = sqrt(*x);
-	*x = *y;
-
-	//Close matrix file descriptor
-	fclose(matrix_fd);
+	//Close matrix file
+	fclose(matrix_file);
 }
 
 /**
