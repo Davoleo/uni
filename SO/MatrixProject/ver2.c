@@ -63,21 +63,23 @@ int main() {
 
 	printf("MATRIX length %d\n", matrix_length);
 
+	//Debug Prints
 	//print_matrix(matrix1, matrix_length, matrix_length);
 	//print_matrix(matrix2, matrix_length, matrix_length);
 	
+
+
 	int parent_pipe[2];
 	pipe(parent_pipe);
 
 	// Allocate and initialize pipes
-	////int pipe_arr_stack[matrix_length][2];
-	int** pipe_arr = malloc(matrix_length * sizeof(int *));
+	////int** pipe_arr = malloc(matrix_length * sizeof(int *));
+	int pipe_arr[matrix_length][2];
 	for(int i=0; i < matrix_length; i++)
 	{
-		pipe_arr[i] = malloc(sizeof(int) * 2);
 		pipe(pipe_arr[i]);
 	}
-	
+
 
 	// Process id array
 	int proc_id[matrix_length];
