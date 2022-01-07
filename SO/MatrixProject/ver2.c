@@ -46,6 +46,7 @@ void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length]) {
 		write(pipe[1], col_vals, matrix_length * sizeof(long));
 	}
 	
+	printf("Result %d -> %ld %ld %ld %ld\n", getpid(), res_row[0], res_row[1], res_row[2], res_row[3]);
 	write(parent_pipe[1], res_row, matrix_length * sizeof(long));
 
 }
@@ -55,8 +56,7 @@ int main() {
 	///Arrays Storing the two matrices
 	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
-	
-	int matrix_length = 0;
+
 
 	load_matrix(matrix1, &matrix_length, "matrice1.txt");
 	load_matrix(matrix2, &matrix_length, "matrice2.txt");
@@ -105,7 +105,7 @@ int main() {
 				initial_values[j] = matrix2[idx][j];
 			}
 
-			printf("initial: %ld %ld %ld %ld\n", initial_values[0], initial_values[1], initial_values[2], initial_values[3]);
+			//printf("initial: %ld %ld %ld %ld\n", initial_values[0], initial_values[1], initial_values[2], initial_values[3]);
 		       
 			if((i+1) == matrix_length)
 				dup2(pipe_arr[0][1], pipe_arr[i][1]);
