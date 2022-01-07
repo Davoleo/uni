@@ -63,14 +63,14 @@ int main() {
 
         printf("MATRIX length %d\n", matrix_length);
 
-        print_matrix(matrix1, matrix_length, matrix_length);
-        print_matrix(matrix2, matrix_length, matrix_length);
-        exit(0);
+        //print_matrix(matrix1, matrix_length, matrix_length);
+        //print_matrix(matrix2, matrix_length, matrix_length);
         
         int parent_pipe[2];
         pipe(parent_pipe);
 
         // Allocate and initialize pipes
+        ////int pipe_arr_stack[matrix_length][2];
         int** pipe_arr = malloc(matrix_length * sizeof(int *));
         for(int i=0; i < matrix_length; i++)
         {
@@ -95,12 +95,15 @@ int main() {
                         
                         long initial_values[matrix_length];
 
-                        for(int j=0; j < matrix_length; j++)
-                        {     
-                                //(matrix_length - i) + j % matrix_length;  
-                                int idx = (i + j) % matrix_length;
+                        for(int j=0; j < matrix_length; j++) {     
+                                //i goes from 3 to 0 -> we reverse it so that it goes from 0 to 3
+                                //we offset i by j
+                                //modulo matrix length to keep it in the range of matrix slots
+                                int idx = ((matrix_length - 1 - i) + j) % matrix_length; 
                                 initial_values[j] = matrix2[idx][j];
                         }
+
+                        printf("initial: %ld %ld %ld %ld\n", initial_values[0], initial_values[1], initial_values[2], initial_values[3]);
                        
                         if((i+1) == matrix_length)
                                 dup2(pipe_arr[0][1], pipe_arr[i][1]);
