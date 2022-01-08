@@ -22,11 +22,9 @@ void compute_cell(int cords[2]) {
 	for(int i=0; i < matrix_length; i++) {
 
 		pthread_mutex_lock(&result_matrix_lock);
-		if (x == 2)
-		 	printf("mult: %ld\n", matrix1[x][y] * matrix2[y][i]);
 		matrix_res[x][i] += matrix1[x][y] * matrix2[y][i];
-		if(x == 2)
-			printf("res: %ld\n", matrix_res[x][i]);
+		if(x == 0)
+			printf("y: %d, mult: %ld, res: %ld\n", y, matrix1[x][y] * matrix2[y][i], matrix_res[x][i]);
 		pthread_mutex_unlock(&result_matrix_lock);
 	}
 
@@ -35,7 +33,7 @@ void compute_cell(int cords[2]) {
 
 int main() {
 	
-	///Arrays Storing the two matrice
+	///Arrays Storing the two matrices
 
 	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
 	load_matrix(matrix2, &matrix_length, "matrice3-2.txt");
@@ -60,20 +58,25 @@ int main() {
 
 	int cords[2];
 
-
 	for(int x=0; x < matrix_length; x++) {
 		for(int y=0; y < matrix_length; y++) {
 			cords[0] = x;
 			cords[1] = y;
-			pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords);
+			int exit_code = pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords);
+
+			if (x == 0)
+				printf("x: %d, y: %d, threadID: %ld\n", x, y, thread_arr[x][y]);
+			if (exit_code != 0) {
+				char message[32];
+				sprintf(message, "Error Code: %d", exit_code);
+				error(message);
+			}
 		}
 	}
 
 	for(int x=0; x < matrix_length; x++) {
 		for(int y=0; y < matrix_length; y++) {
-			while(pthread_join(thread_arr[x][y], NULL) != 0) {
-
-			}
+			pthread_join(thread_arr[x][y], NULL);
 		}
 	}
 
