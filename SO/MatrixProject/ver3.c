@@ -8,7 +8,7 @@
 #include "utils.h"
 
 static int matrix_length = 0;
-static pthread_mutex_t result_matrix_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t result_matrix_lock;
 
 long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 long matrix2[MATRIX_SIZE][MATRIX_SIZE];
@@ -28,11 +28,16 @@ void compute_cell(int cords[2]) {
 		pthread_mutex_unlock(&result_matrix_lock);
 	}
 
+	pthread_exit(0);
+
 }
 
 
 int main() {
 	
+	//Initialize result matrix mutex
+	pthread_mutex_init(&result_matrix_lock, NULL);
+
 	///Arrays Storing the two matrices
 
 	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
@@ -76,9 +81,15 @@ int main() {
 
 	for(int x=0; x < matrix_length; x++) {
 		for(int y=0; y < matrix_length; y++) {
-			pthread_join(thread_arr[x][y], NULL);
+			if (pthread_join(thread_arr[x][y], NULL) != 0) 
+			{
+				error("Error while joining thread");
+			}
 		}
 	}
+
+	//Destroy mutex at the end
+	pthread_mutex_destroy(&result_matrix_lock);
 
 	printf("\nResult --------------------\n");
 	for(int x=0; x < matrix_length; x++) {
