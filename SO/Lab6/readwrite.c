@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <semaphore.h>
 
+/** 
+ * \brief Programma in cui 3 threads (1 scrittore 2 lettori) cooperano scrivendo e leggendo 10 numeri su memoria condivisa
+ * \author Leonardo Davoli
+ */
+
 pthread_mutex_t read_index_lock;
 
 sem_t queue;
