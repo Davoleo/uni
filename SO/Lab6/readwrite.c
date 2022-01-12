@@ -3,33 +3,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <semaphore.h>
-#include <stdbool.h>
 
-/* This is terrible yes, I know :sadmelon: */
+pthread_mutex_t read_index_lock;
 
-pthread_mutex_t write_lock;
-
-int array[10];
-bool writefinished = false;
-sem_t semaphore;
+sem_t queue;
+int readcount = 0;
+int array[10] = {};
 
 void twrite() {
+
     for(int i = 0; i < 10; i++) {        
-        int semvalue;
-        sem_getvalue(&semaphore, &semvalue);
 
-        pthread_mutex_lock(&write_lock);
-        array[semvalue] = i + 10;
-        pthread_mutex_unlock(&write_lock);
+        array[i] = i + 10;
 
-        puts("before sempost");
-        //+1 on the semaphore
-        sem_post(&semaphore);
+        puts("new value in the queue - POG");
+        //+1 on the semaphore as a new element can be read by reader threads
+        sem_post(&queue);
 
-        sleep(5);
+        sleep(2);
     }
-
-    writefinished = true;
     
     puts("Writer Thread Exiting...");
     pthread_exit(0);
@@ -37,12 +29,16 @@ void twrite() {
 
 void tread(unsigned int* interval) {
     unsigned int thread_num = (*interval / 2) - 2;
-    int semvalue;
-    sem_getvalue(&semaphore, &semvalue);
+    //int semvalue;
+    //sem_getvalue(&semaphore, &semvalue);
 
-    while (semvalue >= 0) {
-        sem_wait(&semaphore);
-        printf("T%d Number: %d\n", thread_num, array[semvalue]);
+    while (readcount < 10) {
+        //acquire one of the resources of the semaphore (OR WAIT IF THERE ARE NONE)
+        sem_wait(&queue);
+
+        pthread_mutex_lock(&read_index_lock);
+        printf("T%d Number: %d\n", thread_num, array[readcount++]);
+        pthread_mutex_unlock(&read_index_lock);
 
         sleep(*interval);
     }
@@ -58,8 +54,7 @@ int main() {
     unsigned int interval1 = 6;
     unsigned int interval2 = 8;
 
-    pthread_mutex_init(&write_lock, NULL);
-    sem_init(&semaphore, 0, 0);
+    pthread_mutex_init(&read_index_lock, NULL);
 
     if (pthread_create(&writer, NULL, (void*) twrite, NULL) != 0) {
         puts("Errore nella creazione del thread writer, exiting now...");
@@ -76,9 +71,6 @@ int main() {
     }
 
     pthread_join(writer, NULL);
-
-    //unlock any thread that might have been blocked
-    sem_post(&semaphore);
 
     pthread_join(reader1, NULL);
     pthread_join(reader2, NULL);
