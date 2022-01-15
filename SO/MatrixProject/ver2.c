@@ -7,47 +7,43 @@
 
 #include "utils.h"
 
+typedef struct _cell_result {
+	int x;
+	int y;
+	long value;
+} cell_struct;
+
 static int matrix_length = 0;
 
-/**
- * \param pipe The pipe through which column values are sent and received
- * \param row The row of the first matrix this process is working on
- * \param row_id Index of the process
- * //\param result_row The row of the resulting matrix
- */
-void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int row_id) {
+void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], int parent_pipe[2]) {
 
-	///Storage array for column values read from the pipe
-	long col_vals[matrix_length];
-	
-	///Result Row Array -> Will contain the result values of the row this process is working on
-	long res_row[matrix_length];
-	memset(res_row, 0, matrix_length * sizeof(long));
+	long cell_result = 0;
 
 	//For each row value we read 3 column values from the second matrix (sent via pipe) 
 	for(int i=0; i < matrix_length; i++) {
 
-		while(read(pipe[0], col_vals, matrix_length * sizeof(long)) <= 0) {
-			//Wait until 3 values have been read from the pipe
+		long hvalue;
+		long vvalue;
+
+		while(read(horizontal_pipe[0], hvalue, sizeof(long)) <= 0) {
+			//Wait until we read the input matrix value that scrolls horizontally 
+		}
+		while(read(vertical_pipe[0], vvalue, sizeof(long)) <= 0) {
+			//Wait until we read the input matrix value that scrolls vertically
 		}
 
-		// Multiply RowCell from Matrix 1 and ColumnCell from Matrix 2 -> increment results in res_row
-		for(int j = 0; j < matrix_length; j++)
-		{
-			int idx = ((matrix_length - i) + j) % matrix_length;
-			res_row[j] += row[idx] * col_vals[idx];
-		}
-		write(pipe[1], col_vals, matrix_length * sizeof(long));
+		//Multiplication and add to the value buffer
+		cell_result += (hvalue * vvalue);
+
+		//Pass values to the next process through the pipes
+		write(horizontal_pipe[1], hvalue, sizeof(long));
+		write(vertical_pipe[1], vvalue, sizeof(long));
 	}
-	
-	long arr_arr[matrix_length+1];
 
-	for(int i=0; i < matrix_length; i++)
-		arr_arr[i] = res_row[i];
-	
-	arr_arr[matrix_length] = row_id;
-
-	write(parent_pipe[1], arr_arr, (matrix_length+1) * sizeof(long));
+	//Once calculations are complete pass the result to the parent through the parent_pipe
+	//Coordinates of the cell the result belongs to are also passed
+	cell_struct result_obj = { x, y, cell_result };
+	write(parent_pipe[1], &result_obj, sizeof(cell_struct));
 }
 
 int main() {
@@ -57,8 +53,8 @@ int main() {
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
 
-	load_matrix(matrix1, &matrix_length, "matrice100-1.txt");
-	load_matrix(matrix2, &matrix_length, "matrice100-2.txt");
+	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
+	load_matrix(matrix2, &matrix_length, "matrice3-2.txt");
 
 	printf("MATRIX length %d\n", matrix_length);
 
@@ -66,88 +62,82 @@ int main() {
 	//print_matrix(matrix1, matrix_length, matrix_length);
 	//print_matrix(matrix2, matrix_length, matrix_length);
 	
-
-
 	int parent_pipe[2];
 	pipe(parent_pipe);
 
 	// Allocate and initialize pipes
-	int pipe_arr[matrix_length][2];
-	for(int i=0; i < matrix_length; i++)
-	{
-		pipe(pipe_arr[i]);
+	int hori_pipes[matrix_length][matrix_length][2];
+	int vert_pipes[matrix_length][matrix_length][2];
+	for(int i=0; i < matrix_length; i++) {
+		for (int j=0; j < matrix_length; j++) {
+			pipe(hori_pipes[i][j]);
+			pipe(vert_pipes[i][j]);
+		}
 	}
+
 
 	clock_t bench_begin = clock();
 
 	// Process id array
-	int proc_id[matrix_length];
+	int proc_ids[matrix_length][matrix_length];
 	
-	for(int i=matrix_length-1; i >= 0; i--) {
-		// ----- creating the 1st child process -----
-		proc_id[i] = fork();
-		if (proc_id[i] == -1) {
-			error("ERROR: while forking the first process");
-			return EXIT_FAILURE;
-		}
-		else if(proc_id[i] == 0) {	
-			
-			printf("Process %d started!\n",i, getpid());
-			
-			long initial_values[matrix_length];
+	
+	
+	for(int i=0; i < matrix_length; i++) {
+		for (int j=0; j < matrix_length; j++) {
+			proc_ids[i][j] = fork();
 
-			for(int j=0; j < matrix_length; j++) {     
-				//i goes from 3 to 0 -> we reverse it so that it goes from 0 to 3
-				//we offset i by j
-				//modulo matrix length to keep it in the range of matrix slots
-				int idx = ((matrix_length - 1 - i) + j) % matrix_length; 
-				initial_values[j] = matrix2[idx][j];
+			if (proc_ids[i][j] == -1) {
+				error("Errore durante la creazione del processo");
+				return EXIT_FAILURE;
 			}
-		       
-			if((i+1) == matrix_length)
-				dup2(pipe_arr[0][1], pipe_arr[i][1]);
-			else
-				dup2(pipe_arr[i+1][1], pipe_arr[i][1]);
-			
-			write(pipe_arr[i][1], initial_values, matrix_length * sizeof(long));
-			
-			for(int j=0; j < matrix_length; j++)
-				initial_values[j] = matrix1[j][i];
-			
-			compute_row(pipe_arr[i], parent_pipe, initial_values, i);
+			else if (proc_ids[i][j] == 0) {
+				//weird Hybrid index used for the columns of the first matrix and rows of the second matrix
+				int hyb = i + j % matrix_length;
+				long initial_rowvalue = matrix1[i][hyb];
+				long initial_colvalue = matrix2[hyb][j];
 
-			printf("Process %d ended!\n", i);
-			
-			close(pipe_arr[i][0]);
-			close(pipe_arr[i][1]);
+				//Link horizontal rotation pipes
+				int nexthpipe = j == 0 ? matrix_length : j - 1;
+				dup2(hori_pipes[i][nexthpipe][1], hori_pipes[i][j][1]);
+				//pass initial values into the pipe
+				write(hori_pipes[i][j][1], initial_rowvalue, sizeof(long));
 
-			return EXIT_SUCCESS;
+				//Link vertical rotation pipes
+				int nextvpipe = i == 0 ? matrix_length : i - 1;
+				dup2(vert_pipes[nextvpipe][j][1], vert_pipes[i][j][1]);
+				//pass initial values into the pipe
+				write(vert_pipes[i][j][1], initial_colvalue, sizeof(long));
+
+
+				compute_cell(i, j, hori_pipes[i], vert_pipes[i], parent_pipe);
+
+			}
+
+
 		}
 	}
 
-	for(int i=0; i < matrix_length; i++)
+	//---- Code here below still needs to be adapted to the new version ----//
+
+	//wait for every child process
+	for(int i=0; i < matrix_length * matrix_length; i++)
 		wait(NULL);
 
 	clock_t bench_end = clock();
 	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
 
 	long result_matrix[matrix_length][matrix_length];
-	long res_row[matrix_length+1];
-	long row_id;
+	cell_struct result;
 
-	for(int x=0; x < matrix_length; x++) {
-		while(read(parent_pipe[0], res_row, (matrix_length+1) * sizeof(long)) <= 0) {}
-		row_id = res_row[matrix_length];
-
-		for(int y=0; y < matrix_length; y++) {
-			int shift_val = (y + row_id) % matrix_length;
-			result_matrix[row_id][y] = res_row[shift_val];
+	//CLOSE EVERY FILE DESCRIPTOR
+	for (int i=0; i < matrix_length; i++) {
+		for (int j=0; i < matrix_length; j++) {
+			close(hori_pipes[i][j][0]);
+			close(hori_pipes[i][j][1]);
+			close(vert_pipes[i][j][0]);
+			close(vert_pipes[i][j][1]);
 		}
-	}
-
-	for(int i=0; i < matrix_length; i++) {
-		close(pipe_arr[i][0]);
-		close(pipe_arr[i][1]);
 	}
 
 
