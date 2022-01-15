@@ -7,96 +7,101 @@
 
 #include "utils.h"
 
-static int matrix_length = 0;
-static pthread_mutex_t result_matrix_lock;
+pthread_mutex_t* matrix_res_lock;
+pthread_mutex_t cords_lock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
+/* Matrix */
 long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 long matrix_res[MATRIX_SIZE][MATRIX_SIZE];
 
+int matrix_length;
+int** cords;
 
-void compute_cell(int cords[2]) {
-	int x = cords[0];
-	int y = cords[1];
+void compute_cell()
+{
+	pthread_mutex_lock(&cords_lock);
+	int x = *((*cords)++);
+	int y = *((*cords)++);
+	int idx = *((*cords)++);
+	pthread_mutex_unlock(&cords_lock);
 
-	for(int i=0; i < matrix_length; i++) {
+	//puts("sending signal");
+	//pthread_cond_signal(&cond);
 
-		pthread_mutex_lock(&result_matrix_lock);
-		matrix_res[x][i] += matrix1[x][y] * matrix2[y][i];
-		if(x == 0)
-			printf("y: %d, mult: %ld, res: %ld\n", y, matrix1[x][y] * matrix2[y][i], matrix_res[x][i]);
-		pthread_mutex_unlock(&result_matrix_lock);
+	long val1, val2, result;
+
+	val1 = matrix1[x][y];
+
+	for(int i=0; i < matrix_length; i++)
+	{
+		val2 = matrix2[y][i];
+		result = val1 * val2;
+
+		pthread_mutex_lock(&matrix_res_lock[idx]);
+		matrix_res[x][i] += result;
+		pthread_mutex_unlock(&matrix_res_lock[idx]);
 	}
-
-	pthread_exit(0);
-
 }
 
 
-int main() {
-	
-	//Initialize result matrix mutex
-	pthread_mutex_init(&result_matrix_lock, NULL);
+int main()
+{	
+	/* Load matrices */
+	load_matrix(matrix1, &matrix_length, "matrice100-1.txt");
+	load_matrix(matrix2, &matrix_length, "matrice100-2.txt");
 
-	///Arrays Storing the two matrices
+	matrix_res_lock = malloc(sizeof(pthread_mutex_t) * matrix_length * matrix_length);
 
-	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
-	load_matrix(matrix2, &matrix_length, "matrice3-2.txt");
+	/* Setup mutex */
+	for(int x=0; x < matrix_length; x++)
+		pthread_mutex_init(&matrix_res_lock[x], NULL);
 
-	for(int x=0; x < matrix_length; x++) {
-		memset(matrix_res[x], 0, matrix_length);
-	}
+	//printf("Matrix length: %d\n", matrix_length);
 
-	printf("MATRIX length %d\n", matrix_length);
+	/* Initalize result matrix with zeroes */
+	for(int i=0; i < matrix_length; i++)
+		memset(matrix_res[i], 0, matrix_length * sizeof(long));
 
-
-	puts("Matrix: ");
-	for(int x=0; x < matrix_length; x++) {
-		for(int y=0; y < matrix_length; y++) {	
-			printf("%ld ", matrix1[x][y]);
-		}	
-		puts("");
-	}
-
-
+	/* Allocate threads array */
 	pthread_t thread_arr[matrix_length][matrix_length];
 
-	int cords[2];
+	cords = malloc(sizeof(int*));
+	*cords = malloc(sizeof(int) * matrix_length * matrix_length * 3);
+	int mutex_idx = 0;
+	int* cords_ptr = *cords;
 
-	for(int x=0; x < matrix_length; x++) {
-		for(int y=0; y < matrix_length; y++) {
-			cords[0] = x;
-			cords[1] = y;
-			int exit_code = pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords);
+	for(int x=0; x < matrix_length; x++)
+	{
+		for(int y=0; y < matrix_length; y++)
+		{	
+			pthread_mutex_lock(&cords_lock);
+			*(cords_ptr++) = x;
+			*(cords_ptr++) = y;
+			*(cords_ptr++) = mutex_idx;
+			pthread_mutex_unlock(&cords_lock);
 
-			if (x == 0)
-				printf("x: %d, y: %d, threadID: %ld\n", x, y, thread_arr[x][y]);
-			if (exit_code != 0) {
-				char message[32];
-				sprintf(message, "Error Code: %d", exit_code);
-				error(message);
-			}
+			if(pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords) != 0)
+				return EXIT_FAILURE;
+			//printf("thread %d %d started\n", x, y);
+
+			//pthread_cond_wait(&cond, &cords_lock);
+			mutex_idx++;
 		}
 	}
 
-	for(int x=0; x < matrix_length; x++) {
-		for(int y=0; y < matrix_length; y++) {
-			if (pthread_join(thread_arr[x][y], NULL) != 0) 
-			{
-				error("Error while joining thread");
-			}
+	for(int x=0; x < matrix_length; x++)
+	{
+		for(int y=0; y < matrix_length; y++)
+		{
+			while(pthread_join(thread_arr[x][y], NULL) != 0) {}
 		}
 	}
 
-	//Destroy mutex at the end
-	pthread_mutex_destroy(&result_matrix_lock);
+	print_matrix(matrix_res, matrix_length, matrix_length);
 
-	printf("\nResult --------------------\n");
-	for(int x=0; x < matrix_length; x++) {
-		for(int y=0; y < matrix_length; y++) {	
-			printf("%ld ", matrix_res[x][y]);
-		}	
-		puts("");
-	}
+	free(matrix_res_lock);
 
+	return EXIT_SUCCESS;
 }
