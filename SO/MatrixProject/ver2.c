@@ -26,16 +26,18 @@ void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], in
 		long vvalue = 0;
 
 		while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
+			puts("Waiting in horizontal read");
 			//Wait until we read the input matrix value that scrolls horizontally 
 		}
 		while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
+			puts("Waiting in vertical read");
 			//Wait until we read the input matrix value that scrolls vertically
 		}
 
-		puts("Before compute_cell");
-
 		//Multiplication and add to the value buffer
 		cell_result += (hvalue * vvalue);
+		printf("Multiplying cell %d %d: %ld * %ld = %ld\n", x, y, hvalue, vvalue, cell_result);
+		//printf("iteration %d\n", i);
 
 		//Pass values to the next process through the pipes
 		int hwstatus = write(horizontal_pipe[1], &hvalue, sizeof(long));
@@ -92,47 +94,45 @@ int main() {
 	// Process id array
 	int proc_ids[matrix_length][matrix_length];
 	
-	
-	
 	for(int i=0; i < matrix_length; i++) {
 		for (int j=0; j < matrix_length; j++) {
 			proc_ids[i][j] = fork();
 
 			if (proc_ids[i][j] == -1) {
-				error("Errore durante la creazione del processo");
+				error("Errore while creating process.");
 				return EXIT_FAILURE;
 			}
-			else if (proc_ids[i][j] == 0) {
+			else if (proc_ids[i][j] == 0) { //in child processes
 				//weird Hybrid index used for the columns of the first matrix and rows of the second matrix
-				int hyb = i + j % matrix_length;
+				int hyb = (i + j) % matrix_length;
 				long initial_rowvalue = matrix1[i][hyb];
 				long initial_colvalue = matrix2[hyb][j];
 
+				//printf("initial indexes i = %d, j = %d, hyb = %d\n", i, j, hyb);
+
 				//Link horizontal rotation pipes
-				int nexthpipe = j == 0 ? matrix_length : j - 1;
-				dup2(hori_pipes[i][nexthpipe][1], hori_pipes[i][j][1]);
+				int nexthpipe = j == matrix_length ? 0 : j + 1;
+				dup2(hori_pipes[i][j][1], hori_pipes[i][nexthpipe][1]);
 				//pass initial values into the pipe
 				if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
 					error("Error while writing initial rowvalues as first values for the pipes");
 				}
 
 				//Link vertical rotation pipes
-				int nextvpipe = i == 0 ? matrix_length : i - 1;
-				dup2(vert_pipes[nextvpipe][j][1], vert_pipes[i][j][1]);
+				int nextvpipe = i == matrix_length ? 0 : i + 1;
+				dup2(vert_pipes[i][j][1], vert_pipes[nextvpipe][j][1]);
 				//pass initial values into the pipe
 				if (write(vert_pipes[i][j][1], &initial_colvalue, sizeof(long)) <= 0) {
 					error("Error while writing initial colvalues as first values for the pipes");
 				}
 
 				compute_cell(i, j, hori_pipes[i][j], vert_pipes[i][j], parent_pipe);
-
+				return EXIT_SUCCESS;
 			}
 
 
 		}
 	}
-
-	//---- Code here below still needs to be adapted to the new version ----//
 
 	//wait for every child process
 	for(int i=0; i < matrix_length * matrix_length; i++)
@@ -151,17 +151,15 @@ int main() {
 		result_matrix[result.x][result.y] = result.value;
 	}
 
-
 	//CLOSE EVERY FILE DESCRIPTOR
 	for (int i=0; i < matrix_length; i++) {
-		for (int j=0; i < matrix_length; j++) {
+		for (int j=0; j < matrix_length; j++) {
 			close(hori_pipes[i][j][0]);
 			close(hori_pipes[i][j][1]);
 			close(vert_pipes[i][j][0]);
 			close(vert_pipes[i][j][1]);
 		}
 	}
-
 
 	puts("Result: ");
 	for(int x=0; x < matrix_length; x++) {
