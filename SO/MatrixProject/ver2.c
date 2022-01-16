@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <string.h>
-#include <pthread.h>
 #include <sys/types.h>
 
 #include "utils.h"
@@ -26,11 +25,11 @@ void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], in
 		long vvalue = 0;
 
 		while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
-			puts("Waiting in horizontal read");
+			//puts("Waiting in horizontal read");
 			//Wait until we read the input matrix value that scrolls horizontally 
 		}
 		while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
-			puts("Waiting in vertical read");
+			//puts("Waiting in vertical read");
 			//Wait until we read the input matrix value that scrolls vertically
 		}
 
@@ -110,21 +109,22 @@ int main() {
 
 				//printf("initial indexes i = %d, j = %d, hyb = %d\n", i, j, hyb);
 
-				//Link horizontal rotation pipes
-				int nexthpipe = j == matrix_length ? 0 : j + 1;
-				dup2(hori_pipes[i][j][1], hori_pipes[i][nexthpipe][1]);
+
 				//pass initial values into the pipe
 				if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
 					error("Error while writing initial rowvalues as first values for the pipes");
 				}
+				//Link horizontal rotation pipes
+				int nexthcell = j == 0 ? matrix_length : j - 1;
+				dup2(hori_pipes[i][nexthcell][1], hori_pipes[i][j][1]);
 
-				//Link vertical rotation pipes
-				int nextvpipe = i == matrix_length ? 0 : i + 1;
-				dup2(vert_pipes[i][j][1], vert_pipes[nextvpipe][j][1]);
 				//pass initial values into the pipe
 				if (write(vert_pipes[i][j][1], &initial_colvalue, sizeof(long)) <= 0) {
 					error("Error while writing initial colvalues as first values for the pipes");
 				}
+				//Link vertical rotation pipes
+				int nextvcell = i == 0 ? matrix_length : i - 1;
+				dup2(vert_pipes[nextvcell][j][1], vert_pipes[i][j][1]);
 
 				compute_cell(i, j, hori_pipes[i][j], vert_pipes[i][j], parent_pipe);
 				return EXIT_SUCCESS;
