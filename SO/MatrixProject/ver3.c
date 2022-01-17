@@ -43,6 +43,8 @@ void compute_cell()
 		matrix_res[x][idx] += result;
 		pthread_mutex_unlock(&matrix_res_lock[x][idx]);
 	}
+
+	pthread_exit(NULL);
 }
 
 
@@ -77,6 +79,11 @@ int main()
 	cords_read_ptr = cords;
 	int* cords_write_ptr = cords;
 
+	int tj_x = 0; 
+	int tj_y = 0;
+	int tc_x = 0;
+	int tc_y = 0;
+
 	clock_t bench_begin = clock();
 
 	/* Start threads */
@@ -89,15 +96,31 @@ int main()
 			*(cords_write_ptr++) = y;
 			pthread_mutex_unlock(&cords_lock);
 
-			if(pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords) != 0)
-				return EXIT_FAILURE;
+			if(pthread_create(&thread_arr[tc_x][tc_y], NULL, (void*)compute_cell, (void*)cords) == 0)
+			{	
+				if(++tc_y == matrix_length)
+				{
+					tc_x++;
+					tc_y = 0;
+				}
+			}
+
+			if(pthread_join(thread_arr[tj_x][tj_y], NULL) == 0)
+			{
+				if(++tj_y == matrix_length)
+				{
+					tj_x++;
+					tj_y = 0;
+				}
+			}
+
 		}
 	}
 
 	/* Wait for evey thread to join */
-	for(int x=0; x < matrix_length; x++)
+	for(int x=tj_x; x < matrix_length; x++)
 	{
-		for(int y=0; y < matrix_length; y++)
+		for(int y=tj_y; y < matrix_length; y++)
 		{	
 			while(pthread_join(thread_arr[x][y], NULL) != 0) {}
 		}
