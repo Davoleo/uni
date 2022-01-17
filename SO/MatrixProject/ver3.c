@@ -9,7 +9,6 @@
 
 pthread_mutex_t** matrix_res_lock;
 pthread_mutex_t cords_lock = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 /* Matrix */
 long matrix1[MATRIX_SIZE][MATRIX_SIZE];
@@ -20,6 +19,7 @@ int matrix_length;
 int* cords;
 int* cords_read_ptr;
 
+
 void compute_cell()
 {
 	int x = *(cords_read_ptr++);
@@ -29,17 +29,19 @@ void compute_cell()
 	//pthread_cond_signal(&cond);
 
 	long val1, val2, result;
-
+	int idx;
 	val1 = matrix1[x][y];
 
 	for(int i=0; i < matrix_length; i++)
 	{
-		val2 = matrix2[y][i];
+		idx = (i+y) % matrix_length;
+
+		val2 = matrix2[y][idx];
 		result = val1 * val2;
 
-		pthread_mutex_lock(&matrix_res_lock[x][i]);
-		matrix_res[x][i] += result;
-		pthread_mutex_unlock(&matrix_res_lock[x][i]);
+		pthread_mutex_lock(&matrix_res_lock[x][idx]);
+		matrix_res[x][idx] += result;
+		pthread_mutex_unlock(&matrix_res_lock[x][idx]);
 	}
 }
 
@@ -97,7 +99,7 @@ int main()
 	{
 		for(int y=0; y < matrix_length; y++)
 		{	
-                	while(pthread_join(thread_arr[x][y], NULL) != 0) {}
+			while(pthread_join(thread_arr[x][y], NULL) != 0) {}
 		}
 	}
 
@@ -112,11 +114,11 @@ int main()
 	/* Destroy mutex */
 	for(int x=0; x < matrix_length; x++)
 	{
-		free(matrix_res_lock[x]);
 		for(int y=0; y < matrix_length; y++)
 		{
 			pthread_mutex_destroy(&matrix_res_lock[x][y]);
 		}
+		free(matrix_res_lock[x]);
 	}
 	free(matrix_res_lock);
 
