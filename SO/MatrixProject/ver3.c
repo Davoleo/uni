@@ -7,7 +7,7 @@
 
 #include "utils.h"
 
-pthread_mutex_t* matrix_res_lock;
+pthread_mutex_t** matrix_res_lock;
 pthread_mutex_t cords_lock = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
@@ -17,15 +17,13 @@ long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 long matrix_res[MATRIX_SIZE][MATRIX_SIZE];
 
 int matrix_length;
-int** cords;
+int* cords;
+int* cords_read_ptr;
 
 void compute_cell()
 {
-	pthread_mutex_lock(&cords_lock);
-	int x = *((*cords)++);
-	int y = *((*cords)++);
-	int idx = *((*cords)++);
-	pthread_mutex_unlock(&cords_lock);
+	int x = *(cords_read_ptr++);
+	int y = *(cords_read_ptr++);
 
 	//puts("sending signal");
 	//pthread_cond_signal(&cond);
@@ -39,9 +37,9 @@ void compute_cell()
 		val2 = matrix2[y][i];
 		result = val1 * val2;
 
-		pthread_mutex_lock(&matrix_res_lock[idx]);
+		pthread_mutex_lock(&matrix_res_lock[x][i]);
 		matrix_res[x][i] += result;
-		pthread_mutex_unlock(&matrix_res_lock[idx]);
+		pthread_mutex_unlock(&matrix_res_lock[x][i]);
 	}
 }
 
@@ -52,11 +50,16 @@ int main()
 	load_matrix(matrix1, &matrix_length, "matrice100-1.txt");
 	load_matrix(matrix2, &matrix_length, "matrice100-2.txt");
 
-	matrix_res_lock = malloc(sizeof(pthread_mutex_t) * matrix_length * matrix_length);
-
 	/* Setup mutex */
+	matrix_res_lock = malloc(sizeof(pthread_mutex_t) * matrix_length);
 	for(int x=0; x < matrix_length; x++)
-		pthread_mutex_init(&matrix_res_lock[x], NULL);
+	{
+		matrix_res_lock[x] = malloc(sizeof(pthread_mutex_t) * matrix_length);
+		for(int y=0; y < matrix_length; y++)
+		{
+			pthread_mutex_init(&matrix_res_lock[x][y], NULL);
+		}
+	}
 
 	//printf("Matrix length: %d\n", matrix_length);
 
@@ -67,41 +70,56 @@ int main()
 	/* Allocate threads array */
 	pthread_t thread_arr[matrix_length][matrix_length];
 
-	cords = malloc(sizeof(int*));
-	*cords = malloc(sizeof(int) * matrix_length * matrix_length * 3);
-	int mutex_idx = 0;
-	int* cords_ptr = *cords;
+	/* Allocate global cords */
+	cords = malloc(sizeof(int) * matrix_length * matrix_length * 2);
+	cords_read_ptr = cords;
+	int* cords_write_ptr = cords;
 
+	clock_t bench_begin = clock();
+
+	/* Start threads */
 	for(int x=0; x < matrix_length; x++)
 	{
 		for(int y=0; y < matrix_length; y++)
 		{	
 			pthread_mutex_lock(&cords_lock);
-			*(cords_ptr++) = x;
-			*(cords_ptr++) = y;
-			*(cords_ptr++) = mutex_idx;
+			*(cords_write_ptr++) = x;
+			*(cords_write_ptr++) = y;
 			pthread_mutex_unlock(&cords_lock);
 
 			if(pthread_create(&thread_arr[x][y], NULL, (void*)compute_cell, (void*)cords) != 0)
 				return EXIT_FAILURE;
-			//printf("thread %d %d started\n", x, y);
-
-			//pthread_cond_wait(&cond, &cords_lock);
-			mutex_idx++;
 		}
 	}
 
+	/* Wait for evey thread to join */
 	for(int x=0; x < matrix_length; x++)
 	{
 		for(int y=0; y < matrix_length; y++)
-		{
-			while(pthread_join(thread_arr[x][y], NULL) != 0) {}
+		{	
+                	while(pthread_join(thread_arr[x][y], NULL) != 0) {}
 		}
 	}
 
-	print_matrix(matrix_res, matrix_length, matrix_length);
+	clock_t bench_end = clock();
 
+	/* Print result matrix */
+	print_matrix(matrix_res, matrix_length, matrix_length);
+	
+	/* Print execution time */
+	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
+
+	/* Destroy mutex */
+	for(int x=0; x < matrix_length; x++)
+	{
+		free(matrix_res_lock[x]);
+		for(int y=0; y < matrix_length; y++)
+		{
+			pthread_mutex_destroy(&matrix_res_lock[x][y]);
+		}
+	}
 	free(matrix_res_lock);
+
 
 	return EXIT_SUCCESS;
 }
