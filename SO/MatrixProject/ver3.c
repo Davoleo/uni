@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <time.h>
 #include <string.h>
 #include <pthread.h>
 #include <sys/types.h>
@@ -87,8 +88,9 @@ int main()
 			pthread_mutex_init(&matrix_res_lock[x][y], NULL);
 	}
 
-	clock_t bench_begin = clock();
-
+	struct timespec start, end;
+	clock_gettime(CLOCK_REALTIME, &start);
+	
 	/* Start threads */
 	for(int x=0; x < matrix_length; x++)
 	{
@@ -107,13 +109,13 @@ int main()
 		while(pthread_join(thread_arr[x][0], NULL) != 0) {}
 	}
 
-	clock_t bench_end = clock();
+	clock_gettime(CLOCK_REALTIME, &end);
 
 	/* Print result matrix */
 	print_matrix(matrix_res, matrix_length, matrix_length);
 	
 	/* Print execution time */
-	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
+	printf("Execution time: %0.3f sec\n", (end.tv_sec - start.tv_sec) + 1e-9*(end.tv_nsec - start.tv_nsec));
 
 	/* Destroy mutex */
 	for(int x=0; x < matrix_length; x++)
