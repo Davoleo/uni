@@ -18,23 +18,12 @@ void multiply_matrices(
                         int x_limit,
                         int y_limit
                     ) {
-    
-    long res_val;
 
-    /* For con y lenta */
-    for(int y1=0; y1 < y_limit; y1++) {
-        /* For con y veloce */
-        for (int y=0; y < y_limit; y++) {
-            res_val = 0;
-            /* For con x veloce */
-            for (int x=0; x < x_limit; x++) {
-                //freesult Zambo 28/12/2021 11:13
-                res_val += (matrix1[x][y1] * matrix2[y][x]);
-            }
-
-            result_matrix[y][y1] = res_val;
-        }
-    }
+    for (int x=0; x < x_limit; x++)
+        for (int y=0; y < y_limit; y++)
+            for (int i=0; i < y_limit; i++)
+                result_matrix[x][i] += matrix1[x][y] * matrix2[y][i];
+                
 }
 
 
