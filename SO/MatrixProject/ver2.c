@@ -14,7 +14,7 @@ typedef struct _cell_result {
 
 static int matrix_length = 0;
 
-void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], int parent_pipe[2]) {
+void compute_cell(int x, int y, int initial_rowvalue, int initial_colvalue, int horizontal_pipe[2], int vertical_pipe[2], int parent_pipe[2]) {
 
 	long cell_result = 0;
 
@@ -24,22 +24,31 @@ void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], in
 		long hvalue = 0;
 		long vvalue = 0;
 
-		while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
-			puts("Waiting in horizontal read");
-			//Wait until we read the input matrix value that scrolls horizontally 
+		if (i == 0) {
+			hvalue = initial_rowvalue;
+			vvalue = initial_colvalue;
 		}
-		while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
-			puts("Waiting in vertical read");
-			//Wait until we read the input matrix value that scrolls vertically
+		else {
+			while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
+				//puts("Waiting in horizontal read");
+				//Wait until we read the input matrix value that scrolls horizontally 
+			}
+			while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
+				//puts("Waiting in vertical read");
+				//Wait until we read the input matrix value that scrolls vertically
+			}
 		}
 
 		//Multiplication and add to the value buffer
 		cell_result += (hvalue * vvalue);
-		printf("Multiplying cell %d %d: %ld * %ld = %ld\n", x, y, hvalue, vvalue, cell_result);
+		//if (i == 0)
+		printf("%d | Multiplying cell %d %d: %ld * %ld = %ld\n", i, x, y, hvalue, vvalue, cell_result);
 		//printf("iteration %d\n", i);
 
 		//Pass values to the next process through the pipes
+		//puts("before hori write");
 		int hwstatus = write(horizontal_pipe[1], &hvalue, sizeof(long));
+		//puts("before vert write");
 		int vwstatus = write(vertical_pipe[1], &vvalue, sizeof(long));
 		if (hwstatus <= 0 || vwstatus <= 0) 
 			error("Error while passing values to the next process in pipes");
@@ -73,7 +82,7 @@ int main() {
 	if (pipe(parent_pipe) == -1) 
 		error("Error while creating parent pipe");
 
-	// Allocate and initialize pipes
+	//allocate and initialize pipes
 	int hori_pipes[matrix_length][matrix_length][2];
 	int vert_pipes[matrix_length][matrix_length][2];
 	for(int i=0; i < matrix_length; i++) {
@@ -84,6 +93,16 @@ int main() {
 
 			if (pipecreate < 0) 
 				error("Error while creating pipe matrices");
+		}
+	}
+
+	for (int i=0; i < matrix_length; i++) {
+		for (int j=0; j < matrix_length; j++) {
+			//Link horizontal rotation pipes
+			int nextcell = j == 0 ? matrix_length - 1 : j - 1;
+			dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]);
+			//Link vertical rotation pipes
+			dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
 		}
 	}
 
@@ -102,6 +121,7 @@ int main() {
 				return EXIT_FAILURE;
 			}
 			else if (proc_ids[i][j] == 0) { //in child processes
+				
 				//weird Hybrid index used for the columns of the first matrix and rows of the second matrix
 				int hyb = (i + j) % matrix_length;
 				long initial_rowvalue = matrix1[i][hyb];
@@ -112,22 +132,15 @@ int main() {
 
 
 				//pass initial values into the pipe
-				if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
-					error("Error while writing initial rowvalues as first values for the pipes");
-				}
-				//Link horizontal rotation pipes
-				int nexthcell = j == 0 ? matrix_length - 1 : j - 1;
-				dup2(hori_pipes[i][nexthcell][1], hori_pipes[i][j][1]);
-
+				//if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
+				//	error("Error while writing initial rowvalues as first values for the pipes");
+				//}
 				//pass initial values into the pipe
-				if (write(vert_pipes[i][j][1], &initial_colvalue, sizeof(long)) <= 0) {
-					error("Error while writing initial colvalues as first values for the pipes");
-				}
-				//Link vertical rotation pipes
-				int nextvcell = i == 0 ? matrix_length - 1 : i - 1;
-				dup2(vert_pipes[nextvcell][j][1], vert_pipes[i][j][1]);
+				//if (write(vert_pipes[i][j][1], &initial_colvalue, sizeof(long)) <= 0) {
+				//	error("Error while writing initial colvalues as first values for the pipes");
+				//}
 
-				compute_cell(i, j, hori_pipes[i][j], vert_pipes[i][j], parent_pipe);
+				compute_cell(i, j, initial_rowvalue, initial_colvalue, hori_pipes[i][j], vert_pipes[i][j], parent_pipe);
 				return EXIT_SUCCESS;
 			}
 
@@ -140,6 +153,7 @@ int main() {
 		wait(NULL);
 
 	clock_t bench_end = clock();
+	puts("----- Matrix Multiplication ENDED -----");
 	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
 
 	long result_matrix[matrix_length][matrix_length];
