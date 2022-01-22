@@ -6,6 +6,7 @@ TFLAG = -lpthread
 # Files
 f_version1 = ver1.c
 f_version2 = ver2.c
+f_version2.5 = ver2.5.c
 f_version3 = ver3.c
 header = utils.h
 
@@ -18,6 +19,9 @@ version1: $(f_version1) $(header)
 
 version2: $(f_version2) $(header)
 	$(CC) $(CFLAGS) $^ -o $@
+
+version2.5: $(f_version2.5) $(header)
+	$(CC) -Wall $^ -o $@ $(TFLAG)
 
 #TFLAG should always be at the end
 version3: $(f_version3) $(header)

@@ -87,7 +87,6 @@ void compute_cell(int cords[2])
 }
 
 
-
 int main(int argc, char* argv[])
 {	
 	/* Check if files are provided */

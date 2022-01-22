@@ -4,158 +4,158 @@
 #include <string.h>
 #include <pthread.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include "utils.h"
 
-static int matrix_length = 0;
+pthread_mutex_t** matrix_res_lock;
 
-/**
- * \param pipe The pipe through which column values are sent and received
- * \param row The row of the first matrix this process is working on
- * \param row_id Index of the process
- * //\param result_row The row of the resulting matrix
- */
-void compute_row(int pipe[2], int parent_pipe[2], long row[matrix_length], int row_id) {
+/* Matrix */
+long matrix1[MATRIX_SIZE][MATRIX_SIZE];
+long matrix2[MATRIX_SIZE][MATRIX_SIZE];
+long matrix_res[MATRIX_SIZE][MATRIX_SIZE];
 
-	///Storage array for column values read from the pipe
-	long col_vals[matrix_length];
-	
-	///Result Row Array -> Will contain the result values of the row this process is working on
-	long res_row[matrix_length];
-	memset(res_row, 0, matrix_length * sizeof(long));
+pthread_t thread_arr[MATRIX_SIZE][MATRIX_SIZE];
 
-	//For each row value we read 3 column values from the second matrix (sent via pipe) 
-	for(int i=0; i < matrix_length; i++) {
+int matrix_length;
+int cords_arr[MATRIX_SIZE * MATRIX_SIZE][2];
+int matrix_length = 0;
 
-		while(read(pipe[0], col_vals, matrix_length * sizeof(long)) <= 0) {
-			//Wait until 3 values have been read from the pipe
-		}
 
-		// Multiply RowCell from Matrix 1 and ColumnCell from Matrix 2 -> increment results in res_row
-		for(int j = 0; j < matrix_length; j++)
-		{
-			int idx = ((matrix_length - i) + j) % matrix_length;
-			res_row[j] += row[idx] * col_vals[idx];
-		}
-		write(pipe[1], col_vals, matrix_length * sizeof(long));
-	}
-	
-	long arr_arr[matrix_length+1];
+void compute_cell(int cords[2])
+{
+        /* Set x and y from parameter array */
+        int x = cords[0];
+        int y = cords[1];
+        /* Index for already joined threads */
+        int thread_join_idx = 1;
+        /* Index used for array shifting */
+        int array_shift_idx;
+       
+        /* If the cell is the first of the row, create row_len-1 threads */
+        if(y == 0)
+        {
+                for(int i=1; i < matrix_length; i++)
+                {
+                        /* Use the global array for cods as a matrix shifting the x value by row_len */
+                        array_shift_idx = x * matrix_length;
+                        /* Set value of the global array for thread */
+                        cords_arr[array_shift_idx+i][0] = x;
+                        cords_arr[array_shift_idx+i][1] = i;
 
-	for(int i=0; i < matrix_length; i++)
-		arr_arr[i] = res_row[i];
-	
-	arr_arr[matrix_length] = row_id;
+                        /* Try to create a thread, if it fails decrement i */
+                        if(pthread_create(&thread_arr[x][i], NULL, (void *)compute_cell, (void *)cords_arr[array_shift_idx+i]) != 0)
+                        {
+                                puts("Thread creation failed");
+                                fflush(stdout);
+                                i--;
+                        }
+                        else 
+                        {
+                                printf("Thraed %d%d created!\n", x, i);
+                                fflush(stdout);
+                        }
 
-	write(parent_pipe[1], arr_arr, (matrix_length+1) * sizeof(long));
-}
+                        /* Try to join a thread to make space for a new one */
+                        if(pthread_join(thread_arr[x][thread_join_idx], NULL) == 0)
+                        {
+                                puts("Thread joined");
+                                thread_join_idx++;
+                        }
+                }
+        }
+        
+        long value1, value2, result;
+        /* Set value1 from the first matrix */
+        value1 = matrix1[x][y];
+
+        for(int i=0; i < matrix_length; i++)
+        {
+                /* Shift fhe second matrix row based on the column value */
+                array_shift_idx = (i+y) % matrix_length;
+                /* Set value2 from properly shifted matrix2 */
+                value2 = matrix2[y][array_shift_idx];
+                /* Calculate the result */
+                result = value1 * value2;
+
+                /* Get access to the result cell and add the result */
+                pthread_mutex_lock(&matrix_res_lock[x][array_shift_idx]);
+                matrix_res[x][array_shift_idx] += result;
+                pthread_mutex_unlock(&matrix_res_lock[x][array_shift_idx]);
+        }
+
+        /* If the cell is the first of the row, join row_len-1 threads */
+        if(y == 0)
+        {
+                for(int i=thread_join_idx; i < matrix_length; i++)
+                        while(pthread_join(thread_arr[x][i], NULL) != 0) {}
+        }
+
+        printf("Thraed %d stopped!\n", x);
+        fflush(stdout);
+
+        /* Exit from thread */
+        pthread_exit(NULL);
+} 
+
 
 int main() {
-	
-	///Arrays Storing the two matrices
-	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
-	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
+        /* Setup global mutex array */
+        matrix_res_lock = malloc(sizeof(pthread_mutex_t) * matrix_length);
+        for(int x=0; x < matrix_length; x++)
+        {
+                matrix_res_lock[x] = malloc(sizeof(pthread_mutex_t) * matrix_length);
 
-	load_matrix(matrix1, &matrix_length, "matrice100-1.txt");
-	load_matrix(matrix2, &matrix_length, "matrice100-2.txt");
+                for(int y=0; y < matrix_length; y++)
+                        pthread_mutex_init(&matrix_res_lock[x][y], NULL);
+        }
+
+	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
+	load_matrix(matrix2, &matrix_length, "matrice3-2.txt");
 
 	printf("MATRIX length %d\n", matrix_length);
 
-	//Debug Prints
-	//print_matrix(matrix1, matrix_length, matrix_length);
-	//print_matrix(matrix2, matrix_length, matrix_length);
-	
+        int pid;
 
+        for(int x=0; x < matrix_length; x++)
+        {
+                pid = fork();
+                if(pid == -1)
+                {
+                        puts("Process creation failed!");
+                        return EXIT_FAILURE;
+                }
+                if(pid == 0) /* Child process */
+                {
 
-	int parent_pipe[2];
-	pipe(parent_pipe);
+                        printf("Process %d Created!\n", x);
+                        fflush(stdout);
 
-	// Allocate and initialize pipes
-	int pipe_arr[matrix_length][2];
-	for(int i=0; i < matrix_length; i++)
-	{
-		pipe(pipe_arr[i]);
-	}
+                        cords_arr[x*matrix_length][0] = x;
+                        cords_arr[x*matrix_length][1] = 0;
 
-	clock_t bench_begin = clock();
+                        if(pthread_create(&thread_arr[x][0], NULL, (void *)compute_cell, (void *)cords_arr[x*matrix_length]) != 0)
+                        {
+                                puts("Thread creation failed!");
+                                fflush(stdout);
+                                return EXIT_FAILURE;
+                        }                   
+                        
+                        while((pval = pthread_join(thread_arr[x][0], NULL)) != 0) {}
+                        
+                        printf("Process and thread%d stopped!\n", x);
+                        fflush(stdout);
 
-	// Process id array
-	int proc_id[matrix_length];
-	
-	for(int i=matrix_length-1; i >= 0; i--) {
-		// ----- creating the 1st child process -----
-		proc_id[i] = fork();
-		if (proc_id[i] == -1) {
-			error("ERROR: while forking the first process");
-			return EXIT_FAILURE;
-		}
-		else if(proc_id[i] == 0) {	
-			
-			printf("Process %d started!\n",i, getpid());
-			
-			long initial_values[matrix_length];
+                        return EXIT_SUCCESS;
+                }
+        }
+        
+        for(int i=0; i < matrix_length; i++)
+                wait(NULL);
+       
+        /* Print result matrix */
+        print_matrix(matrix_res, matrix_length, matrix_length);
 
-			for(int j=0; j < matrix_length; j++) {     
-				//i goes from 3 to 0 -> we reverse it so that it goes from 0 to 3
-				//we offset i by j
-				//modulo matrix length to keep it in the range of matrix slots
-				int idx = ((matrix_length - 1 - i) + j) % matrix_length; 
-				initial_values[j] = matrix2[idx][j];
-			}
-		       
-			if((i+1) == matrix_length)
-				dup2(pipe_arr[0][1], pipe_arr[i][1]);
-			else
-				dup2(pipe_arr[i+1][1], pipe_arr[i][1]);
-			
-			write(pipe_arr[i][1], initial_values, matrix_length * sizeof(long));
-			
-			for(int j=0; j < matrix_length; j++)
-				initial_values[j] = matrix1[j][i];
-			
-			compute_row(pipe_arr[i], parent_pipe, initial_values, i);
-
-			printf("Process %d ended!\n", i);
-			
-			close(pipe_arr[i][0]);
-			close(pipe_arr[i][1]);
-
-			return EXIT_SUCCESS;
-		}
-	}
-
-	for(int i=0; i < matrix_length; i++)
-		wait(NULL);
-
-	clock_t bench_end = clock();
-	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
-
-	long result_matrix[matrix_length][matrix_length];
-	long res_row[matrix_length+1];
-	long row_id;
-
-	for(int x=0; x < matrix_length; x++) {
-		while(read(parent_pipe[0], res_row, (matrix_length+1) * sizeof(long)) <= 0) {}
-		row_id = res_row[matrix_length];
-
-		for(int y=0; y < matrix_length; y++) {
-			int shift_val = (y + row_id) % matrix_length;
-			result_matrix[row_id][y] = res_row[shift_val];
-		}
-	}
-
-	for(int i=0; i < matrix_length; i++) {
-		close(pipe_arr[i][0]);
-		close(pipe_arr[i][1]);
-	}
-
-
-	puts("Result: ");
-	for(int x=0; x < matrix_length; x++) {
-		for(int y=0; y < matrix_length; y++) {	
-			printf("%ld ", result_matrix[x][y]);
-		}	
-		puts("");
-	}
+        return EXIT_SUCCESS;
 }
