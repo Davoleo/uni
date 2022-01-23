@@ -10,3 +10,6 @@
 # Compiled executables and pdfs
 *.exe
 *.pdf
+
+# Matrix project compiled files
+SO/MatrixProject/version*

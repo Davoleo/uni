@@ -42,7 +42,7 @@ void compute_cell(int x, int y, int initial_rowvalue, int initial_colvalue, int 
 		//Multiplication and add to the value buffer
 		cell_result += (hvalue * vvalue);
 		//if (i == 2)
-		printf("%d | Multiplying cell %d %d: %ld * %ld = %ld | hpipe0: %d hpipe1: %d\n", i, x, y, hvalue, vvalue, cell_result, horizontal_pipe[0], horizontal_pipe[1]);
+		printf("%d | Multiplying cell %d %d: %ld * %ld = %ld | vpipe0: %d vpipe1: %d\n", i, x, y, hvalue, vvalue, cell_result, vertical_pipe[0], vertical_pipe[1]);
 		//printf("iteration %d\n", i);
 
 		//Pass values to the next process through the pipes
@@ -100,9 +100,12 @@ int main() {
 		for (int j=0; j < matrix_length; j++) {
 			//Link horizontal rotation pipes
 			int nextcell = j == 0 ? matrix_length - 1 : j - 1;
-			dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]);
+			if (dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]) == -1)  {
+				error("Error while linking pipes!");
+			}
 			//Link vertical rotation pipes
-			dup2(vert_pipes[nextcell][i][1], vert_pipes[j][i][1]);
+			printf("linking %d -> %d\n", vert_pipes[j][i][1], vert_pipes[nextcell][i][1]);
+			dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
 		}
 	}
 
@@ -129,16 +132,6 @@ int main() {
 
 				//printf("initial indexes i = %d, j = %d, hyb = %d\n", i, j, hyb);
 				//printf("initial values row = %ld, column = %ld\n",  initial_rowvalue, initial_colvalue);
-
-
-				//pass initial values into the pipe
-				//if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
-				//	error("Error while writing initial rowvalues as first values for the pipes");
-				//}
-				//pass initial values into the pipe
-				//if (write(vert_pipes[i][j][1], &initial_colvalue, sizeof(long)) <= 0) {
-				//	error("Error while writing initial colvalues as first values for the pipes");
-				//}
 
 				compute_cell(i, j, initial_rowvalue, initial_colvalue, hori_pipes[i][j], vert_pipes[j][i], parent_pipe);
 				return EXIT_SUCCESS;
