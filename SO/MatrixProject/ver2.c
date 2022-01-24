@@ -42,7 +42,6 @@ void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], in
 		//Pass values to the next process through the pipes
 		//puts("before hori write");
 		int hwstatus = write(horizontal_pipe[1], &hvalue, sizeof(long));
-		printf("before vert write on fd: %d\n", vertical_pipe[1]);
 		int vwstatus = write(vertical_pipe[1], &vvalue, sizeof(long));
 		if (hwstatus <= 0 || vwstatus <= 0) 
 			error("Error while passing values to the next process in pipes");
@@ -104,28 +103,35 @@ int main() {
 			if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
 				error("Error while writing initial rowvalues as first values for the pipes");
 			}
-
+			puts("b w");
 			//pass initial values into the pipe
 			if (write(vert_pipes[j][i][1], &initial_colvalue, sizeof(long)) <= 0) {
 				error("Error while writing initial colvalues as first values for the pipes");
 			}
+			puts("a w");
 		}
 	}
 
-	for (int i = 0; i < matrix_length; i++) {
-		for (int j = 0; j < matrix_length; j++) {
-			
-			//Link horizontal rotation pipes
-			int nextcell = j == 0 ? matrix_length - 1 : j - 1;
-			dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]);
+        for (int i=matrix_length-1; i >= 0; i--) {
+                int hpipe = dup(hori_pipes[i][matrix_length-1][1]);
+		int vpipe = dup(vert_pipes[i][matrix_length-1][1]);
 
-			//Pipe Linking debug print
-			printf("linking %d -> %d\n", vert_pipes[i][j][1], vert_pipes[i][nextcell][1]);
-			
-			//Link vertical rotation pipes
-			dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
-		}
-	}
+                for (int j=matrix_length-1; j > 0; j--) {
+                        //Link horizontal rotation pipes
+                        int nextcell = j == 0 ? matrix_length + 1 : j - 1;
+                        if (dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]) == -1)  {
+                                error("Error while linking pipes!");
+                        }
+                        //Link vertical rotation pipes
+                        printf("linking %d -> %d\n", vert_pipes[i][j][1], vert_pipes[i][nextcell][1]);
+                        dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
+                }
+
+                printf("linking %d -> %d\n", vert_pipes[i][0][1], vpipe);
+
+                dup2(hpipe, hori_pipes[i][0][1]);
+                dup2(vpipe, vert_pipes[i][0][1]);
+        }
 	
 
 	puts("----- Matrix Multiplication Begins NOW -----");
@@ -144,6 +150,8 @@ int main() {
 			}
 			else if (proc_ids[i][j] == 0) { //in child processes
 				compute_cell(i, j, hori_pipes[i][j], vert_pipes[j][i], parent_pipe);
+
+				puts("End of process");
 				return EXIT_SUCCESS;
 			}
 		}
