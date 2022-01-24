@@ -14,7 +14,7 @@ typedef struct _cell_result {
 
 static int matrix_length = 0;
 
-void compute_cell(int x, int y, int initial_rowvalue, int initial_colvalue, int horizontal_pipe[2], int vertical_pipe[2], int parent_pipe[2]) {
+void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], int parent_pipe[2]) {
 
 	long cell_result = 0;
 
@@ -24,19 +24,13 @@ void compute_cell(int x, int y, int initial_rowvalue, int initial_colvalue, int 
 		long hvalue = 0;
 		long vvalue = 0;
 
-		if (i == 0) {
-			hvalue = initial_rowvalue;
-			vvalue = initial_colvalue;
+		while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
+			//puts("Waiting in horizontal read");
+			//Wait until we read the input matrix value that scrolls horizontally 
 		}
-		else {
-			while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
-				//puts("Waiting in horizontal read");
-				//Wait until we read the input matrix value that scrolls horizontally 
-			}
-			while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
-				//puts("Waiting in vertical read");
-				//Wait until we read the input matrix value that scrolls vertically
-			}
+		while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
+			//puts("Waiting in vertical read");
+			//Wait until we read the input matrix value that scrolls vertically
 		}
 
 		//Multiplication and add to the value buffer
@@ -48,7 +42,7 @@ void compute_cell(int x, int y, int initial_rowvalue, int initial_colvalue, int 
 		//Pass values to the next process through the pipes
 		//puts("before hori write");
 		int hwstatus = write(horizontal_pipe[1], &hvalue, sizeof(long));
-		//puts("before vert write");
+		printf("before vert write on fd: %d\n", vertical_pipe[1]);
 		int vwstatus = write(vertical_pipe[1], &vvalue, sizeof(long));
 		if (hwstatus <= 0 || vwstatus <= 0) 
 			error("Error while passing values to the next process in pipes");
@@ -98,16 +92,41 @@ int main() {
 
 	for (int i=0; i < matrix_length; i++) {
 		for (int j=0; j < matrix_length; j++) {
+			//weird Hybrid index used for the columns of the first matrix and rows of the second matrix
+			int hyb = (i + j) % matrix_length;
+			long initial_rowvalue = matrix1[i][hyb];
+			long initial_colvalue = matrix2[hyb][j];
+
+			//printf("initial indexes i = %d, j = %d, hyb = %d\n", i, j, hyb);
+			//printf("initial values row = %ld, column = %ld\n",  initial_rowvalue, initial_colvalue);
+
+			//pass initial values into the pipe
+			if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
+				error("Error while writing initial rowvalues as first values for the pipes");
+			}
+
+			//pass initial values into the pipe
+			if (write(vert_pipes[j][i][1], &initial_colvalue, sizeof(long)) <= 0) {
+				error("Error while writing initial colvalues as first values for the pipes");
+			}
+		}
+	}
+
+	for (int i = 0; i < matrix_length; i++) {
+		for (int j = 0; j < matrix_length; j++) {
+			
 			//Link horizontal rotation pipes
 			int nextcell = j == 0 ? matrix_length - 1 : j - 1;
-			if (dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]) == -1)  {
-				error("Error while linking pipes!");
-			}
+			dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]);
+
+			//Pipe Linking debug print
+			printf("linking %d -> %d\n", vert_pipes[i][j][1], vert_pipes[i][nextcell][1]);
+			
 			//Link vertical rotation pipes
-			printf("linking %d -> %d\n", vert_pipes[j][i][1], vert_pipes[nextcell][i][1]);
 			dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
 		}
 	}
+	
 
 	puts("----- Matrix Multiplication Begins NOW -----");
 	clock_t bench_begin = clock();
@@ -124,20 +143,9 @@ int main() {
 				return EXIT_FAILURE;
 			}
 			else if (proc_ids[i][j] == 0) { //in child processes
-				
-				//weird Hybrid index used for the columns of the first matrix and rows of the second matrix
-				int hyb = (i + j) % matrix_length;
-				long initial_rowvalue = matrix1[i][hyb];
-				long initial_colvalue = matrix2[hyb][j];
-
-				//printf("initial indexes i = %d, j = %d, hyb = %d\n", i, j, hyb);
-				//printf("initial values row = %ld, column = %ld\n",  initial_rowvalue, initial_colvalue);
-
-				compute_cell(i, j, initial_rowvalue, initial_colvalue, hori_pipes[i][j], vert_pipes[j][i], parent_pipe);
+				compute_cell(i, j, hori_pipes[i][j], vert_pipes[j][i], parent_pipe);
 				return EXIT_SUCCESS;
 			}
-
-
 		}
 	}
 
