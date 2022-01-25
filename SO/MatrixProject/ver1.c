@@ -13,9 +13,9 @@ int matrix_length = 0;
  * \brief matrix multiplication without any parallel computation
  */
 void multiply_matrices(
-                        long result_matrix[matrix_length][matrix_length], 
-                        long matrix1[matrix_length][matrix_length],
-                        long matrix2[matrix_length][matrix_length]
+                        long result_matrix[MATRIX_SIZE][MATRIX_SIZE],
+                        long matrix1[MATRIX_SIZE][MATRIX_SIZE],
+                        long matrix2[MATRIX_SIZE][MATRIX_SIZE]
                     ) {
 
 	print_matrix(matrix2, matrix_length);
@@ -43,10 +43,10 @@ int main() {
 
 	printf("MATRIX length %d\n", matrix_length);
 
-    long result[matrix_length][matrix_length];
-	for(int i = 0; i < matrix_length; i++) {
-		memset(result[i], 0, matrix_length * sizeof(long));
-	}
+    long result[MATRIX_SIZE][MATRIX_SIZE];
+	//for(int i = 0; i < matrix_length; i++) {
+	//	memset(result[i], 0, matrix_length * sizeof(long));
+	//}
 
     BENCHMARK_OLD(multiply_matrices(result, matrix1, matrix2))
 

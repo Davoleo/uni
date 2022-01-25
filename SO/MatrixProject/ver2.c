@@ -163,7 +163,7 @@ int main() {
 	
 	BENCHMARK_END(puts("----- Matrix Multiplication ENDED -----"))
 
-	long result_matrix[matrix_length][matrix_length];
+	long result_matrix[MATRIX_SIZE][MATRIX_SIZE];
 
 	for (int i=0; i < matrix_length * matrix_length; i++) {
 		cell_struct result;
