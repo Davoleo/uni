@@ -15,7 +15,7 @@ long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 long matrix_res[MATRIX_SIZE][MATRIX_SIZE];
 
-pthread_t thread_arr[MATRIX_SIZE][MATRIX_SIZE];
+pthread_t thread_arr[MATRIX_SIZE];
 
 int matrix_length;
 int cords_arr[MATRIX_SIZE * MATRIX_SIZE][2];
@@ -27,24 +27,18 @@ void compute_cell(int cords[2])
         /* Set x and y from parameter array */
         int x = cords[0];
         int y = cords[1];
-        /* Index for already joined threads */
-        int thread_join_idx = 1;
         /* Index used for array shifting */
         int array_shift_idx;
-       
-        /* If the cell is the first of the row, create row_len-1 threads */
+        /*
         if(y == 0)
         {
                 for(int i=1; i < matrix_length; i++)
                 {
-                        /* Use the global array for cods as a matrix shifting the x value by row_len */
                         array_shift_idx = x * matrix_length;
-                        /* Set value of the global array for thread */
                         cords_arr[array_shift_idx+i][0] = x;
                         cords_arr[array_shift_idx+i][1] = i;
-
-                        /* Try to create a thread, if it fails decrement i */
-                        if(pthread_create(&thread_arr[x][i], NULL, (void *)compute_cell, (void *)cords_arr[array_shift_idx+i]) != 0)
+                        
+                        if(pthread_create(&thread_arr[i], NULL, (void *)compute_cell, (void *)cords_arr[array_shift_idx+i]) != 0)
                         {
                                 puts("Thread creation failed");
                                 fflush(stdout);
@@ -55,16 +49,10 @@ void compute_cell(int cords[2])
                                 printf("Thraed %d%d created!\n", x, i);
                                 fflush(stdout);
                         }
-
-                        /* Try to join a thread to make space for a new one */
-                        if(pthread_join(thread_arr[x][thread_join_idx], NULL) == 0)
-                        {
-                                puts("Thread joined");
-                                thread_join_idx++;
-                        }
                 }
+                puts("END");
         }
-        
+        */
         long value1, value2, result;
         /* Set value1 from the first matrix */
         value1 = matrix1[x][y];
@@ -84,13 +72,14 @@ void compute_cell(int cords[2])
                 pthread_mutex_unlock(&matrix_res_lock[x][array_shift_idx]);
         }
 
-        /* If the cell is the first of the row, join row_len-1 threads */
+        /*
         if(y == 0)
         {
-                for(int i=thread_join_idx; i < matrix_length; i++)
-                        while(pthread_join(thread_arr[x][i], NULL) != 0) {}
+                for(int i=1; i < matrix_length; i++)
+                        while(pthread_join(thread_arr[i], NULL) != 0) {}
         }
-
+        */
+        
         printf("Thraed %d stopped!\n", x);
         fflush(stdout);
 
@@ -135,14 +124,14 @@ int main() {
                         cords_arr[x*matrix_length][0] = x;
                         cords_arr[x*matrix_length][1] = 0;
 
-                        if(pthread_create(&thread_arr[x][0], NULL, (void *)compute_cell, (void *)cords_arr[x*matrix_length]) != 0)
+                        if(pthread_create(&thread_arr[0], NULL, (void *)compute_cell, (void *)cords_arr[x*matrix_length]) != 0)
                         {
                                 puts("Thread creation failed!");
                                 fflush(stdout);
                                 return EXIT_FAILURE;
                         }                   
                         
-                        while((pval = pthread_join(thread_arr[x][0], NULL)) != 0) {}
+                        while(pthread_join(thread_arr[0], NULL) != 0) {}
                         
                         printf("Process and thread%d stopped!\n", x);
                         fflush(stdout);
