@@ -12,24 +12,30 @@
 //Benchmarking
 #include <time.h>
 
-//Maximum Matrix Size constant (can be modified) [used to initialize arrays at the beginning of programs execution]
+/**
+ * \brief Maximum Matrix Size constant (can be modified) [used to initialize arrays at the beginning of programs execution]
+ **/ 
 #define MATRIX_SIZE 500
+
+/**
+ * \brief If this is defined result matrices will be printed to the console output after the program is run
+ **/ 
+#define PRINT_MATRICES
 
 /**
  * \brief Prints a matrix to the standard output (debug purposes)
  * \param matrix the matrix to print
- * \param x_limit the horizontal length of the matrix
- * \param y_limit the vertical length of the matrix
+ * \param matrix_length the horizontal length of the matrix
  */
-void print_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int x_limit, int y_limit) {
-	for(int x=0; x < x_limit; x++)
-	{
-		for(int y=0; y < y_limit; y++)
-		{
+void print_matrix(long matrix[MATRIX_SIZE][MATRIX_SIZE], int matrix_length) {
+	#ifdef PRINT_MATRICES
+	for(int x=0; x < matrix_length; x++) {
+		for(int y=0; y < matrix_length; y++) {
 			printf("%ld ", matrix[x][y]);
 		}
 		printf("\n");
 	}
+	#endif
 }
 
 /**
@@ -76,9 +82,31 @@ void error(const char* message) {
 /**
  * \brief Macro with the code to benchmark as parameter
  **/
-#define BENCHMARK(code) clock_t bench_begin = clock(); \
+#define BENCHMARK_OLD(code) clock_t bench_begin = clock(); \
 code; \
 clock_t bench_end = clock(); \
 printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
+
+/**
+ * \brief Sets up structures and begin benchmark timepoint
+ * \note should always be used before \ref BENCHMARK_END
+ **/
+#define BENCHMARK_BEGIN() \
+	/* Create structs for time benchmark */\
+	struct timespec start, end;\
+	/* Get wall time before */\
+	clock_gettime(CLOCK_REALTIME, &start);
+
+/**
+ * \brief registers benchmark finished timepoint and prints the execution time between the two timepoints
+ * \note it also runs result printer as code to print the actual result of calculations (e.g. result matrix) before the execution time
+ **/
+#define BENCHMARK_END(result_printer)  \
+	/* Get wall time after execution */ \
+	clock_gettime(CLOCK_REALTIME, &end); \
+	/* Print result matrix */ \
+	result_printer; \
+	/* Print execution time */ \
+	printf("Execution time: %0.3f sec\n", (end.tv_sec - start.tv_sec) + 1e-9*(end.tv_nsec - start.tv_nsec));
 
 #endif
