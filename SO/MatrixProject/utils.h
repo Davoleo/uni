@@ -126,3 +126,46 @@ printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) *
 	printf("Execution time: %0.3f sec\n", (end.tv_sec - start.tv_sec) + 1e-9*(end.tv_nsec - start.tv_nsec));
 
 #endif
+
+
+int parse_flags(int argc, char* argv[])
+{
+	if(argc == 1)
+	{
+		puts("No flags provided!\nUse -h for help");
+		return -1;
+	}
+	else if(strcmp(argv[1], "-h") == 0)
+	{
+		puts(
+			"-h		List commands\n"
+			"-r n		Generate two random matrices n x n\n"
+			"-f f1 f2	Use two files as input"
+		);
+
+		return 0;
+	}
+	else if(strcmp(argv[1], "-r") == 0)
+	{	
+		if(argc < 3)
+		{
+			puts("No size provided!");
+			return -1;
+		}
+
+		return 1;
+	}
+	else if(strcmp(argv[1], "-f") == 0)
+	{
+		if(argc < 4)
+		{
+			puts("No files provided!");
+			return -1;
+		}	
+		
+		return 2;
+	}
+
+	puts("Invalid flags!");
+	return -1;
+}
