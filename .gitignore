@@ -12,4 +12,5 @@
 *.pdf
 
 # Matrix project compiled files
-SO/MatrixProject/version*
+SO/MatrixProject/out
+SO/MatrixProject/docs

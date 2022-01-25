@@ -25,19 +25,17 @@ void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], in
 		long vvalue = 0;
 
 		while(read(horizontal_pipe[0], &hvalue, sizeof(long)) <= 0) {
-			//puts("Waiting in horizontal read");
 			//Wait until we read the input matrix value that scrolls horizontally 
 		}
 		while(read(vertical_pipe[0], &vvalue, sizeof(long)) <= 0) {
-			//puts("Waiting in vertical read");
 			//Wait until we read the input matrix value that scrolls vertically
 		}
 
 		//Multiplication and add to the value buffer
 		cell_result += (hvalue * vvalue);
+		
 		//if (i == 2)
-		printf("%d | Multiplying cell %d %d: %ld * %ld = %ld | vpipe0: %d vpipe1: %d\n", i, x, y, hvalue, vvalue, cell_result, vertical_pipe[0], vertical_pipe[1]);
-		//printf("iteration %d\n", i);
+		//printf("%d | Multiplying cell %d %d: %ld * %ld = %ld | vpipe0: %d vpipe1: %d\n", i, x, y, hvalue, vvalue, cell_result, vertical_pipe[0], vertical_pipe[1]);
 
 		//Pass values to the next process through the pipes
 		//puts("before hori write");
@@ -65,17 +63,17 @@ int main(int argc, char* argv[]) {
 
 	if(fun == 0)
 		return EXIT_SUCCESS;
-	else if(fun == 1)
-	{	
+	else if(fun == 1) {	
 		matrix_length = atoi(argv[2]);
 		generate_matrix(matrix1, matrix_length);
 		generate_matrix(matrix2, matrix_length);
 	}
-	else if(fun == 2)
-	{
-		//Mastrix (CIT. Zambo 28/12/2021 10:57)
-		load_matrix(matrix1, &matrix_length, argv[2]);
-		load_matrix(matrix2, &matrix_length, argv[3]);
+	else if(fun == 2) {
+		int status = 0;
+		status += load_matrix(matrix1, &matrix_length, argv[2]);
+		status += load_matrix(matrix2, &matrix_length, argv[3]);
+		if (status < 0)
+			error("Error while loading matrices from files!");
 	}
 	else
 		return EXIT_FAILURE;
@@ -118,35 +116,36 @@ int main(int argc, char* argv[]) {
 			if (write(hori_pipes[i][j][1], &initial_rowvalue, sizeof(long)) <= 0) {
 				error("Error while writing initial rowvalues as first values for the pipes");
 			}
-			puts("b w");
+
 			//pass initial values into the pipe
 			if (write(vert_pipes[j][i][1], &initial_colvalue, sizeof(long)) <= 0) {
 				error("Error while writing initial colvalues as first values for the pipes");
 			}
-			puts("a w");
 		}
 	}
 
-        for (int i=matrix_length-1; i >= 0; i--) {
-                int hpipe = dup(hori_pipes[i][matrix_length-1][1]);
-		int vpipe = dup(vert_pipes[i][matrix_length-1][1]);
+	for (int i=matrix_length-1; i >= 0; i--) {
+		//save the file descriptor of the last pipe of the loop (to link it to the first without worrying about this one being overwritten)
+		int lasthpipe = dup(hori_pipes[i][matrix_length-1][1]);
+		int lastvpipe = dup(vert_pipes[i][matrix_length-1][1]);
 
-                for (int j=matrix_length-1; j > 0; j--) {
-                        //Link horizontal rotation pipes
-                        int nextcell = j == 0 ? matrix_length + 1 : j - 1;
-                        if (dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]) == -1)  {
-                                error("Error while linking pipes!");
-                        }
-                        //Link vertical rotation pipes
-                        printf("linking %d -> %d\n", vert_pipes[i][j][1], vert_pipes[i][nextcell][1]);
-                        dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
-                }
+		for (int j=matrix_length-1; j > 0; j--) {
+				//Link horizontal rotation pipes
+				int nextcell = j == 0 ? matrix_length + 1 : j - 1;
+				if (dup2(hori_pipes[i][nextcell][1], hori_pipes[i][j][1]) == -1)  {
+					error("Error while linking pipes!");
+				}
+				//Link vertical rotation pipes
+				//printf("linking %d -> %d\n", vert_pipes[i][j][1], vert_pipes[i][nextcell][1]);
+				dup2(vert_pipes[i][nextcell][1], vert_pipes[i][j][1]);
+		}
 
-                printf("linking %d -> %d\n", vert_pipes[i][0][1], vpipe);
+		//printf("linking %d -> %d\n", vert_pipes[i][0][1], lastvpipe);
 
-                dup2(hpipe, hori_pipes[i][0][1]);
-                dup2(vpipe, vert_pipes[i][0][1]);
-        }
+		//Link the last pipes to the first ones
+		dup2(lasthpipe, hori_pipes[i][0][1]);
+		dup2(lastvpipe, vert_pipes[i][0][1]);
+	}
 	
 
 	puts("----- Matrix Multiplication Begins NOW -----");
@@ -157,6 +156,7 @@ int main(int argc, char* argv[]) {
 	
 	for(int i=0; i < matrix_length; i++) {
 		for (int j=0; j < matrix_length; j++) {
+			//Create cell processes
 			proc_ids[i][j] = fork();
 
 			if (proc_ids[i][j] == -1) {
@@ -166,7 +166,7 @@ int main(int argc, char* argv[]) {
 			else if (proc_ids[i][j] == 0) { //in child processes
 				compute_cell(i, j, hori_pipes[i][j], vert_pipes[j][i], parent_pipe);
 
-				puts("End of process");
+				//printf("End of Cell process: %d %d\n", i, j);
 				return EXIT_SUCCESS;
 			}
 		}
@@ -177,28 +177,30 @@ int main(int argc, char* argv[]) {
 		wait(NULL);
 
 	
-	BENCHMARK_END(puts("----- Matrix Multiplication ENDED -----"))
+	BENCHMARK_END(
+		puts("----- Matrix Multiplication ENDED -----");
+		long result_matrix[MATRIX_SIZE][MATRIX_SIZE];
 
-	long result_matrix[MATRIX_SIZE][MATRIX_SIZE];
-
-	for (int i=0; i < matrix_length * matrix_length; i++) {
-		cell_struct result;
-		while (read(parent_pipe[0], &result, sizeof(cell_struct)) <= 0) {
-			//Keep trying to read result until we actually read more than 0 bytes
+		//Read results from the parent pipe and assign the results to the respective cells of the result matrix
+		for (int i=0; i < matrix_length * matrix_length; i++) {
+			cell_struct result;
+			while (read(parent_pipe[0], &result, sizeof(cell_struct)) <= 0) {
+				//Keep trying to read result until we actually read more than 0 bytes
+			}
+			result_matrix[result.x][result.y] = result.value;
 		}
-		result_matrix[result.x][result.y] = result.value;
-	}
 
-	//CLOSE EVERY FILE DESCRIPTOR
-	for (int i=0; i < matrix_length; i++) {
-		for (int j=0; j < matrix_length; j++) {
-			close(hori_pipes[i][j][0]);
-			close(hori_pipes[i][j][1]);
-			close(vert_pipes[i][j][0]);
-			close(vert_pipes[i][j][1]);
+		//CLOSE EVERY FILE DESCRIPTOR
+		for (int i=0; i < matrix_length; i++) {
+			for (int j=0; j < matrix_length; j++) {
+				close(hori_pipes[i][j][0]);
+				close(hori_pipes[i][j][1]);
+				close(vert_pipes[i][j][0]);
+				close(vert_pipes[i][j][1]);
+			}
 		}
-	}
 
-	puts("Result: ");
-	print_matrix(result_matrix, matrix_length);
+		puts("Result: ");
+		print_matrix(result_matrix, matrix_length);
+	)
 }

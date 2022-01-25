@@ -21,10 +21,10 @@ int matrix_length;
 int cords_arr[MATRIX_SIZE * MATRIX_SIZE][2];
 
 
-/* 
-This function compure cell's and create needed threads for cell computation
-Input: an array with two number, x and y of the cell to be computed
-*/
+/** 
+ * Creates threads from children threads and makes the actual computation between input values
+ * \param cords an array with two numbers, x and y of the cell to be computed
+ **/
 void compute_cell(int cords[2])
 {	
 	/* Set x and y from parameter array */
@@ -41,13 +41,13 @@ void compute_cell(int cords[2])
 		for(int i=1; i < matrix_length; i++)
 		{	
 			/* Use the global array for cods as a matrix shifting the x value by row_len */
-                        array_shift_idx = x * matrix_length;
+			array_shift_idx = x * matrix_length;
 			/* Set value of the global array for thread */
-                        cords_arr[array_shift_idx+i][0] = x;
-                        cords_arr[array_shift_idx+i][1] = i;
+			cords_arr[array_shift_idx+i][0] = x;
+			cords_arr[array_shift_idx+i][1] = i;
 
 			/* Try to create a thread, if it fails decrement i */
-                        if(pthread_create(&thread_arr[x][i], NULL, (void *)compute_cell, (void *)cords_arr[array_shift_idx+i]) != 0)
+			if(pthread_create(&thread_arr[x][i], NULL, (void *)compute_cell, (void *)cords_arr[array_shift_idx+i]) != 0)
 				i--;
 			
 			/* Try to join a thread to make space for a new one */
@@ -76,14 +76,14 @@ void compute_cell(int cords[2])
 	}
 	
 	/* If the cell is the first of the row, join row_len-1 threads */
-        if(y == 0)
-        {
-                for(int i=thread_join_idx; i < matrix_length; i++)
-                        while(pthread_join(thread_arr[x][i], NULL) != 0) {}
-        }
-        
+	if(y == 0)
+	{
+		for(int i=thread_join_idx; i < matrix_length; i++)
+			while(pthread_join(thread_arr[x][i], NULL) != 0) {}
+	}
+		
 	/* Exit from thread */
-        pthread_exit(NULL);
+	pthread_exit(NULL);
 }
 
 
@@ -101,9 +101,11 @@ int main(int argc, char* argv[])
 	}
 	else if(fun == 2)
 	{
-		//Mastrix (CIT. Zambo 28/12/2021 10:57)
-		load_matrix(matrix1, &matrix_length, argv[2]);
-		load_matrix(matrix2, &matrix_length, argv[3]);
+		int status = 0;
+		status += load_matrix(matrix1, &matrix_length, argv[2]);
+		status += load_matrix(matrix2, &matrix_length, argv[3]);
+		if (status < 0)
+			error("Error while loading matrices from files!");
 	}
 	else
 		return EXIT_FAILURE;	
@@ -140,7 +142,7 @@ int main(int argc, char* argv[])
 
 	BENCHMARK_END(print_matrix(matrix_res, matrix_length))
 
-	/* Destroy mutex */
+	/* Destroy mutexes */
 	for(int x=0; x < matrix_length; x++)
 	{
 		for(int y=0; y < matrix_length; y++)
