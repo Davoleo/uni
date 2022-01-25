@@ -23,6 +23,14 @@
 #define PRINT_MATRICES
 
 /**
+ * \brief Prints an error message and exits execution with an "error" status code
+ **/
+void error(const char* message) {
+	printf("ERROR! %s\n", message);
+	exit(-1);
+}
+
+/**
  * \brief Prints a matrix to the standard output (debug purposes)
  * \param matrix the matrix to print
  * \param matrix_length the horizontal length of the matrix
@@ -71,12 +79,20 @@ void load_matrix(long out_matrix[MATRIX_SIZE][MATRIX_SIZE], int* length, const c
 	fclose(matrix_file);
 }
 
-/**
- * \brief Prints an error message and exits execution with an "error" status code
- **/
-void error(const char* message) {
-	printf("ERROR! %s\n", message);
-	exit(-1);
+void generate_matrix(long out_matrix[MATRIX_SIZE][MATRIX_SIZE], int size) {
+	#ifndef RAND_SEED
+	#define RAND_SEED
+	srand(time(NULL));
+	#endif
+
+	if (size >= MATRIX_SIZE)
+		error("Random matrix size can't be greater than 500");
+
+	for (int x = 0; x < size; x++) {
+		for (int y = 0; y < size; y++) {
+			out_matrix[x][y] = rand() % 25;
+		}
+	}
 }
 
 /**
