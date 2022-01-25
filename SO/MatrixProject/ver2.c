@@ -61,7 +61,6 @@ int main() {
 	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
-
 	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
 	load_matrix(matrix2, &matrix_length, "matrice3-2.txt");
 
@@ -135,7 +134,7 @@ int main() {
 	
 
 	puts("----- Matrix Multiplication Begins NOW -----");
-	clock_t bench_begin = clock();
+	BENCHMARK_BEGIN()
 
 	// Process id array
 	int proc_ids[matrix_length][matrix_length];
@@ -161,11 +160,10 @@ int main() {
 	for(int i=0; i < matrix_length * matrix_length; i++)
 		wait(NULL);
 
-	clock_t bench_end = clock();
-	puts("----- Matrix Multiplication ENDED -----");
-	printf("Execution time: %lf milliseconds\n", (double)(bench_end - bench_begin) * 1000 / CLOCKS_PER_SEC);
+	
+	BENCHMARK_END(puts("----- Matrix Multiplication ENDED -----"))
 
-	long result_matrix[matrix_length][matrix_length];
+	long result_matrix[MATRIX_SIZE][MATRIX_SIZE];
 
 	for (int i=0; i < matrix_length * matrix_length; i++) {
 		cell_struct result;
@@ -186,10 +184,5 @@ int main() {
 	}
 
 	puts("Result: ");
-	for(int x=0; x < matrix_length; x++) {
-		for(int y=0; y < matrix_length; y++) {	
-			printf("%ld ", result_matrix[x][y]);
-		}	
-		puts("");
-	}
+	print_matrix(result_matrix, matrix_length);
 }

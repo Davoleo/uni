@@ -110,11 +110,7 @@ int main(int argc, char* argv[])
 			pthread_mutex_init(&matrix_res_lock[x][y], NULL);
 	}
 
-	/* Create structs for time benchmark */
-	struct timespec start, end;
-
-	/* Get wall time before */
-	clock_gettime(CLOCK_REALTIME, &start);
+	BENCHMARK_BEGIN()
 	
 	/* Start threads */
 	for(int x=0; x < matrix_length; x++)
@@ -134,14 +130,7 @@ int main(int argc, char* argv[])
 		while(pthread_join(thread_arr[x][0], NULL) != 0) {}
 	}
 
-	/* Get wall time after execution */
-	clock_gettime(CLOCK_REALTIME, &end);
-
-	/* Print result matrix */
-	print_matrix(matrix_res, matrix_length, matrix_length);
-	
-	/* Print execution time */
-	printf("Execution time: %0.3f sec\n", (end.tv_sec - start.tv_sec) + 1e-9*(end.tv_nsec - start.tv_nsec));
+	BENCHMARK_END(print_matrix(matrix_res, matrix_length))
 
 	/* Destroy mutex */
 	for(int x=0; x < matrix_length; x++)
