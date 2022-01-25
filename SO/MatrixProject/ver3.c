@@ -89,16 +89,24 @@ void compute_cell(int cords[2])
 
 int main(int argc, char* argv[])
 {	
-	/* Check if files are provided */
-	if(argc < 2)
-	{
-		puts("No filenames provided!");
-		return EXIT_FAILURE;
-	}
+	int fun = parse_flags(argc, argv);
 
-	/* Load matrices */
-	load_matrix(matrix1, &matrix_length, argv[1]);
-	load_matrix(matrix2, &matrix_length, argv[2]);
+	if(fun == 0)
+		return EXIT_SUCCESS;
+	else if(fun == 1)
+	{	
+		matrix_length = atoi(argv[2]);
+		generate_matrix(matrix1, matrix_length);
+		generate_matrix(matrix2, matrix_length);
+	}
+	else if(fun == 2)
+	{
+		//Mastrix (CIT. Zambo 28/12/2021 10:57)
+		load_matrix(matrix1, &matrix_length, argv[2]);
+		load_matrix(matrix2, &matrix_length, argv[3]);
+	}
+	else
+		return EXIT_FAILURE;	
 
 	/* Setup global mutex array */
 	matrix_res_lock = malloc(sizeof(pthread_mutex_t) * matrix_length);

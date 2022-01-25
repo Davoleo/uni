@@ -55,14 +55,30 @@ void compute_cell(int x, int y, int horizontal_pipe[2], int vertical_pipe[2], in
 	}
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 	
 	///Arrays Storing the two matrices
 	long matrix1[MATRIX_SIZE][MATRIX_SIZE];
 	long matrix2[MATRIX_SIZE][MATRIX_SIZE];
 
-	load_matrix(matrix1, &matrix_length, "matrice3-1.txt");
-	load_matrix(matrix2, &matrix_length, "matrice3-2.txt");
+	int fun = parse_flags(argc, argv);
+
+	if(fun == 0)
+		return EXIT_SUCCESS;
+	else if(fun == 1)
+	{	
+		matrix_length = atoi(argv[2]);
+		generate_matrix(matrix1, matrix_length);
+		generate_matrix(matrix2, matrix_length);
+	}
+	else if(fun == 2)
+	{
+		//Mastrix (CIT. Zambo 28/12/2021 10:57)
+		load_matrix(matrix1, &matrix_length, argv[2]);
+		load_matrix(matrix2, &matrix_length, argv[3]);
+	}
+	else
+		return EXIT_FAILURE;
 
 	printf("MATRIX length %d\n", matrix_length);
 
