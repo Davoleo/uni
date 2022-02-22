@@ -1,0 +1,67 @@
+\hypertarget{esempiofork_8c}{}\doxysection{esempiofork.\+c File Reference}
+\label{esempiofork_8c}\index{esempiofork.c@{esempiofork.c}}
+
+
+file principale  
+
+
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$sys/wait.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for esempiofork.\+c\+:
+% FIG 0
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{esempiofork_8c_a972d44c4700e200c1e797f9dbb79bb3b}\label{esempiofork_8c_a972d44c4700e200c1e797f9dbb79bb3b}} 
+\#define \mbox{\hyperlink{esempiofork_8c_a972d44c4700e200c1e797f9dbb79bb3b}{P\+R\+O\+VA}}~5
+\begin{DoxyCompactList}\small\item\em Questa e\textquotesingle{} una macro globale. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{esempiofork_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Questa e\textquotesingle{} la funzione principale. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{esempiofork_8c_a641790cd524e40a148a1376998102e25}\label{esempiofork_8c_a641790cd524e40a148a1376998102e25}} 
+int \mbox{\hyperlink{esempiofork_8c_a641790cd524e40a148a1376998102e25}{temp}}
+\begin{DoxyCompactList}\small\item\em Questa e\textquotesingle{} una Variabile globale. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+file principale 
+
+\begin{DoxyAuthor}{Author}
+A.\+Dal Palu 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+11.\+04.\+06 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{esempiofork_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{esempiofork_8c_a0ddf1224851353fc92bfbff6f499fa97}} 
+\index{esempiofork.c@{esempiofork.c}!main@{main}}
+\index{main@{main}!esempiofork.c@{esempiofork.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Questa e\textquotesingle{} la funzione principale. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Il numero di argomenti \\
+\hline
+{\em argv} & Il vettore degli argomenti \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 = Esecuzione terminata con successo 
+
+-\/1 = Esecuzione ha generato un errore
+\end{DoxyReturn}
+Lo scopo di questa funzione e\`{} quello di lanciare un processo figlio e attendere la sua terminazione Si utilizza retv per ricevere il valore di ritorno del figlio

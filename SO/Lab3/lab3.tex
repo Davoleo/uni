@@ -1,11 +1,44 @@
 \documentclass{article}
 
+\usepackage{listings}
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
+\lstset{
+	backgroundcolor=\color{lbcolor},
+	tabsize=4,
+	rulecolor=,
+	language=awk,
+        basicstyle=\normalsize\ttfamily,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=true,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.133,0.545,0.133},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+\author{Leonardo Davoli}
+\title{Laboratorio di Sistemi Operativi}
+
 \begin{document}
+\maketitle
+
 \setcounter{section}{2} % one less
-\section{Laboratorio - Esercizi}
+\section{Esercizi}
 
 \subsection{Costruire una manipolazione dell'output di \texttt{ps} che ordini i processi per PID}
-Comando: \texttt{ps | tr -s ' ' | egrep \^{}\symbol{92} [0\-9]+ | sort -t' ' -k1 -r}
+Comando: \texttt{ps | tr -s ' ' | egrep \^{}\symbol{92} [0-9]+ | sort -t' ' -k1 -r}
 \begin{itemize}
     \item \texttt{ps} ottiene la lista di processi dell'utente corrente
     \item \texttt{tr -s ' '} rimuove gli spazi in più compressandoli in uno unico
@@ -29,7 +62,61 @@ la sequenza di escape che produce il carattere \texttt{<Tab>}, in questo modo tu
 \textit{Nota: Ho ridirezionato l'output ad un file esterno perché il terminale mi mostrava gli spazi nonostante avessi applicato il comando tr}
 
 \subsection{Scrivere una pipeline che permetta di scoprire quante linee ripetute ci sono in un file.}
-Comando: 
+Comando: \texttt{cat file.txt | sort -t\symbol{92}n | uniq -d | wc -l}
+\begin{itemize}
+    \item \texttt{text -t\symbol{92}n} permette di riordinare le righe in ordine alfabetico per permettere a uniq di lavorare correttamente
+    \item \texttt{uniq -d} restituisce tutti i duplicati nell'input presi una volta ciascuno
+    \item \texttt{wc -l} conta tutte le righe dell'input (in questo caso solo quelle duplicate)
+\end{itemize}
 
+\subsection{Visualizzare su standard output, senza ripetizioni, lo user ID di tutti gli utenti che hanno almeno un processo attivo nel sistema}
+Comando: \texttt{ps -el | tr -s ' ' | cut -d' ' -f3 | egrep [0-9]+ | sort -n -t\symbol{92}n | uniq}\\
+Output (sulla VM di didattica):
+\begin{verbatim}
+    0
+    33
+    100
+    101
+    102
+    103
+    62583
+    605561111
+    1579333809
+    1579341764
+    1579346453
+    1579348286
+    1579353610
+    1579356982
+    1579357026
+    1579360847
+    1579361305
+\end{verbatim}
+
+\subsection{Scrivere un comando awk per fare una statistica di un file in put per contare quante righe contengono 0, 1, 2 e 3 parole.}
+Comando: \texttt{awk -f count.awk file.txt}\\\\
+
+Contenuto di count.awk:
+\begin{lstlisting}[numbers=left]
+    BEGIN {
+        print "scanning lines: "
+    }
+
+    {
+        printf "%d...", NR;
+        if (NF == 0)
+            zeroFieldLines++;
+        if (NF == 1)
+            oneFieldLines++;
+        if (NF == 2)
+            twoFieldLines++;
+        if (NF == 3)
+            threeFieldLines++;
+    }
+
+    END {
+        print "\n\n"
+        printf "0 words lines: %d\n1 word lines: %d\n2 words lines: %d\n3 words lines: %d\n", zeroFieldLines, oneFieldLines, twoFieldLines, threeFieldLines;
+    }
+\end{lstlisting}
 
 \end{document}

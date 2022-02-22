@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2019.2 (Released June 5, 2019) -->
+<HTML lang="EN">
+<HEAD>
+<TITLE>Visualizzate i file della home directory ordinati in base alla dimensione.</TITLE>
+<META NAME="description" CONTENT="Visualizzate i file della home directory ordinati in base alla dimensione.">
+<META NAME="keywords" CONTENT="doc">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2019.2">
+
+<LINK REL="STYLESHEET" HREF="doc.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node1.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="node4.html">Che Differenza c'è tra</A>
+<B> Up:</B> <A
+ HREF="node1.html">Laboratorio 1 Esercizi</A>
+<B> Previous:</B> <A
+ HREF="node2.html">Esplorare il file system.</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A ID="SECTION00012000000000000000">
+Visualizzate i file della home directory ordinati in base alla dimensione.</A>
+</H2>
+Per visualizzare I file nella cartella home in base alla dimensione ho utilizzato il comando <SPAN  CLASS="texttt">ls</SPAN>;
+<BR>
+Le rispettive flag che ho usato sono:
+
+<UL>
+<LI><SPAN  CLASS="texttt">-l</SPAN> &mdash; per mostrare più informazioni sui file tra le quali la dimensione dei file
+</LI>
+<LI><SPAN  CLASS="texttt">-S</SPAN> &mdash; per ordinare i file per dimensione dal più grande al più piccolo
+</LI>
+<LI><SPAN  CLASS="texttt">-r</SPAN> &mdash; per invertire l'ordine di stampa dei file
+</LI>
+</UL>
+
+<P>
+Il Comando <SPAN  CLASS="texttt">ls -Sl</SPAN> ha restituito il seguente output:
+<PRE>
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 603 nov 18 12:17 big_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 112 nov 18 12:24 medium_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users  14 nov 18 12:16 small_file.txt
+</PRE>
+mentre il comando <SPAN  CLASS="texttt">ls -rSl</SPAN> ha restituito il seguente output:
+<PRE>
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users  14 nov 18 12:16 small_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 112 nov 18  2021 medium_file.txt
+    -rw-r--r-- 1 UNIPR\l.davoli9 UNIPR\domain^users 603 nov 18 12:17 big_file.txt
+</PRE>
+
+<P>
+<BR><HR>
+
+</BODY>
+</HTML>

@@ -5,6 +5,8 @@
 *.xml linguist-detectable
 *.xsd linguist-detectable
 
+SO/**/doc/** linguist-documentation
+
 # PlantUML
 # *.puml linguist-detectable
 

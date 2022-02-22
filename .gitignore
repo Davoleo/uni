@@ -1,5 +1,5 @@
 # VSCode settings and associations
-.vscode/
+# .vscode/
 
 
 # Java Project files and outputs
@@ -11,5 +11,6 @@
 *.exe
 *.pdf
 
-# HTML Exported Document
-SO/Lab1/doc/*
+# Matrix project compiled files
+SO/MatrixProject/out
+SO/MatrixProject/docs

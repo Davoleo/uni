@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2019.2 (Released June 5, 2019) -->
+<HTML lang="EN">
+<HEAD>
+<TITLE>I seguenti comandi che effetto producono? Perché?</TITLE>
+<META NAME="description" CONTENT="I seguenti comandi che effetto producono? Perché?">
+<META NAME="keywords" CONTENT="doc">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2019.2">
+
+<LINK REL="STYLESHEET" HREF="doc.css">
+
+<LINK REL="previous" HREF="node5.html">
+<LINK REL="next" HREF="node7.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node1.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="node7.html">About this document ...</A>
+<B> Up:</B> <A
+ HREF="node1.html">Laboratorio 1 Esercizi</A>
+<B> Previous:</B> <A
+ HREF="node5.html">Elencare i file contenuti</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A ID="SECTION00015000000000000000">
+I seguenti comandi che effetto producono? Perché?</A>
+</H2>
+
+<UL>
+<LI><SPAN  CLASS="texttt">cd</SPAN>: il comando permette di cambiare la directory corrente di lavoro alla propria directory home
+    (è un alternativa a <SPAN  CLASS="texttt">cd&nbsp;</SPAN>)
+</LI>
+<LI><SPAN  CLASS="texttt">mkdir d1</SPAN>: crea una directory con nome "d1" all'interno della directory in cui si sta lavorando
+</LI>
+<LI><SPAN  CLASS="texttt">chmod 444 d1</SPAN>: Imposta i permessi per tutti gli ruoli: proprietario, gruppo del proprietario e tutti gli altri utenti. 
+    Dando solo i permessi di lettura a tutti.
+<BR>
+Si tratta dei permessi di lettura perché il numero 4 in binario corrisponde a 100 ovvero alla sola attivazione della prima flag
+    che corrisponde ai permessi di lettura, essendo il 4 ripetuto 3 volte questa modifica è applicata a tutti e 3 gli ruoli, 
+    si può inoltre notare che il permesso di sola lettura per una cartella corrisponde a elencare gli elementi che si trovano dentro quella cartella
+    non è perciò possibile ne attraversarla ne modificarla.
+</LI>
+<LI><SPAN  CLASS="texttt">cd d1</SPAN> cambia la directory corrente di lavoro alla sottocartella <SPAN  CLASS="texttt">d1</SPAN>, il risultato di questo comando dopo il precedente da
+    un errore di permessi negati in quanto il permesso di attraversare e accedere ad una cartella corrisponde alla flag di esecuzione che non è attiva
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="node7.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="node1.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="node5.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="node7.html">About this document ...</A>
+<B> Up:</B> <A
+ HREF="node1.html">Laboratorio 1 Esercizi</A>
+<B> Previous:</B> <A
+ HREF="node5.html">Elencare i file contenuti</A></DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>
