@@ -13,9 +13,9 @@
 
 // > time ./a.out 1000
 
-
-
-
+/**
+ * \brief Swaps two integer values given their pointers to variables
+ */
 void swap(int* a, int* b){
   int tmp = *a;
   *a = *b;
@@ -25,13 +25,13 @@ void swap(int* a, int* b){
 void insertion_sort(int* A, int n) {
   int i,j;
   for (i=0; i<n; i++) {
-    for (j=i-1; j>=0; j--) {
-      if (A[j]>A[j+1]) {
+	for (j=i-1; j>=0; j--) {
+	  if (A[j]>A[j+1]) {
 	swap (&A[j],&A[j+1]);
-      } else {
+	  } else {
 	break;
-      }
-    }    
+	  }
+	}    
   }
 }
 
@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
 
   /// controllo argomenti
   if (argc != 2) {
-    printf("Usage: %s dim-array\n",argv[0]);
-    return 1;
+	printf("Usage: %s dim-array\n",argv[0]);
+	return 1;
   }
 
   /// parsing argomento
@@ -54,13 +54,13 @@ int main(int argc, char **argv) {
 
   /// inizializzazione array
   for (i=0; i<n; i++) {
-    A[i]=n-i;
+	A[i]=n-i;
   }
 
   /// input
   printf("L'input e':\n");
   for (i=0; i<n; i++) {
-    printf("%d ",A[i]);
+	printf("%d ",A[i]);
   }
   printf("\n");
   
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   /// output
   printf("L'output e':\n");
   for (i=0; i<n; i++) {
-    printf("%d ",A[i]);
+	printf("%d ",A[i]);
   }
   printf("\n");
 
