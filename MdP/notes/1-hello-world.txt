@@ -1,0 +1,491 @@
+
+=== You don't know "Hello, world!" ===
+
+Tradizionalmente, il primo programma considerato in tutti i tutorial
+di introduzione ad un nuovo linguaggio di programmazione è "Hello, world!".
+
+Una possibile versione per il linguaggio C++ è la seguente:
+
+------------------------
+$ cat hello.cc
+#include <iostream>
+
+int main() {
+  std::cout << "Hello, world!" << std::endl;
+}
+------------------------
+
+Lo scopo di questo programma, in realtà, è quello di effettuare un test
+sulla corretta installazione dell'ambiente di sviluppo scelto per il C++.
+Ovvero, ci si vuole assicurare di avere un compilatore funzionante,
+le librerie di sistema correttamente installate, eccetera.
+
+Dal nostro punto di vista, comunque, questo semplice programma si presta
+bene ad evidenziare la differenza che esiste tra una conoscenza superficiale
+del linguaggio C++ ed una conoscenza un po' più approfondita. E' infatti
+possibile porsi alcune semplici domande su queste poche linee di codice
+e scoprire che la risposta non è poi tanto banale
+(a volte anche per programmatori che si reputano sufficientemente esperti).
+
+Esempi di domande:
+ * perché la funzione main è dichiarata restituire un valore intero?
+ * perché non esiste la corrispondente istruzione di return?
+ * perché devo qualificare il nome (cout) del canale di output con std?
+ * che cosa indica std?
+ * quale è la differenza tra queste due varianti?
+     std::cout << "Hello, world!" << std::endl;
+   vs
+     std::cout << "Hello, world!\n";
+ * che cosa è iostream?
+ * perché devo includere iostream?
+ * perché devo usare le parentesi angolate (e non le virgolette)
+   quando includo iostream?
+ * a cosa si riferiscono le due occorrenze dell'operatore infisso << ?
+ * sono invocazioni di operatori built-in o si tratta di funzioni
+   definite dall'utente?
+ * ... si potrebbe continuare ...
+
+Un programmatore che conosca (o sia in grado di dedurre tramite
+ragionamento logico) la risposta alla maggior parte di queste domande
+è sicuramente un programmatore dotato di una maggiore consapevolezza
+sull'utilizzo del linguaggio C++.  Uno degli obiettivi del corso è
+proprio quello di aumentare la nostra consapevolezza nell'utilizzo del
+linguaggio di programmazione, cercando per esempio di capire la
+differenza tra regole del linguaggio, idiomi, convenzioni e semplici
+scelte legate al proprio gusto personale.
+
+----------------------------------------------------------------------
+
+Il nostro ambiente di sviluppo
+
+Tutti gli esempi e le esercitazioni verranno svolte in ambiente Linux.
+In particolare, il docente utilizza una distribuzione Ubuntu
+(al momento, la versione 20.04.2 LTS per architettura a 64 bit).
+A volte verranno utilizzati comandi particolari: in tutti i casi
+(anche quando si pensa di conoscere il comando), il suggerimento
+è di leggere la pagina del manuale per il comando:
+
+$ man <nome-comando>
+
+Per scelta didattica, l'ambiente di sviluppo scelto è spartano.
+Non verrà utilizzato un vero e proprio IDE (Integrated Development
+Environment), ma ci accontenteremo di utilizzare:
+  - un editore di testo dotato di syntax highlighting per il C++
+    (la mia preferenza personale va ad emacs)
+  - un recente compilatore C++ (g++ o clang++)
+
+NOTA: g++ è un wrapper per il compilatore gcc (Gnu Compiler
+Collection).  gcc può compilare file scritti in diversi linguaggi (è
+una "collezione" di compilatori); per capire quale linguaggio stiamo
+usando, gcc si basa sull'uso dell'opzione -x oppure, se non la si usa,
+sull'estensione del file da compilare (ad es., .c --> linguaggio C;
+.cc --> linguaggio C++).
+Usando g++ si comunica che vogliamo compilare codice C++ senza dover
+specificare l'opzione -x e senza preoccuparci dell'estensione del file.
+
+In senso lato, il processo di compilazione prende in input file sorgente
+e/o librerie e produce in output file eseguibili o librerie.
+Per fare ciò, il compilatore (in senso lato) esegue vari passi:
+ 1) il preprocessore elabora il codice dei file sorgente e produce
+    una unità di traduzione
+ 2) il compilatore (in senso stretto) elabora l'unità di traduzione
+    e produce il codice assembler
+ 3) l'assemblatore elabora il codice assembler e produce il cosiddetto
+    file oggetto (object file)
+ 4) il linker effettua il collegamento tra i vari file oggetto e
+    le librerie al fine di ottenere un file eseguibile o una libreria.
+
+Vediamo cosa succede nel caso di "Hello, world!",
+forzando il compilatore ad eseguire i vari passi uno alla volta
+(cosa che in genere NON si fa).
+
+1) g++ -E hello.cc -o hello.preproc.cc
+
+L'opzione -E indica al compilatore g++ di fermarsi subito dopo la fase
+di preprocessing; l'opzione -o indica di salvare l'output (l'unità di
+traduzione) nel file hello.preproc.cc.
+
+2) g++ -Wall -Wextra -S hello.preproc.cc -o hello.s
+   oppure
+   g++ -Wall -Wextra -S hello.cc -o hello.s
+
+L'opzione -S indica al compilatore g++ di fermarsi subito dopo la fase
+di compilazione in senso stretto; l'output hello.s è il codice assembler;
+le opzioni -Wall -Wextra indicano al compilatore di attivare un determinato
+insieme di warning (cosa sempre consigliabile); si noti che "all" e "extra"
+attivano molti, ma NON tutti i warning disponibili.
+Lo stesso effetto lo si sarebbe ottenuto col secondo comando, dove l'input
+hello.preproc.cc è stato sostituito dal file sorgente originale hello.cc:
+in questo caso il compilatore esegue prima la fase di preprocessing
+e poi la compilazione in senso stretto.
+
+3) g++ -c hello.s -o hello.o
+   oppure
+   g++ -Wall -Wextra -c hello.preproc.cc -o hello.o
+   oppure
+   g++ -Wall -Wextra -c hello.cc -o hello.o
+
+L'opzione -c indica al compilatore g++ di produrre il codice oggetto,
+salvato in hello.o, fermandosi prima della fase di collegamento
+(ragione per cui il codice prodotto non è eseguibile).
+Nella prima versione, partendo da hello.s, viene invocato solo
+l'assemblatore (as); le altre due versioni effettuano anche le fasi di
+compilazione (e quindi devono ripetere le opzioni per i warning).
+
+4) g++ hello.o -o hello
+   oppure
+   g++ hello.s -o hello
+   oppure
+   g++ -Wall -Wextra hello.preproc.cc -o hello
+   oppure
+   g++ -Wall -Wextra hello.cc -o hello
+
+Quando NON si specifica nessuna delle opzioni -E, -S, -c,
+il compilatore termina dopo avere effettuato il collegamento,
+utilizzando il linker (ld), producendo il file eseguibile hello
+(senza suffisso, come consuetudine per l'ambiente Linux).
+In questo caso, avendo un solo file oggetto, il collegamento avviene
+tra questo file e i file che formano la libreria standard del C++
+(che vengono coinvolti implicitamente, senza doverli specificare
+come argomenti per il compilatore).
+L'ultima versione del comando di compilazione, che parte dal sorgente
+hello.cc e produce direttamente l'eseguibile hello, è probabilmente
+quella di uso più comune nel caso di un programma composto da un solo
+file sorgente (fornito dall'utente).
+
+E' ora utile osservare i diversi output ottenuti, per capire meglio
+quello che succede durante la compilazione. Per iniziare, osserviamone
+le dimensioni usando il comando du:
+
+------------------------
+$ du -b hello*
+17320	hello
+81	hello.cc
+2928	hello.o
+681085	hello.preproc.cc
+2305	hello.s
+
+------------------------
+
+Si osserva una grande variabilità delle dimensioni, a seconda dell'output.
+In particolare, partendo da un file sorgente di 81 byte, il preprocessore
+ha generato una unità di traduzione (hello.preproc.cc) di circa 652 KB.
+Quando si ragiona sulle regole del linguaggio, dobbiamo tenere bene a mente
+che il compilatore (in senso stretto) lavora sull'unità di traduzione.
+
+Aprendo l'unità di traduzione col nostro editore di testo, scopriamo
+che questa è formata da circa 28 mila linee di codice, quasi tutte ottenute
+dall'espansione dell'unica direttiva di inclusione presente nel nostro
+file sorgente (#include <iostream>). Volendo fare i pignoli, si dovrebbe
+dire che NON è vero che hello.cc è l'unico file sorgente del nostro programma.
+In realtà, il preprocessore ha incluso nell'unità di traduzione il codice
+di numerosi altri file sorgente (nello specifico, header files ovvero file
+di intestazione) che fanno parte della libreria standard.
+I nomi di questi file (e la loro posizione nel filesystem) si possono
+ottenere osservando le direttive del preprocessore rimaste nell'unità
+di traduzione (le linee che iniziano con il carattere #):
+
+------------------------
+...
+# 1 "/usr/include/c++/9/iostream" 1 3
+...
+# 1 "/usr/include/x86_64-linux-gnu/c++/9/bits/basic_ios.h" 1 3
+...
+# 1 "/usr/include/features.h" 1 3 4
+...
+------------------------
+
+Queste direttive servono al compilatore per generare messaggi di errore
+che facciano riferimento ai nomi dei file e ai numeri di riga dei file
+sorgenti (e non al numero di riga dell'unità di traduzione, cosa che
+sarebbe alquanto scomoda per il programmatore).
+Nel caso in questione (g++ versione 9.3.0) vengono inclusi circa 170 file
+distinti; il loro numero varia in base alla piattaforma e alla versione
+di compilatore e libreria standard utilizzate.
+
+A cosa servono tutte queste righe di codice?
+Nel caso di hello.cc, l'inclusione dell'header file iostream è necessaria
+per trovare la dichiarazione della variabile std::cout (e del corrispondente
+tipo std::ostream), degli operatori di output operator<< e del
+modificatore std::endl.
+
+E' possibile fare una ricerca testuale per trovarli nell'unità di traduzione:
+------------------------
+namespace std
+{
+...
+  typedef basic_ostream<char> ostream;
+...
+  extern ostream cout;
+...
+  extern template ostream& endl(ostream&);
+...
+  extern template ostream& operator<<(ostream&, const char*);
+...
+------------------------
+Scopriamo quindi che:
+ a) std::ostream è un alias per la classe basic_ostream<char> ottenuta
+    instanziando il template di classe basic_ostream con il tipo char;
+ b) il modificatore std::endl è una funzione ottenuta istanziando
+    il template endl con la classe ostream;
+ c) la prima occorrenza di operator<< in hello.cc è una chiamata di funzione
+    che si riferisce all'istanza (con ostream) di un template di funzione;
+ d) la seconda occorrenza di operator<< in hello.cc, invece, si riferisce
+    ad un'altra funzione, in quanto std::endl NON ha tipo const char*
+    (e non può essere convertito implicitamente in tale tipo).
+
+NOTA: avendo fatto queste osservazioni, è ora possibile abbozzare le risposte
+ad alcune delle domande fatte all'inizio. Per esempio, sappiamo che i nomi
+cout e std devono essere qualificati (std::cout e std::endl) perché le
+corrispondenti dichiarazioni sono contenute nel namespace std.
+Questa risposta dovrebbe immediatamente far sorgere una ulteriore
+
+DOMANDA: perché nel caso dell'invocazione di operator<< non è necessario
+fare una analoga qualificazione (std::operator<<)?
+
+Si noti che la risposta "Perché si usa la notazione infissa" è sbagliata.
+Infatti, la qualificazione non servirebbe nemmeno nel caso venisse
+utilizzata la forma prefissa, nel modo seguente:
+
+  operator<<(std::cout, "Hello, world!");
+
+Per cercare di capire meglio la domanda, possiamo generare un piccolo
+test che mostra il comportamento che vogliamo indagare.
+Nel file domanda.cc
+
+------------------------
+$ cat domanda.cc
+namespace N {
+
+struct S { };
+
+void foo(S s);
+
+void bar(int n);
+
+} // namespace N
+
+int main() {
+  N::S s;
+  foo(s); // questa chiamata è compilata correttamente
+  int i = 0;
+  bar(i); // questa chiamata genera un errore di compilazione
+}
+------------------------
+
+
+La fase di compilazione genera il codice assembler (hello.s).
+La dimensione (2104 byte) è molto ridotta rispetto all'unità di traduzione.
+Guardando il codice possiamo notare, per esempio, l'allocazione della
+stringa
+
+------------------------
+.LC0:
+	.string	"Hello, world!"
+------------------------
+
+e, all'interno del codice per la funzione main, l'invocazione dell'operatore
+di output con argomenti std::cout e la stringa stessa:
+
+------------------------
+main:
+...
+	leaq	.LC0(%rip), %rsi
+	leaq	_ZSt4cout(%rip), %rdi
+	call	_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@PLT
+------------------------
+
+NOTA BENE: non si richiede di conoscere la sintassi del codice assembler;
+diamo solo un'occhiata per ottenere spunti e fare osservazioni/domande
+potenzialmente interessanti.
+
+Una possibile domanda è: come mai il nome del canale di output (std::cout)
+e dell'operatore di output sono stati "storpiati" in quel modo
+(ovvero, _ZSt4cout e _ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5...)?
+
+Risposta: il codice assembler NON supporta i namespace e NON supporta
+l'overloading delle funzioni; quindi, per evitare possibili ambiguità,
+deve codificare il namespace nel nome della variabile cout e, nel caso
+dell'operatore, deve codificare anche il numero e il tipo degli argomenti
+(oltre al tipo usato per istanziare il template di funzione).
+Questo processo va sotto il nome di "name mangling" e viene applicato
+(quasi) sistematicamente. Per una eccezione, è sufficiente osservare il
+nome della funzione main, che NON è soggetto al processo di mangling.
+
+Seconda domanda: dove sta il codice dell'operatore di output?
+Risposta: non è presente nel file assembler perché è fornito dalle librerie
+di sistema; verrà "collegato" dal linker (ld) nella fase finale della
+compilazione (in senso lato).
+
+Quando l'assembler viene convertito in codice oggetto otteniamo un file
+binario (hello.o), che non è facilmente interpretabile usando un editore
+di testo. Esistono comunque strumenti che consentono di ottenere un elenco
+delle entità definite o riferite da un file binario. Nel caso di Linux,
+il comando da utilizzare è nm (man nm); se non è già presente nel sistema,
+installare il pacchetto binutils (sudo apt install binutils).
+
+------------------------
+$ nm hello.o
+                 U __cxa_atexit
+                 U __dso_handle
+                 U _GLOBAL_OFFSET_TABLE_
+0000000000000084 t _GLOBAL__sub_I_main
+0000000000000000 T main
+0000000000000037 t _Z41__static_initialization_and_destruction_0ii
+                 U _ZNSolsEPFRSoS_E
+                 U _ZNSt8ios_base4InitC1Ev
+                 U _ZNSt8ios_base4InitD1Ev
+                 U _ZSt4cout
+                 U _ZSt4endlIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_
+0000000000000000 r _ZStL19piecewise_construct
+0000000000000000 b _ZStL8__ioinit
+                 U _ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc
+------------------------
+
+Usando l'opzione -C, è possibile farsi dare i nomi "demangled",
+sicuramente più leggibili:
+
+------------------------
+$ nm -C hello.o
+                 U __cxa_atexit
+                 U __dso_handle
+                 U _GLOBAL_OFFSET_TABLE_
+0000000000000084 t _GLOBAL__sub_I_main
+0000000000000000 T main
+0000000000000037 t __static_initialization_and_destruction_0(int, int)
+                 U std::ostream::operator<<(std::ostream& (*)(std::ostream&))
+                 U std::ios_base::Init::Init()
+                 U std::ios_base::Init::~Init()
+                 U std::cout
+                 U std::basic_ostream<char, std::char_traits<char> >& std::endl<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&)
+0000000000000000 r std::piecewise_construct
+0000000000000000 b std::__ioinit
+                 U std::basic_ostream<char, std::char_traits<char> >& std::operator<< <std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*)
+------------------------
+
+A sinistra (quando disponibile) viene indicata la posizione del simbolo
+all'interno del file oggetto; poi abbiamo una lettera (U, T, t, r, ...) che
+indica la tipologia del simbolo. Dall'output del comando "man nm" scopriamo
+le cose seguenti:
+
+           "R"
+           "r" The symbol is in a read only data section.
+
+           "T"
+           "t" The symbol is in the text (code) section.
+
+           "U" The symbol is undefined.
+
+a conferma che la funzione main è definita in questo file oggetto,
+mentre std::cout, std::endl e l'operatore di output NON sono definiti
+in questo file oggetto.
+
+In quali file della libreria standard del C++ sono definiti?
+Possiamo farci aiutare dal comando ldd che, applicato all'eseguibile hello,
+stamperà l'elenco delle *dipendenze* di quel codice eseguibile dalle librerie.
+
+------------------------
+$ ldd hello
+	linux-vdso.so.1 (0x00007ffff23f6000)
+	libstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007fec59986000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fec59794000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fec59645000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007fec59b8f000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fec5962a000)
+------------------------
+
+Notiamo che, oltre alla libreria standard del C++ (libstdc++) vengono
+elencate dipendenze verso altre librerie del sistema operativo (linux-vdso),
+del linguaggio C (libc e libm), del linker dinamico (ld-linux-x86-64)
+e del compilatore stesso (libgcc_s).
+Volendo, possiamo verificare che la libreria standard del C++ fornisca
+effettivamente la definizione di std::cout.
+Si potrebbe pensare di usare ancora il comando nm: purtroppo, per diminuire
+l'occupazione in spazio, dalla libreria standard sono state rimosse le
+informazioni usate dal comando nm, per cui non si ottiene quanto voluto:
+
+------------------------
+$ nm /usr/lib/x86_64-linux-gnu/libstdc++.so.6
+nm: /usr/lib/x86_64-linux-gnu/libstdc++.so.6: no symbols
+------------------------
+
+Dobbiamo quindi usare un comando che lavora più a basso livello (readelf).
+Per limitare la quantità di ouput generato, usiamo in cascata il comando
+"grep" per ottenere solo le righe che contengono la stringa "cout":
+
+------------------------
+$ readelf -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep cout
+  4531: 00000000001de000   272 OBJECT  GLOBAL DEFAULT   30 _ZSt5wcout@@GLIBCXX_3.4
+  5433: 00000000001de480   272 OBJECT  GLOBAL DEFAULT   30 _ZSt4cout@@GLIBCXX_3.4
+------------------------
+
+NOTA BENE: anche in questo caso, non si richiede di conoscere i dettagli
+implementativi dei file oggetto e del processo di link; lo scopo è sempre
+quello di ottenere spunti di riflessione.
+
+Per esempio, osservando la dimensione (8920 byte) del file eseguibile hello
+potremmo pensare che, tutto sommato, si tratta di un eseguibile piccolo.
+In realtà, il file è così piccolo solo perché quando l'abbiamo generato
+abbiamo (implicitamente) richiesto di effettuare il collegamento *dinamico*.
+Ovvero il linker ha solo controllato che i simboli usati (e non definiti)
+nel nostro eseguibile fossero rintracciabili nelle librerie installate nel
+sistema, ma non ha incluso il corrispondente codice nel file hello.
+A conferma di ciò il comando ldd ci dice che questo file *dipende* da certe
+librerie, che hanno estensione .so (shared object) per indicare che sono
+condivise tra più eseguibili e andranno collegate dinamicamente (cioè,
+a tempo di esecuzione). Ciò significa anche che se volessimo trasferire
+il nostro file eseguibile su un'altra macchina (con architettura e sistema
+operativo compatibili), dovremmo anche assicurarci che sulla macchina in
+questione siano installate versioni compatibili di queste librerie.
+
+In alternativa, è possibile forzare il collegamento statico (a tempo di
+compilazione) dell'object file hello.o con le librerie, usando l'opzione
+-static (l'opzione opposta, -shared, è il default):
+
+$ g++ -static hello.o -o hello_static
+(oppure: g++ -static hello.cc -o hello_static)
+
+ottenendo, ovviamente, un file eseguibile di dimensioni molto maggiori
+(più di 2 MB)
+
+------------------------
+$ du -b hello_static
+2370152	hello_static
+------------------------
+
+ma che non dipende dalle librerie installate:
+
+------------------------
+$ ldd hello_static
+	not a dynamic executable
+------------------------
+
+Giunti al termine di questa (non tanto breve) discussione su "Hello, world!"
+è forse il caso di ricapitolare alcuni concetti chiave.
+
+1) Tecnicamente, quando si dice che un programma è formato da un solo
+   file sorgente, si commette un errore; come abbiamo visto, anche un
+   programma banale come "Hello, world!" necessita di oltre un centinaio
+   di header file di sistema (il numero esatto dipende dall'implementazione
+   specifica usata), oltre a hello.cc;
+
+2) I programmi "veri" sono formati da numerosi file sorgente, anche quando
+   si escludono gli header file di sistema; è necessario comprendere i
+   meccanismi che consentono di separare il programma in diversi file
+   sorgente, per poi compilarli separatamente e infine collegarli in
+   modo corretto; occorre inoltre imparare come compilare e collegare
+   correttamente un programma che dipenda da librerie software di
+   terze parti (ovvero, diverse dalla libreria standard del C++).
+
+3) In generale, ogni volta che si scrive qualche linea di codice è
+   necessario chiedersi quale è la sua funzione, evitando di dare
+   la risposta: "Non ne ho idea, so solo che si è sempre fatto così".
+   Questa è la risposta di un programmatore che NON sa risolvere eventuali
+   problemi tecnici che si dovessero presentare e deve per forza chiedere
+   consiglio a programmatori più esperti. La nostra ambizione dovrebbe
+   essere quella di (iniziare il lungo cammino per) diventare noi stessi
+   programmatori esperti e sapere come affrontare i problemi tecnici
+   legati alla programmazione. Si noti che queste competenze sono ben
+   separate ed indipendenti rispetto alla conoscenza dello specifico
+   dominio applicativo per il quale si è deciso di sviluppare
+   uno strumento software.
