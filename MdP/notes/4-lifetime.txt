@@ -9,7 +9,7 @@ anche la dimensione temporale, per stabilire in quali momenti (quando)
 
 Alcune entità (tipi di dato, funzioni, etichette) possono essere
 riferite in qualunque momento durante l'esecuzione del programma.
-Un oggetto memorizzato in memoria, invece, è utilizzabile solo dopo
+Un oggetto (nel senso di entità generica) memorizzato in memoria, invece, è utilizzabile solo dopo
 che è stato creato e soltanto fino a quando viene distrutto, ovvero
 ogni accesso è valido solo durante il suo tempo di vita (lifetime).
 
@@ -209,23 +209,29 @@ programmazione:
   usare (per leggere o scrivere sull'oggetto puntato) un puntatore
   dangling; in pratica si usa un oggetto dopo che il suo lifetime
   è concluso;
+  [undefined behaviour]
 
 - errore "double free"
   usare la delete due o più volte sullo stesso indirizzo,
   causando la distruzione di una porzione di memoria che non era
   più allocata (o era stata riutilizzata per altro)
+  [undefined behaviour]
 
 - "memory leak"
   si distrugge l'unico puntatore che contiene l'indirizzo dell'oggetto
   allocato prima di avere effettuato la delete (quindi l'oggetto non
   verrà mai più distrutto, causando come minimo uno spreco di memoria);
+  [creazione di garbage]
 
 - accesso ad un "wild pointer"
   variante della use after free; si segue un puntatore che indirizza
   memoria "causale", leggendo o scrivendo dove non c'è un oggetto
   (o non c'è l'oggetto inteso)
+  oppure un puntatore non allineato
+  [undefined behaviour]
 
 - accesso al "null pointer"
   si prova ad accedere ad un puntatore nullo
+  [undefined behaviour]
 
 -----------------------------------------------------------------------
