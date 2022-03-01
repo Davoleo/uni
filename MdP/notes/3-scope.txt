@@ -37,6 +37,13 @@ void bar(int n) {
 }
 
 } // namespace N
+
+namespace N {
+	int a;
+}
+{
+	//Estensione del namespace N (unico blocco in cui è possibile fare una cosa del genere)
+}
 -----
 
 2) Scope di blocco
@@ -63,6 +70,7 @@ Vi sono alcune regole speciali per i costrutti for, while, if,
 switch e per i blocchi catch:
 
 -----
+	//i come se fosse dichiarata all'interno del corpo del for
   for (int i = 0; i != 10; ++i) {
     // i ha lo scope del blocco for
   }
