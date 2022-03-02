@@ -126,3 +126,23 @@ int funzione_molto_lunga(int a) {
 	uscita:
 	return a;
 }
+
+// Default declarations of an emtpy struct in C++
+struct S {
+	S();
+	S(const S& s);
+	S& operator=(const S& s);
+	~S();
+
+	//dal C++11 
+	//Per rvalue temporanei (spostamento di valori che non servono più invece che copiarle)
+	//Move semantics
+	S(S&& s);
+	S& operator=(S&& s);
+};
+
+int main() {
+	S s1;
+	S s2 = s1;
+	s2 = s1;
+}
