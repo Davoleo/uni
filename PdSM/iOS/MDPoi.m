@@ -18,6 +18,13 @@
 //Il message passing è diverso dai metodi classici di invocazione perché il metodo eseguito non è legato ad una specifica sezione di codice
 //	Il target è risolto dinamicamente a runtime
 //Se il ricevitore di un messaggio non risponde -> un eccezione è lanciata
+//	Motivo per cui bisogna essere sicuri che l'oggetto risponda 
+// 	- utilizzando introspection (ispezionare oggetto prima di chiamare il metodo guardando se lo sa gestire) 
+//		Metodi di introspezione:
+//		+ isKindOfClass: can be used to check if the object's type matches a class o una dei suoi subclasses
+//		+ isMemberOfClass: usato per controllare se il tipo di oggetto 	matcha una cerca classe strettamente
+//		+ respondsToSelector: utilizzato per controllare se un oggetto può rispondere ad un certo messaggio
+//  e casting pointers per forzare la chiamata di un certo metodo
 //è possibile mandare un messaggio a nil: 0 è ritornato
 - (void)setLatitude:(double)lat{
 	self._latitude = lat;
@@ -36,6 +43,17 @@
 
 - (NSString*) detail {
 	return [NSString stringWithFormat:@"%@ - (%f, %f)", _name, _latitude, _longitude];
+
+	//Introspection test with isKindOfClass
+	NSObject obj = "test";
+	if ([obj isKindOfClass:[NSString class]]) {
+		NSString* str = (NSString*) obj;
+	}
+	//SEL (@selector) Modo astratto di definire un metodo con nome 
+	SEL selector = @selector(lowercaseString);
+	if ([obj respondsToSelector:selector]) {
+		NSString* str = [obj performSelector:selector];
+	}
 }
 
 
