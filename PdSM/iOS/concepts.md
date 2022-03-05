@@ -54,7 +54,24 @@
 - Meno codice -> meno rischio
 - in Progetti che usano ARC l'uso dei metodi di Manual Reference Counting è proibito
 - Non c'è nemmeno da implementare dealloc (lo fa automaticamente l'ARC)
+- Introduzione del concetto delle **Weak e Strong references**
+  - strong -> Diventiamo proprietari dell'oggetto a cui ci riferiamo 
+    - una property strong è equivalente a retain ma strong ha accezione ARC, mentre retain ha accezione MRC
+  - weak -> Non diventiamo proprietari dell'oggetto a cui ci riferiamo (e.g. l'oggetto potrebbe essere rilasciato senza che noi lo sappiamo)
+    - una property weak per l'ARC il puntatore diventa nil se l'oggetto di cui non sono proprietario viene freeato, mentre nel caso dell'assign per l'MRC non viene cambiato il valore del puntatore.
 
+
+### Protocols
+- Contenitori di liste di metodi (akin alle interfacce in java)
+- Definisce un modo per accedere ad un oggetto in base a quello che sa fare
+- _Protocols define messaging contracts_: un oggetto sa rispondere a certi messaggi
+- è diverso dall'ereditarietà in quanto si possono vedere oggetti come tipi di oggetti che fanno certe azioni più che facenti parte di una certa gerarchia di classi
+- Una classe che si può definire conforme ad un protocollo se definisce tutti i metodi @required e eventualmente i metodi @optional
+
+### Categories
+- Aumentare le funzionalità della classe utili in certe situazioni particolari
+- Estendere una classe è un approccio molto complesso oppure non fattibile.
+- le Categories aggiungono metodi a classi esistenti senza creare sottoclassi
 
 ### Method Invocation
 - La Method invocation è basata su message passing agli oggetti

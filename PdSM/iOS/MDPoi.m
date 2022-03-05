@@ -1,5 +1,11 @@
 #import "MDPoi.h"
 
+//Anonymous category containing hidden private properties and methods
+@interface MDPoi() {
+  @property (strong) NSString* privateProp;
+  - (void) privateMethod;
+}
+
 @implementation MDPoi
 
 //Fino ad iOS6 inizializzatori dovevano sempre ritornare id
@@ -72,6 +78,11 @@
 	//^ Piccolo cuscinetto temporale che consente all'oggetto chiamante del metodo di diventare proprietario dell'oggetto prima 
 	//che venga distrutto da questo metodo con release
 	return array;
+}
+
+//Implementazione del privateMethod dentro la category
+- (void) privateMethod {
+
 }
 
 //Example method calls on object poi of type MDPoi:
