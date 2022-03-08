@@ -266,6 +266,7 @@ Sequenze di conversioni:
 		Razionale(int n); // Conversione implicita int -> Razionale
 		operator double() const; //Conversione implicita Razionale -> double
 	};
+	//Ref: 12-converisoni-implicite.txt
 
 ----------------------------------------------------------------------
 
