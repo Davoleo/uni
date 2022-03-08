@@ -286,7 +286,7 @@ Per ognuno degli M argomenti presenti nella chiamata, si crea
 una classifica delle funzioni utilizzabili. La funzione migliore
 (se esiste) è quella che è preferibile rispetto a tutte le altre.
 Per decidere se X è preferibile rispetto ad Y, si confrontano X e Y
-su tutte le M classifiche corrispondenti agli M argimenti;
+su tutte le M classifiche corrispondenti agli M argomenti;
 X è preferibile a Y se:
   - non perde in nessuno degli M confronti (i.e., vince o pareggia);
   - vince almeno uno degli M confronti.
