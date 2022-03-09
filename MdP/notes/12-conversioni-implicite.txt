@@ -13,6 +13,9 @@ NON prendiamo in considerazione le conversioni che si applicano
 nel caso della sintassi "...", ereditata dal C, che consente di
 avere un numero arbitrario di parametri per una funzione).
 
+La concatenazione di conversioni implicite consentite è: 
+- n conversioni standard -> max 1 conversione utente -> n conversioni standard
+
 1) Le corrispondenze "esatte"
 
 Le corrispondenze esatte corrispondono ad alcune conversioni implicite
