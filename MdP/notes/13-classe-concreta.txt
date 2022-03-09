@@ -1,0 +1,11 @@
+-- Progettazione di un tipo di dato concreto
+
+dovrebbero essere utilizzabili allo stesso livello di tipi built-in
+
+Metodo (a livello intuitivo): 
+- TDD (Test Driven Development)
+- Porzioni di codice che utilizzano la struttura che stiamo creando
+- Prima di implementare le feature si scrivono i test
+- Viene applicato anche in progetti grandi
+
+//// DA INSERIRE NEL FILE CHE IL PROF METTERA' SULLA PIATTAFORMA ////
