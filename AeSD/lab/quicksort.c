@@ -11,11 +11,12 @@
 // prove con array ordinato crescente, decrescente --> numero di confronti?
 // ./a.out 1024 -d=16
 
+// Nel caso di un array già ordinato oppure ordinato reverse quicksort va come O(n^2) poiché sceglie
+// il pivot come ultima cella e ogni volta chiama partition su n-1 celle (caso degenere)
+
 // prove con array random --> numero di confronti?
 // ./a.out 1024 -d=16 -t=100
 
-// Nel caso di un array già ordinato oppure ordinato reverse quicksort va come O(n^2) poiché sceglie
-// il pivot come ultima cella e ogni volta chiama partition su n-1 celle (caso degenere)
 // Nei casi medi quick sort va come O(n*log(n))
 
 int ct_swap = 0;
