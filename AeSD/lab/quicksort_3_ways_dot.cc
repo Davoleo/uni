@@ -76,7 +76,7 @@ struct my_pair
   int x, y;
 };
 
-my_pair partition3(int *A, int p, int r)
+my_pair partition3(int* A, int p, int r)
 {
   /// la funzione implementa il problema della bandiera olandese (Dutch Flag problem)
   /// https://en.wikipedia.org/wiki/Dutch_national_flag_problem
@@ -265,7 +265,7 @@ void quick_sort(int* A, int p, int r)
   }
 }
 
-int parse_cmd(int argc, char **argv)
+int parse_cmd(int argc, char** argv)
 {
   /// controllo argomenti
   if (argc < 2)
@@ -304,7 +304,7 @@ int parse_cmd(int argc, char **argv)
   return 0;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   int i, test;
   int *A;
