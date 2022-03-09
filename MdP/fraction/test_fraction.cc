@@ -59,7 +59,7 @@ void test01() {
 	//stream I/O
 	std::cin >> frac;
 	std::cin >> frac >> frac1;
-	std::cout << frac :: std::endl
+	std::cout << frac << std::endl;
 	std::cout << frac << " + " << frac1 << " = " << frac + frac1 << std::endl; 
 
 	//Invocazione Implicita dei Distruttori

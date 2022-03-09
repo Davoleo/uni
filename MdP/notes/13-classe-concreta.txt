@@ -8,4 +8,8 @@ Metodo (a livello intuitivo):
 - Prima di implementare le feature si scrivono i test
 - Viene applicato anche in progetti grandi
 
+this è di tipo: 
+'fraction* const' ||
+Se il metodo è dichiarato const il tipo di this è 'const fraction* const'
+
 //// DA INSERIRE NEL FILE CHE IL PROF METTERA' SULLA PIATTAFORMA ////
