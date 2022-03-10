@@ -38,6 +38,7 @@ A = [A(:,1:2), A(:, 4:end)];
 
 %%%% ------------------------------------------ %%%%
 
+% Es 2
 x = [1:-0.1:0];
 
 % mostra elementi di x in posizione 1 4 e 3
@@ -72,3 +73,5 @@ B = ones(3) * 2;
 
 % divisione puntuale
 B./A
+
+
