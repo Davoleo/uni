@@ -1,0 +1,3 @@
+Differenza tra wide e narrow contracts
+
+Esercizio pensare all'interfaccia di una delle strutture dati affrontate
