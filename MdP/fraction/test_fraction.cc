@@ -44,8 +44,8 @@ void test01() {
 	//Le versioni postfisse (eccetto i tipi built-in) sono sempre meno efficienti delle versioni prefisse
 	++frac;
 	--frac;
-	frac++; //avoid?
-	frac--;
+	//frac++; //avoid?
+	//frac--;
 
 	//Relational Operators
 	bool rel_res;
@@ -61,6 +61,9 @@ void test01() {
 	std::cin >> frac >> frac1;
 	std::cout << frac << std::endl;
 	std::cout << frac << " + " << frac1 << " = " << frac + frac1 << std::endl; 
+
+	fraction::integer n = frac.num();
+	fraction::integer d = frac.den();
 
 	//Invocazione Implicita dei Distruttori
 
