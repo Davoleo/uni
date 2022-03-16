@@ -11,7 +11,8 @@
                 "_UNICODE"
             ],
             "intelliSenseMode": "linux-gcc-x64",
-            "cStandard": "c11"
+            "cStandard": "c11",
+			"cppStandard": "c++17"
         },
         {
             "name": "Linux",
