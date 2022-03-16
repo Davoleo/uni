@@ -109,7 +109,17 @@ execute(jumpz, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_Fil
 	),
 	Register_File_out = Register_File_in.
 
-execute(jumpz, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_File_in,) :-
+execute(jumpn, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_File_in,) :-
+	stack_pop(Stack_in, Offset, Stack_tmp),
+	stack_pop(Stack_tmp, Value, Stack_out),
+	(Value < 0 ->
+		PC_out is PC_in + Offset - 1,
+		;
+		PC_out = PC_in
+	),
+	Register_File_out = Register_File_in.
+
+execute(jumpnz, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_File_in,) :-
 	stack_pop(Stack_in, Offset, Stack_tmp),
 	stack_pop(Stack_tmp, Value, Stack_out),
 	(Value =\= 0 ->
