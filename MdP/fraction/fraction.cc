@@ -126,6 +126,25 @@ namespace numbers {
 		return *this;
 	}
 
+	void fraction::negate() {
+		assert(this->check_inv());
+		this->num_ = -this->num_;
+		assert(this->check_inv());
+	}
+	fraction fraction::operator-() const {
+		assert(this->check_inv());
+		
+		fraction res = *this;
+		//negazione
+		res.negate();
+		return res;
+	}
+
+	fraction fraction::operator+() const {
+		return *this;
+	}
+
+
 	bool fraction::operator==(const fraction& other) const {
 		assert(this->check_inv() && other.check_inv());
 		return this->num_ == other.num_ && this->den_ == other.den_;
@@ -144,19 +163,19 @@ namespace numbers {
 		return res;
 	}
 
-	fraction operator+(const fraction& x, const fraction& y) {
+	fraction operator-(const fraction& x, const fraction& y) {
 		fraction res = x;
 		res -= y;
 		return res;
 	}
 
-	fraction operator+(const fraction& x, const fraction& y) {
+	fraction operator*(const fraction& x, const fraction& y) {
 		fraction res = x;
 		res *= y;
 		return res;
 	}
 
-	fraction operator+(const fraction& x, const fraction& y) {
+	fraction operator/(const fraction& x, const fraction& y) {
 		fraction res = x;
 		res /= y;
 		return res;

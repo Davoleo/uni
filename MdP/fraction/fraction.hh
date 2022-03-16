@@ -41,6 +41,8 @@ namespace numbers {
 			return den_;
 		}
 
+		void negate();
+
 		//Overloaded Operators
 		//Unary Operators
 		fraction operator+() const;
