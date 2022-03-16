@@ -105,7 +105,7 @@ execute(jumpz, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_Fil
 	(Value =:= 0 ->
 		PC_out is PC_in + Offset - 1,
 		;
-		PC_out = PC_in
+		PC_out is PC_in
 	),
 	Register_File_out = Register_File_in.
 
@@ -115,7 +115,7 @@ execute(jumpn, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_Fil
 	(Value < 0 ->
 		PC_out is PC_in + Offset - 1,
 		;
-		PC_out = PC_in
+		PC_out is PC_in
 	),
 	Register_File_out = Register_File_in.
 
@@ -125,7 +125,7 @@ execute(jumpnz, PC_in, Stack_in, Register_File_in, PC_out, Stack_in, Register_Fi
 	(Value =\= 0 ->
 		PC_out is PC_in + Offset - 1,
 		;
-		PC_out = PC_in
+		PC_out is PC_in
 	),
 	Register_File_out = Register_File_in.
 
