@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 
 //int è un tipo built-in, non c'è bisogno di importare niente per utilizzarlo
 // i tipi unsigned vengono modulati in automatico quando in overflow
@@ -49,7 +50,7 @@ struct SampleStruct {
 //non è possibile se SampleStruct è dichiarata ma non è definita
 SampleStruct sample;
 // possibile anche se SampleStruct è solo dichiarata
-SampleStruct* sample;
+SampleStruct* samplep;
 
 //solo uno dei due dati può essere immagazzinato
 union aut
@@ -59,10 +60,10 @@ union aut
 };
 
 //non è possibile fare dichiarazioni pure di enumerazioni
-enum Semaforo; 
+//enum Semaforo; 
 //Se non è specificato il tipo nascosto che viene usato per rappresentare i valori dell'enumerazioni
 //Dentro header
-enum Semaforo : int;
+//enum Semaforo : int;
 
 // gli indici di default iniziano da 0 a meno che il 
 //primo non sia specificato, quel caso parte da quel numero
@@ -129,20 +130,30 @@ int funzione_molto_lunga(int a) {
 
 // Default declarations of an emtpy struct in C++
 struct S {
-	S();
-	S(const S& s);
-	S& operator=(const S& s);
-	~S();
+	S() = default;
+	S(const S& s) = default;
+	S& operator=(const S& s) = default;
+	virtual ~S() = default;
 
 	//dal C++11 
 	//Per rvalue temporanei (spostamento di valori che non servono più invece che copiarle)
 	//Move semantics
-	S(S&& s);
-	S& operator=(S&& s);
+	S(S&& s) = default;
+	S& operator=(S&& s) = default;
 };
 
+int foo(int a) {
+	assert(a > 0);
+	return 2 * a;
+}
+
+// compile con -g per mettere inormazioni di debug per gdb 
+// -DNDEBUG = #define NDEBUG => Disattiva le asserzioni
 int main() {
 	S s1;
 	S s2 = s1;
 	s2 = s1;
+
+	foo(5);
+	foo(-5);
 }
