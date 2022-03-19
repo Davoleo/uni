@@ -327,5 +327,44 @@ ci sono anche metodi che notificano il controller di rotation events:
 - `awakeFromNib` costruttore di un controller a partire da un storyboard
   - deve avere codice di inizializzazione che non viene usato da nessun'altra parte
 
-### View Controller Lifecycle
+### Struttura MVC tra più controller diversi
+- Interazione corretta con utente tramite sequenza di schermate di diversi ViewController
+- Good OOP Design: View controllers sono highly specialized (Ogni view controller controlla una view di specific content)
+- Esempi di Apple: Contacts App, Calendar App, Music App
+
+**Controllers of view controllers**
+- `UINavigationController`
+  - Perfetta per la navigazione di contenuto gerarchico
+  - Utilizzo tipico per arrivaer a detailed content (e.g. categorie di settings, visualizzazioni del calendario sempre più specifiche)
+  - Back button automatico per tornare indietro nella gerarchia
+  - Organizza i controller in una struttura dati di tipo stack
+  - metodi per modificare lo stack a runtime:
+  ```objective-c
+  -(void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated //usato per pushare una view sulla cima dello stack
+  -(UIViewController*)popViewControllerAnimated:(BOOL)animated //usato per poppare un view controller via dalla cima dello stack
+  -(NSArray*)popToViewController:(UIViewController*)viewController animated:(BOOL)animated //usato per poppare tutti i controller dello stack finché uno specifico view controller non è sulla cima dello stack
+  -(NSArray*)popToRootControllerAnimated:(BOOL)animated //usato per poppare tutti i view controller sullo stack tranne il root view controller
+  ```
+  - _Bisogna stare attenti ai memory leak dovuti ai cicli di aggiungimento dei controller senza rimuoverli dallo stack_
+  - Da anche un'intelaiatura che permette all'utente di capire com'è strutturata l'app
+    - Navigation Bar: 
+	  - `title`: property della stringa che viene mostrata al centro della barra
+	  - un back button che mostra il `title` dell'UIViewController precedente
+	  - un array di `UIBarButtonItem` accessibile tramite la proprietà: `navigationItem.rightBarButtonItems`
+    - optional Toolbar: Per gestire la toolbar c'è un NSArray toolbarItems
+	- Segue: Transizione da un view controller al prossimo: identificate da: controller precedente, controller successivo, nome della transizione.
+	  - Sono responsabili di performare la transizione visuale tra 2 view controller
+	  - Può essere triggerata da: un outlet nello storyboard, programmaticamente
+	  - Diverse tipologie di Segue: push, modal, custom
+- `UITabBarController`
+Non intercambiabili: 2 modi diversi di organizzare la navigazione
+
+### Transition between MVC: Segues
+- Transitions among MVCs sono chiamate segue
+- Possonoe essere triggerati dai controlli della view o da eventi che avvengono nell'app
+
+**Aggiungere un view controller in step:**
+1. drag UIViewController dalla palette allo storyboard
+2. creare una sottoclasse di UIViewController 
+3. nell'inspector dell'identità si setta la classe del view controller alla classe appena creata
 
