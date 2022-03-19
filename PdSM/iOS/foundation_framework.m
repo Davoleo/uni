@@ -94,3 +94,6 @@ for (id object in alpha) {
 for (NSString* string in alpha) {
 	//do something with string
 }
+
+//NSRange è una struct che specifica uno starting point e un offset su un array
+// è passata per valore (è come un'array window)
