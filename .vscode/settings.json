@@ -87,7 +87,8 @@
 		"fcntl.h": "c",
 		"semaphore.h": "c",
 		"stdint.h": "c",
-		"math.h": "c"
+		"math.h": "c",
+		"bench.h": "c"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false
