@@ -1,6 +1,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define M_2_SQRTPI 1.12837916709551257390   // 2/sqrt(pi)
+
 double gaussian (double x) {
     return exp(-x * x);
 }

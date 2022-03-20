@@ -6,12 +6,20 @@
 typedef struct args {
 	bool details;
 	bool graph;
+	int max_dim;
+	int div_n;
+	int test_n;
 } args_t;
 
 int parse_cmd(int argc, char** argv, args_t* out)
 {
-	//va be fallo te
-	//*out = {false, false};
+	if (argc < 1)
+		return -1;
+	if (argc == 1)
+	{
+		*out = (args_t){false, false, 100, 100, 1};
+		return argc;
+	}
 
 	/// controllo argomenti
 	bool ok_parse = false;
@@ -32,6 +40,21 @@ int parse_cmd(int argc, char** argv, args_t* out)
 			out->graph = true;
 			ok_parse = true;
 		}
+		if (argv[i][1] == 'm')
+		{
+			out->max_dim = atoi(argv[i] + 3);
+			ok_parse = true;
+		}
+		if (argv[i][1] == 'd')
+		{
+			out->div_n = atoi(argv[i] + 3);
+			ok_parse = true;
+		}
+		if (argv[i][1] == 't')
+		{
+			out->test_n = atoi(argv[i] + 3);
+			ok_parse = true;
+		}
 	}
 
 	if (!ok_parse)
@@ -40,8 +63,13 @@ int parse_cmd(int argc, char** argv, args_t* out)
 		printf("Options:\n");
 		printf("  -verbose: Abilita stampe durante l'esecuzione dell'algoritmo\n");
 		printf("  -graph: creazione file di dot con il grafo dell'esecuzione (forza d=1 t=1)\n");
-		return 1;
+		printf("  -m=<int>: specifica la massima dimensione n del problema\n");
+		printf("  -d=<int>: Specifica quali dimensioni n del problema vengono lanciate in sequenza [default: 1] \n");
+    	printf("            n = k * max-dim / d, k=1 .. d\n");
+    	printf("  -t=<int>: Specifica quanti volte viene lanciato l'algoritmo per una specifica dimensione n [default: 1]\n");
+    	printf("            Utile nel caso in cui l'input viene inizializzato in modo random\n");
+		return -1;
 	}
 
-	return 0;
+	return argc;
 }
