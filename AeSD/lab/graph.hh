@@ -3,16 +3,17 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
-
+using std::string;
+using std::cout;
+using std::endl;
 
 int global_count_recursion = 0;
-ofstream output_graph;
+std::ofstream output_graph;
 
 
-void graph_open(string filename)
+void graph_open(string&& filename)
 {
-	output_graph.open("graph.dot");
+	output_graph.open(filename);
 	/// preparo header
 	output_graph << "digraph g" << endl;
 	output_graph << "{ " << endl;
@@ -29,7 +30,7 @@ void graph_close()
 }
 
 
-void graph_write_array(int *A, int a, int b, string c, bool enable = false)
+void graph_write_array(int* A, int a, int b, string c, bool enable = false)
 {
 	/// prepara il disegno dell'array A ed il suo contenuto dall'indice a all'indice b inclusi
 
