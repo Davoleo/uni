@@ -124,10 +124,10 @@ struct Matrix {
   Matrix();  // costruttore di default
   ~Matrix(); // distruttore
 
-  Matrix(const Matrix&);            // costr. di copia (copy ctor)
+  Matrix(const Matrix&);            // costr. di copia (copy ctor) [Overload: Prende lvalue]
   Matrix& operator=(const Matrix&); // assegn. per copia (copy assign.)
 
-  Matrix(Matrix&&);            // costr. per spostamento (move ctor)
+  Matrix(Matrix&&);            // costr. per spostamento (move ctor) [Overload: Prende rvalue]
   Matrix& operator=(Matrix&&); // assegnam. per spostamento (move assign.)
 
   // ... altro
@@ -156,6 +156,11 @@ della copia) per restituirlo al chiamante.
 Volendo, è possibile ottimizzare anche la prima copia, fornendo una
 versione alternativa (in overloading) della funzione bar:
 
+Posso modificare direttamente arg perché il chiamante dichiara che non gli serve più
+
+Per passare da rvalue a lvalue -> basta l'assegnamento di un nome 
+(non appena il parametro attuale rvalue viene bindato
+ad arg diventa un lvalue)
 Matrix bar(Matrix&& arg) {
   // modifica in loco di arg
   return arg; // sposta (non copia)
@@ -188,13 +193,15 @@ alla funzione bar, vi sono due possibilità:
 
 -- La funzione std::move
 
+**Trasformazione di un entità da lvalue a rvalue**
+
 Supponimo che il chiamante si trovi a dovere invocare la funzione bar
 discussa sopra con un lvalue m di tipo Matrix, ma non è interessato
 a preservare il valore di m e quindi lo vorrebbe "spostare" nella
 funzione bar, evitando la copia (costosa e inutile).
 Se si usa la chiamata
   bar(m);
-siccome m è un lvalue verrebbe comunque invocato (almeno una volta)
+siccome m è un *lvalue* verrebbe comunque invocato (almeno una volta)
 il costruttore per copia. Per evitarla, occorre un modo per convertire
 il tipo di m da riferimento a lvalue (Matrix&) a riferimento a rvalue
 (Matrix&&): questo è esattamente l'effetto ottenuto usando la funzione
