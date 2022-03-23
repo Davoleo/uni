@@ -22,7 +22,7 @@
 
   Ricorda:
   - Lanciare oggetti per valore e non per puntatore (potrebbero spirare a causa dei distruttori chiamati in catena)
-  - Catturare per riferimento 
+  - Catturare per riferimento (per evitare di fare copie in giro)
 */
 
 #include <iostream>
