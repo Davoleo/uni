@@ -1,0 +1,133 @@
+digraph g
+{ 
+node [shape=none]
+rankdir="LR"
+edge[tailclip=false,arrowtail=dot];
+subgraph cluster_0 {
+label=" INS FRONT: lista punta a nuovo nodo";
+style=filled;
+color="#e0ffe0";
+list_0_0
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">list</TD> </TR><TR>
+<TD PORT="next" > head: 16</TD>
+</TR></TABLE>>];
+list_0_0:next:e -> node_16_0:id ;
+node_16_0
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">16</TD> </TR><TR>
+<TD PORT="val">10</TD>
+ <TD PORT="next" bgcolor="#808080"> NULL</TD>
+</TR></TABLE>>];
+}
+subgraph cluster_1 {
+label=" INS FRONT: lista punta a nuovo nodo";
+style=filled;
+color="#e0ffe0";
+list_0_1
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">list</TD> </TR><TR>
+<TD PORT="next" > head: 32</TD>
+</TR></TABLE>>];
+list_0_1:next:e -> node_32_1:id ;
+node_32_1
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">32</TD> </TR><TR>
+<TD PORT="val">20</TD>
+ <TD PORT="next" > 16</TD>
+</TR></TABLE>>];
+node_32_1:next:c -> node_16_1:id ;
+node_16_1
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">16</TD> </TR><TR>
+<TD PORT="val">10</TD>
+ <TD PORT="next" bgcolor="#808080"> NULL</TD>
+</TR></TABLE>>];
+}
+subgraph cluster_2 {
+label=" INS FRONT: lista punta a nuovo nodo";
+style=filled;
+color="#e0ffe0";
+list_0_2
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">list</TD> </TR><TR>
+<TD PORT="next" > head: 48</TD>
+</TR></TABLE>>];
+list_0_2:next:e -> node_48_2:id ;
+node_48_2
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">48</TD> </TR><TR>
+<TD PORT="val">30</TD>
+ <TD PORT="next" > 32</TD>
+</TR></TABLE>>];
+node_48_2:next:c -> node_32_2:id ;
+node_32_2
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">32</TD> </TR><TR>
+<TD PORT="val">20</TD>
+ <TD PORT="next" > 16</TD>
+</TR></TABLE>>];
+node_32_2:next:c -> node_16_2:id ;
+node_16_2
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">16</TD> </TR><TR>
+<TD PORT="val">10</TD>
+ <TD PORT="next" bgcolor="#808080"> NULL</TD>
+</TR></TABLE>>];
+}
+subgraph cluster_3 {
+label=" DEL FRONT: cancello nodo";
+style=filled;
+color="#e0ffe0";
+list_0_3
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">list</TD> </TR><TR>
+<TD PORT="next" > head: 32</TD>
+</TR></TABLE>>];
+list_0_3:next:e -> node_32_3:id ;
+node_32_3
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">32</TD> </TR><TR>
+<TD PORT="val">20</TD>
+ <TD PORT="next" > 16</TD>
+</TR></TABLE>>];
+node_32_3:next:c -> node_16_3:id ;
+node_16_3
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">16</TD> </TR><TR>
+<TD PORT="val">10</TD>
+ <TD PORT="next" bgcolor="#808080"> NULL</TD>
+</TR></TABLE>>];
+}
+subgraph cluster_4 {
+label=" DEL FRONT: cancello nodo";
+style=filled;
+color="#e0ffe0";
+list_0_4
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">list</TD> </TR><TR>
+<TD PORT="next" > head: 16</TD>
+</TR></TABLE>>];
+list_0_4:next:e -> node_16_4:id ;
+node_16_4
+[label=<
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" >
+<TR> <TD CELLPADDING="3" BORDER="0"  ALIGN="LEFT" bgcolor="#f0f0f0" PORT="id">16</TD> </TR><TR>
+<TD PORT="val">10</TD>
+ <TD PORT="next" bgcolor="#808080"> NULL</TD>
+</TR></TABLE>>];
+}
+}
