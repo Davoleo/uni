@@ -14,4 +14,4 @@ void codice_utente() {
 //Sia l'acquisizione sia il rilascio della risorsa sono impliciti
 
 // Esercizio
-// controllare il codice dell'es su: libpqxx 
+// controllare il codice dell'es su: libpqxx & libpq
