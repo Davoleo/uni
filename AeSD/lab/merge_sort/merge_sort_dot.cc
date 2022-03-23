@@ -7,10 +7,9 @@
 #include <fstream>
 
 #include "../graph.hh"
+#include "../cmd.h"
 
-using namespace std;
-
-// compilazione: g++ -xc++ lezione2-1-merge_sort-dot.c
+// compilazione: g++ merge_sort_dot.cc -o merge_sort_dot
 //
 // Obiettivo: disegnare la sequenza di ordinamenti effettuata e la struttura delle chiamate ricorsive
 //   --> 1 Creazione nodi e numerazione univoca per tracciare la ricorsione
@@ -27,15 +26,12 @@ using namespace std;
 int ct_swap = 0;
 int ct_cmp = 0;
 
-int max_dim = 0;
-int ntests = 1;
-int ndiv = 1;
 int details = 0;
 int graph = 0;
 
 int n = 0; /// dimensione dell'array
 
-void print_array(int *A, int dim)
+void print_array(int* A, int dim)
 {
 	for (int j = 0; j < dim; j++)
 	{
@@ -44,7 +40,7 @@ void print_array(int *A, int dim)
 	printf("\n");
 }
 
-void swap(int &a, int &b)
+void swap(int& a, int& b)
 {
 	int tmp = a;
 	a = b;
@@ -53,7 +49,7 @@ void swap(int &a, int &b)
 	ct_swap++;
 }
 
-void merge(int *A, int p, int q, int r, int *L, int *R)
+void merge(int* A, int p, int q, int r, int* L, int* R)
 {
 
 	/// copia valori delle due meta p..q e q+1..r
@@ -97,7 +93,7 @@ void merge(int *A, int p, int q, int r, int *L, int *R)
 	}
 }
 
-void merge_sort(int *A, int p, int r, int *L, int *R)
+void merge_sort(int* A, int p, int r, int* L, int* R)
 {
 	/// gli array L e R sono utilizzati come appoggio per copiare i valori: evita le allocazioni nella fase di merge
 	if (p < r)
@@ -142,72 +138,34 @@ void merge_sort(int *A, int p, int r, int *L, int *R)
 	}
 }
 
-int parse_cmd(int argc, char **argv)
+int main(int argc, char** argv)
 {
-	/// controllo argomenti
-	if (argc < 2)
-	{
-		printf("Usage: %s max-dim [Options]\n", argv[0]);
-		printf("   max-dim: specifica la massima dimensione n del problema\n");
-		printf("Options:\n");
-		printf("  -d=<int>: Specifica quali dimensioni n del problema vengono lanciate in sequenza [default: 1] \n");
-		printf("            n = k * max-dim / d, k=1 .. d\n");
-		printf("  -t=<int>: Specifica quanti volte viene lanciato l'algoritmo per una specifica dimensione n [default: 1]\n");
-		printf("            Utile nel caso in cui l'input viene inizializzato in modo random\n");
-		printf("  -verbose: Abilita stampe durante l'esecuzione dell'algoritmo\n");
-		printf("  -graph: creazione file di dot con il grafo dell'esecuzione (forza d=1 t=1)\n");
-		return 1;
-	}
-
-	/// parsing argomento
-	max_dim = atoi(argv[1]);
-
-	for (int i = 2; i < argc; i++)
-	{
-		if (argv[i][1] == 'd')
-			ndiv = atoi(argv[i] + 3);
-		if (argv[i][1] == 't')
-			ntests = atoi(argv[i] + 3);
-		if (argv[i][1] == 'v')
-			details = 1;
-		if (argv[i][1] == 'g')
-		{
-			graph = 1;
-			ndiv = 1;
-			ntests = 1;
-		}
-	}
-
-	return 0;
-}
-
-int main(int argc, char **argv)
-{
-	int i, test;
 	int *A;
 	int *L; /// usato come buffer di appoggio
 	int *R; /// usato come buffer di appoggio
 
-	if (parse_cmd(argc, argv))
+	args_t args;
+	if (parse_cmd(argc, argv, &args) < 0)
 		return 1;
 
 	/// allocazione array
-	A = new int[max_dim];
-	L = new int[max_dim + 1];
-	R = new int[max_dim + 1];
+	A = new int[args.max_dim];
+	L = new int[args.max_dim];
+	R = new int[args.max_dim];
 
 	// init random
 	srand((unsigned)time(NULL));
 
-	if (graph) graph_open("graph.dot");
+	if (graph) 
+		graph_open("graph.dot");
 
-	if (ndiv > 1)
+	if (args.div_n > 1)
 		printf("Dim_array,N_test,min_swap,avg_swap,max_swap,worst_case_swap,min_cmp,avg_cmp,max_cmp,worst_case_cmp\n");
 
 	// printf("Parametri: max-dim %d, d %d, t %d, verbose %d\n",max_dim,ndiv,ntests,details);
 
 	//// inizio ciclo per calcolare 100 dimensioni di array crescenti
-	for (n = max_dim / ndiv; n <= max_dim; n += max_dim / ndiv)
+	for (n = args.max_dim / args.div_n; n <= args.max_dim; n += args.max_dim / args.div_n)
 	{
 		int swap_min = -1;
 		int swap_max = -1;
@@ -218,11 +176,11 @@ int main(int argc, char **argv)
 		long cmp_avg = 0;
 
 		//// lancio ntests volte per coprire diversi casi di input random
-		for (test = 0; test < ntests; test++)
+		for (int test = 0; test < args.test_n; test++)
 		{
 
 			/// inizializzazione array: numeri random con range dimensione array
-			for (i = 0; i < n; i++)
+			for (int i = 0; i < n; i++)
 			{
 				// if (graph)
 				// A[i]= n - i;
@@ -262,14 +220,15 @@ int main(int argc, char **argv)
 				cmp_max = ct_cmp;
 		}
 
-		if (ndiv > 1)
+		if (args.div_n > 1)
 			printf("%d,%d,%d,%.1f,%d,%.1f,%d,%.1f,%d,%.1f\n",
-			       n, ntests,
-			       swap_min, (0.0 + swap_avg) / ntests, swap_max, 0.0,
-			       cmp_min, (0.0 + cmp_avg) / ntests, cmp_max, n * log(n) / log(2));
+			       n, args.test_n,
+			       swap_min, (0.0 + swap_avg) / args.test_n, swap_max, 0.0,
+			       cmp_min, (0.0 + cmp_avg) / args.test_n, cmp_max, n * log(n) / log(2));
 	}
 
-	if (graph) graph_close();
+	if (graph) 
+		graph_close();
 
 	delete[] A;
 	delete[] L;
