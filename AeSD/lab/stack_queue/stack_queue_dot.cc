@@ -44,7 +44,8 @@ typedef struct node
 /// struct per la lista
 typedef struct list
 {
-	node *head;
+	node* head;
+	node* tail;
 } list_t;
 
 //////////////////////////////////////////////////
@@ -52,6 +53,7 @@ typedef struct list
 //////////////////////////////////////////////////
 
 typedef struct list my_stack;
+typedef struct list my_queue;
 
 /// Questo e' un modo per stampare l'indirizzo node relativamente ad un altro di riferimento.
 /// Permette di ottenere offset di piccola dimensione per essere facilmente visualizzati
@@ -173,7 +175,7 @@ void print_status(list_t *l, node_t *n, string c)
 	n_operazione++;
 }
 
-list_t *list_new(void)
+list_t* list_new(void)
 {
 	list_t *l = new list;
 	if (details)
@@ -181,22 +183,24 @@ list_t *list_new(void)
 		printf("Lista creata\n");
 	}
 
-	l->head = NULL; //// perche' non e' l.head ?
+	l->head = NULL;
+	l->tail = NULL; 
 	if (details)
 	{
 		printf("Imposto a NULL head\n");
+		printf("Imposto a NULL tail\n");
 	}
 
 	return l;
 }
 
-void list_delete(list_t *l)
+void list_delete(list_t *list)
 {
 	//// implementare rimozione dal fondo della lista
 	//// deallocazione struct list
 }
 
-void list_insert_front(list_t *l, int elem)
+void list_insert_front(list_t* list, int elem)
 {
 	/// inserisce un elemento all'inizio della lista
 	node_t *new_node = new node_t;
@@ -208,25 +212,32 @@ void list_insert_front(list_t *l, int elem)
 
 	// if (graph) print_status(l,new_node,"INS FRONT: assegno valore");
 
-	new_node->next = l->head;
+	new_node->next = list->head;
 
 	// if (graph) print_status(l,new_node,"INS FRONT: next agganciato a lista");
 
-	l->head = new_node;
+	list->head = new_node;
 
 	if (graph)
-		print_status(l, NULL, "INS FRONT: lista punta a nuovo nodo");
+		print_status(list, NULL, "INS FRONT: lista punta a nuovo nodo");
+
+	if (list->tail == NULL) 
+	{
+		list->tail = new_node;
+		if(graph) 
+			print_status(list,NULL,"INS FRONT: aggiorno tail");
+	}
 }
 
-void list_delete_front(list_t *l)
+void list_delete_front(list_t *list)
 {
 	/// elimina il primo elemento della lista
-	node_t *node = l->head; // il nodo da eliminare
+	node_t *node = list->head; // il nodo da eliminare
 
 	if (node == NULL) // lista vuota
 		return;
 
-	l->head = node->next;
+	list->head = node->next;
 
 	// if (graph) print_status(l,node,"DEL FRONT: aggancio lista a nodo successivo");
 
@@ -234,10 +245,39 @@ void list_delete_front(list_t *l)
 
 	// if (graph) print_status(l,node,"DEL FRONT: sgancio puntatore da nodo da cancellare");
 
+	if (list->head == NULL) { //lista vuota -> Anche il puntatore a tail è da annullare
+		list->tail = NULL;
+		if (graph) 
+			print_status(list, node, "DEL FRONT: annullo tail");
+	}
+
 	delete node;
 
 	if (graph)
-		print_status(l, NULL, "DEL FRONT: cancello nodo");
+		print_status(list, NULL, "DEL FRONT: cancello nodo");
+}
+
+/**
+ * \brief inserisce un elmento alla fine della lista
+ **/
+void list_insert_tail(list_t* list, int elem)
+{
+	node_t* new_node = new node_t;
+	new_node->next = NULL;
+	new_node->val = elem;
+
+	node_t* last_node = list->tail;
+	if (last_node == NULL) {
+		list->head = new_node;
+		list->tail = new_node;
+	}
+	else {
+		last_node->next = new_node;
+		list->tail = new_node;
+	}
+	
+	if (graph)
+		print_status(list, NULL, "INS TAIL");
 }
 
 void print_array(int *A, int dim)
@@ -332,6 +372,35 @@ void parse_cmd(int argc, char** argv)
 	details = 1;
 }
 
+////////// operazioni queue
+my_queue* queue_new() 
+{
+	return list_new();
+}
+
+int queue_front(my_queue* queue) 
+{
+	if(queue->head != NULL) 
+		return queue->head->val;
+	printf("ERROR: queue is empty!\n");
+	return -1;
+}
+
+int queue_dequeue(my_queue* queue) {
+	if (queue->head != NULL) {
+		int val = queue->head->val;
+		list_delete_front(queue);
+		return val;
+	}
+	printf("ERROR: queue is empty!\n");
+	return -1;
+}
+
+void queue_enqueue(my_queue* queue, int elem) {
+	//Delegate to list function
+	list_insert_tail(queue, elem);
+}
+
 int main(int argc, char** argv)
 {
 	int i, test;
@@ -352,10 +421,22 @@ int main(int argc, char** argv)
 
 	my_stack *s = stack_new();
 	global_ptr_ref = s;
+	my_queue* qu = queue_new();
+
+	queue_enqueue(qu, 10);
+	queue_enqueue(qu, 20);
+	queue_enqueue(qu, 30);
+	printf("queue %d\n", queue_dequeue(qu));
+	printf("queue %d\n", queue_dequeue(qu));
+	printf("queue %d\n", queue_dequeue(qu));
 
 	stack_push(s, 10);
 	stack_push(s, 20);
 	stack_push(s, 30);
+	printf("stack %d\n", stack_pop(s));
+	printf("stack %d\n", stack_pop(s));
+	printf("stack %d\n", stack_pop(s));
+
 	if (details)
 		stack_print(s);
 	printf("top %d\n", stack_top(s));
