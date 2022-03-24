@@ -90,28 +90,46 @@ public:
 // ---------------------------
 
 C3 c3;
+//Constructor C1::C1()  superclass of global C3 object
+//Constructor C3::C3()  global C3 object
+
+//Constructor C1::C1()  global C1 object (see below)
 
 // ---------------------------
 
 int main() {
-  std::cout << "Start" << std::endl;
+  std::cout << "Start" << std::endl; //Start
   try {
     C1 c1;
+	  //Constructor C1::C1()
     D d;
+    //Constructor C1::C1() superclass of D
+	  //Constructor C1::C1() superclass of C3
+	  //Constructor C3::C3() member of D
+	  //Constructor C2::C2()
+	  //Destructor C3::~C3()
+	  //Destructor C1::~C1()
+    //Destructor C1::~C1()
+    //Destructor C1::~C1()
   }
   catch (char c) {
     std::cerr << "char " << c << std::endl;
   }
   catch (...) {
-    std::cerr << "..." << std::endl;
+    std::cerr << "..." << std::endl; //...
   }
-  std::cout << "End" << std::endl;
+  std::cout << "End" << std::endl; //End
   return 0;
 }
 
 // ---------------------------
 
 C1 c1;
+
+//Destruction of global objects
+//Destructor C1::~C1()
+//Destructor C3::~C3()
+//Destructor C1::~C1()
 
 // ---------------------------
 
