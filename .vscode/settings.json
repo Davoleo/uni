@@ -89,7 +89,9 @@
 		"stdint.h": "c",
 		"math.h": "c",
 		"bench.h": "c",
-		"cassert": "cpp"
+		"cassert": "cpp",
+		"utils.h": "c",
+		"cmd.h": "c"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false
