@@ -35,7 +35,7 @@ B=A.*A;
 
 % Moltiplicazione righe/colonne tra la matrice A e se stessa
 % Impossibile perché se la matrice A è di grandezza 3x4 allora la matrice in seconda posizione deve essere di grandezza 4x3
-B=A*A;
+% B=A*A;
 
 % Moltiplicazione righe/colonne tra la matrice A e se stessa trasposta
 % Siccome una delle 2 matrici A è trasposta le grandezze sono compatibili, ed è quindi possibile effettuare il prodotto righe/colonne
@@ -89,3 +89,33 @@ B1 = diag(diag(A, -1), -1) + diag(diag(A)) + diag(diag(A, 1), 1)
 B2 = diag(diag(A)) + diag(diag(A, 1), 1)
 % Matrice bidiagonale inferiore con elementi di A
 B3 = diag(diag(A, -1), -1) + diag(diag(A))
+
+pause
+clc
+clear
+% 8)
+for alpha = 1:10
+    p = 10^alpha;
+    b = (1 + p^2) / p;
+
+    t1 = (b - sqrt(b^2-4)) / 2;
+    t2 = (b + sqrt(b^2-4)) / 2;
+    t1exact = 1/p;
+    t2exact = p;
+
+    x1 = -sqrt(t1);
+    x2 = sqrt(t1);
+    x3 = -sqrt(t2);
+    x4 = sqrt(t2);
+    x1exact = -1/sqrt(p);
+    x2exact = 1/sqrt(p);
+    x3exact = -sqrt(p);
+    x4exact = sqrt(p);
+    x = [x1,x2,x3,x4]';
+    xexact = [x1exact,x2exact,x3exact,x4exact]';
+    % Confronto soluzioni con quelle esatte
+    [x xexact];
+    % Errore Assoluto sulle soluzioni
+	abs(x - xexact)
+end
+
