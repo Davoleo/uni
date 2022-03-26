@@ -3,6 +3,7 @@
 //#include "../bench.h"
 #include "../cmd.h"
 #include "../utils.h"
+#include "../bench.h"
 //#include "../quicksort/quicksort.c"
 
 /**
@@ -14,7 +15,6 @@ int main(int argc, char** argv) {
 
 	if (parse_cmd(argc, argv, &args) < 0)
 		return 1;
-
 
 	int* arr = malloc(sizeof(int) * args.max_dim);
 
