@@ -1,0 +1,1 @@
+A = eye(9,9).*-2 + diag(ones(1,8),-1) + diag(ones(1,8), 1)

@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 /*
-- Algoritth tests
+- Algorithm tests
 * Linear Search
 * Dichotomic Search
 * Insertion Sort

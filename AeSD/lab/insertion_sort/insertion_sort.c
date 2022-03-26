@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../bench.c"
+#include "../bench.h"
 
 
 // compilazione: gcc insertion_sort.c -o insertion_sort

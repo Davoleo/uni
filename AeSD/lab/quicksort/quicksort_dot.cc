@@ -7,7 +7,7 @@
 #include <fstream>
 using namespace std;
 
-// compilazione: g++ -xc++ lezione4-2-quicksort-dot.c
+// compilazione: g++ quicksort_dot.cc
 //
 // Obiettivo:
 
@@ -313,9 +313,9 @@ int main(int argc, char **argv)
       /// inizializzazione array: numeri random con range dimensione array
       for (i = 0; i < n; i++)
       {
-        A[i] = n - i;
+        //A[i] = n - i;
         // A[i]= rand() % (n*10);
-        // A[i]= rand() % (n/4);
+        A[i]= rand() % (n/4);
       }
 
       if (details)
