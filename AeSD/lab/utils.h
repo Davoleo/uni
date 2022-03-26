@@ -3,9 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+char* filename = NULL;
+
 
 void print_array(int* arr, int length) {
-	puts("BRUH");
 	putchar('[');
 	for (int i = 0; i < length; ++i) {
 		if (i > 0)
@@ -39,7 +40,7 @@ void init_array_reverse_ordered(int* arr, int length) {
 		arr[i]= length - i;
 }
 
-void init_array_csv(int* arr, int length, const char* filename) {
+void init_array_csv(int* arr, int length) {
 	FILE* input_data = fopen(filename, "r");
 
 	for (int i = 0; i < length; ++i) {
