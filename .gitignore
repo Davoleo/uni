@@ -14,3 +14,6 @@
 # Matrix project compiled files
 SO/MatrixProject/out
 SO/MatrixProject/docs
+
+# Mac OS X weird files
+**/.DS_Store
