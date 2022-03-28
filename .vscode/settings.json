@@ -94,5 +94,7 @@
 		"cmd.h": "c"
 	},
     "editor.insertSpaces": false,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+	//Changes C/C++ Pointer Alignment (cause I don't like `int *variable`)
+	"C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, PointerAlignment: Left }"
 }
