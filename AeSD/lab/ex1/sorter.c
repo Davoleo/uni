@@ -130,6 +130,10 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
     /// n: elementi da ordinare
     /// k: valore massimo contenuto in A
 
+	for (int i = 0; i < n; ++i) {
+		assert(A[i] <= k);
+	}
+
     for (int i = 0; i <= k; ++i) { /// reset array conteggi
         C[i] = 0;
         // ct_opw++;
@@ -193,8 +197,11 @@ int parse_cmd(int argc, char** argv)
     return 0;
 }
 
+#define LOW_HIGH_BOUND 131
+
 int main(int argc, char** argv)
 {
+
     if (parse_cmd(argc, argv))
         return 1;
 
@@ -235,7 +242,7 @@ int main(int argc, char** argv)
             for (int it = 0; it < n; ++it) {
                 ++ct_read;
                 int val = A[it];
-                if (val > 131) {
+                if (val > LOW_HIGH_BOUND) {
                     // Put value in highvalues array and its address in the original array
                     highvals[highvals_size] = val;
                     // A[it] = highvals_size;
@@ -252,21 +259,38 @@ int main(int argc, char** argv)
                     assert(negvals_size <= 50);
                 }
             }
+			// puts("negvals");
+			// print_array(negvals, negvals_size);
+			// puts("lowvals");
+			// print_array(lowvals, lowvals_size);
+			// puts("highvals");
+			// print_array(highvals, highvals_size);
 
             assert(highvals_size > 0);
             assert(lowvals_size > 0);
 
-            int increments[132];
+            int increments[LOW_HIGH_BOUND];
             int* lowvals_copy = malloc(max_dim * sizeof(int));
-            memcpy(lowvals_copy, lowvals, sizeof(int));
+            memcpy(lowvals_copy, lowvals, lowvals_size * sizeof(int));
             ct_read += lowvals_size;
             // Create increments array and lowvals copy to be used as input in counting_sort
 
-            counting_sort(lowvals_copy, lowvals, increments, lowvals_size, 132);
-            free(lowvals_copy);
+            counting_sort(lowvals_copy, lowvals, increments, lowvals_size, LOW_HIGH_BOUND);
+
+			//For some reason freeing this array crashes on windows
+			#ifndef _WIN32
+			free(lowvals_copy);
+			#endif
 
             shellsort(highvals, highvals_size);
             insertion_sort(negvals, negvals_size);
+
+			// puts("negvals");
+			// print_array(negvals, negvals_size);
+			// puts("lowvals");
+			// print_array(lowvals, lowvals_size);
+			// puts("highvals");
+			// print_array(highvals, highvals_size);
 
             int re_size = 0;
             int iter = 0;
@@ -287,6 +311,9 @@ int main(int argc, char** argv)
                 A[re_size++] = highvals[iter];
                 ++iter;
             }
+
+			free(highvals);
+        	free(lowvals);
         } else if (algorithm == 1) {
             shellsort(A, n);
         }
@@ -303,9 +330,6 @@ int main(int argc, char** argv)
         if (read_max < 0 || read_max < ct_read)
             read_max = ct_read;
         printf("Test %d %d\n", test, ct_read);
-
-        // free(highvals);
-        // free(lowvals);
     }
 
     printf("%d,%d,%.1f,%d\n",
