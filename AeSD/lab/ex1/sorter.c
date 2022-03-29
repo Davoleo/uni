@@ -9,6 +9,7 @@
 //#include "../utils.h"
 //#include "../bench.h"
 
+//If running with this definition and -v it is recommended to redirect program output to a file (it logs a lot)
 //#define VERBOSE_ALGORITHMS
 
 /**
@@ -19,6 +20,11 @@
  *
  * algorithm values:
  * 0: composite algorithm [insertion|counting|shellsort]
+ * 	Space-wise it's quite inefficient as it allocates:
+ * 		1 extra arrays of size n  [heap] (lowvalues and copy of lowvalues)
+ * 		1 extra array of size n/2 [heap]
+ * 		1 extra array of 
+ * 		
  * 1: shell sort on the whole array
  **/
 int algorithm = 0;
@@ -177,6 +183,7 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
             printf("A[%d]=%d, C[A[%d]]=%d --> scrivo B[%d-1]=%d\n", j, A[j], j, C[A[j]], C[A[j]], A[j]);
 		#endif
 
+		printf("j | A[j] | C[A[j]] -  %d | %d | %d\n", j, A[j], C[A[j]]);
         B[C[A[j]] - 1] = A[j];
         ct_read += 3;
         C[A[j]] = C[A[j]] - 1;
@@ -249,7 +256,7 @@ int main(int argc, char** argv)
         if (algorithm == 0) {
             int* lowvals = malloc(sizeof(int) * max_dim);
             int lowvals_size = 0;
-            int* highvals = malloc(sizeof(int) * (max_dim));
+            int* highvals = malloc(sizeof(int) * (max_dim / 2));
             int highvals_size = 0;
             int negvals[50];
             int negvals_size = 0;
@@ -260,66 +267,53 @@ int main(int argc, char** argv)
                 if (val > LOW_HIGH_BOUND) {
                     // Put value in highvalues array and its address in the original array
                     highvals[highvals_size] = val;
-                    // A[it] = highvals_size;
                     ++highvals_size;
                 } else if (val >= 0) {
                     // Put value in lowvalues array and its address in the original array offset by 1000
                     lowvals[lowvals_size] = val;
-                    // A[it] = LOWS_OFFSET + lowvals_size;
                     ++lowvals_size;
                 } else {
                     negvals[negvals_size] = val;
-                    // A[it] = NEGS_OFFSET + negvals_size;
                     ++negvals_size;
                     assert(negvals_size <= 50);
                 }
             }
-			// puts("negvals");
-			// print_array(negvals, negvals_size);
-			// puts("lowvals");
-			// print_array(lowvals, lowvals_size);
-			// puts("highvals");
-			// print_array(highvals, highvals_size);
+
+			#ifdef VERBOSE_ALGORITHMS
+			if (details) {
+				puts("negvals");
+				print_array(negvals, negvals_size);
+				puts("lowvals");
+				print_array(lowvals, lowvals_size);
+				puts("highvals");
+				print_array(highvals, highvals_size);
+			}
+			#endif
 
             assert(highvals_size > 0);
             assert(lowvals_size > 0);
 
-            int increments[LOW_HIGH_BOUND];
-            int* lowvals_copy = malloc(max_dim * sizeof(int));
-            memcpy(lowvals_copy, lowvals, lowvals_size * sizeof(int));
-            ct_read += lowvals_size;
-            // Create increments array and lowvals copy to be used as input in counting_sort
-
-            counting_sort(lowvals_copy, lowvals, increments, lowvals_size, LOW_HIGH_BOUND);
-
-			//For some reason freeing this array crashes on windows
-			#ifndef _WIN32
-			free(lowvals_copy); 
-			#endif
-
-            shellsort(highvals, highvals_size);
-            insertion_sort(negvals, negvals_size);
-
-			// puts("negvals");
-			// print_array(negvals, negvals_size);
-			// puts("lowvals");
-			// print_array(lowvals, lowvals_size);
-			// puts("highvals");
-			// print_array(highvals, highvals_size);
-
-            int re_size = 0;
+			//Sort Negative Values and load them back into A
+			insertion_sort(negvals, negvals_size);
+			int re_size = 0;
             int iter = 0;
             while (iter < negvals_size) {
                 ++ct_read;
                 A[re_size++] = negvals[iter];
                 ++iter;
             }
-            iter = 0;
-            while (iter < lowvals_size) {
-                ++ct_read;
-                A[re_size++] = lowvals[iter];
-                ++iter;
-            }
+
+			if (test < 55)
+				continue;
+            
+			/// Create increments array to be used as input in counting_sort (we know lowvals have a max value of \ref LOW_HIGH_BOUND)
+			int increments[LOW_HIGH_BOUND];
+			//Passing a pointer to the first cell after negative values as output for the counting sort
+            counting_sort(lowvals, A + negvals_size, increments, lowvals_size, LOW_HIGH_BOUND);
+			//No need to load lowvals back in A since counting_sort already takes care of that
+			re_size += lowvals_size;
+
+            shellsort(highvals, highvals_size);
 			iter = 0;
             while (iter < highvals_size) {
                 ++ct_read;
@@ -327,8 +321,22 @@ int main(int argc, char** argv)
                 ++iter;
             }
 
+			#ifdef VERBOSE_ALGORITHMS
+			if (details) {
+				puts("negvals post-processing:");
+				print_array(negvals, negvals_size);
+				puts("lowvals post-processing:");
+				print_array(lowvals, lowvals_size);
+				puts("highvals post-processing:");
+				print_array(highvals, highvals_size);
+			}
+			#endif
+
 			free(highvals);
         	free(lowvals);
+
+			puts("Sono qui!");
+			
         } else if (algorithm == 1) {
             shellsort(A, n);
         }
@@ -338,7 +346,7 @@ int main(int argc, char** argv)
             print_array(A, n);
         }
 
-        /// statistiche
+        /// statistics
         read_avg += ct_read;
         if (read_min < 0 || read_min > ct_read)
             read_min = ct_read;
