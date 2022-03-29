@@ -195,9 +195,6 @@ int parse_cmd(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    const int LOWS_OFFSET = 1000;
-    const int NEGS_OFFSET = 2000;
-
     if (parse_cmd(argc, argv))
         return 1;
 
@@ -217,7 +214,6 @@ int main(int argc, char** argv)
 
         /// inizializzazione array: numeri random con range dimensione array
         for (int i = 0; i < n; ++i) {
-            char comma;
             fscanf(input_data, "%d,", &A[i]);
         }
 
