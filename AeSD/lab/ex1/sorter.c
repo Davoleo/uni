@@ -244,7 +244,7 @@ int main(int argc, char** argv)
 
 		int* lowvals = malloc(sizeof(int) * max_dim);
 		int lowvals_size = 0;
-		int* highvals = malloc(sizeof(int) * (max_dim / 2));
+		int* highvals = malloc(sizeof(int) * (max_dim));
 		int highvals_size = 0;
 		int negvals[50];
 		int negvals_size = 0;
@@ -265,7 +265,7 @@ int main(int argc, char** argv)
 				++lowvals_size;
 			}
 			else {
-				negvals[negvals_size];
+				negvals[negvals_size] = val;
 				//A[it] = NEGS_OFFSET + negvals_size;
 				++negvals_size;
 				assert(negvals_size <= 50);
