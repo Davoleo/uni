@@ -93,7 +93,6 @@ void shellsort(int arr[], int num)
 				{
 					++ct_read;
 					++ct_read;
-					++ct_swap;
 					swap(arr + k, arr + k + i);
 				}
 			}
@@ -109,7 +108,8 @@ void insertion_sort(int* arr, int length) {
 		for (int j=i-1; j>=0; --j) {
 			ct_read += 2;
 			if (arr[j]>arr[j+1]) {
-				swap(arr + j,arr + j + 1);
+				ct_read += 2;
+				swap(arr + j, arr + j + 1);
 			} else {
 				break;
 			}
@@ -173,7 +173,7 @@ void counting_sort(int *A, int *B, int *C, int n, int k)
     B[C[A[j]] - 1] = A[j];
     ct_read += 3;
     C[A[j]] = C[A[j]] - 1;
-    ct_read += 3;
+    ct_read += 2;
   }
 
   if (details)
@@ -305,7 +305,7 @@ int main(int argc, char** argv)
 			A[re_size++] = lowvals[iter];
 			++iter;
 		}
-		while(iter < lowvals_size) {
+		while(iter < highvals_size) {
 			++ct_read;
 			A[re_size++] = highvals[iter];
 			++iter;
