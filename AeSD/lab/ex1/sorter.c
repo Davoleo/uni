@@ -9,7 +9,11 @@
 //#include "../utils.h"
 //#include "../bench.h"
 
+//#define VERBOSE_ALGORITHMS
+
 /**
+ * gcc -Wall -Wextra sorter.c -o sort
+ * 
  * Windows: .\sort.exe -a=<int>
  * UNIX: ./sort -a=<int>
  *
@@ -111,6 +115,7 @@ void insertion_sort(int* arr, int length)
             }
         }
 
+		#ifdef VERBOSE_ALGORITHMS
         /// prints algorithm steps
         if (details) {
             printf("passo %d:\n", i);
@@ -119,6 +124,7 @@ void insertion_sort(int* arr, int length)
             }
             printf("\n");
         }
+		#endif
     }
 }
 
@@ -136,7 +142,6 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
 
     for (int i = 0; i <= k; ++i) { /// reset array conteggi
         C[i] = 0;
-        // ct_opw++;
     }
 
     for (int j = 0; j < n; ++j) { /// conteggio istogramma
@@ -144,25 +149,33 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
         ct_read += 2;
     }
 
+	#ifdef VERBOSE_ALGORITHMS
     if (details) {
         printf("array conteggi\n");
         print_array(C, k + 1);
     }
+	#endif
+
     for (int i = 1; i <= k; ++i) { /// C[i] contiene il numero di elementi <= i
         C[i] += C[i - 1];
         ct_read += 2;
     }
 
+	#ifdef VERBOSE_ALGORITHMS
     if (details) {
         printf("array con conteggi accumulati\n");
         print_array(C, k + 1);
     }
+	#endif
 
     for (int j = n - 1; j >= 0; --j) { /// per ogni elemento originale in A ->
         /// mi chiedo nel conteggio C quanti sono gli elementi minori o uguali:
         /// questo corrisponde alla posizione dell'elemento in B
+		
+		#ifdef VERBOSE_ALGORITHMS
         if (details)
             printf("A[%d]=%d, C[A[%d]]=%d --> scrivo B[%d-1]=%d\n", j, A[j], j, C[A[j]], C[A[j]], A[j]);
+		#endif
 
         B[C[A[j]] - 1] = A[j];
         ct_read += 3;
@@ -170,10 +183,12 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
         ct_read += 2;
     }
 
+	#ifdef VERBOSE_ALGORITHMS
     if (details) {
         printf("array con conteggi accumulati dopo il decremento\n");
         print_array(C, k + 1);
     }
+	#endif
 }
 
 int parse_cmd(int argc, char** argv)
@@ -279,7 +294,7 @@ int main(int argc, char** argv)
 
 			//For some reason freeing this array crashes on windows
 			#ifndef _WIN32
-			free(lowvals_copy);
+			free(lowvals_copy); 
 			#endif
 
             shellsort(highvals, highvals_size);
