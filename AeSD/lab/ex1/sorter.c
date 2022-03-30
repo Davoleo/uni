@@ -181,7 +181,6 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
             printf("A[%d]=%d, C[A[%d]]=%d --> scrivo B[%d-1]=%d\n", j, A[j], j, C[A[j]], C[A[j]], A[j]);
 		#endif
 
-		printf("j | A[j] | C[A[j]] -  %d | %d | %d\n", j, A[j], C[A[j]]);
         B[C[A[j]] - 1] = A[j];
         ct_read += 3;
         C[A[j]] = C[A[j]] - 1;
@@ -236,6 +235,9 @@ int main(int argc, char** argv)
     int read_max = -1;
     long read_avg = 0;
 
+	int* lowvals = malloc(sizeof(int) * max_dim);
+	int* highvals = malloc(sizeof(int) * (max_dim));
+
     //// lancio ntests volte per coprire diversi casi di input random
     for (int test = 0; test < ntests; ++test) {
 
@@ -252,9 +254,7 @@ int main(int argc, char** argv)
         ct_read = 0;
 
         if (algorithm == 0) {
-            int* lowvals = malloc(sizeof(int) * max_dim);
             int lowvals_size = 0;
-            int* highvals = malloc(sizeof(int) * (max_dim / 2));
             int highvals_size = 0;
             int negvals[50];
             int negvals_size = 0;
@@ -300,9 +300,6 @@ int main(int argc, char** argv)
                 A[re_size++] = negvals[iter];
                 ++iter;
             }
-
-			if (test < 55)
-				continue;
             
 			/// Create increments array to be used as input in counting_sort (we know lowvals have a max value of \ref LOW_HIGH_BOUND)
 			int increments[LOW_HIGH_BOUND];
@@ -329,11 +326,6 @@ int main(int argc, char** argv)
 				print_array(highvals, highvals_size);
 			}
 			#endif
-
-			free(highvals);
-        	free(lowvals);
-
-			puts("Sono qui!");
 			
         } else if (algorithm == 1) {
             shellsort(A, n);
@@ -357,6 +349,9 @@ int main(int argc, char** argv)
         ntests,
         read_min, (0.0 + read_avg) / ntests, read_max);
 
+
+	free(highvals);
+	free(lowvals);
     free(A);
 
     return 0;
