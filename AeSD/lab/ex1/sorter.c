@@ -142,15 +142,13 @@ void counting_sort(int* A, int* B, int* C, int n, int k)
     /// n: elementi da ordinare
     /// k: valore massimo contenuto in A
 
-	for (int i = 0; i < n; ++i) {
-		assert(A[i] <= k);
-	}
-
-    for (int i = 0; i <= k; ++i) { /// reset array conteggi
+    for (int i = 0; i <= k; ++i) {
         C[i] = 0;
     }
 
-    for (int j = 0; j < n; ++j) { /// conteggio istogramma
+    for (int j = 0; j < n; ++j) {
+		assert(A[j] <= k);
+
         C[A[j]]++;
         ct_read += 2;
     }
