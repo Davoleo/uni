@@ -9,26 +9,42 @@
 //#include "../utils.h"
 //#include "../bench.h"
 
+/**
+ * Compilation:
+ * \code gcc -Wall -Wextra sorter.c -o sort
+ * 
+ * Execution:
+ * - Windows: .\sort.exe -a=<int>
+ * - UNIX: ./sort -a=<int>
+ *
+ * algorithm choices (-a flag) [default is 0]:
+ * 0: composite algorithm [insertion|counting|shellsort]
+ * 	Space-wise it's quite inefficient as it allocates:
+ * 		2 extra arrays of size n  [heap] (lowvalues and highvalues)
+ * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
+ * 		1 extra array of size 20  [stack] (stores eventual negative values)
+ * 1: shell sort on the whole array
+ * 		simple algorithm that with decent performance
+ * 2: quick sort on the whole array
+ * 		original algorithm in the given file
+ * 
+ * \author Leonardo Davoli 
+ * Special Thanks to Thomas Zambelli for the help in debugging a Segmentation Fault issue
+ **/
+
 //If running with this definition and -v it is recommended to redirect program output to a file (it logs a lot)
 //#define VERBOSE_ALGORITHMS
 
-/**
- * gcc -Wall -Wextra sorter.c -o sort
- * 
- * Windows: .\sort.exe -a=<int>
- * UNIX: ./sort -a=<int>
- *
- * algorithm values:
- * 0: composite algorithm [insertion|counting|shellsort]
- * 	Space-wise it's quite inefficient as it allocates:
- * 		1 extra arrays of size n  [heap] (lowvalues and copy of lowvalues)
- * 		1 extra array of size n/2 [heap]
- * 		1 extra array of 
- * 		
- * 1: shell sort on the whole array
- **/
+/// Changing this constants defines how the algorithm partitions A in lowvals and highvals
+/// Increasing this decreases the average number of read operations needed but also has diminishing returns 
+/// 	(so increasing it over this value makes small improvements)
+/// Decreasing this increases the average number of read operations but also decreases the size of the increments array
+#define LOW_HIGH_BOUND 400
+
+/// set by the -a flag when launching the program (change here to edit the default value)
 int algorithm = 0;
 
+/// Global read operations counter
 int ct_read = 0;
 
 int max_dim = 0;
@@ -37,19 +53,19 @@ int details = 0;
 
 int n = 0; /// dimensione dell'array
 
-void print_array(int* A, int dim)
+void print_array(int* arr, int dim)
 {
     for (int j = 0; j < dim; j++) {
-        printf("%d ", A[j]);
+        printf("%d ", arr[j]);
     }
     printf("\n");
 }
 
 void swap(int* a, int* b)
 {
-    int tmp = *a;
+    int temp = *a;
     *a = *b;
-    *b = tmp;
+    *b = temp;
 }
 
 int partition(int* A, int p, int r)
@@ -216,8 +232,6 @@ int parse_cmd(int argc, char** argv)
     return 0;
 }
 
-#define LOW_HIGH_BOUND 131
-
 int main(int argc, char** argv)
 {
 
@@ -241,7 +255,7 @@ int main(int argc, char** argv)
     //// lancio ntests volte per coprire diversi casi di input random
     for (int test = 0; test < ntests; ++test) {
 
-        /// inizializzazione array: numeri random con range dimensione array
+        /// array initialization
         for (int i = 0; i < n; ++i) {
             fscanf(input_data, "%d,", &A[i]);
         }
@@ -256,9 +270,11 @@ int main(int argc, char** argv)
         if (algorithm == 0) {
             int lowvals_size = 0;
             int highvals_size = 0;
-            int negvals[50];
+			//Based on data analysis
+            int negvals[20];
             int negvals_size = 0;
 
+			/// Partitions A in 3 sections
             for (int it = 0; it < n; ++it) {
                 ++ct_read;
                 int val = A[it];
@@ -302,12 +318,13 @@ int main(int argc, char** argv)
             }
             
 			/// Create increments array to be used as input in counting_sort (we know lowvals have a max value of \ref LOW_HIGH_BOUND)
-			int increments[LOW_HIGH_BOUND];
+			int increments[LOW_HIGH_BOUND+1];
 			//Passing a pointer to the first cell after negative values as output for the counting sort
             counting_sort(lowvals, A + negvals_size, increments, lowvals_size, LOW_HIGH_BOUND);
 			//No need to load lowvals back in A since counting_sort already takes care of that
 			re_size += lowvals_size;
 
+			//Sort high values with
             shellsort(highvals, highvals_size);
 			iter = 0;
             while (iter < highvals_size) {
@@ -330,6 +347,9 @@ int main(int argc, char** argv)
         } else if (algorithm == 1) {
             shellsort(A, n);
         }
+		else if (algorithm == 2) {
+			quick_sort(A, 0, n-1);
+		}
 
         if (details) {
             printf("Output:\n");
@@ -347,8 +367,7 @@ int main(int argc, char** argv)
 
     printf("%d,%d,%.1f,%d\n",
         ntests,
-        read_min, (0.0 + read_avg) / ntests, read_max);
-
+        read_min, ((double) read_avg) / ntests, read_max);
 
 	free(highvals);
 	free(lowvals);
