@@ -215,6 +215,8 @@ Stack::push(const value_type& elem) {
     // che non possono lanciare eccezioni.
     delete[] vec_;
     vec_ = temp;
+	//^ dopo questa linea la risorsa va sotto responsabilità dell'oggetto
+	// > L'ho messo in cassaforte cit.
     capacity_ = new_capacity;
   }
   vec_[size_] = elem;
