@@ -514,6 +514,8 @@ int main(int argc, char** argv)
     tree_print_graph(root);
     tree_insert_child_R(root->R, 3);
     tree_print_graph(root);
+	//tree_insert_child_R(root->L->R, 10);
+    //tree_print_graph(root);
 
     // creo albero random
     /*
