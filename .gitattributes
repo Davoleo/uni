@@ -11,3 +11,6 @@ SO/**/doc/** linguist-documentation
 # *.puml linguist-detectable
 
 * text eol=lf
+
+*.ods text
+*.xlsx text
