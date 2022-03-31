@@ -62,7 +62,6 @@ prova() {
   assert(s1.size() == big_size);
 }
 
-
 int main() {
 
   try {
