@@ -12,5 +12,6 @@ SO/**/doc/** linguist-documentation
 
 * text eol=lf
 
-*.ods text
-*.xlsx text
+# Disable Line Endings normalization on Excel files
+*.ods -text
+*.xlsx -text
