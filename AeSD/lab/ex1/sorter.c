@@ -19,19 +19,19 @@
  *
  * algorithm choices (-a flag) [default is 0]:
  * 0: composite algorithm [insertion|counting|mergesort]
- *  * 	Space-wise it's quite inefficient as it allocates:
+ *  * 	Space-wise it's VERY inefficient as it allocates:
  * 		2 extra arrays of size n  [heap] (lowvalues and highvalues)
- * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
+ * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (stores counting_sort increments)
  * 		1 extra array of size 20  [stack] (stores eventual negative values)
  * 		2 extra arrays of size n  [heap] (auxiliary for merge sort)
  * 1: composite algorithm [insertion|counting|quicksort]
  * 	*	Space-wise it's quite inefficient as it allocates:
  * 		2 extra arrays of size n  [heap] (lowvalues and highvalues)
- * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
+ * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (stores counting_sort increments)
  * 		1 extra array of size 20  [stack] (stores eventual negative values)
  * 2: composite algorithm [insertion|counting|shellsort]
  * 	*	2 extra arrays of size n  [heap] (lowvalues and highvalues)
- * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
+ * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (stores counting_sort increments)
  * 		1 extra array of size 20  [stack] (stores eventual negative values)
  * 3: shell sort on the whole array
  * 		simple algorithm that with decent performance

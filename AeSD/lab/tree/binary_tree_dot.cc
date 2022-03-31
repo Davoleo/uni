@@ -461,8 +461,24 @@ node_t* flip(node_t* n)
 // costruzione albero in base ai valori stampati dalla visita di eulero
 // la funzione restituisce il puntatore alla radice dell'albero
 // Es. input: 32 74 74 64 76 76 44 44 44 76 64 64 74 32 85 85 2 36 36 36 2 85 85 85 2 85 32
-node_t* build_euler()
+node_t* build_euler(int val1)
 {
+	//The three values from the euler notation
+	int val2,val3;
+	
+	input_visit >> val2;
+
+	//There's a subtree on the left
+    if (val1 != val2) {
+        build_euler();
+    }
+
+	input_visit >> val3;
+
+	//There's a subtree on the right
+    if (val2 != val3) {
+        build_euler();
+    }
 
     return NULL;
 }
@@ -547,16 +563,15 @@ int main(int argc, char** argv)
     */
 
     // stampa albero
-    tree_print_graph(root);
+    //tree_print_graph(root);
     n_operazione++;
 
-    /* scheletro per la costruzione dell'albero a partire dalla visita di eulero
+    /* scheletro per la costruzione dell'albero a partire dalla visita di eulero*/
     input_visit.open("visit.txt");
     node_t* root=build_euler();
     global_ptr_ref=root;
     input_visit.close();
     tree_print_graph(root);
-    */
 
     /*
       node_t* root1=flip(root);
