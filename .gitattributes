@@ -12,5 +12,5 @@ SO/**/doc/** linguist-documentation
 
 * text eol=lf
 
-*.ods text eol=crlf
+*.ods text
 *.xlsx text

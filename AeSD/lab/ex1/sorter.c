@@ -18,14 +18,24 @@
  * - UNIX: ./sort -a=<int>
  *
  * algorithm choices (-a flag) [default is 0]:
- * 0: composite algorithm [insertion|counting|shellsort]
- * 	Space-wise it's quite inefficient as it allocates:
+ * 0: composite algorithm [insertion|counting|mergesort]
+ *  * 	Space-wise it's quite inefficient as it allocates:
  * 		2 extra arrays of size n  [heap] (lowvalues and highvalues)
  * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
  * 		1 extra array of size 20  [stack] (stores eventual negative values)
- * 1: shell sort on the whole array
+ * 		2 extra arrays of size n  [heap] (auxiliary for merge sort)
+ * 1: composite algorithm [insertion|counting|quicksort]
+ * 	*	Space-wise it's quite inefficient as it allocates:
+ * 		2 extra arrays of size n  [heap] (lowvalues and highvalues)
+ * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
+ * 		1 extra array of size 20  [stack] (stores eventual negative values)
+ * 2: composite algorithm [insertion|counting|shellsort]
+ * 	*	2 extra arrays of size n  [heap] (lowvalues and highvalues)
+ * 		1 extra array of size 400 (LOW_HIGH_BOUND) [stack] (store counting_sort increments)
+ * 		1 extra array of size 20  [stack] (stores eventual negative values)
+ * 3: shell sort on the whole array
  * 		simple algorithm that with decent performance
- * 2: quick sort on the whole array
+ * 4: quick sort on the whole array
  * 		original algorithm in the given file
  * 
  * \author Leonardo Davoli 
@@ -100,6 +110,69 @@ void quick_sort(int* A, int p, int r)
         quick_sort(A, p, q - 1);
         quick_sort(A, q + 1, r);
     }
+}
+
+
+void merge(int *A, int p, int q, int r, int *L, int *R)
+{
+
+	/// copia valori delle due meta p..q e q+1..r
+	int i = 0;
+	int j = 0;
+	int k = 0;
+
+	for (i = 0; i < q - p + 1; i++) {
+		L[i] = A[p + i];
+		ct_read++;
+	}
+	L[i] = 1000000; /// un numero grande
+
+	for (i = 0; i < r - q; i++) {
+		R[i] = A[q + 1 + i];
+		ct_read++;
+	}
+	R[i] = 1000000; /// un numero grande
+
+	//// dettagli
+	if (details)
+	{
+		printf("Array L (%d .. %d): ", p, q);
+		print_array(L, q - p + 1);
+		printf("Array R (%d .. %d): ", q + 1, r);
+		print_array(R, r - q);
+	}
+
+	i = 0; /// usato per gestire array L
+	j = 0; /// usato per gestire array R
+
+	for (k = p; k <= r; k++)
+	{
+		if (L[i] <= R[j])
+		{
+			A[k] = L[i];
+			i++;
+		}
+		else
+		{
+			A[k] = R[j];
+			j++;
+		}
+		ct_read += 3;
+	}
+}
+
+void merge_sort(int *arr, int left_id, int right_id, int *left, int *right)
+{
+	/// gli array L e R sono utilizzati come appoggio per copiare i valori: evita le allocazioni nella fase di merge
+	if (right_id < left_id)
+	{
+		int mid_id = (left_id + right_id) / 2;
+		merge_sort(arr, left_id, mid_id, left, right);
+		merge_sort(arr, mid_id + 1, right_id, left, right);
+		merge(arr, left_id, mid_id, right_id, left, right);
+		if (details)
+			print_array(arr, n);
+	}
 }
 
 void shellsort(int arr[], int num)
@@ -252,6 +325,14 @@ int main(int argc, char** argv)
 	int* lowvals = malloc(sizeof(int) * max_dim);
 	int* highvals = malloc(sizeof(int) * (max_dim));
 
+	int* merge_left = NULL;
+	int* merge_right = NULL;
+
+	if (algorithm == 0) {
+		merge_left = malloc(sizeof(int) * (max_dim));
+		merge_right = malloc(sizeof(int) * (max_dim));
+	}
+
     //// lancio ntests volte per coprire diversi casi di input random
     for (int test = 0; test < ntests; ++test) {
 
@@ -267,7 +348,7 @@ int main(int argc, char** argv)
 
         ct_read = 0;
 
-        if (algorithm == 0) {
+        if (algorithm >= 0 && algorithm < 3) {
             int lowvals_size = 0;
             int highvals_size = 0;
 			//Based on data analysis
@@ -325,7 +406,15 @@ int main(int argc, char** argv)
 			re_size += lowvals_size;
 
 			//Sort high values with
-            shellsort(highvals, highvals_size);
+			if (algorithm == 0) {
+				merge_sort(highvals, 0, highvals_size, merge_left, merge_right);
+			}
+			else if (algorithm == 1) {
+				shellsort(highvals, highvals_size);
+			}
+			else if (algorithm == 2) {
+				quick_sort(highvals, 0, highvals_size);
+			}
 			iter = 0;
             while (iter < highvals_size) {
                 ++ct_read;
@@ -344,10 +433,10 @@ int main(int argc, char** argv)
 			}
 			#endif
 			
-        } else if (algorithm == 1) {
+        } else if (algorithm == 3) {
             shellsort(A, n);
         }
-		else if (algorithm == 2) {
+		else if (algorithm == 4) {
 			quick_sort(A, 0, n-1);
 		}
 

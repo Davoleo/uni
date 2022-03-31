@@ -31,11 +31,26 @@ using namespace std;
 // 4) implementare visita preorder, postorder
 // 5) delete albero
 // 6) euler tour: stampa e ricostruzione albero da lista nodi
+// 	 	Stampato in pre, in e post ordine contemporaneamente (meccanismo anche utilizzato per le parentesi)
 
 // 7) flip albero
 
 // 8) height - depth
 // 9) isBalanced
+
+//Concetti Visite alberi binari:
+	//Pre-ordine: Prima stampo il nodo stesso e poi chiamo ricorsivamente
+		//Primo nodo stampato: Radice
+		//Priorità: Stampare il nodo stesso > Scendere a sinistra > Scendere a destra
+	//Post-ordine: Prima faccio tutte le chiamate ricorsive e poi prima di ritornare stampo il nodo
+		//Il primo nodo stampato è quello più a sinistra (espanso prima) senza figli (e.g. quello che ritorna prima)
+		//L'ultimo nodo stampato è la radice
+		//Priorità: Scendere a sinistra > Scendere a destra > Stampare il nodo stesso
+	//In-Ordine:
+		//Primo nodo stampato: primo nodo a sinistra senza figli a sinistra
+		//Priorità: Scendere a sinistra > Stampare il nodo stesso > Scendere a destra
+		//Collegato al parsing della notazione infissa
+		//Ambiguita insita perdita di informazione sulla posizione dei sottoalberi
 
 int ct_swap = 0;
 int ct_cmp = 0;
