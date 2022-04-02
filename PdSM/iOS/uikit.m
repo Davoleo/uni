@@ -152,3 +152,61 @@ NSNotificationCenter* notifCenter = [NSNotificationCenter defaultCenter];
 [[NSNotificationCenter defaultCenter] postNotificationName:@"MyNotification" object:self userInfo:nil]
 
 //System Notification for keyboard-related events: UIKeyboard<Will|Did><Show|Hide>Notification
+
+//UIScrollView permettono di vedere content che è più largo delle view boundaries
+//sono aggiunte vertical e horizontal scroll per indicare che c'è content in più da vedere
+//UIScrollView è una view la cui origin è aggiustabile sopra alla content view
+//Clippa il contenuto al frame
+//Permette anche lo zoom
+//Contenuto: qualsiasi UIView
+//Aggiungere una view ad una scrollview
+UIImageView* imageView = [[UIImageView alloc] initWithIamge:image];
+[scrollView addSubview:imageView];
+//scrollView.contentSize = CGSizeMake(3000, 3000);
+scrollView.contentSize = imageView.bounds.size;
+//^ Importante da fare perché altrimenti non funziona
+
+//contentOffset posizione della scrollview rispetto al content
+scrollView.contentOffset.x, scrollView.contentOffset.y
+//bounds del rettangolo visibile
+scrollView.bounds.origin.x, scrollView.bounds.origin.y
+//Raccomandato aggiungere le scroll view dallo storyboard e poi le subview programmaticamente
+//Scrollare programmaticamente
+- (void) scrollRectToVisible:(CGRect)rect animated:(BOOL)animated
+//directionalLockEnabled controlla se è locckato in un certo asse lo scroll da quando inizia
+//Abilitare lo zoom
+self.scrollView.minimumZoomScale = 0.5; //50%
+self.scrollView.maximumZoomScale = 3.0; //300%
+//Assegnarsi come delegate
+self.scrollView.delegate = self;
+//sulla definizione della classe si deve aggiungere questo
+@interface MyViewController : UIViewController<UIScrollViewDelegate>
+//Metodi che si possono implementare
+- (UIView*) viewForZoomingInScrollView:(UIScrollView*)sender; //mandatory
+- (void) scrollViewDidScroll:(UIScrollView*)scrollView;
+- (void) scrollViewDidZoom:(UIScrollView*)scrollView;
+- (void) scrollViewWillBeginZooming:(UIScrollView*)scrollView withView:(UIView*)view;
+- (void) scrollViewDidEndZooming:(UIScrollView*)scrollView withView:(UIView*)view atScale:(CGFloat)scale;
+- (void) scrollViewWillBeginDragging:(UIScrollView*)scrollView;
+- (void) scrollViewDidEndDragging:(UIScrollView*)scrollView willDecelerate:(BOOL)decelerate;
+
+//Table View
+//Usate per mostrare e modificare liste gerarchiche di informazioni
+//è 1-dimensional, solo righe no colonne
+//Per n-dimnesioni si combinano diverse table view in un navigation controller
+//UITableView è una sottoclasse di UIScrollView
+//- Solo Vertical Scrolling
+//Può gestire efficientemente grandi quantità di dati
+//Esistono stili: plain o grouped
+//Possono essere dinamiche (mutable e unpredictable) o statiche (fixed content)
+@property UIView* tableHeaderView;
+@property UIView* tableFooterView;
+//Si possono settare header e footer sia per le table che per le sezioni
+//Table Cell Styles
+//UITableViewCellStyleDefault
+//UITableViewCellStyleSubtitle
+//UITableViewCellStyleValue1
+//UITableViewCellStyleValue2
+
+//UIController fatto apposta per le TableView
+UITableViewController;
