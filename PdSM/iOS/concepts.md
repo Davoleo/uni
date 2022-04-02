@@ -613,3 +613,25 @@ void(^DownloadCompleteHandler)(NSData*) = ^(NSData* data) {
 - Può essere animata tramite `startAnimating` e `stopAnimating`
 - la proprietà `hidesWhenStopped` nasconde automaticamente il controllo quando lo si ferma
 
+### UIImage
+- Classe utilizzata per mostrare immagini
+- Di solito file immagine PNG, JPEG, TIFF, GIF e dati network
+- Esempi:
+```objectivec
+UIImage* imgA = [UIImage imageNamed:@"image.png"];
+NSData* data = ...;
+UIImage* imgB = [UIImage imageWithData:data];
+UIImage* imgC =[UIImage imageWithContentsOfFile:@"/path/to/file"];
+```
+- Proprietà: `imageOrientation`, `scale`, `size`
+
+### UIImageView
+- Mostra un immagine o una sequenza di immagini animate
+- deve essere configurato con una `UIImage`
+- Per immagini multiple, anche le animazioni tra le immagini devono essere configurate
+- si può lavorare sia con storyboard sia programmaticamente
+- Contromisure per migliorare le performance
+  - Pre-scaled images dove possibile
+  - Limitare la grandezza di immagini
+  - Disabilitare alpha blending se non è necessario
+- è possibile fare tiling dell'immagine: suddivisione dell'immagine in mattonelle, e scaricare le mattonelle singole a seconda di quanto si è zoommati
