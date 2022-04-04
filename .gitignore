@@ -16,3 +16,6 @@ SO/MatrixProject/docs
 
 # Mac OS X weird files
 **/.DS_Store
+
+# MATLAB temporary files
+*.asv
