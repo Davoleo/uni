@@ -368,3 +368,270 @@ Non intercambiabili: 2 modi diversi di organizzare la navigazione
 2. creare una sottoclasse di UIViewController 
 3. nell'inspector dell'identità si setta la classe del view controller alla classe appena creata
 
+## Closures
+- Una funzione insieme al contesto in cui è inserita
+- questo contesto di ambiente è una area dove le variabili non locali alla funzione sono disponibili 
+- è diversa da una funzione in quanto può accedere a queste variabili chiamate upvalues
+- esempio in Java, runnable è una closure:
+```java
+final int rounds = 100;
+Runnable runnable = new Runnable() {
+	public void run() {
+		for (int i = 0; i < rounds; i++) {
+			//...
+		}
+	}
+};
+new Thread(runnable).start();
+```
+
+### Blocks
+- Sono l'estensione del C, Objective-C e C++ introdotti per supportare le closure: possono accedere variabili non locali nell'enclosing scope
+- Segmenti di codice che possono essere passati in giro attraverso metodi come se fossero valori
+- Sono oggetti Objective-C e quindi possono essere aggiunti a `NSArray` o `NSDictionary`
+- Un blocco è definito così:
+```objective-c
+//Can be assigned to variables
+block = ^{
+	//block body...
+	NSLog(@"Dentro al blocco...");
+}
+```
+- se il blocco non prende argomenti e non ritorna nessun valore, il blocco può essere eseguito con il nome della variabile come se fosse una funzione 
+- Sintassi generale di una block signature: `return_type(^block_name)(arguments)`
+- Esempi:
+```objective-c
+void(^BlockA)(void);
+int(^BlockA)(int);
+int(^BlockA)(int,int);
+void(^BlockA)(double);
+
+//Esempi con typdef
+typedef int(^ReturnIntBlock)(int);
+ReturnIntBlock square = ^(int val) {
+	return val*val;
+};
+int a = square(10);
+
+ReturnIntBlock cube = ^(int val) {
+	return val * val * val;
+};
+int b = cube(10);
+```
+- Essendo i blocchi delle closure possono catturare il valore di variabili esterne -> ma l'accesso è read-only
+- Se una variabile catturata deve essere cambiata dentro al blocco deve essere marcata con la direttiva `__block`
+- Il valore a quel punto viene passato per riferimento invece che per valore
+- Tipicamente i blocchi sono usati per creare metodi di callback ed eseguirli in parte del codice e allo stesso tempo farli conformare ad una struttura
+- Esempi:
+```objective-c
+typedef void(^DownloadBlock)(NSData*);
+- (void) downloadFromURL:(NSURL)url completion:(DownloadBlock)callback {
+	//download from the URL
+	NSData* data;
+	//...
+	callback(data);
+}
+
+void(^DownloadCompleteHandler)(NSData*) = ^(NSData* data) {
+	NSLog(@"Download complete [%d bytes]!, [data length]);
+};
+[self downloadFromURL:url completion:DownloadCompleteHandler];
+```
+
+### Concurrency
+- E' importante saper eseguire diverse attività in parallelo
+- Il thread principale è quello responsabile alla gestione della UI
+- Una task che è lunga non dovrebbe mai essere eseguita sul thread principale (altrimenti blocco dell'interazione con l'utente [freeze])
+- Soluzione usare background threads
+- Più thread possono eseguire diverse task contemporaneamente (più efficienza)
+- I thread devono essere sincronizzati in modo da evitare stati inconsistenti nel programma
+- iOS ha meccanismi per lavorare con i thread (UNIX-based, POSIX)
+- Siccome usare i thread in modo raw introduce molta complessità nei programmi a causa di problemi quali: sincronizzazione, scalabilità, strutture dati condivise
+- I thread introducono incertezza sul codice e runtime overhead per context switch
+- Metodi alternativi sono stati introdotti per ridurre questa complessità
+- `NSThread` classe del Cocoa Framework in Objective-C che funziona da wrapper dei POSIX thread
+- Esempio di utilizzo
+```objective-c
+//Tramite thread esplicito
+[NSThread detatchNewThreadSelector:@selector(threadMainMethod:) toTarget:self withObject:nil];
+//In NSObject
+[obj performSelectorInBackground:@selector(aMethod) withObject:nil];
+```
+- Esistono però meccanismi alternativi e più semplici
+- **Asychronous design approach**
+1. Acquisire un thread di background
+2. Eseguire la task sul thread
+3. Mandare una notifica al chiamante quando l'attività è completata (callback function)
+- Una funzione asincrona fa un po' di lavoro dietro alle quinte per organizzare i thread necessari in modo da essere eseguita in parallelo
+
+## Grand Central Dispatch
+- Il GCD è una delle tecnologie che iOS offre per eseguire attività in maniera asincrona
+- GCD è una libreria C per il threading implicito
+- GCD si prende cura di creare i thread necessari e schedularli ed avviarli
+- GCD è basato sulle **dispatch queues**
+  - politica FIFO
+  - Code seriali: Eseguono una sola attività alla volta, e aspettano che l'ultima attività sia terminata
+  - Code Concorrenti: può eseguire diverse task senza aspettare il completamento di altre
+  - Esempio:
+	```c
+	//Ottiene la coda principale
+	dispatch_queue_t mainQueue = dispatch_get_main_queue();
+	//Crea una coda
+	dispatch_queue_t queue = dispatch_queue_create("queue_name", NULL);
+	//Eseguire una task di un blocco in modo asincrono su una coda e poi dalla coda secondaria si esegue una task sulla coda principale
+	dispatch_async(queue, ^{
+		//task lenta
+		dispatch_async(dispatch_get_main_queue(), ^{
+			//Aggiornamento UI
+		});
+	});
+	//Eseguire una task sulla coda principale
+	dispatch_async(dispatch_get_main_queue(), block);
+	//Se non si sta usando ARC [automatic reference counting] la coda deve essere rilasciata
+	dispatch_release(queue);
+	```
+- **Operation Queues** meccanismo equivalente in Objective-C (come layer sulle dispatch queue)
+  - Non sono necessariamente FIFO
+  - Le operazioni aggiunte ad una coda sono istanze di `NSOperation`
+
+## Networking
+- Esempi:
+  - Richieste HTTP/HTTPS di vario tipo
+  - Connessioni con host remoti, con o senza encrypting o autenticazione
+  - Ascoltare per connessioni
+  - mandare o ricevere dati con protocolli connectionless
+  - pubblicare, sfogliare e risolvere servizi network con Bonjour
+  - Comunicazioni Bluetooth
+- Gli status di connessione sono molto instabili, e quindi bisogna sempre gestire casistiche impreviste
+- Bad design è fare assunzioni sulla velocità di connessione 
+- Il networking è lento -> DEVE essere fatto in modo asincrono e NON sul main thread
+- `NSURL`
+  - Oggetti che sono usati per manipolare URL e le risorse che referenziano
+  - possono anche essere usati per riferirsi a file locali
+  - Esempi:
+  ```objective-c
+  NSURL* aURL = [NSURL URLWithString:@"http://mobdev.ce.unipr.it"];
+  NSURL* bURL = [[NSURL alloc] initWithString:@"http://mobdev.ce.unipr.it"];
+  NSURL* cURL = [NSURL URLWithString:@"/path" relativeToURL:aURL];
+  //Da un URL si possono ottenere NSString o NSData
+  NSError* error;
+  NSString* str = [NSString stringWithContentsOfURL:url ecoding:NSUTF8StringEncoding error:&error];
+  NSData* data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
+  ```
+  - Sono metodi SINCRONI e bloccanti -> quindi è meglio eseguirli su un background thread per mantenere il design asincrono
+- `NSURLRequest`
+  - rappresenta un caricamento di una request indipendentemente dal protocollo e lo schema dell'URL
+  - Esiste la versione Mutable
+  - è costruita tramite un url
+  - Per eseguire la request si usa un oggetto di tipo `NSURLConnection`
+  - Esempi:
+  ```objective-c
+  NSURLRequest* req = [NSURLRequest requestWithUrl:url];
+  NSURLRequest* req2 = [[NSURLRequest alloc] initWithUrl:url];
+  //Modalità sincrona:
+  NSError* error;
+  NSURLResponse* response = nil;
+  NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+  //Modalità asincrona:
+  [NSURLConnection sendAsynchronousRequest:req 
+                   queue:[NSOperationQueue currentQueue] 
+                   completionHandler:^(NSUrlResponse* response, NSData* data, NSError* connectionError) {
+                     //...
+                   }
+  ];
+  ```
+- `NSURLConnectionDelegate`
+  - protocollo che offre metodi per ricevere callback di informazioni sullo stato di una richiesta asincrona
+  - I metodi delegati sono chiamate sul thread che ha fatto partire il carico asincrono della connessione
+  ```objective-c
+  NSURLConnection* conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+  [conn start];
+  [conn cancel];
+
+  //Metodi del delegate
+  - (void) connection:(NSURLConnection*)connection didReceiveData:(NSData*)data {
+    NSLog(@"ricevuti %ld bytes", [data length]);
+  }
+  - (void) connection:(NSURLConnection*)connection didReceiveResponse:(NSURLResponse*)response {
+    NSLog(@"ricevuta risposta");
+  }
+  - (void) connctionDidFinishLoading:(NSURLConnection*)connection{
+    NSLog(@"finito di caricare");
+  }
+  - (void) connection:(NSURLConnection*)connection didFailWithError:(NSError*)error {
+    NSLog(@"caricamento fallito");
+  }
+  ```
+- `NSURLSession`
+  - la classe più avanzata, quella da usare più spesso
+  - Questo API offre:
+    - Supporto per l'autenticazione
+    - Da all'app la possibilità di fare download in background quando l'app non è visibile o quando è sospesa
+  - è un API _molto_ asincrono
+  - Da informazioni su stato e progresso (e può consegnarla ai delegates)
+  - Supporta annullamento, riavvio, e sospensione delle attività
+  - Tipi di Sessione:
+    1. **Default sessions**: usano una cache persistente su disco e conservano credenziali nelle keychain dell'utente
+    2. **Ephemeral sesssions**: non condividono dati su qualsiasi disco, tutte le cache, le credenziali e akin sono mantenute in RAM e collegate alla sessione; quando l'app invalida la sessione, tutto è eliminato automaticamente
+    3. **Background sessions**: simili alle default session, ma hanno un processo separato che gestisce tutti i trasferimenti di dati
+    4. **Shared sessions**: singleton di NSURLSession che non può essere configurata e può essere usata per richieste di base
+      - Retrieval tramite: `[NSURLSession sharedSession]`
+  - Tipi di Task
+    - **Data Task**: Mandare e ricevere dati usando NSData
+      - short, interactive requests da app a server
+      - Può ritornare dati alla tua app
+      - Non conservano dati su file -> non supportati per sessioni di background
+    - **Download Task**: Ottenere dati nella forma di un file, supporta background downloads mentre l'app non è eseguta
+    - **Upload Task**: manda dati (di solito in forma di file), supporta background uploads
+  - Esempi:
+  ```objectivec
+  //Data Task
+  NSURLSessionTask* task = [[NSURLSession sharedSession] dataTaskWithRequest:req completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+      NSLog(@"%@", [NSString stringWithUTF8String:[data bytes]]);
+  }];
+  [task resume];
+  //Download Task
+  NSURLSessionTask* task = [[NSURLSession sharedSession] downloadTaskWithRequest:req completionHandler:^(NSURL* location, NSURLResponse* response, NSError* error) {
+      NSLog(@"%@", location.absolutURL]);
+  }];
+  [task resume];
+  //Configurazione
+  NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+  NSURLSession* session = [NSURLSession sessionWithConfiguration:conf]
+  ```
+- `NSStream` classe astratta di oggetti che rappresentano stream di dati, memory, files, etc
+
+### Network Activity Indicator
+- Quando si fanno task di networking deve essere mandato del feedback all'utente
+- Bisogna sempre informare l'utente che sta facendo nework activity tramite il **network activity indicator** che appare nella status bar
+- Per controllarlo:
+```objectivec
+[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+```
+- Si può anche mettere un ActivityIndicator dentro le proprie view tramite `UIActivityIndicatorView`
+- Da del feedback che l'app sta facendo qualcosa mentre vengono eseguite task lunghe
+- Può essere animata tramite `startAnimating` e `stopAnimating`
+- la proprietà `hidesWhenStopped` nasconde automaticamente il controllo quando lo si ferma
+
+### UIImage
+- Classe utilizzata per mostrare immagini
+- Di solito file immagine PNG, JPEG, TIFF, GIF e dati network
+- Esempi:
+```objectivec
+UIImage* imgA = [UIImage imageNamed:@"image.png"];
+NSData* data = ...;
+UIImage* imgB = [UIImage imageWithData:data];
+UIImage* imgC =[UIImage imageWithContentsOfFile:@"/path/to/file"];
+```
+- Proprietà: `imageOrientation`, `scale`, `size`
+
+### UIImageView
+- Mostra un immagine o una sequenza di immagini animate
+- deve essere configurato con una `UIImage`
+- Per immagini multiple, anche le animazioni tra le immagini devono essere configurate
+- si può lavorare sia con storyboard sia programmaticamente
+- Contromisure per migliorare le performance
+  - Pre-scaled images dove possibile
+  - Limitare la grandezza di immagini
+  - Disabilitare alpha blending se non è necessario
+- è possibile fare tiling dell'immagine: suddivisione dell'immagine in mattonelle, e scaricare le mattonelle singole a seconda di quanto si è zoommati
