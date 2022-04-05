@@ -17,3 +17,10 @@ for m = 1:6
 	grid on
     hold on
 end
+
+% Con il ciclo while si farebbe in questo modo
+% m = 1;
+% while m <= 6
+%   % Codice...
+% 	m = m + 1
+% end
