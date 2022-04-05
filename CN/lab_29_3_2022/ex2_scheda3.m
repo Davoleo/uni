@@ -3,6 +3,8 @@ clc
 clear
 close all
 
+figure('Renderer', 'painters', 'Position', [200 200 630 420])
+
 for m = 1:6
 	testvec1 = linspace(-m, 0, 50);
 	testvec2 = linspace(0, m, 50);
