@@ -1,8 +1,12 @@
 #include <string>
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
+//Custom versions of generic algorithms in algorithm header
 namespace algo {
 	///Scorre gli elementi della sequenza e ritorna la posizione dell'elemento se lo trova altrimenti ritorna last 
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename T>
 	ITER find(ITER first, ITER last, const T& elem) {
 		while (first != last) {
@@ -14,6 +18,7 @@ namespace algo {
 	}
 
 	//Predicato
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename UPRED>
 	ITER find_if(ITER first, ITER last, UPRED predicate) {
 		while (first != last) {
@@ -23,6 +28,7 @@ namespace algo {
 		return last;
 	}
 
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename T>
 	unsigned long count(ITER first, ITER last, const T& elem) {
 		unsigned long num = 0;
@@ -34,6 +40,7 @@ namespace algo {
 		return num;
 	}
 
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename UPRED>
 	unsigned long count_if(ITER first, ITER last, UPRED predicate) {
 		unsigned long num = 0;
@@ -45,6 +52,7 @@ namespace algo {
 		return num;
 	}
 
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename UPRED>
 	bool all_of(ITER first, ITER last, UPRED predicate) {
 		while (first != last) {
@@ -55,6 +63,7 @@ namespace algo {
 		return true;
 	}
 
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename UPRED>
 	bool any_of(ITER first, ITER last, UPRED predicate) {
 		while (first != last) {
@@ -65,9 +74,16 @@ namespace algo {
 		return false;
 	}
 
-	//replace all occurrences
-	template<typename ITER, typename T>
-	void replace(ITER first, ITER last, const T& x, const T& y) {
+	/**
+	 * Esercizio 6:
+	 * Requisiti dei 6 Parametri:
+	 * Iteratore è almeno un FORWARD ITERATOR
+	 * L'importante del tipo T è che possa essere confontato con i valori della sequenza e che possa essere assegnato
+	 * x e y non hanno requisiti speciali
+	 * first e last devono far parte della stessa sequenza e first deve essere <= di last
+	 **/
+	template<typename FWDITER, typename T>
+	void replace(FWDITER first, FWDITER last, const T& x, const T& y) {
 		while (first != last) {
 			if (*first == x)
 				*first = y;
@@ -86,6 +102,7 @@ namespace algo {
 	}
 
 	//copy
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename OUTITER>
 	OUTITER copy(ITER first, ITER last, OUTITER out) {
 		while (first != last) {
@@ -96,6 +113,7 @@ namespace algo {
 		return out;
 	}
 
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename UPRED, typename OUTITER>
 	OUTITER copy_if(ITER first, ITER last, UPRED predicate, OUTITER out) {
 		while (first != last) {
@@ -109,6 +127,7 @@ namespace algo {
 	}
 
 	//calls a function for each of the elements inside a sequence
+	// Iteratore di categoria INPUT ITERATOR
 	template<typename ITER, typename UFUNC>
 	void for_each(ITER first, ITER last, UFUNC fun) {
 		while(first != last) {
@@ -118,8 +137,9 @@ namespace algo {
 	}
 
 	//Whether a sequence is sorted (using operator<)
-	template<typename ITER>
-	bool is_sorted(ITER first, ITER last) {
+	// Iteratore di categoria FORWARD ITERATOR
+	template<typename FWDITER>
+	bool is_sorted(FWDITER first, FWDITER last) {
 		if (first == last)
 			return true;
 
@@ -136,8 +156,9 @@ namespace algo {
 	}
 
 	//Whether a sequence is sorted (using operator<)
-	template<typename ITER, typename COMP>
-	bool is_sorted(ITER first, ITER last, COMP comparator) {
+	// Iteratore di categoria FORWARD ITERATOR
+	template<typename FWDITER, typename COMP>
+	bool is_sorted(FWDITER first, FWDITER last, COMP comparator) {
 		if (first == last)
 			return true;
 
@@ -157,11 +178,13 @@ namespace algo {
 	OUTITER set_union(ITER first1, ITER last1, ITER first2, ITER last2, OUTITER out);
 
 	///Sequenza1 dove si cerca | Sequenza2 cosa si cerca
-	template<typename ITER1, typename ITER2>
-	ITER1 find_first_of(ITER1 first1, ITER1 last1, ITER2 first2, ITER2 last2) {
+	// Iteratore Prima sequenza di categoria INPUT ITERATOR
+	// Iteratore Seconda sequenza di categoria FORWARD ITERATOR
+	template<typename ITER, typename FWDITER>
+	ITER find_first_of(ITER first1, ITER last1, FWDITER first2, FWDITER last2) {
 		while(first1 != last1) {
 			//Need to copy second iterator because it needs to back to the first posision after one outer cycle is complete
-			for (ITER2 inner = first2; inner != last2; ++inner) {
+			for (FWDITER inner = first2; inner != last2; ++inner) {
 				if (*first1 == *inner)
 					return first1
 			}
@@ -169,7 +192,7 @@ namespace algo {
 		}
 		return last1;
 	}
-
+	
 }
 
 bool is_vocal(char c);
