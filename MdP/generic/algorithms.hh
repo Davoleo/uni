@@ -75,21 +75,10 @@ namespace algo {
 	}
 
 	/**
-	 * Esercizio 6:
-	 * Requisiti dei 6 Parametri:
-	 * Iteratore è almeno un FORWARD ITERATOR
-	 * L'importante del tipo T è che possa essere confontato con i valori della sequenza e che possa essere assegnato
-	 * x e y non hanno requisiti speciali
-	 * first e last devono far parte della stessa sequenza e first deve essere <= di last
+	 * \note Implementazione in: MdP/ex/test_1-2-2005/ex-5-6-generics.cc
 	 **/
 	template<typename FWDITER, typename T>
-	void replace(FWDITER first, FWDITER last, const T& x, const T& y) {
-		while (first != last) {
-			if (*first == x)
-				*first = y;
-			++first;
-		}
-	}
+	void replace(FWDITER first, FWDITER last, const T& x, const T& y);
 
 	//replace if predicates evaluates to true
 	template<typename ITER, typename UPRED, typename T>
