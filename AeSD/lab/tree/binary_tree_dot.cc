@@ -7,8 +7,6 @@
 #include <iostream>
 #include <cassert>
 
-using namespace std;
-
 // compilazione: g++ tree_dot.c -o tree
 //
 
@@ -66,11 +64,11 @@ int graph = 0;
 int n = 0; /// dimensione dell'array
 
 /// file di output per grafo
-ofstream output_graph;
+std::ofstream output_graph;
 int n_operazione = 0; /// contatore di operazioni per visualizzare i vari step
 
-ofstream output_visit;
-ifstream input_visit;
+std::ofstream output_visit;
+std::ifstream input_visit;
 
 //////////////////////////////////////////////////
 /// Definizione della struttura dati tree
@@ -499,6 +497,26 @@ node_t* build_euler(int val1)
     return new_node;
 }
 
+int tree_get_height(node_t* node) {
+
+	int left_height = 0; 
+	if (node->L != nullptr) {
+		left_height = tree_get_height(node->L) + 1;
+	}
+
+	int right_height = 0;
+	if (node->R != nullptr) {
+		right_height = tree_get_height(node->R) + 1;
+	}
+
+	//We're looking at a leaf node -> Height = 1
+	if (left_height == 0 && right_height == 0)
+		return 1;
+
+	//return max between left and right subtree 
+	return left_height < right_height ? right_height : left_height;
+}
+
 int parse_cmd(int argc, char** argv)
 {
     /// controllo argomenti
@@ -536,12 +554,12 @@ int main(int argc, char** argv)
     if (graph) {
         output_graph.open("graph.dot");
         /// preparo header
-        output_graph << "digraph g" << endl;
-        output_graph << "{ " << endl;
-        output_graph << "node [shape=none]" << endl;
-        output_graph << "rankdir=\"TB\"" << endl;
+        output_graph << "digraph g" << std::endl;
+        output_graph << "{ " << std::endl;
+        output_graph << "node [shape=none]" << std::endl;
+        output_graph << "rankdir=\"TB\"" << std::endl;
         ;
-        output_graph << "edge[tailclip=false,arrowtail=dot];" << endl;
+        output_graph << "edge[tailclip=false,arrowtail=dot];" << std::endl;
     }
 
 	//* UNCOMMENT HERE TO TEST FLIPPED TREE COPY
@@ -560,12 +578,14 @@ int main(int argc, char** argv)
 	node_t* flipped_tree = flip(root);
 	tree_print_graph(flipped_tree);
 
-    // creo albero random
-    /*
-    insert_random_rec(root);
-    tree_print_graph(root);
-    */
+	std::cout << "Height1: " << tree_get_height(root) << std::endl;
+	std::cout << "Height2: " << tree_get_height(flipped_tree) << std::endl;
 
+    // creo albero random
+	node_t* random_tree = node_new(5);
+    insert_random_rec(random_tree);
+	std::cout << "Height Random: " << tree_get_height(random_tree) << std::endl;
+    
     // stampa visita di eulero
     /*
     output_visit.open("visit.txt");
@@ -595,10 +615,10 @@ int main(int argc, char** argv)
 
     if (graph) {
         /// preparo footer e chiudo file
-        output_graph << "}" << endl;
+        output_graph << "}" << std::endl;
         output_graph.close();
-        cout << " File graph.dot scritto" << endl
-             << "Creare il grafo con: dot graph.dot -Tpdf -o graph.pdf" << endl;
+        std::cout << " File graph.dot scritto" << std::endl
+             << "Creare il grafo con: dot graph.dot -Tpdf -o graph.pdf" << std::endl;
     }
 
     return 0;
