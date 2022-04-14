@@ -448,20 +448,26 @@ void EulerOrder(node_t* n)
         printf("%d ", n->val);
     output_visit << n->val << "\n";
 }
-
+///////
 /// crea una copia dell'albero in input, scambiando i sottoalberi L e R
-node_t* flip(node_t* n)
+///////
+node_t* flip(node_t* origin)
 {
-    node_t* n1 = node_new(n->val);
+	if (origin == nullptr)
+		return nullptr;
 
-    /// chiamate ricorsive
+    node_t* flipped = node_new(origin->val);
+	flipped->L = flip(origin->R);
+	flipped->R = flip(origin->L);
 
-    return n1;
+    return flipped;
 }
 
-// costruzione albero in base ai valori stampati dalla visita di eulero
-// la funzione restituisce il puntatore alla radice dell'albero
-// Es. input: 32 74 74 64 76 76 44 44 44 76 64 64 74 32 85 85 2 36 36 36 2 85 85 85 2 85 32
+//////
+/// costruzione albero in base ai valori stampati dalla visita di eulero
+/// la funzione restituisce il puntatore alla radice dell'albero
+/// Es. input: 32 74 74 64 76 76 44 44 44 76 64 64 74 32 85 85 2 36 36 36 2 85 85 85 2 85 32
+//////
 node_t* build_euler(int val1)
 {
 	//The three values from the euler notation
@@ -538,23 +544,21 @@ int main(int argc, char** argv)
         output_graph << "edge[tailclip=false,arrowtail=dot];" << endl;
     }
 
-    // node_t* root = node_new(5);
-    // global_ptr_ref = root;
+	//* UNCOMMENT HERE TO TEST FLIPPED TREE COPY
+    node_t* root = node_new(5);
+    global_ptr_ref = root;
 
-    // tree_insert_child_L(root, 7);
-    // tree_print_graph(root);
-    // tree_insert_child_R(root, 4);
-    // tree_print_graph(root);
-    // tree_insert_child_L(root->L, 8);
-    // tree_print_graph(root);
-    // tree_insert_child_R(root->L, 2);
-    // tree_print_graph(root);
-    // tree_insert_child_L(root->R, 1);
-    // tree_print_graph(root);
-    // tree_insert_child_R(root->R, 3);
-    // tree_print_graph(root);
-	// tree_insert_child_R(root->L->R, 10);
-    // tree_print_graph(root);
+    tree_insert_child_L(root, 7);
+    tree_insert_child_R(root, 4);
+    tree_insert_child_L(root->L, 8);
+    tree_insert_child_R(root->L, 2);
+    tree_insert_child_L(root->R, 1);
+    tree_insert_child_R(root->R, 3);
+	tree_insert_child_R(root->L->R, 10);
+    tree_print_graph(root);
+
+	node_t* flipped_tree = flip(root);
+	tree_print_graph(flipped_tree);
 
     // creo albero random
     /*
@@ -574,17 +578,15 @@ int main(int argc, char** argv)
     //tree_print_graph(root);
     n_operazione++;
 
-    /* scheletro per la costruzione dell'albero a partire dalla visita di eulero*/
-    input_visit.open("visit.txt");
-	int root_val;
-	input_visit >> root_val;
-    node_t* root = build_euler(root_val);
-
-	preOrder(root);
-
-    global_ptr_ref=root;
-    input_visit.close();
-    tree_print_graph(root);
+    //* UNCOMMENT HERE TO TEST EULER TREE BUILD
+    // input_visit.open("visit.txt");
+	// int root_val;
+	// input_visit >> root_val;
+    // node_t* root = build_euler(root_val);
+	// preOrder(root);
+	// global_ptr_ref=root;
+    // input_visit.close();
+    // tree_print_graph(root);
 
     /*
       node_t* root1=flip(root);
