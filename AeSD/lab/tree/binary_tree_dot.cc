@@ -5,6 +5,7 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -464,23 +465,32 @@ node_t* flip(node_t* n)
 node_t* build_euler(int val1)
 {
 	//The three values from the euler notation
-	int val2,val3;
+	int val2, val3;
+	node_t* new_node = node_new(val1);
 	
 	input_visit >> val2;
 
 	//There's a subtree on the left
     if (val1 != val2) {
-        build_euler();
+        new_node->L = build_euler(val2);
+		//returning from inner recursive call (we can skip the next node in the visit)
+		//As the next val2 is going to be == val1
+		input_visit >> val2;
+		assert(val1 == val2);
     }
 
 	input_visit >> val3;
 
 	//There's a subtree on the right
     if (val2 != val3) {
-        build_euler();
+        new_node->R = build_euler(val3);
+		//returning from inner recursive call (we can skip the next node in the visit)
+		//As the next val2 is going to be == val3
+		input_visit >> val3;
+		assert(val2 == val3);
     }
 
-    return NULL;
+    return new_node;
 }
 
 int parse_cmd(int argc, char** argv)
@@ -511,8 +521,6 @@ int parse_cmd(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-    int i, test;
-
     if (parse_cmd(argc, argv))
         return 1;
 
@@ -530,23 +538,23 @@ int main(int argc, char** argv)
         output_graph << "edge[tailclip=false,arrowtail=dot];" << endl;
     }
 
-    node_t* root = node_new(5);
-    global_ptr_ref = root;
+    // node_t* root = node_new(5);
+    // global_ptr_ref = root;
 
-    tree_insert_child_L(root, 7);
-    tree_print_graph(root);
-    tree_insert_child_R(root, 4);
-    tree_print_graph(root);
-    tree_insert_child_L(root->L, 8);
-    tree_print_graph(root);
-    tree_insert_child_R(root->L, 2);
-    tree_print_graph(root);
-    tree_insert_child_L(root->R, 1);
-    tree_print_graph(root);
-    tree_insert_child_R(root->R, 3);
-    tree_print_graph(root);
-	//tree_insert_child_R(root->L->R, 10);
-    //tree_print_graph(root);
+    // tree_insert_child_L(root, 7);
+    // tree_print_graph(root);
+    // tree_insert_child_R(root, 4);
+    // tree_print_graph(root);
+    // tree_insert_child_L(root->L, 8);
+    // tree_print_graph(root);
+    // tree_insert_child_R(root->L, 2);
+    // tree_print_graph(root);
+    // tree_insert_child_L(root->R, 1);
+    // tree_print_graph(root);
+    // tree_insert_child_R(root->R, 3);
+    // tree_print_graph(root);
+	// tree_insert_child_R(root->L->R, 10);
+    // tree_print_graph(root);
 
     // creo albero random
     /*
@@ -568,7 +576,12 @@ int main(int argc, char** argv)
 
     /* scheletro per la costruzione dell'albero a partire dalla visita di eulero*/
     input_visit.open("visit.txt");
-    node_t* root=build_euler();
+	int root_val;
+	input_visit >> root_val;
+    node_t* root = build_euler(root_val);
+
+	preOrder(root);
+
     global_ptr_ref=root;
     input_visit.close();
     tree_print_graph(root);
