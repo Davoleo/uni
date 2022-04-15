@@ -223,3 +223,33 @@ UITableViewController;
 	[self.tableView reloadData]; //Redraws the cells | Should be linked to the callback of the asynchronous method to retrieve new data
 	[sender endRefreshing];
 }
+
+//WebView
+//Microbrowser dentro una View
+//Classe: UIWebView (deprecata in favore del framework WebKit -> WKWebView)
+//scalesPagesToFit fa uno scale automatico delle pagine (utili per quelle non mobile-ready)
+//Metodi per caricare pagine:
+NSURL* url = [NSURL URLWithString:@"http://google.com"];
+NSURLRequest* req = [NSURL requestWithURL:url];
+[self.webView loadRequest:request];
+NSString* html = @"<html><body>Hello World!</body></html>";
+[self.webView loadHTMLString:html baseURL:url];
+
+//Protocollo delegate Associato: UIWebViewDelegate
+//Set as webview delegate e conformare al protocollo <UIWebViewDelegate>
+self.webView.delegate = self;
+//Bisogna annullare il riferimento al delegate prima di chiudere la webview
+-(void)dealloc {
+	_webView.delegate = nil;
+}
+//Methods del delegate:
+-(BOOL)webView:(UIWebView*)webView
+		shouldStartLoadWithRequest:(NSURLRequest*)request
+		navigationType:(UIWebViewNavigationType)navigationType
+//Serve Per bloccare certe feature ^
+-(void)webViewDidStartLoad:(UIWebView*)webView;
+//Chiamato quando il caricamento inizia ^
+-(void)webViewDidFinishLoad:(UIWebView*)webView;
+//Chiamato quando il caricamento finisce ^
+-(void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error;
+//Chiamato quando c'è un errore durante il caricamento ^
