@@ -210,3 +210,16 @@ self.scrollView.delegate = self;
 
 //UIController fatto apposta per le TableView
 UITableViewController;
+
+//Pull to Refresh
+//Spinner in testa alla tabella per fare pull in modo da refresshare i contenuti della tabella
+//Classe: UIRefreshControl
+//UITableViewController proprietà: refreshing -> enabled attiva questa opzione (il Refresh control appare automaticamente all'interno dell'inspector)
+//Ctrl-Draggando dal refresh control al codice si crea un handler
+//Esempio
+- (IBAction)refreshTableView:(UIRefreshControl*)sender {
+	[sender beginRefreshing]; //Starts the spinner
+	//... reload data
+	[self.tableView reloadData]; //Redraws the cells | Should be linked to the callback of the asynchronous method to retrieve new data
+	[sender endRefreshing];
+}
