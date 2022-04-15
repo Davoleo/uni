@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B1B84CE28098552007190BD /* FLFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84CD28098552007190BD /* FLFriend.m */; };
+		6B1B84D328098739007190BD /* FLFriendList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84D228098739007190BD /* FLFriendList.m */; };
+		6B1B84DA28098D16007190BD /* FLFriendListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84D928098D16007190BD /* FLFriendListTableViewController.m */; };
+		6B1B84E42809A3FD007190BD /* FLFriendTableDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84E32809A3FD007190BD /* FLFriendTableDetailVC.m */; };
 		6B1D9A6E27EF17D0003D006C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D9A6D27EF17D0003D006C /* AppDelegate.m */; };
 		6B1D9A7127EF17D0003D006C /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D9A7027EF17D0003D006C /* SceneDelegate.m */; };
 		6B1D9A7427EF17D0003D006C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D9A7327EF17D0003D006C /* ViewController.m */; };
@@ -18,6 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6B1B84CC28098552007190BD /* FLFriend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriend.h; sourceTree = "<group>"; };
+		6B1B84CD28098552007190BD /* FLFriend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLFriend.m; sourceTree = "<group>"; };
+		6B1B84D128098739007190BD /* FLFriendList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriendList.h; sourceTree = "<group>"; };
+		6B1B84D228098739007190BD /* FLFriendList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLFriendList.m; sourceTree = "<group>"; };
+		6B1B84D828098D16007190BD /* FLFriendListTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriendListTableViewController.h; sourceTree = "<group>"; };
+		6B1B84D928098D16007190BD /* FLFriendListTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLFriendListTableViewController.m; sourceTree = "<group>"; };
+		6B1B84E22809A3FD007190BD /* FLFriendTableDetailVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriendTableDetailVC.h; sourceTree = "<group>"; };
+		6B1B84E32809A3FD007190BD /* FLFriendTableDetailVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLFriendTableDetailVC.m; sourceTree = "<group>"; };
 		6B1D9A6927EF17D0003D006C /* FirstLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B1D9A6C27EF17D0003D006C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6B1D9A6D27EF17D0003D006C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -45,6 +57,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B1B84D0280986F1007190BD /* FriendList */ = {
+			isa = PBXGroup;
+			children = (
+				6B1B84E22809A3FD007190BD /* FLFriendTableDetailVC.h */,
+				6B1B84E32809A3FD007190BD /* FLFriendTableDetailVC.m */,
+				6B1B84CC28098552007190BD /* FLFriend.h */,
+				6B1B84CD28098552007190BD /* FLFriend.m */,
+				6B1B84D128098739007190BD /* FLFriendList.h */,
+				6B1B84D228098739007190BD /* FLFriendList.m */,
+				6B1B84D828098D16007190BD /* FLFriendListTableViewController.h */,
+				6B1B84D928098D16007190BD /* FLFriendListTableViewController.m */,
+			);
+			path = FriendList;
+			sourceTree = "<group>";
+		};
+		6B1B84D628098961007190BD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6BF9539A27EF290A000143E0 /* FLCounter.h */,
+				6BF9539B27EF290A000143E0 /* FLCounter.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		6B1D9A6027EF17CF003D006C = {
 			isa = PBXGroup;
 			children = (
@@ -64,14 +100,14 @@
 		6B1D9A6B27EF17D0003D006C /* FirstLab */ = {
 			isa = PBXGroup;
 			children = (
+				6B1B84D0280986F1007190BD /* FriendList */,
+				6B1B84D628098961007190BD /* Model */,
 				6B1D9A6C27EF17D0003D006C /* AppDelegate.h */,
 				6B1D9A6D27EF17D0003D006C /* AppDelegate.m */,
 				6B1D9A6F27EF17D0003D006C /* SceneDelegate.h */,
 				6B1D9A7027EF17D0003D006C /* SceneDelegate.m */,
 				6B1D9A7227EF17D0003D006C /* ViewController.h */,
 				6B1D9A7327EF17D0003D006C /* ViewController.m */,
-				6BF9539A27EF290A000143E0 /* FLCounter.h */,
-				6BF9539B27EF290A000143E0 /* FLCounter.m */,
 				6B1D9A7527EF17D0003D006C /* Main.storyboard */,
 				6B1D9A7827EF17D1003D006C /* Assets.xcassets */,
 				6B1D9A7A27EF17D1003D006C /* LaunchScreen.storyboard */,
@@ -153,6 +189,10 @@
 				6B1D9A7427EF17D0003D006C /* ViewController.m in Sources */,
 				6B1D9A6E27EF17D0003D006C /* AppDelegate.m in Sources */,
 				6B1D9A7F27EF17D1003D006C /* main.m in Sources */,
+				6B1B84DA28098D16007190BD /* FLFriendListTableViewController.m in Sources */,
+				6B1B84CE28098552007190BD /* FLFriend.m in Sources */,
+				6B1B84D328098739007190BD /* FLFriendList.m in Sources */,
+				6B1B84E42809A3FD007190BD /* FLFriendTableDetailVC.m in Sources */,
 				6BF9539C27EF290A000143E0 /* FLCounter.m in Sources */,
 				6B1D9A7127EF17D0003D006C /* SceneDelegate.m in Sources */,
 			);

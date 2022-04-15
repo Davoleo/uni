@@ -6,7 +6,7 @@
 //
 
 #import "ViewController.h"
-#import "FLCounter.h"
+#import "Model/FLCounter.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *counterLabel;
