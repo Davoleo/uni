@@ -7,9 +7,25 @@
 //Esercizio 5
 //stampa in ordine lessicografico tutte le stringhe in vs che iniziano con il carattere c
 //+ Versione alternativa dove si inverte l'ordine di stampa
+
+//oggetti di funzione
+struct Starts_With_Char {
+private:
+	char c_;
+public:
+	explicit Starts_With_Char(char c) : c_(c) {}
+
+	bool operator()(const std::string& str) const {
+		return !str.empty() && str[0] == c_;
+	}
+};
+
+//Funzioni classiche
 bool starts_with_char(const std::string& str) {
 	return !str.empty() && str[0] == 'c';
 }
+
+//lambda-expression
 void f(const std::vector<std::string>& vs, const char c, bool reverse) {
 	std::vector<std::string> temp;
 
@@ -17,10 +33,10 @@ void f(const std::vector<std::string>& vs, const char c, bool reverse) {
 	temp.resize(vs.size());
 
 	//Tipi di inserter
-	//- back inserter: inserisce sempre in fondo
-	//- front inserter: inserisce sempre all'inizio (se permesso dalla struttura dati ofc)
-	//- insert iterator: inserisce in una posizione custom
-	copy_if(vs.begin(), vs.end(), std::back_inserter(temp), starts_with_char);
+	//- back_inserter(): inserisce sempre in fondo
+	//- front_inserter(): inserisce sempre all'inizio (se permesso dalla struttura dati ofc)
+	//- insert_iterator(): inserisce in una posizione custom
+	copy_if(vs.begin(), vs.end(), [c](const std::string& str) -> bool { return !str.empty() && str[0] == c; }, temp.begin());
 	std::sort(temp.begin(), temp.end());
 
 	std::ostream_iterator<std::string> cout_iter(std::cout, "\n");
