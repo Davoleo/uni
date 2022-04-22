@@ -37,6 +37,8 @@
 // 8) height - depth
 // 9) isBalanced
 
+// Ex2 è formato da: build_euler, flip, get_height
+
 //Concetti Visite alberi binari:
 	//Pre-ordine: Prima stampo il nodo stesso e poi chiamo ricorsivamente
 		//Primo nodo stampato: Radice

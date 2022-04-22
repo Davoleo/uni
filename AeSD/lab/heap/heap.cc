@@ -34,8 +34,9 @@ using namespace std;
 // 3) estrazione massimo con funzione "heapify" (discesa del valore minimo dalla radice)
 //		- Scambio la radice (il max) con l'ultima foglia e quindi la estraggo
 //		- Ora l'albero non è più un heap -> lo si può far ridiventare facendo scorrere il nodo posizionato nella posizione di radice verso il basso
-//		- Se V è in radice se: V < V->L || V < V->R
-//			- Nel caso si scambia V con il figlio sotto che rispetta la condizione e si reitera la condizione
+//		- Se V è in radice se: V < V->L || V < V->R 
+//			- si scambia con il massimo tra i 2 figli così la proprietà dell'heap è ancora rispettata tra i 2 vecchi fratelli che sono diventati padre e figlio
+//			- Se lo scambio avviene, si continua a salire nell'albero con la stessa condizione per scambiare valori fino ad avere di nuovo un heap
 
 int ct_swap = 0;
 int ct_cmp = 0;
@@ -229,25 +230,51 @@ int heap_remove_max()
 
     /// scambio la radice con l'ultima foglia a destra
     /// il massimo e' stato spostato in fondo --> pronto per l'eliminazione
+	int temp = heap[0];
+	heap[0] = heap[heap_size - 1];
+	heap[heap_size - 1] = temp;		//Can be avoided since we're about to delete it
 
     // elimino il massimo (ora in fondo all'array)
+	heap_size--;
 
     //    tree_print_graph(0);  // radice
     //  n_operazione++;
 
     /// nella radice c'e' un valore piccolo (minimo?)
+	/// -> non è il minimo perché non ci sono relazioni tra nodi foglia fratelli (quindi potrebbe esserci un fratello più piccolo)
     int i = 0; // indice di lavoro (parto dalla root)
 
-    while (!is_leaf(i)) { /// garantisco di fermarmi alla foglia
+    while (i >= 0 && !is_leaf(i)) { /// garantisco di fermarmi alla foglia
 
         if (details)
             printf("Lavoro con il nodo in posizione i = %d, valore %d\n", i, heap[i]);
 
-        int con_chi_mi_scambio = -1;
+        int swap_with = -1; /// -1 ==> Non mi scambio
 
-        /// swap tra i e con_chi_mi_scambio
+		int l_child = child_L_idx(i);
+		int r_child = child_R_idx(i);
 
-        i = con_chi_mi_scambio;
+		//index <- max(L, R)
+		if (heap[l_child] > heap[i]) {
+			swap_with = l_child;
+		}
+
+		//If right child exists
+		// & right child is > than left child 
+		// & right child is > than the parent
+		if (r_child >= 0 && heap[r_child] > heap[l_child] && heap[r_child] > heap[i]) {
+			swap_with = r_child;
+
+		}
+        
+		if (swap_with >= 0) {
+			/// swap tra i e swap_with
+			int temp = heap[i];
+			heap[i] = heap[swap_with];
+			heap[swap_with] = temp;
+		}
+
+        i = swap_with;
 
         // tree_print_graph(0);  // radice
         // n_operazione++;
@@ -309,20 +336,19 @@ int main(int argc, char** argv)
     tree_print_graph(0); // radice
     n_operazione++;
 
-    increase_key(3, 20);
+    //increase_key(3, 20);
 
-    tree_print_graph(0); // radice
-    n_operazione++;
+    //tree_print_graph(0); // radice
+    //n_operazione++;
 
-    /*
-    for (int i=0;i<13;i++){
+
+    for (int i=0; i<12; i++){
       int valore = heap_remove_max();
       printf("Il valore massimo estratto e' %d\n",valore);
 
       tree_print_graph(0);  // radice
       n_operazione++;
     }
-    */
 
     // visualizzazione dell'array --> heapsort!
     for (int i = 0; i < 12; i++) {
