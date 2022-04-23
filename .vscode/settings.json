@@ -109,7 +109,9 @@
 		"complex": "cpp",
 		"iomanip": "cpp",
 		"locale": "cpp",
-		"stack": "cpp"
+		"stack": "cpp",
+		"__functional_03": "c",
+		"filesystem": "c"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false,
