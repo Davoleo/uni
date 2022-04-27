@@ -327,6 +327,10 @@ Osservazioni:
    dell'iteratore (come esempi concreti, vedere le funzioni generiche
    std::advance e std::distance).
 
+   I tag type tramite un processo che si chiama tag dispatch
+   Permettono di essere utilizzati come tipi fittizzi nelle signature per fare overloading
+   E quindi creare versioni diverse di funzioni che accettano gli stessi tipi
+
 Abbiamo detto che in linea di principio ogni iteratore concreto dovrebbe
 fornire gli alias di tipo descritti sopra. Ma come farlo? Non possiamo
 adottare banalmente la tecnica usata per i contenitori standard,
@@ -401,3 +405,12 @@ parziali (non-const e const) del template di classe:
   };
 
 --------------------------------------------------------------------------
+
+//Il foreach viene implementato automaticamente dal compilatore tramite iteratori
+//Funziona per tutti i tipi di dato con cui std::begin() e std::end() funzionano
+std::string as[1000];
+std::vector<int>& vi;
+for (auto i : vi)
+	std::cout << i;
+for (const auto& s : as)
+	std::cout << s;
