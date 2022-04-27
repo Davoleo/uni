@@ -5,11 +5,11 @@
 #include <time.h>
 #include <stdbool.h>
 
-// compilazione: cc -Wall -Wextra min_heap.c -o heap.out
+// compilazione: cc -Wall -Wextra min_heap.c -o min_heap.out -lm
 //
 
 // Test su 10 array di dimensione da 100 a 1000, ripeti 1000 volte con array casuali
-// ./heap.out 1000 -d=10 -t=1000
+// ./min_heap.out 1000 -d=10 -t=1000
 
 int ct_swap = 0;
 int ct_cmp = 0;
@@ -99,7 +99,6 @@ void heap_insert(int elem)
 		heap_size++;
 
 		heap[current] = elem;
-		ct_read++;
 
 		//// Si sistema la relazione con i parent (la struttura potrebbe non essere più un heap)
 		int parent = parent_index(current);
@@ -167,9 +166,10 @@ int heap_remove_min()
 		// If right child exists
 		//  & right child is < than left child
 		//  & right child is < than the parent
-		ct_read++;
 		ct_cmp += 2;
-		if (r_child >= 0 && heap[r_child] < l_child_val && heap[r_child] < current_val) {
+		int r_child_val = heap[r_child];
+		ct_read++;
+		if (r_child >= 0 && r_child_val < l_child_val && r_child_val < current_val) {
 			swap_with = r_child;
 		}
 
@@ -329,8 +329,8 @@ int main(int argc, char** argv)
 			ct_read = 0;
 
 			/// algoritmo di sorting
-			quick_sort(A, 0, n - 1);
-			//heap_sort(A, n);
+			//quick_sort(A, 0, n - 1);
+			heap_sort(A, n);
 
 			if (details) {
 				printf("Output:\n");
