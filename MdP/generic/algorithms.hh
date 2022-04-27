@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <limits>
 
 //Custom versions of generic algorithms in algorithm header
 namespace algo {
@@ -29,9 +30,11 @@ namespace algo {
 	}
 
 	// Iteratore di categoria INPUT ITERATOR
+	//std::iterator_traits<ITER> dell'header limits permette di ottenere informazioni standard sull'iteratore 
+	//(e.g. il tipo di dato tramite cui l'iteratore conta indipendetemente se questo iteratore è un tipo built-in [puntatore] o definito dall'utente)
 	template<typename ITER, typename T>
-	unsigned long count(ITER first, ITER last, const T& elem) {
-		unsigned long num = 0;
+	typename std::iterator_traits<ITER>::difference_type count(ITER first, ITER last, const T& elem) {
+		typename std::iterator_traits<ITER>::difference_type num = 0;
 		while (first != last) {
 			if (*first == elem)
 				++num;
