@@ -346,6 +346,11 @@ nella tabella hash e poi, usando la funzione di confronto per uguaglianza
 più confronti fino a raggiungere l'elemento cercato o stabilire che non è
 presente).
 
+SWO - Strict Weak Ordering
+La relazione di equivalenza data dall'essere confrontabili è una relazione di equivalenza
+- Nel caso si cerchi di aggiungere una stringa lunga 3 in una mappa ordinata per lunghezza di stringhe 
+  e c'è già un occorrenza di stringa lunga 3 => L'inserimento dovrebbe fallire
+
 --------------------------------------------------------------------------
 
 * Gli adattatori (per contenitori della STL)
