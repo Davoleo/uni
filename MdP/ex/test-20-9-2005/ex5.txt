@@ -1,0 +1,14 @@
+Ex 5:
+
+Errore di compilazione nella funzione f:
+- Sto cercando di assegnare un cosnt iterator ad una variabile di tipo iterator
+
+Problema di undefined behaviour nella funzione f:
+- Gli iteratori devono essere dello stesso contenitore
+- Devono essere dello stesso tipo
+
+Problema di undefined behaviour nella funzione g:
+- Se il vector è vuoto, i == i_end -> *i punta all'ultima cella dopo il vector
+- la v.insert() invalida tutti gli iteratori calcolati in precedenza -> non possono più essere usati quindi -> undefined behaviour
+	- Bisognerebbe utilizzare l'iteratore restituito da insert() per sovrascrivere i
+	- Inoltre bisognerebbe ricalcolare i_end eseguendo v.end()
