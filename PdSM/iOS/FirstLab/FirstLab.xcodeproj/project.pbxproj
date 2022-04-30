@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		562823456213789B8186CF81 /* FLPoi.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282C7DD7C79CAF429B7AB9 /* FLPoi.m */; };
+		56282432A76800FB66F5C609 /* FLGeoFriend+MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 562828A58B1477BBA8A23925 /* FLGeoFriend+MapAnnotation.m */; };
 		6B1B84CE28098552007190BD /* FLFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84CD28098552007190BD /* FLFriend.m */; };
 		6B1B84D328098739007190BD /* FLFriendList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84D228098739007190BD /* FLFriendList.m */; };
 		6B1B84DA28098D16007190BD /* FLFriendListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84D928098D16007190BD /* FLFriendListTableViewController.m */; };
@@ -18,10 +20,17 @@
 		6B1D9A7927EF17D1003D006C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B1D9A7827EF17D1003D006C /* Assets.xcassets */; };
 		6B1D9A7C27EF17D1003D006C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B1D9A7A27EF17D1003D006C /* LaunchScreen.storyboard */; };
 		6B1D9A7F27EF17D1003D006C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1D9A7E27EF17D1003D006C /* main.m */; };
+		6B953F82281D3FA500107BAF /* FLGeoFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B953F81281D3FA500107BAF /* FLGeoFriend.m */; };
+		6B953F86281D44D800107BAF /* FLFriendMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B953F85281D44D800107BAF /* FLFriendMapVC.m */; };
+		6B953F8A281D4A8F00107BAF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B953F89281D4A8F00107BAF /* MapKit.framework */; };
 		6BF9539C27EF290A000143E0 /* FLCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF9539B27EF290A000143E0 /* FLCounter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5628202B7A6E3B06A14F6A40 /* FLGeoFriend+MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLGeoFriend+MapAnnotation.h"; sourceTree = "<group>"; };
+		562828A58B1477BBA8A23925 /* FLGeoFriend+MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLGeoFriend+MapAnnotation.m"; sourceTree = "<group>"; };
+		56282BC669FAB2797BD3A004 /* FLPoi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPoi.h; sourceTree = "<group>"; };
+		56282C7DD7C79CAF429B7AB9 /* FLPoi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLPoi.m; sourceTree = "<group>"; };
 		6B1B84CC28098552007190BD /* FLFriend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriend.h; sourceTree = "<group>"; };
 		6B1B84CD28098552007190BD /* FLFriend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLFriend.m; sourceTree = "<group>"; };
 		6B1B84D128098739007190BD /* FLFriendList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriendList.h; sourceTree = "<group>"; };
@@ -42,6 +51,11 @@
 		6B1D9A7B27EF17D1003D006C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B1D9A7D27EF17D1003D006C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B1D9A7E27EF17D1003D006C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6B953F80281D3FA500107BAF /* FLGeoFriend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLGeoFriend.h; sourceTree = "<group>"; };
+		6B953F81281D3FA500107BAF /* FLGeoFriend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLGeoFriend.m; sourceTree = "<group>"; };
+		6B953F84281D44D800107BAF /* FLFriendMapVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriendMapVC.h; sourceTree = "<group>"; };
+		6B953F85281D44D800107BAF /* FLFriendMapVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLFriendMapVC.m; sourceTree = "<group>"; };
+		6B953F89281D4A8F00107BAF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		6BF9539A27EF290A000143E0 /* FLCounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLCounter.h; sourceTree = "<group>"; };
 		6BF9539B27EF290A000143E0 /* FLCounter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLCounter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B953F8A281D4A8F00107BAF /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +83,12 @@
 				6B1B84D228098739007190BD /* FLFriendList.m */,
 				6B1B84D828098D16007190BD /* FLFriendListTableViewController.h */,
 				6B1B84D928098D16007190BD /* FLFriendListTableViewController.m */,
+				6B953F80281D3FA500107BAF /* FLGeoFriend.h */,
+				6B953F81281D3FA500107BAF /* FLGeoFriend.m */,
+				6B953F84281D44D800107BAF /* FLFriendMapVC.h */,
+				6B953F85281D44D800107BAF /* FLFriendMapVC.m */,
+				562828A58B1477BBA8A23925 /* FLGeoFriend+MapAnnotation.m */,
+				5628202B7A6E3B06A14F6A40 /* FLGeoFriend+MapAnnotation.h */,
 			);
 			path = FriendList;
 			sourceTree = "<group>";
@@ -77,6 +98,8 @@
 			children = (
 				6BF9539A27EF290A000143E0 /* FLCounter.h */,
 				6BF9539B27EF290A000143E0 /* FLCounter.m */,
+				56282C7DD7C79CAF429B7AB9 /* FLPoi.m */,
+				56282BC669FAB2797BD3A004 /* FLPoi.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -86,6 +109,7 @@
 			children = (
 				6B1D9A6B27EF17D0003D006C /* FirstLab */,
 				6B1D9A6A27EF17D0003D006C /* Products */,
+				6B953F88281D4A8F00107BAF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,6 +139,14 @@
 				6B1D9A7E27EF17D1003D006C /* main.m */,
 			);
 			path = FirstLab;
+			sourceTree = "<group>";
+		};
+		6B953F88281D4A8F00107BAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6B953F89281D4A8F00107BAF /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,11 +222,15 @@
 				6B1D9A6E27EF17D0003D006C /* AppDelegate.m in Sources */,
 				6B1D9A7F27EF17D1003D006C /* main.m in Sources */,
 				6B1B84DA28098D16007190BD /* FLFriendListTableViewController.m in Sources */,
+				6B953F82281D3FA500107BAF /* FLGeoFriend.m in Sources */,
 				6B1B84CE28098552007190BD /* FLFriend.m in Sources */,
 				6B1B84D328098739007190BD /* FLFriendList.m in Sources */,
 				6B1B84E42809A3FD007190BD /* FLFriendTableDetailVC.m in Sources */,
 				6BF9539C27EF290A000143E0 /* FLCounter.m in Sources */,
 				6B1D9A7127EF17D0003D006C /* SceneDelegate.m in Sources */,
+				562823456213789B8186CF81 /* FLPoi.m in Sources */,
+				6B953F86281D44D800107BAF /* FLFriendMapVC.m in Sources */,
+				56282432A76800FB66F5C609 /* FLGeoFriend+MapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

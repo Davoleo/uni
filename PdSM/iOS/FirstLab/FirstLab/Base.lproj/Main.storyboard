@@ -96,18 +96,50 @@
                             <outlet property="delegate" destination="gst-Gi-ISv" id="JbK-Sg-pLY"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="vRV-9Y-1CT"/>
+                    <navigationItem key="navigationItem" id="vRV-9Y-1CT">
+                        <barButtonItem key="rightBarButtonItem" title="Map" image="map" catalog="system" id="UJV-Ug-JpH">
+                            <connections>
+                                <segue destination="cnX-74-9TM" kind="show" identifier="ShowMap" id="n6D-jh-io5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GnQ-9Z-GmF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2339.130434782609" y="103.79464285714285"/>
+        </scene>
+        <!--Friend MapVC-->
+        <scene sceneID="2mT-BB-qin">
+            <objects>
+                <viewController id="cnX-74-9TM" customClass="FLFriendMapVC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YUk-4t-udb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Xah-oy-yEk">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jHz-BE-b12"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4vA-Y7-HQk"/>
+                    <connections>
+                        <outlet property="mapView" destination="Xah-oy-yEk" id="YCG-8x-Acv"/>
+                        <segue destination="X2W-zo-dLB" kind="presentation" identifier="ShowFriendFromMap" id="Xwx-wG-bBP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KFA-Qa-6oU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3269.5652173913045" y="-147.32142857142856"/>
         </scene>
         <!--Friend Table DetailVC-->
         <scene sceneID="HiC-ss-68h">
             <objects>
                 <tableViewController id="X2W-zo-dLB" customClass="FLFriendTableDetailVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Mdd-pZ-rZo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="Dati Anagrafici" id="0rI-eR-aye">
@@ -205,7 +237,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UuU-aP-TIQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3238" y="104"/>
+            <point key="canvasLocation" x="3335" y="591"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="R2D-Wo-2Us">
@@ -226,7 +258,11 @@
             <point key="canvasLocation" x="531.8840579710145" y="103.79464285714285"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Xwx-wG-bBP"/>
+    </inferredMetricsTieBreakers>
     <resources>
+        <image name="map" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

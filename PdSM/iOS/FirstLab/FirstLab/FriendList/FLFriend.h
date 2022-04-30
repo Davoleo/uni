@@ -7,9 +7,18 @@
 
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface FLFriend : NSObject
+
+- (instancetype) initWithFirstname:(NSString*)first
+                          lastname:(NSString*)last
+                             email:(NSString*)email
+                            avatar:(NSString*)avatar
+                         thumbnail:(NSString*)thumbnail;
+
+- (instancetype) initWithFirstname:(NSString*)first
+                          lastname:(NSString*)lastname
+                             email:(NSString*)email
+                            avatar:(NSString*)avatar;
 
 - (instancetype) initWithFirstname:(NSString*)first
                           lastname:(NSString*)last
@@ -21,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString* firstname;
 @property (nonatomic, strong) NSString* lastname;
 @property (nonatomic, strong) NSString* email;
+@property (nonatomic, strong) NSString* avatar;
+@property (nonatomic, strong) NSString* thumbnail;
 
 @property (nonatomic, readonly) NSString* displayName;
 
 @end
-
-NS_ASSUME_NONNULL_END

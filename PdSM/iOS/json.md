@@ -1,7 +1,7 @@
 ## Working with JSON
 Utile per fare storage di file o anche per fare comunicazione di rete serializzando gli oggetti runtime dell'app per spostarli in giro
 
-- Class: `NSJSONSerialiazation`
+- Class: `NSJSONSerialization`
 - Provides method to serializa and deserialize data
 - Serialized data must have the following properties: 
   - Top Level Object of type: `NSArray` or `NSDictionary`
