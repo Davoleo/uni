@@ -61,4 +61,10 @@ Se anche dopo avere fatto questa rimozione continuiamo ad avere
 ambiguità, si eliminano dalle utilizzabili tutte le istanze di template.
 In questo modo, viene data una preferenza alle funzioni non templatiche.
 
+Questo meccanismo è anche una possibile alternativa alle specializzazioni 
+parziali di template viste precedentemente
+
+Anche la scrittura di funzioni non templatiche invece che specializzazioni
+totali è un opzione -> perché hanno sempre la precedenza rispetto ai template
+
 =========================================
