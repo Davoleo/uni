@@ -7,6 +7,7 @@
 # hello Assembly
 *.s linguist-detectable
 
+# Doxygen docs
 SO/**/doc/** linguist-documentation
 
 # PlantUML
