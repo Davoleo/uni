@@ -52,12 +52,14 @@ typedef struct node {
 /// struct per la lista
 typedef struct list {
 	node* head;
-	// node* tail; /// per lista doubly linked
+	node* tail; /// per lista doubly linked
 } list_t;
 
 //////////////////////////////////////////////////
 /// Fine Definizione della struttura dati lista
 //////////////////////////////////////////////////
+
+typedef struct list my_queue;
 
 //////////////////////////////////////////////////
 /// Definizione della struttura dati grafo
@@ -65,6 +67,8 @@ typedef struct list {
 
 int* V; // elenco dei nodi del grafo
 states* V_visitato; // nodo visitato?
+int* V_in_coda; // nodo inserito in coda?
+int* V_genitore; // eventuale "causa" di inserimento nella coda -> usato per disegnare l'ordine di visita del grafo
 
 list_t** E; /// array di puntatori a le liste di adiacenza per ogni nodo
 int n_nodi;
@@ -174,12 +178,88 @@ void list_insert_front(list_t* l, int elem)
 	l->head = new_node;
 }
 
-void print_array(int* A, int dim)
+void list_delete_front(list_t* l)
 {
-	for (int j = 0; j < dim; j++) {
-		printf("%d ", A[j]);
+	/// elimina il primo elemento della lista
+	node_t* node = l->head; // il nodo da eliminare
+
+	if (node == NULL) // lista vuota
+		return;
+
+	l->head = node->next;
+
+	// if (graph) print_status(l,node,"DEL FRONT: aggancio lista a nodo successivo");
+
+	node->next = NULL;
+
+	// if (graph) print_status(l,node,"DEL FRONT: sgancio puntatore da nodo da cancellare");
+
+	if (l->head == NULL) { /// lista diventa vuota -> anche tail ora punta a NULL
+		l->tail = NULL;
 	}
-	printf("\n");
+
+	delete node;
+}
+
+void list_insert_tail(list_t* l, int elem)
+{
+	/// inserisce un elemento alla fine della lista
+	/// uso tail per accedere all'ultimo elemento!
+
+	node_t* new_node = new node_t;
+	new_node->next = NULL;
+	new_node->val = elem;
+
+	node_t* last_node = l->tail;
+
+	if (last_node == NULL) { // lista vuota -> aggiungo
+		l->head = new_node;
+		l->tail = new_node;
+	} else {
+		last_node->next = new_node;
+		l->tail = new_node;
+	}
+}
+
+////////// operazioni queue
+
+my_queue* queue_new()
+{
+	return list_new();
+}
+
+int queue_is_empty(my_queue* s)
+{
+	return s->head == NULL;
+}
+
+int queue_front(my_queue* s)
+{
+	if (s->head != NULL)
+		return s->head->val;
+	printf("ERRORE: stack vuoto!\n");
+	return -1;
+}
+
+int queue_dequeue(my_queue* s)
+{
+	if (s->head != NULL) {
+		int v = s->head->val;
+		list_delete_front((list_t*)s);
+		return v;
+	}
+	printf("ERRORE: queue vuota!\n");
+	return -1;
+}
+
+void queue_enqueue(my_queue* s, int v)
+{
+	list_insert_tail((list_t*)s, v);
+}
+
+void queue_print(my_queue* s)
+{
+	list_print((list_t*)s);
 }
 
 void print_array_graph(int* A, int n, string c, int a, int l, int m, int r)
@@ -289,13 +369,71 @@ bool graph_check_cycles(int n)
     return 0;
 }
 
-void swap(int& a, int& b)
+void BFS(int n)
 {
-	int tmp = a;
-	a = b;
-	b = tmp;
-	/// aggiorno contatore globale di swap
-	ct_swap++;
+	my_queue* q = queue_new();
+
+	// V_visitato[i]=0
+
+	printf("BFS parto da nodo %d (visitato %d)\n", n, V_visitato[n]);
+
+	/// accodo il nodo di partenza
+	queue_enqueue(q, n);
+	V_in_coda[n] = 1;
+
+	/// ciclo (se coda non vuota):
+	while (!queue_is_empty(q)) {
+
+		queue_print(q);
+
+		/// 1) estraggo un nodo dalla coda
+		int corrente = queue_dequeue(q);
+		if (V_visitato[corrente] == states::GREY) {
+			V_visitato[corrente] = states::RED;
+			printf("visito il nodo %d (val %d)\n", corrente, V[corrente]);
+
+			/// 2) aggiungo i vicini in coda
+			node_t* elem = E[corrente]->head;
+			while (elem != NULL) { /// elenco tutti i nodi nella lista
+
+				/// elem->val = il nodo nella lista di adiacenza
+				// il nodo viene accodato
+
+				if (V_in_coda[elem->val] == 0) {
+					printf("   aggiungo nodo %d in coda\n", elem->val);
+					V_in_coda[elem->val] = 1;
+					queue_enqueue(q, elem->val);
+
+					// V_genitore[elem->val]=corrente;
+
+					output_graph << "bfs_" << corrente << " -> bfs_" << elem->val;
+					output_graph << "[color=red, penwidth=5, label = \"" << ct_visit++ << "\"]";
+					output_graph << endl;
+				}
+				/*
+				  else{
+				  //V_visitato[corrente]
+				  output_graph << "bfs_"<< corrente << " -> bfs_"<< elem->val;
+				  output_graph << "[color=gray]";
+				  output_graph  <<endl;
+				}
+				*/
+
+				// vado avanti nella lista di adiacenza
+				elem = elem->next;
+			}
+		}
+	}
+
+	if (0)
+		for (int i = 0; i < n_nodi; i++) {
+			if (V_genitore[i] >= 0) {
+				output_graph << "dfs_" << V_genitore[i] << " -> dfs_" << i;
+				//      output_graph << "[color=red, penwidth=5, label = \""<< ct_visit++<< "\"]";
+				output_graph << "[color=red, penwidth=5]";
+				output_graph << endl;
+			}
+		}
 }
 
 int parse_cmd(int argc, char** argv)
@@ -387,6 +525,9 @@ int main(int argc, char** argv)
 
 	//DFS partendo dal nodo passato come argomento
 	DFS(0);
+
+	//BFS Partendo dal nodo passato come argomento
+	//BFS(0)
 
 	if (graph) {
 		/// preparo footer e chiudo file
