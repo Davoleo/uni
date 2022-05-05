@@ -70,5 +70,13 @@ Modello Stradale: `Strade -> Grafo`
   - Nel caso di un grafo generico in cui potrebbero esserci cicli è ancora più problematico perché la visita ricorsiva non termina mai
 - La soluzione è mantenere l'informazione sui nodi che sono già stati visitati (una flag), e nel caso che questa sia vera la visita ritorna subito, questo accorgimento permette alla visita di ritornare in O(n)
 - I nodi esplorati in cui scendo identificano un albero di visita, un albero che copre tutti i nodi del grafo escludendo quelli già visitati
-- DFS (Depth First Search) [Ricorsiva + Callstack] Tecnica di visita che espande le chiamate ricorsive come prima cosa e poi torna indietro quando: ci sono vicoli ciechi nel grafo oppure si visitano solo nodi già visti (usata anche per trovare soluzioni di labirinti)
-- BFS (Breadth First Search) [Iterativa + Coda] Prima visito tutti i nodi a distanza 1, poi  quelli a distanza 2 e così via, per fare questo tipo di visita invece che lo stack di chiamate della ricorsione si usa la struttura simmetrica: coda; e ci aggiungo tutti i nodi successori del prossimo livello che dovrò esplorare, e quindi si procede per strati
+- **DFS** (Depth First Search) [Ricorsiva + Callstack] Tecnica di visita che espande le chiamate ricorsive come prima cosa e poi torna indietro quando: ci sono vicoli ciechi nel grafo oppure si visitano solo nodi già visti (usata anche per trovare soluzioni di labirinti)
+- **BFS** (Breadth First Search) [Iterativa + Coda] Prima visito tutti i nodi a distanza 1, poi  quelli a distanza 2 e così via, per fare questo tipo di visita invece che lo stack di chiamate della ricorsione si usa la struttura simmetrica: coda; e ci aggiungo tutti i nodi successori del prossimo livello che dovrò esplorare, e quindi si procede per strati
+  - Nel caso di DAG si può prendere il percorso minimo che raggiunge quel nodo come distanza
+
+_Proprietà dei grafi ciclici e aciclici e identificazione:_
+- Sequenza di nodi in cui ad un certo punto un nodo succcessore diventa anche antenato del primo nodo della sequenza considerata
+- Se nella visita DFS:
+  - Gli archi finiscono sempre su nodi con stato grigio (non ancora visitati), si tratta di un albero/lista
+  - Gli archi finiscono almeno 1 volta su un nodo con stato nero (già visitato e abbandonato per sempre), si tratta almeno di un DAG
+  - Gli archi finiscono almeno 1 volta su un nodo con stato rosso (già visitato ma non ancora abbandonato per sempre) -> c'è almeno un ciclo nel grafo
