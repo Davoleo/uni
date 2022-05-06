@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		562820BCDF88776CB471A630 /* FLExampleFriendDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 562829BF977FC7B2B79F57AF /* FLExampleFriendDataSource.m */; };
 		562823456213789B8186CF81 /* FLPoi.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282C7DD7C79CAF429B7AB9 /* FLPoi.m */; };
 		56282432A76800FB66F5C609 /* FLGeoFriend+MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 562828A58B1477BBA8A23925 /* FLGeoFriend+MapAnnotation.m */; };
 		6B1B84CE28098552007190BD /* FLFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1B84CD28098552007190BD /* FLFriend.m */; };
@@ -28,7 +29,10 @@
 
 /* Begin PBXFileReference section */
 		5628202B7A6E3B06A14F6A40 /* FLGeoFriend+MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLGeoFriend+MapAnnotation.h"; sourceTree = "<group>"; };
+		56282335408C332E29174316 /* FLFriendDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLFriendDataSource.h; sourceTree = "<group>"; };
+		5628251AB77C70E66314D6A5 /* FLExampleFriendDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLExampleFriendDataSource.h; sourceTree = "<group>"; };
 		562828A58B1477BBA8A23925 /* FLGeoFriend+MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLGeoFriend+MapAnnotation.m"; sourceTree = "<group>"; };
+		562829BF977FC7B2B79F57AF /* FLExampleFriendDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLExampleFriendDataSource.m; sourceTree = "<group>"; };
 		56282BC669FAB2797BD3A004 /* FLPoi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLPoi.h; sourceTree = "<group>"; };
 		56282C7DD7C79CAF429B7AB9 /* FLPoi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLPoi.m; sourceTree = "<group>"; };
 		6B1B84CC28098552007190BD /* FLFriend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriend.h; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 				6B953F85281D44D800107BAF /* FLFriendMapVC.m */,
 				562828A58B1477BBA8A23925 /* FLGeoFriend+MapAnnotation.m */,
 				5628202B7A6E3B06A14F6A40 /* FLGeoFriend+MapAnnotation.h */,
+				56282335408C332E29174316 /* FLFriendDataSource.h */,
 			);
 			path = FriendList;
 			sourceTree = "<group>";
@@ -100,6 +105,8 @@
 				6BF9539B27EF290A000143E0 /* FLCounter.m */,
 				56282C7DD7C79CAF429B7AB9 /* FLPoi.m */,
 				56282BC669FAB2797BD3A004 /* FLPoi.h */,
+				562829BF977FC7B2B79F57AF /* FLExampleFriendDataSource.m */,
+				5628251AB77C70E66314D6A5 /* FLExampleFriendDataSource.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -231,6 +238,7 @@
 				562823456213789B8186CF81 /* FLPoi.m in Sources */,
 				6B953F86281D44D800107BAF /* FLFriendMapVC.m in Sources */,
 				56282432A76800FB66F5C609 /* FLGeoFriend+MapAnnotation.m in Sources */,
+				562820BCDF88776CB471A630 /* FLExampleFriendDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

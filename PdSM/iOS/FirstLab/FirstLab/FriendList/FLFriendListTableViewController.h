@@ -6,10 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLFriendDataSource.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FLFriendListTableViewController : UITableViewController
+
+@property (nonatomic, strong) id<FLFriendDataSource> dataSource;
 
 @end
 
