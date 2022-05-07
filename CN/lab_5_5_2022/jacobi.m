@@ -1,7 +1,7 @@
 function x = jacobi(A, b, max_iter, treshold)
 	%jacobi - Risolve il sistema tramite il Metodo Iterativo di Jacobi
 	%
-	% Syntax: result = jacobi(x0, matrix)
+	% Syntax: result = jacobi(matrix, termine_noto, max_iter, tolleranza)
 	%
 	% Risolve il sistema Ax = b tramite Metodo Iterativo Lineare di Jacobi
 	

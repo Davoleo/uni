@@ -24,3 +24,6 @@ x0 = ones(3,1);
 
 x = jacobi(A, b, 20, 10^-5);
 err = norm([5 4 7]' - x)
+
+x = gauss_seidel(A, b, 100, 10^-5);
+err = norm([5 4 7]' - x)
