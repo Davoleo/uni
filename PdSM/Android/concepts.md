@@ -157,3 +157,66 @@
   - Albero di View e ViewGroups (Gli oggetti View sono le foglie dell'albero)
   - `setContentView()` permette di impostare un layout ad una View
   - I componenti sono disegnati tramtie una visita in-order dell'albero
+
+## Layout
+- File XML all'interno del progetto
+- Definisce una gerarchia di viste
+- Esistono diversi tipi di View groups chiamati layout per raggruppare viste
+  - LineareLayout
+  - RelativeLayout
+  - TableLayout
+  - ...
+- **Layout Attributes**
+  - Gli attributi XML possono essere generici per la View oppure specifici per un controllo
+- **ID Attribute**
+  - Una resource che ha un attribute id può essere unicamente identificato nell'albero e nel codice Java
+  - è accesibile tramite `context.findViewById(R.id.<resource_id>)`
+  - una '@' all'inizio della della stringa indica che il parser XML deve espandere il resto della ID string e identificarla come una risorsa id
+  - il simbolo '+' significa che è una nuova risorsa e deve essere generata nel file `R.java`
+
+## Widget
+- 2 Scopi
+  1. mostrare qualcosa all'utente 
+  2. Dare modo all'utente di interagire 
+- Ci sono componenti semplici, complessi, e si possono anche creare componenti custom
+
+## Activity
+- Activity -> elemento centrale delle app Adnroid
+- è Associata con:
+  - Vista 
+    - Recupero di riferimenti alle viste
+    - Gestione di eventi che provengono dalle viste
+  - Modello
+    - Leggere dati dalla struttura del modello
+    - Scrivere dati nell'app storage in accordo con la struttura del modello
+- Si può fare l'override di metodi legati al lifecycle dell'activity, tra i quali il più comune: `onCreate()`
+
+### Input Events
+- Interfaccia che deve essere implementata per ricevere gli eventi che arrivano dalla View
+
+### Lanciare Activity
+- `startActivity(Intent, activityClass)` 
+- `startActivityForResult(Intent, int)` l'int serve per collegare la richiesta alla risposta dell'activity quando finirà
+  - Quando l'activity termina viene invocato il metodo: `onActivityResult(int, int, Intent)`
+  - Bisogna fare `setResult()` sull'activity per settare il risultato che verrà acchiappato da onActivityResult
+- `finish();` per terminare un'activity
+
+
+### Principi di Design ufficiali
+- **Keep it brief**: "Use short phrases with simple words"
+- **Pictures are faster than words**: "Consider using pictures to explain ideas. 
+They get people's attention and can be much more efficient than words."
+- **Decide for me but let me have the final say**: Take your best guess and act rather than asking first. Too many choices and decisions make
+people unhappy. Just in case you get it wrong, allow for 'undo'"
+- **Only show what I need when I need it**: "People get overwhelmed when they see too much at once. Break Tasks and information into small chunks.
+Hide options that aren't essential at the moment, and teach people as they go.
+- **I should always know where I am**: "Give people confidence that they know their way around. Make places in your app look distinct and use
+transitions to show relationships among screens. Provide feedback on tasks in progress."
+- **If it looks the same it should act the same**: "Avoid modes, which are places that look similar but act differently on the same input."
+- **It's not my fault**: "Be gentle in how you prompt people to make corrections. They want to feel smart when they use your app. If something goes wrong, give clear recovery instructions but spare them the technical details. If you can fix it behind the scenes, even better"
+- **Make important things fast**: "Not all actions are equal. Decide what's most important in your app and make it easy to find and fast to use."
+- **Do not reinvent the wheel!**: "You're not alone! At any given moment, somewhere in the world someone faces the same software/design problems. 
+You know you don't want to reinvent the wheel (or flat tire), so look around and focus on relevant aspects for your application!
+- **Use native components and themes**: "A rich and complete Mobile platform like Android provides many useful, tested, and well-known native components. You should use them during design and development phases.
+- **Get inspired! Sometimes copying is ok**: "Look around and learn from existing applications! If you don't know how to design your app or a specific section, have a look at well known and official applications in order to understand how they are designed and composed"
+- **Use online free tools & resources**: "If you are not a designed, rely on existing tools and resources to improve and simplify the UI of your application. Keep it simple and clear.
