@@ -111,7 +111,9 @@
 		"locale": "cpp",
 		"stack": "cpp",
 		"__functional_03": "c",
-		"filesystem": "c"
+		"filesystem": "c",
+		"__bits": "cpp",
+		"variant": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false,
