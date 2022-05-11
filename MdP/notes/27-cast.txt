@@ -133,6 +133,7 @@ seguenti (elenco parziale, non esaustivo):
  - il cast implementa un downcast in una gerarchia di classi;
  - il cast implementa un cast da un tipo numerico ad un tipo enumerazione;
  - il tipo destinazione è void.
+Questo tipo di cast è un asserzione fatta a compile-time, quindi potrebbe
 
 ---------------------------------------------------------
 
@@ -247,12 +248,13 @@ la routine di stampa potrebbe usare un const_cast per modificare la
 rappresentazione interna (senza però modificare dal punto di vista semantico
 la collezione).
 
-Nota: alcuni usi di const_cast si potrebbero eliminare mediante l'utilizzo
+Nota: *alcuni* usi di const_cast si potrebbero eliminare mediante l'utilizzo
 del modificatore mutable su alcuni dati membro di una classe.
 
 ---------------------------------------------------------
 
 4) reinterpret_cast
+E' il più pericoloso e quello per cui lo sviluppatore si prende più responsabilità
 
 Un reinterpret cast può essere usato per effettuare le seguenti conversioni:
   - da un tipo puntatore ad un tipo intero (sufficientemente grande da
@@ -313,5 +315,10 @@ Con i cast stile C si possono simulare static_cast, const_cast e
 reinterpret_cast, ma NON si possono effettuare i dynamic_cast
 (in particolare, non hanno accesso a informazioni RTTI e quindi
 non effettuano nessun controllo a run-time).
+
+Il cast a void è concesso che sia scritto in stile C
+E.g.: 
+int foo();
+(void) foo();
 
 ---------------------------------------------------------
