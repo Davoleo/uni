@@ -80,3 +80,41 @@ _Proprietà dei grafi ciclici e aciclici e identificazione:_
   - Gli archi finiscono sempre su nodi con stato grigio (non ancora visitati), si tratta di un albero/lista
   - Gli archi finiscono almeno 1 volta su un nodo con stato nero (già visitato e abbandonato per sempre), si tratta almeno di un DAG
   - Gli archi finiscono almeno 1 volta su un nodo con stato rosso (già visitato ma non ancora abbandonato per sempre) -> c'è almeno un ciclo nel grafo
+
+## Archi Pesati
+- Informazione per ogni arco (e.g. Proprietà della strada, tempo di percorrenza medio, velocità massima consentita)
+- BFS (visita in ampiezza): trova il percorso più corto in base al numero di nodi attraversati, ma se gli archi hanno un peso non permette di trovare il percorso migliore
+- Potrebbero anche esserci più informazioni diverse contemporaneamente sugli archi, che devono quindi essere mediate o scelte per decidere il percorso
+
+### Algoritmo di Dijkstra
+- Provare i vari percorsi (in stile BFS) per raggiungere un nodo intermedio e marcare questo nodo con la sommatoria dei segmenti con il numero minimo rispetto agli altri (ogni volta che trovo un percorso parziale più conveniente aggiorno l'informazione sul nodo)
+- Grafo e nodo di incresso
+- Informazione sulla distanza del nodo (inizializzata a infinito)
+- Informazione sul nodo precedente (inizializzata a indefinito)
+- Coda di vertici del grafo
+- Per ogni nodo estratto si vedono i suoi adiacenti
+- L'identificazione del nodo che ha distanza minima ha come caso peggiore O(n) 
+- Pseudocodice:
+```
+ 1  function Dijkstra(Graph, source):
+ 2
+ 3      for each vertex v in Graph.Vertices:            
+ 4          dist[v] ← INFINITY                 
+ 5          prev[v] ← UNDEFINED                
+ 6          add v to Q                     
+ 7      dist[source] ← 0                       
+ 8     
+ 9      while Q is not empty:
+10          u ← vertex in Q with min dist[u]   
+11          remove u from Q
+12                                        
+13          for each neighbor v of u still in Q:
+14              alt ← dist[u] + Graph.Edges(u, v)
+15              if alt < dist[v]:              
+16                  dist[v] ← alt
+17                  prev[v] ← u
+18
+19      return dist[], prev[]
+```
+- L'utilizzo di una coda di priorità (implementabile come heap), ottimizza l'algoritmo O(v^2) -> O(edge+v*logn)
+- 
