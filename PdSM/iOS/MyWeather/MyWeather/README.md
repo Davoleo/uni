@@ -36,3 +36,8 @@
 - Weather Icons:
   - https://icons8.com/icon/set/weather/ios-glyphs--black
   - https://icons8.com/icon/set/weather/color
+
+### OpenWeatherMap
+  - https://openweathermap.org/api
+  - https://openweathermap.org/api/one-call-api
+  - https://openweathermap.org/current
