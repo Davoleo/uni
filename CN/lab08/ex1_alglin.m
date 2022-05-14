@@ -1,12 +1,12 @@
 %% Ex. 1 - Scheda Algebra Lineare
 
-DIM = 3;
+DIM = 10;
 
 %adiag = [3,4,3];
 %adiagoff = [3,2];
 adiag = rand(1, DIM);
 adiagoff = rand(1, DIM-1);
-A = diag(adiag) + diag(adiagoff, -1) + diag(adiagoff, +1)
+A = diag(adiag) + diag(adiagoff, -1) + diag(adiagoff, +1);
 
 % Step 0
 d0 = 1;
@@ -41,10 +41,12 @@ end
 
 det = prod(d);
 if abs(det) < 10^-15
-	disp('La matrice ha un determinante vicino a 0 -> la fattorizzazione LU potrebbe non essere corretta');
+	disp(['La matrice ha un determinante vicino a 0: ' num2str(det) ' -> la fattorizzazione LU potrebbe non essere corretta']);
 end
 
 L = diag(ldiag) + diag(ldiagoff, -1);
 U = diag(udiag) + diag(adiagoff, +1);
 
-Atilde = L*U
+Atilde = L*U;
+
+err = norm(abs(A - Atilde))
