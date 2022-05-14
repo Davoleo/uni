@@ -1,4 +1,6 @@
 %% Ex. 1 - Scheda Algebra Lineare
+clear
+clc
 
 DIM = 10;
 
