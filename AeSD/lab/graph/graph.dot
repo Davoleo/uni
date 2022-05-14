@@ -3,113 +3,415 @@ digraph g
 node [shape=none]
 rankdir="LR"
 node_0_0
-[ shape = oval; label = "Idx: 0, val: 0" ];
-node_0_0 -> node_4_0 [  color=gray ]
-node_0_0 -> node_3_0 [  color=gray ]
-node_0_0 -> node_2_0 [  color=gray ]
-node_0_0 -> node_1_0 [  color=gray ]
-node_0_0 -> node_0_0 [  color=gray ]
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 0, dist: INF" ];
+node_0_0 -> node_6_0 [ label="21.2132", len=2.12132 ]
+node_0_0 -> node_1_0 [ label="15", len=1.5 ]
+node_0_0 -> node_5_0 [ label="15", len=1.5 ]
 node_1_0
-[ shape = oval; label = "Idx: 1, val: 2" ];
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 1, dist: INF" ];
+node_1_0 -> node_7_0 [ label="21.2132", len=2.12132 ]
+node_1_0 -> node_2_0 [ label="15", len=1.5 ]
+node_1_0 -> node_6_0 [ label="15", len=1.5 ]
+node_1_0 -> node_5_0 [ label="21.2132", len=2.12132 ]
+node_1_0 -> node_0_0 [ label="15", len=1.5 ]
 node_2_0
-[ shape = oval; label = "Idx: 2, val: 4" ];
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 2, dist: INF" ];
+node_2_0 -> node_8_0 [ label="21.2132", len=2.12132 ]
+node_2_0 -> node_3_0 [ label="15", len=1.5 ]
+node_2_0 -> node_7_0 [ label="15", len=1.5 ]
+node_2_0 -> node_6_0 [ label="21.2132", len=2.12132 ]
+node_2_0 -> node_1_0 [ label="15", len=1.5 ]
 node_3_0
-[ shape = oval; label = "Idx: 3, val: 6" ];
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 3, dist: INF" ];
+node_3_0 -> node_9_0 [ label="21.2132", len=2.12132 ]
+node_3_0 -> node_4_0 [ label="15", len=1.5 ]
+node_3_0 -> node_8_0 [ label="15", len=1.5 ]
+node_3_0 -> node_7_0 [ label="21.2132", len=2.12132 ]
+node_3_0 -> node_2_0 [ label="15", len=1.5 ]
 node_4_0
-[ shape = oval; label = "Idx: 4, val: 8" ];
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 4, dist: INF" ];
+node_4_0 -> node_9_0 [ label="15", len=1.5 ]
+node_4_0 -> node_8_0 [ label="21.2132", len=2.12132 ]
+node_4_0 -> node_3_0 [ label="15", len=1.5 ]
+node_5_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 5, dist: INF" ];
+node_5_0 -> node_11_0 [ label="21.2132", len=2.12132 ]
+node_5_0 -> node_6_0 [ label="15", len=1.5 ]
+node_5_0 -> node_1_0 [ label="21.2132", len=2.12132 ]
+node_5_0 -> node_10_0 [ label="15", len=1.5 ]
+node_5_0 -> node_0_0 [ label="15", len=1.5 ]
+node_6_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 6, dist: INF" ];
+node_6_0 -> node_12_0 [ label="21.2132", len=2.12132 ]
+node_6_0 -> node_7_0 [ label="15", len=1.5 ]
+node_6_0 -> node_2_0 [ label="21.2132", len=2.12132 ]
+node_6_0 -> node_11_0 [ label="15", len=1.5 ]
+node_6_0 -> node_1_0 [ label="15", len=1.5 ]
+node_6_0 -> node_10_0 [ label="21.2132", len=2.12132 ]
+node_6_0 -> node_5_0 [ label="15", len=1.5 ]
+node_6_0 -> node_0_0 [ label="21.2132", len=2.12132 ]
+node_7_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 7, dist: INF" ];
+node_7_0 -> node_13_0 [ label="21.2132", len=2.12132 ]
+node_7_0 -> node_8_0 [ label="15", len=1.5 ]
+node_7_0 -> node_3_0 [ label="21.2132", len=2.12132 ]
+node_7_0 -> node_12_0 [ label="15", len=1.5 ]
+node_7_0 -> node_2_0 [ label="15", len=1.5 ]
+node_7_0 -> node_11_0 [ label="21.2132", len=2.12132 ]
+node_7_0 -> node_6_0 [ label="15", len=1.5 ]
+node_7_0 -> node_1_0 [ label="21.2132", len=2.12132 ]
+node_8_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 8, dist: INF" ];
+node_8_0 -> node_14_0 [ label="21.2132", len=2.12132 ]
+node_8_0 -> node_9_0 [ label="15", len=1.5 ]
+node_8_0 -> node_4_0 [ label="21.2132", len=2.12132 ]
+node_8_0 -> node_13_0 [ label="15", len=1.5 ]
+node_8_0 -> node_3_0 [ label="15", len=1.5 ]
+node_8_0 -> node_12_0 [ label="21.2132", len=2.12132 ]
+node_8_0 -> node_7_0 [ label="15", len=1.5 ]
+node_8_0 -> node_2_0 [ label="21.2132", len=2.12132 ]
+node_9_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 9, dist: INF" ];
+node_9_0 -> node_14_0 [ label="15", len=1.5 ]
+node_9_0 -> node_4_0 [ label="15", len=1.5 ]
+node_9_0 -> node_13_0 [ label="21.2132", len=2.12132 ]
+node_9_0 -> node_8_0 [ label="15", len=1.5 ]
+node_9_0 -> node_3_0 [ label="21.2132", len=2.12132 ]
+node_10_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 10, dist: INF" ];
+node_10_0 -> node_16_0 [ label="21.2132", len=2.12132 ]
+node_10_0 -> node_11_0 [ label="15", len=1.5 ]
+node_10_0 -> node_6_0 [ label="21.2132", len=2.12132 ]
+node_10_0 -> node_15_0 [ label="15", len=1.5 ]
+node_10_0 -> node_5_0 [ label="15", len=1.5 ]
+node_11_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 11, dist: INF" ];
+node_11_0 -> node_17_0 [ label="21.2132", len=2.12132 ]
+node_11_0 -> node_12_0 [ label="15", len=1.5 ]
+node_11_0 -> node_7_0 [ label="21.2132", len=2.12132 ]
+node_11_0 -> node_16_0 [ label="15", len=1.5 ]
+node_11_0 -> node_6_0 [ label="15", len=1.5 ]
+node_11_0 -> node_15_0 [ label="21.2132", len=2.12132 ]
+node_11_0 -> node_10_0 [ label="15", len=1.5 ]
+node_11_0 -> node_5_0 [ label="21.2132", len=2.12132 ]
+node_12_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 12, dist: INF" ];
+node_12_0 -> node_18_0 [ label="21.2132", len=2.12132 ]
+node_12_0 -> node_13_0 [ label="15", len=1.5 ]
+node_12_0 -> node_8_0 [ label="21.2132", len=2.12132 ]
+node_12_0 -> node_17_0 [ label="15", len=1.5 ]
+node_12_0 -> node_7_0 [ label="15", len=1.5 ]
+node_12_0 -> node_16_0 [ label="21.2132", len=2.12132 ]
+node_12_0 -> node_11_0 [ label="15", len=1.5 ]
+node_12_0 -> node_6_0 [ label="21.2132", len=2.12132 ]
+node_13_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 13, dist: INF" ];
+node_13_0 -> node_19_0 [ label="21.2132", len=2.12132 ]
+node_13_0 -> node_14_0 [ label="15", len=1.5 ]
+node_13_0 -> node_9_0 [ label="21.2132", len=2.12132 ]
+node_13_0 -> node_18_0 [ label="15", len=1.5 ]
+node_13_0 -> node_8_0 [ label="15", len=1.5 ]
+node_13_0 -> node_17_0 [ label="21.2132", len=2.12132 ]
+node_13_0 -> node_12_0 [ label="15", len=1.5 ]
+node_13_0 -> node_7_0 [ label="21.2132", len=2.12132 ]
+node_14_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 14, dist: INF" ];
+node_14_0 -> node_19_0 [ label="15", len=1.5 ]
+node_14_0 -> node_9_0 [ label="15", len=1.5 ]
+node_14_0 -> node_18_0 [ label="21.2132", len=2.12132 ]
+node_14_0 -> node_13_0 [ label="15", len=1.5 ]
+node_14_0 -> node_8_0 [ label="21.2132", len=2.12132 ]
+node_15_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 15, dist: INF" ];
+node_15_0 -> node_21_0 [ label="21.2132", len=2.12132 ]
+node_15_0 -> node_16_0 [ label="15", len=1.5 ]
+node_15_0 -> node_11_0 [ label="21.2132", len=2.12132 ]
+node_15_0 -> node_20_0 [ label="15", len=1.5 ]
+node_15_0 -> node_10_0 [ label="15", len=1.5 ]
+node_16_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 16, dist: INF" ];
+node_16_0 -> node_22_0 [ label="21.2132", len=2.12132 ]
+node_16_0 -> node_17_0 [ label="15", len=1.5 ]
+node_16_0 -> node_12_0 [ label="21.2132", len=2.12132 ]
+node_16_0 -> node_21_0 [ label="15", len=1.5 ]
+node_16_0 -> node_11_0 [ label="15", len=1.5 ]
+node_16_0 -> node_20_0 [ label="21.2132", len=2.12132 ]
+node_16_0 -> node_15_0 [ label="15", len=1.5 ]
+node_16_0 -> node_10_0 [ label="21.2132", len=2.12132 ]
+node_17_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 17, dist: INF" ];
+node_17_0 -> node_23_0 [ label="21.2132", len=2.12132 ]
+node_17_0 -> node_18_0 [ label="15", len=1.5 ]
+node_17_0 -> node_13_0 [ label="21.2132", len=2.12132 ]
+node_17_0 -> node_22_0 [ label="15", len=1.5 ]
+node_17_0 -> node_12_0 [ label="15", len=1.5 ]
+node_17_0 -> node_21_0 [ label="21.2132", len=2.12132 ]
+node_17_0 -> node_16_0 [ label="15", len=1.5 ]
+node_17_0 -> node_11_0 [ label="21.2132", len=2.12132 ]
+node_18_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 18, dist: INF" ];
+node_18_0 -> node_24_0 [ label="21.2132", len=2.12132 ]
+node_18_0 -> node_19_0 [ label="15", len=1.5 ]
+node_18_0 -> node_14_0 [ label="21.2132", len=2.12132 ]
+node_18_0 -> node_23_0 [ label="15", len=1.5 ]
+node_18_0 -> node_13_0 [ label="15", len=1.5 ]
+node_18_0 -> node_22_0 [ label="21.2132", len=2.12132 ]
+node_18_0 -> node_17_0 [ label="15", len=1.5 ]
+node_18_0 -> node_12_0 [ label="21.2132", len=2.12132 ]
+node_19_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 19, dist: INF" ];
+node_19_0 -> node_24_0 [ label="15", len=1.5 ]
+node_19_0 -> node_14_0 [ label="15", len=1.5 ]
+node_19_0 -> node_23_0 [ label="21.2132", len=2.12132 ]
+node_19_0 -> node_18_0 [ label="15", len=1.5 ]
+node_19_0 -> node_13_0 [ label="21.2132", len=2.12132 ]
+node_20_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 20, dist: INF" ];
+node_20_0 -> node_21_0 [ label="15", len=1.5 ]
+node_20_0 -> node_16_0 [ label="21.2132", len=2.12132 ]
+node_20_0 -> node_15_0 [ label="15", len=1.5 ]
+node_21_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 21, dist: INF" ];
+node_21_0 -> node_22_0 [ label="15", len=1.5 ]
+node_21_0 -> node_17_0 [ label="21.2132", len=2.12132 ]
+node_21_0 -> node_16_0 [ label="15", len=1.5 ]
+node_21_0 -> node_20_0 [ label="15", len=1.5 ]
+node_21_0 -> node_15_0 [ label="21.2132", len=2.12132 ]
+node_22_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 22, dist: INF" ];
+node_22_0 -> node_23_0 [ label="15", len=1.5 ]
+node_22_0 -> node_18_0 [ label="21.2132", len=2.12132 ]
+node_22_0 -> node_17_0 [ label="15", len=1.5 ]
+node_22_0 -> node_21_0 [ label="15", len=1.5 ]
+node_22_0 -> node_16_0 [ label="21.2132", len=2.12132 ]
+node_23_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 23, dist: INF" ];
+node_23_0 -> node_24_0 [ label="15", len=1.5 ]
+node_23_0 -> node_19_0 [ label="21.2132", len=2.12132 ]
+node_23_0 -> node_18_0 [ label="15", len=1.5 ]
+node_23_0 -> node_22_0 [ label="15", len=1.5 ]
+node_23_0 -> node_17_0 [ label="21.2132", len=2.12132 ]
+node_24_0
+[ shape = oval; fillcolor = "0.0 0.0 inf"; style=filled; label = "Idx: 24, dist: INF" ];
+node_24_0 -> node_19_0 [ label="15", len=1.5 ]
+node_24_0 -> node_23_0 [ label="15", len=1.5 ]
+node_24_0 -> node_18_0 [ label="21.2132", len=2.12132 ]
 node_0_1
-[ shape = oval; label = "Idx: 0, val: 0" ];
-node_0_1 -> node_4_1 [  color=gray ]
-node_0_1 -> node_3_1 [  color=gray ]
-node_0_1 -> node_2_1 [  color=gray ]
-node_0_1 -> node_1_1 [  color=gray ]
-node_0_1 -> node_0_1 [  color=gray ]
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.5"; style=filled; label = "Idx: 0, dist: 0" ];
+node_0_1 -> node_6_1 [ label="21.2132", len=2.12132 ]
+node_0_1 -> node_1_1 [ label="15", len=1.5 ]
+node_0_1 -> node_5_1 [ label="15", len=1.5 ]
 node_1_1
-[ shape = oval; label = "Idx: 1, val: 2" ];
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.588388"; style=filled; label = "Idx: 1, dist: 15" ];
+node_1_1 -> node_7_1 [ label="21.2132", len=2.12132 ]
+node_1_1 -> node_2_1 [ label="15", len=1.5 ]
+node_1_1 -> node_6_1 [ label="15", len=1.5 ]
+node_1_1 -> node_5_1 [ label="21.2132", len=2.12132 ]
+node_1_1 -> node_0_1 [ label="15", len=1.5 ]
+node_1_1 -> node_0_1 [ color=blue, penwidth=5 len=0]
 node_2_1
-[ shape = oval; label = "Idx: 2, val: 4" ];
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.676777"; style=filled; label = "Idx: 2, dist: 30" ];
+node_2_1 -> node_8_1 [ label="21.2132", len=2.12132 ]
+node_2_1 -> node_3_1 [ label="15", len=1.5 ]
+node_2_1 -> node_7_1 [ label="15", len=1.5 ]
+node_2_1 -> node_6_1 [ label="21.2132", len=2.12132 ]
+node_2_1 -> node_1_1 [ label="15", len=1.5 ]
+node_2_1 -> node_1_1 [ color=blue, penwidth=5 len=0]
 node_3_1
-[ shape = oval; label = "Idx: 3, val: 6" ];
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.765165"; style=filled; label = "Idx: 3, dist: 45" ];
+node_3_1 -> node_9_1 [ label="21.2132", len=2.12132 ]
+node_3_1 -> node_4_1 [ label="15", len=1.5 ]
+node_3_1 -> node_8_1 [ label="15", len=1.5 ]
+node_3_1 -> node_7_1 [ label="21.2132", len=2.12132 ]
+node_3_1 -> node_2_1 [ label="15", len=1.5 ]
+node_3_1 -> node_2_1 [ color=blue, penwidth=5 len=21.2132]
 node_4_1
-[ shape = oval; label = "Idx: 4, val: 8" ];
-dfs_0 -> dfs_4[color=red, label = "0"]
-node_0_2
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 0, val: 0" ];
-node_0_2 -> node_4_2 [  color=gray ]
-node_0_2 -> node_3_2 [  color=gray ]
-node_0_2 -> node_2_2 [  color=gray ]
-node_0_2 -> node_1_2 [  color=gray ]
-node_0_2 -> node_0_2 [  color=gray ]
-node_1_2
-[ shape = oval; label = "Idx: 1, val: 2" ];
-node_2_2
-[ shape = oval; label = "Idx: 2, val: 4" ];
-node_3_2
-[ shape = oval; label = "Idx: 3, val: 6" ];
-node_4_2
-[ shape = oval; label = "Idx: 4, val: 8" ];
-dfs_0 -> dfs_3[color=red, label = "1"]
-node_0_3
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 0, val: 0" ];
-node_0_3 -> node_4_3 [  color=gray ]
-node_0_3 -> node_3_3 [  color=gray ]
-node_0_3 -> node_2_3 [  color=gray ]
-node_0_3 -> node_1_3 [  color=gray ]
-node_0_3 -> node_0_3 [  color=gray ]
-node_1_3
-[ shape = oval; label = "Idx: 1, val: 2" ];
-node_2_3
-[ shape = oval; label = "Idx: 2, val: 4" ];
-node_3_3
-[ shape = oval; label = "Idx: 3, val: 6" ];
-node_4_3
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 4, val: 8" ];
-dfs_0 -> dfs_2[color=red, label = "2"]
-node_0_4
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 0, val: 0" ];
-node_0_4 -> node_4_4 [  color=gray ]
-node_0_4 -> node_3_4 [  color=gray ]
-node_0_4 -> node_2_4 [  color=gray ]
-node_0_4 -> node_1_4 [  color=gray ]
-node_0_4 -> node_0_4 [  color=gray ]
-node_1_4
-[ shape = oval; label = "Idx: 1, val: 2" ];
-node_2_4
-[ shape = oval; label = "Idx: 2, val: 4" ];
-node_3_4
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 3, val: 6" ];
-node_4_4
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 4, val: 8" ];
-dfs_0 -> dfs_1[color=red, label = "3"]
-node_0_5
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 0, val: 0" ];
-node_0_5 -> node_4_5 [  color=gray ]
-node_0_5 -> node_3_5 [  color=gray ]
-node_0_5 -> node_2_5 [  color=gray ]
-node_0_5 -> node_1_5 [  color=gray ]
-node_0_5 -> node_0_5 [  color=gray ]
-node_1_5
-[ shape = oval; label = "Idx: 1, val: 2" ];
-node_2_5
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 2, val: 4" ];
-node_3_5
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 3, val: 6" ];
-node_4_5
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 4, val: 8" ];
-dfs_0 -> dfs_0[color=gray, label = "4"]
-node_0_6
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 0, val: 0" ];
-node_0_6 -> node_4_6 [  color=gray ]
-node_0_6 -> node_3_6 [  color=gray ]
-node_0_6 -> node_2_6 [  color=gray ]
-node_0_6 -> node_1_6 [  color=gray ]
-node_0_6 -> node_0_6 [  color=gray ]
-node_1_6
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 1, val: 2" ];
-node_2_6
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 2, val: 4" ];
-node_3_6
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 3, val: 6" ];
-node_4_6
-[ shape = oval; fillcolor = red; style=filled; label = "Idx: 4, val: 8" ];
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.853553"; style=filled; label = "Idx: 4, dist: 60" ];
+node_4_1 -> node_9_1 [ label="15", len=1.5 ]
+node_4_1 -> node_8_1 [ label="21.2132", len=2.12132 ]
+node_4_1 -> node_3_1 [ label="15", len=1.5 ]
+node_4_1 -> node_3_1 [ color=blue, penwidth=5 len=15]
+node_5_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.588388"; style=filled; label = "Idx: 5, dist: 15" ];
+node_5_1 -> node_11_1 [ label="21.2132", len=2.12132 ]
+node_5_1 -> node_6_1 [ label="15", len=1.5 ]
+node_5_1 -> node_1_1 [ label="21.2132", len=2.12132 ]
+node_5_1 -> node_10_1 [ label="15", len=1.5 ]
+node_5_1 -> node_0_1 [ label="15", len=1.5 ]
+node_5_1 -> node_0_1 [ color=blue, penwidth=5 len=0]
+node_6_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.625"; style=filled; label = "Idx: 6, dist: 21.2132" ];
+node_6_1 -> node_12_1 [ label="21.2132", len=2.12132 ]
+node_6_1 -> node_7_1 [ label="15", len=1.5 ]
+node_6_1 -> node_2_1 [ label="21.2132", len=2.12132 ]
+node_6_1 -> node_11_1 [ label="15", len=1.5 ]
+node_6_1 -> node_1_1 [ label="15", len=1.5 ]
+node_6_1 -> node_10_1 [ label="21.2132", len=2.12132 ]
+node_6_1 -> node_5_1 [ label="15", len=1.5 ]
+node_6_1 -> node_0_1 [ label="21.2132", len=2.12132 ]
+node_6_1 -> node_0_1 [ color=blue, penwidth=5 len=0]
+node_7_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.713388"; style=filled; label = "Idx: 7, dist: 36.2132" ];
+node_7_1 -> node_13_1 [ label="21.2132", len=2.12132 ]
+node_7_1 -> node_8_1 [ label="15", len=1.5 ]
+node_7_1 -> node_3_1 [ label="21.2132", len=2.12132 ]
+node_7_1 -> node_12_1 [ label="15", len=1.5 ]
+node_7_1 -> node_2_1 [ label="15", len=1.5 ]
+node_7_1 -> node_11_1 [ label="21.2132", len=2.12132 ]
+node_7_1 -> node_6_1 [ label="15", len=1.5 ]
+node_7_1 -> node_1_1 [ label="21.2132", len=2.12132 ]
+node_7_1 -> node_1_1 [ color=blue, penwidth=5 len=0]
+node_8_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.801777"; style=filled; label = "Idx: 8, dist: 51.2132" ];
+node_8_1 -> node_14_1 [ label="21.2132", len=2.12132 ]
+node_8_1 -> node_9_1 [ label="15", len=1.5 ]
+node_8_1 -> node_4_1 [ label="21.2132", len=2.12132 ]
+node_8_1 -> node_13_1 [ label="15", len=1.5 ]
+node_8_1 -> node_3_1 [ label="15", len=1.5 ]
+node_8_1 -> node_12_1 [ label="21.2132", len=2.12132 ]
+node_8_1 -> node_7_1 [ label="15", len=1.5 ]
+node_8_1 -> node_2_1 [ label="21.2132", len=2.12132 ]
+node_8_1 -> node_2_1 [ color=blue, penwidth=5 len=0]
+node_9_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.890165"; style=filled; label = "Idx: 9, dist: 66.2132" ];
+node_9_1 -> node_14_1 [ label="15", len=1.5 ]
+node_9_1 -> node_4_1 [ label="15", len=1.5 ]
+node_9_1 -> node_13_1 [ label="21.2132", len=2.12132 ]
+node_9_1 -> node_8_1 [ label="15", len=1.5 ]
+node_9_1 -> node_3_1 [ label="21.2132", len=2.12132 ]
+node_9_1 -> node_3_1 [ color=blue, penwidth=5 len=0]
+node_10_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.676777"; style=filled; label = "Idx: 10, dist: 30" ];
+node_10_1 -> node_16_1 [ label="21.2132", len=2.12132 ]
+node_10_1 -> node_11_1 [ label="15", len=1.5 ]
+node_10_1 -> node_6_1 [ label="21.2132", len=2.12132 ]
+node_10_1 -> node_15_1 [ label="15", len=1.5 ]
+node_10_1 -> node_5_1 [ label="15", len=1.5 ]
+node_10_1 -> node_5_1 [ color=blue, penwidth=5 len=0]
+node_11_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.713388"; style=filled; label = "Idx: 11, dist: 36.2132" ];
+node_11_1 -> node_17_1 [ label="21.2132", len=2.12132 ]
+node_11_1 -> node_12_1 [ label="15", len=1.5 ]
+node_11_1 -> node_7_1 [ label="21.2132", len=2.12132 ]
+node_11_1 -> node_16_1 [ label="15", len=1.5 ]
+node_11_1 -> node_6_1 [ label="15", len=1.5 ]
+node_11_1 -> node_15_1 [ label="21.2132", len=2.12132 ]
+node_11_1 -> node_10_1 [ label="15", len=1.5 ]
+node_11_1 -> node_5_1 [ label="21.2132", len=2.12132 ]
+node_11_1 -> node_5_1 [ color=blue, penwidth=5 len=0]
+node_12_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.75"; style=filled; label = "Idx: 12, dist: 42.4264" ];
+node_12_1 -> node_18_1 [ label="21.2132", len=2.12132 ]
+node_12_1 -> node_13_1 [ label="15", len=1.5 ]
+node_12_1 -> node_8_1 [ label="21.2132", len=2.12132 ]
+node_12_1 -> node_17_1 [ label="15", len=1.5 ]
+node_12_1 -> node_7_1 [ label="15", len=1.5 ]
+node_12_1 -> node_16_1 [ label="21.2132", len=2.12132 ]
+node_12_1 -> node_11_1 [ label="15", len=1.5 ]
+node_12_1 -> node_6_1 [ label="21.2132", len=2.12132 ]
+node_12_1 -> node_6_1 [ color=blue, penwidth=5 len=0]
+node_13_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.838388"; style=filled; label = "Idx: 13, dist: 57.4264" ];
+node_13_1 -> node_19_1 [ label="21.2132", len=2.12132 ]
+node_13_1 -> node_14_1 [ label="15", len=1.5 ]
+node_13_1 -> node_9_1 [ label="21.2132", len=2.12132 ]
+node_13_1 -> node_18_1 [ label="15", len=1.5 ]
+node_13_1 -> node_8_1 [ label="15", len=1.5 ]
+node_13_1 -> node_17_1 [ label="21.2132", len=2.12132 ]
+node_13_1 -> node_12_1 [ label="15", len=1.5 ]
+node_13_1 -> node_7_1 [ label="21.2132", len=2.12132 ]
+node_13_1 -> node_7_1 [ color=blue, penwidth=5 len=0]
+node_14_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.926777"; style=filled; label = "Idx: 14, dist: 72.4264" ];
+node_14_1 -> node_19_1 [ label="15", len=1.5 ]
+node_14_1 -> node_9_1 [ label="15", len=1.5 ]
+node_14_1 -> node_18_1 [ label="21.2132", len=2.12132 ]
+node_14_1 -> node_13_1 [ label="15", len=1.5 ]
+node_14_1 -> node_8_1 [ label="21.2132", len=2.12132 ]
+node_14_1 -> node_8_1 [ color=blue, penwidth=5 len=0]
+node_15_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.765165"; style=filled; label = "Idx: 15, dist: 45" ];
+node_15_1 -> node_21_1 [ label="21.2132", len=2.12132 ]
+node_15_1 -> node_16_1 [ label="15", len=1.5 ]
+node_15_1 -> node_11_1 [ label="21.2132", len=2.12132 ]
+node_15_1 -> node_20_1 [ label="15", len=1.5 ]
+node_15_1 -> node_10_1 [ label="15", len=1.5 ]
+node_15_1 -> node_10_1 [ color=blue, penwidth=5 len=0]
+node_16_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.801777"; style=filled; label = "Idx: 16, dist: 51.2132" ];
+node_16_1 -> node_22_1 [ label="21.2132", len=2.12132 ]
+node_16_1 -> node_17_1 [ label="15", len=1.5 ]
+node_16_1 -> node_12_1 [ label="21.2132", len=2.12132 ]
+node_16_1 -> node_21_1 [ label="15", len=1.5 ]
+node_16_1 -> node_11_1 [ label="15", len=1.5 ]
+node_16_1 -> node_20_1 [ label="21.2132", len=2.12132 ]
+node_16_1 -> node_15_1 [ label="15", len=1.5 ]
+node_16_1 -> node_10_1 [ label="21.2132", len=2.12132 ]
+node_16_1 -> node_10_1 [ color=blue, penwidth=5 len=0]
+node_17_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.838388"; style=filled; label = "Idx: 17, dist: 57.4264" ];
+node_17_1 -> node_23_1 [ label="21.2132", len=2.12132 ]
+node_17_1 -> node_18_1 [ label="15", len=1.5 ]
+node_17_1 -> node_13_1 [ label="21.2132", len=2.12132 ]
+node_17_1 -> node_22_1 [ label="15", len=1.5 ]
+node_17_1 -> node_12_1 [ label="15", len=1.5 ]
+node_17_1 -> node_21_1 [ label="21.2132", len=2.12132 ]
+node_17_1 -> node_16_1 [ label="15", len=1.5 ]
+node_17_1 -> node_11_1 [ label="21.2132", len=2.12132 ]
+node_17_1 -> node_11_1 [ color=blue, penwidth=5 len=0]
+node_18_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.875"; style=filled; label = "Idx: 18, dist: 63.6396" ];
+node_18_1 -> node_24_1 [ label="21.2132", len=2.12132 ]
+node_18_1 -> node_19_1 [ label="15", len=1.5 ]
+node_18_1 -> node_14_1 [ label="21.2132", len=2.12132 ]
+node_18_1 -> node_23_1 [ label="15", len=1.5 ]
+node_18_1 -> node_13_1 [ label="15", len=1.5 ]
+node_18_1 -> node_22_1 [ label="21.2132", len=2.12132 ]
+node_18_1 -> node_17_1 [ label="15", len=1.5 ]
+node_18_1 -> node_12_1 [ label="21.2132", len=2.12132 ]
+node_18_1 -> node_12_1 [ color=blue, penwidth=5 len=0]
+node_19_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.963388"; style=filled; label = "Idx: 19, dist: 78.6396" ];
+node_19_1 -> node_24_1 [ label="15", len=1.5 ]
+node_19_1 -> node_14_1 [ label="15", len=1.5 ]
+node_19_1 -> node_23_1 [ label="21.2132", len=2.12132 ]
+node_19_1 -> node_18_1 [ label="15", len=1.5 ]
+node_19_1 -> node_13_1 [ label="21.2132", len=2.12132 ]
+node_19_1 -> node_13_1 [ color=blue, penwidth=5 len=0]
+node_20_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.853553"; style=filled; label = "Idx: 20, dist: 60" ];
+node_20_1 -> node_21_1 [ label="15", len=1.5 ]
+node_20_1 -> node_16_1 [ label="21.2132", len=2.12132 ]
+node_20_1 -> node_15_1 [ label="15", len=1.5 ]
+node_20_1 -> node_15_1 [ color=blue, penwidth=5 len=0]
+node_21_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.890165"; style=filled; label = "Idx: 21, dist: 66.2132" ];
+node_21_1 -> node_22_1 [ label="15", len=1.5 ]
+node_21_1 -> node_17_1 [ label="21.2132", len=2.12132 ]
+node_21_1 -> node_16_1 [ label="15", len=1.5 ]
+node_21_1 -> node_20_1 [ label="15", len=1.5 ]
+node_21_1 -> node_15_1 [ label="21.2132", len=2.12132 ]
+node_21_1 -> node_15_1 [ color=blue, penwidth=5 len=0]
+node_22_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.926777"; style=filled; label = "Idx: 22, dist: 72.4264" ];
+node_22_1 -> node_23_1 [ label="15", len=1.5 ]
+node_22_1 -> node_18_1 [ label="21.2132", len=2.12132 ]
+node_22_1 -> node_17_1 [ label="15", len=1.5 ]
+node_22_1 -> node_21_1 [ label="15", len=1.5 ]
+node_22_1 -> node_16_1 [ label="21.2132", len=2.12132 ]
+node_22_1 -> node_16_1 [ color=blue, penwidth=5 len=0]
+node_23_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 0.963388"; style=filled; label = "Idx: 23, dist: 78.6396" ];
+node_23_1 -> node_24_1 [ label="15", len=1.5 ]
+node_23_1 -> node_19_1 [ label="21.2132", len=2.12132 ]
+node_23_1 -> node_18_1 [ label="15", len=1.5 ]
+node_23_1 -> node_22_1 [ label="15", len=1.5 ]
+node_23_1 -> node_17_1 [ label="21.2132", len=2.12132 ]
+node_23_1 -> node_17_1 [ color=blue, penwidth=5 len=0]
+node_24_1
+[ shape = oval; penwidth = 4; fillcolor = "0.0 0.0 1"; style=filled; label = "Idx: 24, dist: 84.8528" ];
+node_24_1 -> node_19_1 [ label="15", len=1.5 ]
+node_24_1 -> node_23_1 [ label="15", len=1.5 ]
+node_24_1 -> node_18_1 [ label="21.2132", len=2.12132 ]
+node_24_1 -> node_18_1 [ color=blue, penwidth=5 len=0]
 }
