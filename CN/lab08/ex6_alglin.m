@@ -1,6 +1,6 @@
 %% Ex. 6 - Scheda Algebra Lineare
-clc
-clear 
+% clc
+% clear 
 close all
 
 A = hilb(1000);
@@ -12,9 +12,9 @@ y = x;
 b = A*x;
 c = B*y;
 
-errA = norm(abs((A\b) - x)./x)
+errA = norm(abs((A\b) - x)) / norm(x)
 condA = cond(A)
-errB = norm(abs((B\c) - y)./y)
+errB = norm(abs((B\c) - x)) / norm(x)
 condB = cond(B)
 
 conds = zeros(1, 49);
