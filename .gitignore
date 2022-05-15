@@ -2,7 +2,7 @@
 # .vscode/
 
 # Java Project files and outputs
-**/.idea
+**/.idea/
 **/out
 *.iml
 
@@ -93,3 +93,6 @@ xcuserdata/
 #
 # We're using source-control, so this is a "feature" that we do not want!
 *.moved-aside
+
+# Environment Variables & Secrets File
+.xcconfig
