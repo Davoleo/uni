@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "MWUtils.h"
 
 int main(int argc, char * argv[]) {
     NSString * appDelegateClassName;
@@ -14,5 +15,8 @@ int main(int argc, char * argv[]) {
         // Setup code that might create autoreleased objects goes here.
         appDelegateClassName = NSStringFromClass([AppDelegate class]);
     }
+
+    [MWUtils queryWeatherAPIForPoi:[MWPoi poiWithLatitude:44 longitude:33] AndThen:^(MWWeather* weather){/* noop test */}];
+
     return UIApplicationMain(argc, argv, nil, appDelegateClassName);
 }

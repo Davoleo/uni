@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5628205D97A1BC004EA600AC /* MWWeatherData.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628224DC6BAC9617FA858C5 /* MWWeatherData.m */; };
+		5628254ED881818AA097A616 /* MWForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628234B6F307E47E335233F /* MWForecast.m */; };
+		5628293E40A4669201549761 /* MWManagers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628259BEF376B656E6B2D86 /* MWManagers.m */; };
+		56282A41D2427EA83CB70BD6 /* MWPoi.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628272E19992AF864ECD154 /* MWPoi.m */; };
 		6B5C362C2830FA6500CBF5EA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */; };
-		6B5C363028310AC000CBF5EA /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C362F28310AC000CBF5EA /* Utils.m */; };
+		6B5C363028310AC000CBF5EA /* MWUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C362F28310AC000CBF5EA /* MWUtils.m */; };
 		6BF0C9C32827AE7B00163E04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C9C22827AE7B00163E04 /* AppDelegate.m */; };
 		6BF0C9C62827AE7B00163E04 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C9C52827AE7B00163E04 /* SceneDelegate.m */; };
 		6BF0C9CC2827AE7B00163E04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BF0C9CA2827AE7B00163E04 /* Main.storyboard */; };
@@ -19,9 +23,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5628224DC6BAC9617FA858C5 /* MWWeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeatherData.m; sourceTree = "<group>"; };
+		5628234B6F307E47E335233F /* MWForecast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWForecast.m; sourceTree = "<group>"; };
+		5628244A887EB55A481F80A6 /* MWManagers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWManagers.h; sourceTree = "<group>"; };
+		5628259BEF376B656E6B2D86 /* MWManagers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWManagers.m; sourceTree = "<group>"; };
+		56282670289B9C795DA8E80F /* MWPoi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPoi.h; sourceTree = "<group>"; };
+		5628272E19992AF864ECD154 /* MWPoi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPoi.m; sourceTree = "<group>"; };
+		56282C562123E2DB8E2FEDBB /* MWWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeatherData.h; sourceTree = "<group>"; };
+		56282E8B339A4056AB120441 /* MWForecast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWForecast.h; sourceTree = "<group>"; };
 		6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		6B5C362E28310AC000CBF5EA /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		6B5C362F28310AC000CBF5EA /* Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		6B5C362E28310AC000CBF5EA /* MWUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWUtils.h; sourceTree = "<group>"; };
+		6B5C362F28310AC000CBF5EA /* MWUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWUtils.m; sourceTree = "<group>"; };
 		6BF0C9BE2827AE7B00163E04 /* MyWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BF0C9C12827AE7B00163E04 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6BF0C9C22827AE7B00163E04 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -52,10 +64,25 @@
 		6B5C362D28310A6C00CBF5EA /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				6B5C362E28310AC000CBF5EA /* Utils.h */,
-				6B5C362F28310AC000CBF5EA /* Utils.m */,
+				6B5C362E28310AC000CBF5EA /* MWUtils.h */,
+				6B5C362F28310AC000CBF5EA /* MWUtils.m */,
+				5628259BEF376B656E6B2D86 /* MWManagers.m */,
+				5628244A887EB55A481F80A6 /* MWManagers.h */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		6B5C363128310D4100CBF5EA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5628272E19992AF864ECD154 /* MWPoi.m */,
+				56282670289B9C795DA8E80F /* MWPoi.h */,
+				5628234B6F307E47E335233F /* MWForecast.m */,
+				56282E8B339A4056AB120441 /* MWForecast.h */,
+				5628224DC6BAC9617FA858C5 /* MWWeatherData.m */,
+				56282C562123E2DB8E2FEDBB /* MWWeatherData.h */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		6BF0C9B52827AE7B00163E04 = {
@@ -78,6 +105,7 @@
 		6BF0C9C02827AE7B00163E04 /* MyWeather */ = {
 			isa = PBXGroup;
 			children = (
+				6B5C363128310D4100CBF5EA /* Models */,
 				6B5C362D28310A6C00CBF5EA /* Utilities */,
 				6BF0C9C12827AE7B00163E04 /* AppDelegate.h */,
 				6BF0C9C22827AE7B00163E04 /* AppDelegate.m */,
@@ -175,7 +203,11 @@
 				6BF0C9C32827AE7B00163E04 /* AppDelegate.m in Sources */,
 				6BF0C9D42827AE7F00163E04 /* main.m in Sources */,
 				6BF0C9C62827AE7B00163E04 /* SceneDelegate.m in Sources */,
-				6B5C363028310AC000CBF5EA /* Utils.m in Sources */,
+				6B5C363028310AC000CBF5EA /* MWUtils.m in Sources */,
+				56282A41D2427EA83CB70BD6 /* MWPoi.m in Sources */,
+				5628293E40A4669201549761 /* MWManagers.m in Sources */,
+				5628254ED881818AA097A616 /* MWForecast.m in Sources */,
+				5628205D97A1BC004EA600AC /* MWWeatherData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

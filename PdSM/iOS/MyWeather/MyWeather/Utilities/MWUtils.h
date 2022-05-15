@@ -6,12 +6,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+#import "MWForecast.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Utils : NSObject
+@interface MWUtils : NSObject
 
 + (NSString*) getWeatherAPIKey;
+
+
++ (void) queryWeatherAPIForPoi: (MWPoi*) poi AndThen: (MWForecastConsumer) doThis;
+
 
 
 @end
