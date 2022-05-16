@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSArray<MWWeatherData*>* hourly;
 @property (nonatomic, strong) NSArray<MWWeatherData*>* daily;
 
+-(instancetype) initWithJSONData:(NSData*) data AndPoi:(MWPoi*)poi;
+
 -(void) refreshCurrentWeather;
 
 @end

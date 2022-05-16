@@ -16,10 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*) getWeatherAPIKey;
 
 
-+ (void) queryWeatherAPIForPoi: (MWPoi*) poi AndThen: (MWForecastConsumer) doThis;
++ (void)queryWeatherAPIInPoi:(MWPoi*)poi AndThen: (MWForecastConsumer) doThis;
 
-
-
++ (void)queryCurrentWeatherInLocation:(MWPoi*)poi AndThen:(MWWeatherDataConsumer)doThis;
 @end
 
 NS_ASSUME_NONNULL_END

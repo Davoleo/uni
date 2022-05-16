@@ -16,7 +16,9 @@ int main(int argc, char * argv[]) {
         appDelegateClassName = NSStringFromClass([AppDelegate class]);
     }
 
-    [MWUtils queryWeatherAPIForPoi:[MWPoi poiWithLatitude:44 longitude:33] AndThen:^(MWWeather* weather){/* noop test */}];
+    [MWUtils queryWeatherAPIInPoi:[MWPoi poiWithLatitude:44 longitude:33] AndThen:^(MWForecast* forecast) {
+        NSLog(@"%@", forecast.current.windDirection.direction);
+    }];
 
     return UIApplicationMain(argc, argv, nil, appDelegateClassName);
 }
