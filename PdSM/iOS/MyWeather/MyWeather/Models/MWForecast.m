@@ -3,6 +3,7 @@
 //
 
 #import "MWForecast.h"
+#import "MWUtils.h"
 
 @implementation MWForecast
 
@@ -47,7 +48,9 @@
 }
 
 - (void)refreshCurrentWeather {
-    //TODO: Implement
+    [MWUtils queryCurrentWeatherInLocation:self.location AndThen:^(MWWeatherData* currentWeather) {
+        self.current = currentWeather;
+    }];
 }
 
 @end
