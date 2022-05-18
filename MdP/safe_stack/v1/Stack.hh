@@ -8,6 +8,8 @@
 #include <cstddef>
 #include <string>
 
+//Versione Breve e di dettaglio dei commenti 
+
 //! Una pila espandibile.
 /*!
   Una struttura dati pila che si espande automaticamente al bisogno.

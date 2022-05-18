@@ -13,7 +13,10 @@
 
 # Matrix project compiled files
 SO/MatrixProject/out
+
+# Doxygen Docs
 SO/MatrixProject/docs
+MdP/safe_stack/v1/docs
 
 # MATLAB temporary files
 *.asv
