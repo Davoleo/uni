@@ -334,5 +334,3 @@ Affinché si attivi l'overriding occorre che:
 	p->Printer::print(doc);
 
 -------------------------------------------
-
-Vedi gerarchia di tipi in: https://en.cppreference.com/w/cpp/error/exception

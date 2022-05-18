@@ -1,0 +1,77 @@
+
+*** Alcune questioni tecniche sul polimorfismo dinamico
+
+Abbiamo visto che, nel caso di polimorfismo dinamico, le classi astratte
+sono tipicamente formate da metodi virtuali puri, più il distruttore della
+classe che è dichiarato virtuale, ma non puro. In alcuni casi è però
+necessario complicare il progetto (ad esempio, usando l'ereditarietà
+multipla): quando lo si fa, si corre il rischio di incorrere in errori
+ed è quindi opportuno cercare le risposte ad alcune domande tecniche
+sul polimorfismo dinamico, che possono diventare rilevanti quando viene
+utilizzato al di fuori dei confini stabiliti nei nostri semplici esempi.
+
+-----------------------------------------------------------------------
+
+1) ci sono metodi che NON possono essere dichiarati virtuali?
+
+In particolare, cosa si può dire sulla possibilità o meno di rendere
+virtuali le seguenti categorie di metodi:
+  - costruttori NO (non può essere chiamato su riferimenti all'oggetto, perché è lui che inizializza il riferimento o puntatore)
+  - distruttori SI (per fare in modo che venga chiamato il distruttore dell'oggetto concreto a tempo di esecuzione invece che )
+  - funzioni membro (di istanza, cioè non statiche) SI (non obbligatorio) [se si vuole permettere alle sottoclassi di fare la cosa a modo loro]
+  - funzioni membro statiche NO (manca il this, no risoluzione overriding)
+  - template di funzioni membro (non statiche) NO (limitazione tecnica del C++ | Evitato perché troppo complicato da implementare, tabella dinamica potenzialmente infinita)
+  - funzioni membro (non statiche) di classi templatiche SI (Una volta che viene istanziata la classe le possibile istanze del metodo sono 1 sola)
+
+-----------------------------------------------------------------------
+
+2) Come faccio a costruire una copia di un oggetto concreto quando
+   questo mi viene fornito come puntatore/riferimento alla classe base?
+
+	class Animale {
+		//"costruttori virtuali" \ metodo che non è un costruttore ma si comporta come un costruttore e che si può specificare come virtuale
+		virtual Animale* clone() const = 0;
+	};
+
+	class Cane : public Animale {
+		//"costruttori virtuali"
+		//L'unica eccezione del C++ per signature diverse nell'overriding
+		Cane* clone() const override {
+			return new Cane(*this);
+		}
+	};
+
+	//Utente
+	void foo(const Cane* pc) {
+		//copia
+		Animale* pa2 = pc->clone();
+		Cane* pc2 = pc->clone();
+	}
+
+-----------------------------------------------------------------------
+
+3) Cosa succede se si invoca un metodo virtuale durante la fase di
+   costruzione o di distruzione di un oggetto?
+
+	Dopo C++98 (prima era undefined behaviour)
+	risoluzione dell'overriding disabilitata in modo da non andare ad accedere a risorse della sottoclasse che non sono ancora state allocate
+	oppure che sono già state liberate
+
+-----------------------------------------------------------------------
+
+4) Come funziona l'ereditarietà multipla quando NON ci si limita
+   al caso delle interfacce astratte?
+
+   - scope e ambiguità
+   - classi base ripetute
+   - classi base virtuali
+   - semantica speciale di inizializzazione
+
+-----------------------------------------------------------------------
+
+5) Quali sono gli usi del polimorfismo dinamico nella libreria standard?
+
+   - classi eccezione standard
+		- Vedi gerarchia di tipi in: https://en.cppreference.com/w/cpp/error/exception
+   - classi iostream
+		- Eredita da Input Stream e Output Stream
