@@ -117,4 +117,33 @@ _Proprietà dei grafi ciclici e aciclici e identificazione:_
 19      return dist[], prev[]
 ```
 - L'utilizzo di una coda di priorità (implementabile come heap), ottimizza l'algoritmo O(v^2) -> O(edge+v*logn)
+
+
+## Precedenze su grafo
+- `A -> B => A <= B`
+- `A -> B & B -> A => A == B` (A e B appartenenti nella stessa classe di equivalenza) (per i cicli)
+- Esempio DAG `A -> B & A -> C & C -> D & B -> D`: Possibili ordinamenti totali `A -> B -> C -> D | A -> C -> B -> D`
+- Nel caso di una lista ho un ordinamento totale forzato e unico
+- Grafo in cui qualsiasi ordinamento è lecito: Grafo senza archi, qualsiasi nodo può avere precedenza su altri (ordinamenti: `#nodi!`)
+- Nel caso di un Grafo Completo: Si impone che tutti i nodi siano uguali (quindi con la stessa precedenza)
+
+### Ordinamento Topologico
+- Funziona solo sui DAG (si possono sostituire nodi con la stessa precedenza [cicli] con un solo nodo)
 - 
+- Esempio di Algoritmo basato su DFS
+  - Si Parte da nodi senza archi entranti
+**Pseudocodice:**
+```
+L ← Lista vuota (conterrà i nodi ordinati)
+S ← Insieme di tutti i nodi senza archi entranti
+for each nodo n in S do
+    visit(n) 
+return L
+
+function visit(nodo n)
+    if n non è ancora stato visitato then
+        marca n come visitato
+        for each nodo m con un arco da n a m do
+            visit(m)
+        aggiungi n a L
+```
