@@ -36,6 +36,7 @@
 - Weather Icons:
   - https://icons8.com/icon/set/weather/ios-glyphs--black
   - https://icons8.com/icon/set/weather/color
+- iOS Weather App Icons: https://support.apple.com/en-gb/guide/iphone/iph4305794fb/ios
 
 ### OpenWeatherMap
   - https://openweathermap.org/api
