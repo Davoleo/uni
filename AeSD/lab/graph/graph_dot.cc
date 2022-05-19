@@ -73,6 +73,10 @@ int* V_genitore; // eventuale "causa" di inserimento nella coda -> usato per dis
 list_t** E; /// array di puntatori a le liste di adiacenza per ogni nodo
 int n_nodi;
 
+//Topological Sorting Section
+int* V_conteggio_archi_entranti;
+list_t* ordinamento;
+
 //////////////////////////////////////////////////
 /// Fine Definizione della struttura dati grafo
 //////////////////////////////////////////////////
@@ -322,7 +326,7 @@ void DFS(int n)
 		/// espando arco  n --> elem->val
 		/// quindi DFS(elem->val)
 		output_graph << "dfs_" << n << " -> dfs_" << elem->val;
-		if (V_visitato[elem->val] != states::GREY)
+		if (V_visitato[elem->val] == states::GREY)
 			output_graph << "[color=gray, label = \"" << ct_visit++ << "\"]";
 		else
 			output_graph << "[color=red, label = \"" << ct_visit++ << "\"]";
@@ -436,6 +440,56 @@ void BFS(int n)
 		}
 }
 
+//* Used in Topological Sorting
+//Based on DFS
+int visit(int n)
+{
+    graph_print();
+
+    if (details)
+        printf("TOPO: lavoro sul nodo %d (visitato %d)\n", n, V_visitato[n]);
+
+    if (V_visitato[n] != states::GREY)
+        return 0;
+
+    V_visitato[n] = states::RED; // prima volta che incontro questo nodo
+
+    if (details)
+        printf("Visito il nodo %d (val %d)\n", n, V[n]);
+
+    /// esploro la lista di adiacenza
+    node_t* elem = E[n]->head;
+    while (elem != NULL) { /// elenco tutti i nodi nella lista
+
+        graph_print();
+
+        /// espando arco  n --> elem->val
+        /// quindi DFS(elem->val)
+        output_graph << "topo_" << n << " -> topo_" << elem->val;
+        if (V_visitato[elem->val] == states::GREY)
+            output_graph << "[color=gray, label = \"" << ct_visit++ << "\"]";
+        else
+            output_graph << "[color=red, label = \"" << ct_visit++ << "\"]";
+        output_graph << endl;
+
+        if (V_visitato[elem->val] == states::RED)
+            return 1;
+
+        int ret = visit(elem->val);
+
+        if (ret == 1)
+            return 1;
+
+        elem = elem->next;
+    }
+
+    V_visitato[n] = states::BLACK; // abbandono il nodo per sempre
+    printf("nodo %d\n", n);
+    list_insert_front(ordinamento, n);
+
+    return 0;
+}
+
 int parse_cmd(int argc, char** argv)
 {
 	/// controllo argomenti
@@ -486,6 +540,9 @@ int main(int argc, char** argv)
 	n_nodi = 5;
 	V = new int[n_nodi]; //(int*)malloc(n_nodi*sizeof(int));
 	V_visitato = new states[n_nodi]; //(int*)malloc(n_nodi*sizeof(int));
+	V_conteggio_archi_entranti = new int[n_nodi];
+
+	ordinamento = list_new();
 
 	E = new list_t*[n_nodi]; //(list_t**)malloc(n_nodi*sizeof(list_t*));
 
@@ -493,6 +550,7 @@ int main(int argc, char** argv)
 	for (int i = 0; i < n_nodi; i++) {
 		V[i] = 2 * i;
 		V_visitato[i] = states::GREY; // flag = non visitato
+		V_conteggio_archi_entranti[i] = 0;
 
 		E[i] = list_new();
 
@@ -502,12 +560,12 @@ int main(int argc, char** argv)
 		//Lista circolare (un singolo ciclo dall'ultimo nodo al primo)
 		//list_insert_front(E[i], (i+1)%n_nodi);
 
-		if (i > 0)
-			continue;
 		for (int j = 0; j < n_nodi; j++) {
 			//Commenta per creare un grafo con TUTTI gli archi possibili
 			//if (rand()%2 == 0)
-			list_insert_front(E[i], j);
+			//if (i > j)
+			if(i > 0 && (j-1) / 2 == i)
+				list_insert_front(E[i], j);
 		}
 	}
 
@@ -515,6 +573,7 @@ int main(int argc, char** argv)
 
 	graph_print();
 
+/*
 	for (int i = 0; i < n_nodi; i++) {
 
 		printf("Sono il nodo di indice %d nell'array\n", i);
@@ -522,12 +581,32 @@ int main(int argc, char** argv)
 		printf("La lista di adiacenza e'\n");
 		list_print(E[i]);
 	}
+*/
 
 	//DFS partendo dal nodo passato come argomento
-	DFS(0);
+	//DFS(0);
 
 	//BFS Partendo dal nodo passato come argomento
 	//BFS(0)
+
+	//Topological Sorting
+	/// trova nodi con archi entranti
+    for (int i = 0; i < n_nodi; i++) {
+
+        node_t* elem = E[i]->head;
+        while (elem != NULL) { /// elenco tutti i nodi nella lista
+            V_conteggio_archi_entranti[elem->val]++;
+            elem = elem->next;
+        }
+    }
+
+    for (int i = n_nodi - 1; i >= 0; i--) {
+        printf("nodo %d: n archi entranti %d\n", i, V_conteggio_archi_entranti[i]);
+        if (V_conteggio_archi_entranti[i] == 0)
+            visit(i);
+    }
+
+    list_print(ordinamento);
 
 	if (graph) {
 		/// preparo footer e chiudo file
