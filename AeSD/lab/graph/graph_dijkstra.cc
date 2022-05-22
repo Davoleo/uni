@@ -195,43 +195,6 @@ void print_array(int* A, int dim)
     printf("\n");
 }
 
-void print_array_graph(int* A, int n, std::string c, int a, int l, int m, int r)
-{
-    /// prepara il disegno dell'array A ed il suo contenuto (n celle)
-    /// a e' il codice del nodo e c la stringa
-    /// l,m,r i tre indici della bisezione
-
-    // return ;
-
-	using std::endl;
-
-    output_graph << c << a << " [label=<" << endl;
-
-    /// tabella con contenuto array
-    output_graph << "<TABLE BORDER=\"0\" CELLBORDER=\"0\" CELLSPACING=\"0\" > " << endl;
-    /// indici
-    output_graph << "<TR  >";
-    for (int j = 0; j < n; j++) {
-        output_graph << "<TD ";
-        output_graph << ">" << j << "</TD>" << endl;
-    }
-    output_graph << "</TR>" << endl;
-    output_graph << "<TR>";
-    // contenuto
-    for (int j = 0; j < n; j++) {
-        output_graph << "<TD BORDER=\"1\"";
-        if (j == m)
-            output_graph << " bgcolor=\"#00a000\""; /// valore testato
-        else if (j >= l && j <= r)
-            output_graph << " bgcolor=\"#80ff80\""; /// range di competenza
-        output_graph << ">" << A[j] << "</TD>" << endl;
-    }
-    output_graph << "</TR>" << endl;
-    output_graph << "</TABLE> " << endl;
-
-    output_graph << ">];" << endl;
-}
-
 void shortest_path(int n)
 {
 	V_dist[n] = 0;
