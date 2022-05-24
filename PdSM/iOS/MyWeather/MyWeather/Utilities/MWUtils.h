@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "MWForecast.h"
+#import "MWSettings.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)queryWeatherAPIInPoi:(MWPoi*)poi AndThen: (MWForecastConsumer) doThis;
 
 + (void)queryCurrentWeatherInLocation:(MWPoi*)poi AndThen:(MWWeatherDataConsumer)doThis;
+
++ (char) temperatureFormatCharForMetric: (MWTemperatureMetricsEnum) metric;
 @end
 
 NS_ASSUME_NONNULL_END

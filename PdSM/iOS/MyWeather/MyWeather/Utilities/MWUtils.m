@@ -7,6 +7,9 @@
 
 #import "MWUtils.h"
 
+/**
+ * Contains different Convenience static methods
+ */
 @implementation MWUtils
 
 + (NSString*)getWeatherAPIKey {
@@ -43,5 +46,20 @@
 
     [task resume];
 }
+
++ (char)temperatureFormatCharForMetric:(MWTemperatureMetricsEnum)metric {
+    switch (metric) {
+        case CELSIUS:
+            return 'C';
+        case FAHRENHEIT:
+            return 'F';
+        case KELVIN:
+            return 'K';
+        default:
+            NSAssert(false, @"No, non puoi essere qua dio bono");
+            return '-';
+    }
+}
+
 
 @end
