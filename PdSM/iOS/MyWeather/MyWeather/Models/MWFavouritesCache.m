@@ -9,13 +9,14 @@ NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
 
 @implementation MWFavouritesCache
 
-- (void) populateForecastCacheForPOIs: (NSArray*) pois {
+- (void) populateForecastCacheForPOIs: (NSArray<NSString*>*) serializedPois {
 
-    _favoritesCache = [NSMutableDictionary dictionaryWithCapacity:pois.count];
+    _favoritesCache = [NSMutableDictionary dictionaryWithCapacity:serializedPois.count];
 
-    for (NSUInteger i = 0; i < pois.count; ++i) {
-        [MWUtils queryWeatherAPIInPoi:pois[i] AndThen:^(MWForecast* forecast) {
-            _favoritesCache[pois[i]] = forecast;
+    for (NSUInteger i = 0; i < serializedPois.count; ++i) {
+        MWPoi* poi = [MWPoi poiFromString:serializedPois[i]];
+        [MWUtils queryWeatherAPIInPoi:poi AndThen:^(MWForecast* forecast) {
+            self.favoritesCache[serializedPois[i]] = forecast;
         }];
     }
 }
@@ -43,12 +44,16 @@ NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
 
 - (void)addFavoritePoi:(MWPoi*)poi {
     [MWUtils queryWeatherAPIInPoi:poi AndThen:^(MWForecast* forecast) {
-        self.favoritesCache[poi] = forecast;
+        self.favoritesCache[[poi toString]] = forecast;
     }];
 }
 
 - (NSArray<MWForecast*>*) getAllFavourites {
     return self.favoritesCache.allValues;
+}
+
+- (NSUInteger) length {
+    return self.favoritesCache.count;
 }
 
 

@@ -17,7 +17,6 @@
         id obj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingTopLevelDictionaryAssumed error:&error];
 
         if([obj isKindOfClass:[NSDictionary class]]) {
-            NSDictionary* forecast = (NSDictionary*) obj;
 
             //Current Weather Deserialization
             _current = [[MWWeatherData alloc] initWithJSONObj:obj[@"current"]];

@@ -24,10 +24,13 @@ typedef void (^MWPlacemarkHandler)(CLPlacemark* placemark);
 
 // -------------------------
 
++ (MWPoi*)poiFromString:(NSString*)serializedPoi;
+
 - (void)reverseGeocode;
 
 -(void)reverseGeocodeAndThen: (MWPlacemarkHandler)handler;
 
 - (void)invalidatePlacemark;
 
+- (NSString*)toString;
 @end

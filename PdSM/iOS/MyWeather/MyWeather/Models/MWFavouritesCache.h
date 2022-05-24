@@ -9,7 +9,7 @@ FOUNDATION_EXPORT NSString* MW_FAVOURITES_POI_ARRAY_KEY;
 
 @interface MWFavouritesCache : NSObject
 
-@property (strong, nonatomic) NSMutableDictionary<MWPoi*, MWForecast*>* favoritesCache;
+@property (strong, nonatomic) NSMutableDictionary<NSString*, MWForecast*>* favoritesCache;
 
 - (void) saveFavourites;
 
@@ -17,4 +17,6 @@ FOUNDATION_EXPORT NSString* MW_FAVOURITES_POI_ARRAY_KEY;
 
 
 - (NSArray<MWForecast*>*)getAllFavourites;
+
+- (NSUInteger)length;
 @end
