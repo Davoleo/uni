@@ -38,6 +38,20 @@ const double MW_UNDEFINED_TEMPERATURE = DBL_MAX;
     if (self) {
         _timestamp = [weatherData[@"dt"] unsignedLongValue];
 
+        NSDictionary* sys = weatherData[@"sys"];
+        if (weatherData[@"sys"] != nil) {
+            _sunrise = [sys[@"sunrise"] unsignedLongValue];
+            _sunset = [sys[@"sunset"] unsignedLongValue];
+        }
+        else {
+            id sunrise = weatherData[@"sunrise"];
+            id sunset = weatherData[@"sunset"];
+            if (sunrise != nil && sunset != nil) {
+                _sunrise = [sunrise unsignedLongValue];
+                _sunset = [sunset unsignedLongValue];
+            }
+        }
+
         NSDictionary* main = weatherData[@"main"];
         if (main != nil)
             [self initTemperatureAndHumidity:main];

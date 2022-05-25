@@ -23,14 +23,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    //Attach map pin image to location name & create NSString
     NSTextAttachment* attachment = [[NSTextAttachment alloc] init];
     attachment.image = [UIImage systemImageNamed:@"mappin"];
     NSAttributedString* attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
     NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.position.placemarkCache.name];
     [string appendAttributedString:attachmentString];
 
+    //Current Temperature formatting
     MWTemperatureMetricsEnum tempMetric = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
     self.temperatureLabel.text = [NSString stringWithFormat:@"%lf°%c", self.weather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
+
+    BOOL isNight = self.weather.timestamp > self.weather.sunset || self.weather.timestamp < self.weather.sunrise;
+    NSString* iconName = [self.weather.condition decodeSystemImageNameAtNight:isNight];
+    self.weatherIconView.image = [UIImage systemImageNamed:iconName];
 }
 
 /*

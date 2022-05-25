@@ -11,6 +11,8 @@ FOUNDATION_EXPORT const double MW_UNDEFINED_TEMPERATURE;
 @interface MWWeatherData : NSObject
 
 @property (nonatomic, readonly) NSUInteger timestamp;
+@property (nonatomic, readonly) NSUInteger sunset;
+@property (nonatomic, readonly) NSUInteger sunrise;
 
 @property (nonatomic, readonly) double temperature;
 @property (nonatomic, readonly) double maxTemperature;
