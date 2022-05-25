@@ -8,19 +8,27 @@
 #import "MWSettingsViewController.h"
 #import "MWSettings.h"
 
+const int MW_SETTINGS_VC_SECTION_TEMPERATURE = 0;
+const int MW_SETTINGS_VC_SECTION_THEME = 1;
+
 @implementation MWSettingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //TODO set the right defaults depending on these values
+    MWThemeEnum themePref = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
+    if (themePref > 0) {
+
+    }
+    MWTemperatureMetricsEnum tempPref = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell* selectedCell = [tableView cellForRowAtIndexPath:indexPath];
 
-    if (indexPath.section > 1)
-        return;
+    //NSLog([NSString stringWithFormat:@"section: %d  row: %d", indexPath.section, indexPath.row]);
 
-    if (selectedCell.accessoryType != UITableViewCellAccessoryCheckmark) {
+    if (indexPath.section <= 1 && selectedCell.accessoryType != UITableViewCellAccessoryCheckmark) {
         //Check the selected cell
         selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
 
@@ -31,7 +39,35 @@
         }
 
         //Save New Choice to User Defaults
-        [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:MW_TEMPERATURE_METRIC_PREF];
+        switch (indexPath.section) {
+            case MW_SETTINGS_VC_SECTION_TEMPERATURE:
+                [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:MW_TEMPERATURE_METRIC_PREF];
+                break;
+            case MW_SETTINGS_VC_SECTION_THEME:
+                [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:MW_THEME_PREF];
+                break;
+            default:
+                NSAssert(false, @"FAILED ASSERTION ON USER DEFAULT PREFS SAVE [SETTINGS VC]");
+                break;
+        }
+    }
+
+    //Last Section
+    if (indexPath.section == tableView.numberOfSections - 1) {
+
+        for (int i = 0; i < [tableView numberOfRowsInSection:indexPath.section]; ++i) {
+            NSString* webDetail = [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text;
+            if (webDetail != nil && [webDetail hasPrefix:@"https://"]) {
+                NSLog(@"HERE HERE HERE");
+                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Open Link?" message:@"Continue will open your default web browser on the link you clicked" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action) {
+                    //Open link
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:webDetail] options:[NSDictionary dictionary] completionHandler:nil];
+                }]];
+                [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        }
     }
 }
 

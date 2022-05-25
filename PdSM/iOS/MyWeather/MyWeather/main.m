@@ -7,8 +7,6 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
-#import "MWUtils.h"
-#import "MWFavouritesCache.h"
 
 int main(int argc, char * argv[]) {
     NSString * appDelegateClassName;

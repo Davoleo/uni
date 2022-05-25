@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pKK-ik-5yJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eBk-x1-6lv">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -18,11 +18,17 @@
                         <viewLayoutGuide key="safeArea" id="xz4-8I-vC1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="My Position" image="mappin.and.ellipse" catalog="system" id="QlU-VZ-eW6"/>
+                    <navigationItem key="navigationItem" title="My Position" id="9dW-eE-gJ8">
+                        <barButtonItem key="rightBarButtonItem" image="gear" catalog="system" id="F0l-ar-Mpj">
+                            <connections>
+                                <segue destination="X6d-uT-3co" kind="show" id="Qtj-wE-n2S"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xv-w3-JaO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="458" y="-555"/>
+            <point key="canvasLocation" x="654" y="-555"/>
         </scene>
         <!--Current Weather DetailVC-->
         <scene sceneID="SKU-JY-OA5">
@@ -70,7 +76,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y7f-TX-NHK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1367" y="-743"/>
+            <point key="canvasLocation" x="2276.8115942028985" y="-743.30357142857144"/>
         </scene>
         <!--Favorite Positions-->
         <scene sceneID="CMz-lc-1eU">
@@ -131,12 +137,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cc9-BP-8Wc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="458" y="217"/>
+            <point key="canvasLocation" x="654" y="217"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="5gX-Nf-DDj">
             <objects>
-                <tableViewController id="X6d-uT-3co" sceneMemberID="viewController">
+                <tableViewController id="X6d-uT-3co" customClass="MWSettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="zxr-ma-vLh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -237,11 +243,11 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="davoleo.net" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DZA-zg-pxI">
-                                                    <rect key="frame" x="117" y="15" width="66" height="14.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="https://davoleo.net" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DZA-zg-pxI">
+                                                    <rect key="frame" x="117" y="15" width="106.5" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" systemColor="linkColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -259,7 +265,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="51r-bG-imw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1446" y="374"/>
+            <point key="canvasLocation" x="1455" y="-214"/>
         </scene>
         <!--Search-->
         <scene sceneID="bts-9J-nXZ">
@@ -310,7 +316,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hhK-QD-hRr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2205.7971014492755" y="-213.61607142857142"/>
+            <point key="canvasLocation" x="3115.9420289855075" y="-213.61607142857142"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="AP2-uI-I4a">
@@ -323,19 +329,20 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="ySB-sq-W2j" kind="relationship" relationship="viewControllers" id="GCI-Px-Rak"/>
+                        <segue destination="q5e-Vf-AAs" kind="relationship" relationship="viewControllers" id="GCI-Px-Rak"/>
                         <segue destination="2No-VG-a8g" kind="relationship" relationship="viewControllers" id="WoY-Fc-2Fw"/>
-                        <segue destination="gdv-CD-KIe" kind="relationship" relationship="viewControllers" id="Qf0-wf-bvn"/>
+                        <segue destination="pKK-ik-5yJ" kind="relationship" relationship="viewControllers" id="d0m-gD-iCG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SEP-Uc-YAl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationItem id="bbo-KU-WP5"/>
             </objects>
-            <point key="canvasLocation" x="-503" y="-213"/>
+            <point key="canvasLocation" x="-1081" y="-214"/>
         </scene>
-        <!--Favorites-->
+        <!--MainNavigation-->
         <scene sceneID="oya-lD-Bwh">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pKK-ik-5yJ" userLabel="Favorites" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pKK-ik-5yJ" userLabel="MainNavigation" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favourites" image="star.square.fill" catalog="system" id="dj9-am-EVM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="04q-Vz-aD9">
@@ -344,14 +351,36 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="eBk-x1-6lv" kind="relationship" relationship="rootViewController" id="wo1-Gn-UP5"/>
+                        <segue destination="gdv-CD-KIe" kind="relationship" relationship="rootViewController" id="wwo-1J-J2D"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BPO-Uz-5yg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1399" y="-214"/>
+            <point key="canvasLocation" x="-93" y="217"/>
+        </scene>
+        <!--My Position-->
+        <scene sceneID="abS-b3-neK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q5e-Vf-AAs" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="My Position" image="mappin.and.ellipse" catalog="system" id="QlU-VZ-eW6"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nM2-bB-7EM">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ySB-sq-W2j" kind="relationship" relationship="rootViewController" id="gOu-Pr-Umx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UgR-DK-D36" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-94" y="-555"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Qtj-wE-n2S"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="gear" catalog="system" width="128" height="119"/>
         <image name="location" catalog="system" width="128" height="118"/>
@@ -360,6 +389,9 @@
         <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
         <image name="rays" catalog="system" width="128" height="122"/>
         <image name="star.square.fill" catalog="system" width="128" height="114"/>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
