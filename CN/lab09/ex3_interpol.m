@@ -1,5 +1,5 @@
 %% Ex. 3 - Scheda Interpolazione
-%clc
+clc
 clear
 close all 
 
