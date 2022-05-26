@@ -66,4 +66,13 @@
     self.placemarkCache = nil;
 }
 
+- (NSString*) toString {
+    return [NSString stringWithFormat:@"%lf^%lf", self.latitude, self.longitude];
+}
+
++ (MWPoi*) poiFromString: (NSString*) serializedPoi {
+    NSArray<NSString*>* components = [serializedPoi componentsSeparatedByString:@"^"];
+    return [MWPoi poiWithLatitude:components[0].doubleValue longitude:components[1].doubleValue];
+}
+
 @end

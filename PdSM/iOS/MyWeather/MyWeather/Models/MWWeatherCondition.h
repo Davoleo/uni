@@ -11,6 +11,10 @@
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* smallDesc;
 
+@property (nonatomic, strong) NSString* systemImageName;
+
+- (NSString*)decodeSystemImageNameAtNight:(BOOL)night;
+
 - (instancetype)initWithJSONObject:(NSDictionary*) json;
 
 @end

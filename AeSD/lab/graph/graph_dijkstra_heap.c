@@ -10,8 +10,9 @@
 // compilazione: gcc -Wall -Wextra graph_dijkstra_heap.c -o graph_dijkstra.out -lm
 //
 // Obiettivo:
-// 1) grafo con archi pesati
-// 2) implementazione shortest path
+// 1) implementare l'algoritmo di Dijkstra utilizzando il min-heap precedentemente sviluppato
+// 2) lanciare l'algoritmo su un grafo che rappresenta un quadrato NxN sul piano cartesiano 
+//		(ogni nodo i corrisponde alla posizione (x,y) con i=x+N*y). Gli archi del grafo connettono nodi a distanza euclidea = 1
 
 #define INFTY 1000000
 
@@ -45,6 +46,9 @@ typedef struct list {
 //////////////////////////////////////////////////
 /// Definizione della struttura dati HEAP
 //////////////////////////////////////////////////
+
+//Aggiunta struct heap_elem per non perdere traccia dell'indice del nodo nel grafo e 
+//allo stesso tempo poter ordinare la struttura indipendetamente da esso 
 typedef struct _heap_elem {
     int node_index;
     float weight;
@@ -130,7 +134,7 @@ void list_insert_front(list_t* l, int elem, float w)
 
 void list_print(list_t* l)
 {
-    printf("Stampa lista\n");
+    printf("Stampa lista: ");
 
     if (l->head == NULL) {
         printf("Lista vuota\n");
@@ -183,9 +187,9 @@ void node_print(int n)
     float col = V_dist[n] / max_d; /// distanza in scala 0..1
     fprintf(output_graph, "fillcolor = \"0.0 0.0 %.1f\"; style=filled; ", col / 2 + 0.5);
     if (V_dist[n] < INFTY)
-        fprintf(output_graph, "label = \"Idx: %d, dist: %.1f\" ];\n", n, V_dist[n]);
+        fprintf(output_graph, "label = \"Idx: %d,\\n dist: %.1f\" ];\n", n, V_dist[n]);
     else
-        fprintf(output_graph, "label = \"Idx: %d, dist: INF\" ];\n", n);
+        fprintf(output_graph, "label = \"Idx: %d,\\n dist: INF\" ];\n", n);
 
     node_t* elem = E[n]->head;
     while (elem != NULL) {
@@ -461,6 +465,7 @@ int main(int argc, char** argv)
     if (graph)
         dot_open("dijkstra.dot");
 
+	//valore N (grandezza della matrice NxN di nodi del grafo)
     int matrix_size = 4;
     n_nodi = matrix_size * matrix_size;
 
@@ -490,7 +495,8 @@ int main(int argc, char** argv)
                     int ny = y + dy;
                     if (nx >= 0 && nx < matrix_size && ny >= 0 && ny < matrix_size) {
                         int new_index = nx + matrix_size * ny;
-                        list_insert_front(E[i], new_index, 15 * sqrt(abs(dx) + abs(dy)));
+						///Il peso è = 10 perché nella creazione del grafo il codice divide il peso per 10
+                        list_insert_front(E[i], new_index, 10);
                     }
                 }
             }
@@ -509,7 +515,7 @@ int main(int argc, char** argv)
     for (int i = 0; i < n_nodi; i++) {
         printf("Sono il nodo di indice %d nell'array\n", i);
         printf("Il valore del nodo e' %d\n", V[i]);
-        printf("La lista di adiacenza e'\n");
+        printf("La lista di adiacenza e': ");
         list_print(E[i]);
     }
 

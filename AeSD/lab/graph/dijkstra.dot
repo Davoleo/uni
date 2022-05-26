@@ -1,321 +1,321 @@
 digraph g{ node [shape=plaintext]node_0_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 0, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 0,\n dist: 0.0" ];
 node_0_0 -> node_1_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_0_0 -> node_4_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_0_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_1_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 1, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 1,\n dist: 0.0" ];
 node_1_0 -> node_2_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_1_0 -> node_5_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_1_0 -> node_0_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_1_0 -> node_0_0
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_2_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 2, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 2,\n dist: 0.0" ];
 node_2_0 -> node_3_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_2_0 -> node_6_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_2_0 -> node_1_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_2_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_3_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 3, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 3,\n dist: 0.0" ];
 node_3_0 -> node_7_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_3_0 -> node_2_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_3_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_4_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 4, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 4,\n dist: 0.0" ];
 node_4_0 -> node_5_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_4_0 -> node_8_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_4_0 -> node_0_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_4_0 -> node_0_0
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_5_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 5, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 5,\n dist: 0.0" ];
 node_5_0 -> node_6_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_0 -> node_9_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_0 -> node_1_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_0 -> node_4_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_6_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 6, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 6,\n dist: 0.0" ];
 node_6_0 -> node_7_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_0 -> node_10_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_0 -> node_2_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_0 -> node_5_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_7_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 7, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 7,\n dist: 0.0" ];
 node_7_0 -> node_11_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_7_0 -> node_3_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_7_0 -> node_6_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_7_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_8_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 8, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 8,\n dist: 0.0" ];
 node_8_0 -> node_9_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_8_0 -> node_12_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_8_0 -> node_4_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_8_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_9_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 9, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 9,\n dist: 0.0" ];
 node_9_0 -> node_10_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_0 -> node_13_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_0 -> node_5_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_0 -> node_8_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_10_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 10, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 10,\n dist: 0.0" ];
 node_10_0 -> node_11_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_0 -> node_14_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_0 -> node_6_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_0 -> node_9_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_11_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 11, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 11,\n dist: 0.0" ];
 node_11_0 -> node_15_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_11_0 -> node_7_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_11_0 -> node_10_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_11_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_12_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 12, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 12,\n dist: 0.0" ];
 node_12_0 -> node_13_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_12_0 -> node_8_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_12_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_13_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 13, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 13,\n dist: 0.0" ];
 node_13_0 -> node_14_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_13_0 -> node_9_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_13_0 -> node_12_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_13_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_14_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 14, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 14,\n dist: 0.0" ];
 node_14_0 -> node_15_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_14_0 -> node_10_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_14_0 -> node_13_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_14_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_15_0
-[ shape = oval; fillcolor = "0.0 0.0 -nan"; style=filled; label = "Idx: 15, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 nan"; style=filled; label = "Idx: 15,\n dist: 0.0" ];
 node_15_0 -> node_11_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_15_0 -> node_14_0
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_15_0 -> node_0_0
  [ color=blue, penwidth=5 len=0.000000]
 node_0_1
-[ shape = oval; fillcolor = "0.0 0.0 0.5"; style=filled; label = "Idx: 0, dist: 0.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.5"; style=filled; label = "Idx: 0,\n dist: 0.0" ];
 node_0_1 -> node_1_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_0_1 -> node_4_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_0_1 -> node_0_1
  [ color=blue, penwidth=5 len=0.000000]
 node_1_1
-[ shape = oval; fillcolor = "0.0 0.0 0.6"; style=filled; label = "Idx: 1, dist: 15.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.6"; style=filled; label = "Idx: 1,\n dist: 10.0" ];
 node_1_1 -> node_2_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_1_1 -> node_5_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_1_1 -> node_0_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_1_1 -> node_0_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_2_1
-[ shape = oval; fillcolor = "0.0 0.0 0.7"; style=filled; label = "Idx: 2, dist: 30.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.7"; style=filled; label = "Idx: 2,\n dist: 20.0" ];
 node_2_1 -> node_3_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_2_1 -> node_6_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_2_1 -> node_1_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_2_1 -> node_1_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_3_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 3, dist: 45.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 3,\n dist: 30.0" ];
 node_3_1 -> node_7_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_3_1 -> node_2_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_3_1 -> node_2_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_4_1
-[ shape = oval; fillcolor = "0.0 0.0 0.6"; style=filled; label = "Idx: 4, dist: 15.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.6"; style=filled; label = "Idx: 4,\n dist: 10.0" ];
 node_4_1 -> node_5_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_4_1 -> node_8_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_4_1 -> node_0_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_4_1 -> node_0_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_5_1
-[ shape = oval; fillcolor = "0.0 0.0 0.7"; style=filled; label = "Idx: 5, dist: 30.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.7"; style=filled; label = "Idx: 5,\n dist: 20.0" ];
 node_5_1 -> node_6_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_1 -> node_9_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_1 -> node_1_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_1 -> node_4_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_5_1 -> node_1_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_6_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 6, dist: 45.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 6,\n dist: 30.0" ];
 node_6_1 -> node_7_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_1 -> node_10_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_1 -> node_2_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_1 -> node_5_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_6_1 -> node_2_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_7_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 7, dist: 60.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 7,\n dist: 40.0" ];
 node_7_1 -> node_11_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_7_1 -> node_3_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_7_1 -> node_6_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_7_1 -> node_3_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_8_1
-[ shape = oval; fillcolor = "0.0 0.0 0.7"; style=filled; label = "Idx: 8, dist: 30.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.7"; style=filled; label = "Idx: 8,\n dist: 20.0" ];
 node_8_1 -> node_9_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_8_1 -> node_12_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_8_1 -> node_4_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_8_1 -> node_4_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_9_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 9, dist: 45.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 9,\n dist: 30.0" ];
 node_9_1 -> node_10_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_1 -> node_13_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_1 -> node_5_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_1 -> node_8_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_9_1 -> node_8_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_10_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 10, dist: 60.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 10,\n dist: 40.0" ];
 node_10_1 -> node_11_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_1 -> node_14_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_1 -> node_6_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_1 -> node_9_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_10_1 -> node_9_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_11_1
-[ shape = oval; fillcolor = "0.0 0.0 0.9"; style=filled; label = "Idx: 11, dist: 75.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.9"; style=filled; label = "Idx: 11,\n dist: 50.0" ];
 node_11_1 -> node_15_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_11_1 -> node_7_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_11_1 -> node_10_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_11_1 -> node_7_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_12_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 12, dist: 45.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 12,\n dist: 30.0" ];
 node_12_1 -> node_13_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_12_1 -> node_8_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_12_1 -> node_8_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_13_1
-[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 13, dist: 60.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.8"; style=filled; label = "Idx: 13,\n dist: 40.0" ];
 node_13_1 -> node_14_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_13_1 -> node_9_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_13_1 -> node_12_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_13_1 -> node_12_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_14_1
-[ shape = oval; fillcolor = "0.0 0.0 0.9"; style=filled; label = "Idx: 14, dist: 75.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 0.9"; style=filled; label = "Idx: 14,\n dist: 50.0" ];
 node_14_1 -> node_15_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_14_1 -> node_10_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_14_1 -> node_13_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_14_1 -> node_10_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 node_15_1
-[ shape = oval; fillcolor = "0.0 0.0 1.0"; style=filled; label = "Idx: 15, dist: 90.0" ];
+[ shape = oval; fillcolor = "0.0 0.0 1.0"; style=filled; label = "Idx: 15,\n dist: 60.0" ];
 node_15_1 -> node_11_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_15_1 -> node_14_1
- [ label="15.0", len=1.5 ]
+ [ label="10.0", len=1.0 ]
 node_15_1 -> node_14_1
- [ color=blue, penwidth=5 len=1.500000]
+ [ color=blue, penwidth=5 len=1.000000]
 }

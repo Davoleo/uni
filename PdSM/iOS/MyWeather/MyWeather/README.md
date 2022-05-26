@@ -38,6 +38,15 @@
   - https://icons8.com/icon/set/weather/color
 - iOS Weather App Icons: https://support.apple.com/en-gb/guide/iphone/iph4305794fb/ios
 
+- [Alert Dialog](https://stackoverflow.com/questions/4988564/how-to-implement-a-pop-up-dialog-box-in-ios)
+- [Alert dialog Buttons](https://stackoverflow.com/questions/24022479/how-would-i-create-a-uialertview-in-swift/33340757#33340757)
+- [Custom Accessory view in UITableCell](https://stackoverflow.com/questions/30708818/ios-xcodehow-to-add-accessory-view-to-custom-cell)
+- [Container View (Assembled VCs)](https://stackoverflow.com/questions/17499391/ios-nested-view-controllers-view-inside-uiviewcontrollers-view)
+- [Container View Controller](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html)
+- [Refresh Contents Control](https://developer.apple.com/design/human-interface-guidelines/ios/controls/refresh-content-controls/)
+- [Dark Mode Overrides](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface/choosing_a_specific_interface_style_for_your_ios_app?language=objc)
+- [Open Link on Safari](https://stackoverflow.com/questions/12416469/how-to-launch-safari-and-open-url-from-ios-app)
+- [Checkmark Selected Row (TableView)](https://stackoverflow.com/questions/7982944/checkmark-selected-row-in-uitableviewcell)
 ### OpenWeatherMap
   - https://openweathermap.org/api
   - https://openweathermap.org/api/one-call-api
