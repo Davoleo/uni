@@ -1,8 +1,11 @@
 % Ex. 6 - Scheda Interpolazione
 
+% Approssimazione sqrt con 3 nodi e le relative soluzioni immediate
 x = [0.49 0.64 0.81];
 y = [0.7 0.8 0.9];
 coeff = polyfit(x,y,2);
+
+% Approssimazione sqrt con 4 nodi
 coeff2 = polyfit([0.49 0.64 0.81 0.36], [0.7 0.8 0.9 0.6], 3);
 
 y = polyval(coeff, 0.6);
