@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UILabel *conditionsLabel;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+
 @end
 
 @implementation MWCurrentWeatherDetailVC
@@ -23,6 +25,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    NSAssert(self.position != nil, @"View Controller can't be initialized with nil position");
+    if (self.currentWeather == nil) {
+        [MWUtils queryCurrentWeatherInLocation:self.position AndThen:^(MWWeatherData* data) {
+            self.currentWeather = data;
+            [self setupUI];
+            [self.loadingIndicator stopAnimating];
+        }];
+    }
+}
+
+- (void) setupUI {
     //Attach map pin image to location name & create NSString
     NSTextAttachment* attachment = [[NSTextAttachment alloc] init];
     attachment.image = [UIImage systemImageNamed:@"mappin"];
@@ -32,12 +45,13 @@
 
     //Current Temperature formatting
     MWTemperatureMetricsEnum tempMetric = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%lf°%c", self.weather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%lf°%c", self.currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
 
-    BOOL isNight = self.weather.timestamp > self.weather.sunset || self.weather.timestamp < self.weather.sunrise;
-    NSString* iconName = [self.weather.condition decodeSystemImageNameAtNight:isNight];
+    BOOL isNight = self.currentWeather.timestamp > self.currentWeather.sunset || self.currentWeather.timestamp < self.currentWeather.sunrise;
+    NSString* iconName = [self.currentWeather.condition decodeSystemImageNameAtNight:isNight];
     self.weatherIconView.image = [UIImage systemImageNamed:iconName];
 }
+
 
 /*
 #pragma mark - Navigation

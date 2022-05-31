@@ -10,5 +10,6 @@
 
 + (CLGeocoder*) geocoder;
 
++ (CLLocationManager*) locationManager;
 
 @end

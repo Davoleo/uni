@@ -11,7 +11,7 @@
         <!--My Position-->
         <scene sceneID="e5k-55-bYM">
             <objects>
-                <viewController id="ySB-sq-W2j" sceneMemberID="viewController">
+                <viewController id="ySB-sq-W2j" customClass="MWMyPositionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0gF-TG-At3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -19,9 +19,6 @@
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyW-Rq-uYD">
                                 <rect key="frame" x="0.0" y="88" width="414" height="500"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <segue destination="8Q9-R5-8Wf" kind="embed" identifier="CurrentWeatherSegue" id="S3S-Up-5wh"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xz4-8I-vC1"/>
@@ -37,6 +34,9 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="container" destination="hyW-Rq-uYD" id="cid-Xy-17w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xv-w3-JaO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -45,9 +45,9 @@
         <!--Current Weather DetailVC-->
         <scene sceneID="SKU-JY-OA5">
             <objects>
-                <viewController id="8Q9-R5-8Wf" customClass="MWCurrentWeatherDetailVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="currentWeatherVC" id="8Q9-R5-8Wf" customClass="MWCurrentWeatherDetailVC" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fNC-x0-cYs">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="500"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="93l-Ce-7OP">

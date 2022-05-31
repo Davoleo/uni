@@ -5,6 +5,7 @@
 #import "MWManagers.h"
 
 static CLGeocoder* _geocoder;
+static CLLocationManager* _locationManager;
 
 @implementation MWManagers
 
@@ -14,5 +15,16 @@ static CLGeocoder* _geocoder;
     }
     return _geocoder;
 }
+
++ (CLLocationManager*)locationManager {
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        _locationManager.distanceFilter = 500;
+        _locationManager.activityType = CLActivityTypeOther;
+    }
+    return _locationManager;
+}
+
 
 @end

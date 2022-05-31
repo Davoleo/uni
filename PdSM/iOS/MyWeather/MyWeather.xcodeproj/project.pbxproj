@@ -16,6 +16,7 @@
 		56282A41D2427EA83CB70BD6 /* MWPoi.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628272E19992AF864ECD154 /* MWPoi.m */; };
 		56282B5D2B25929DF99251CC /* MWFavouritesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282017A9BDC65BC52CAF3E /* MWFavouritesCache.m */; };
 		56282B756F873F5FCB128449 /* MWWeatherCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282868FF5A8563D4512B37 /* MWWeatherCondition.m */; };
+		6B1EFB9F2846301E00423770 /* MWMyPositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EFB9E2846301E00423770 /* MWMyPositionViewController.m */; };
 		6B2DEC7A2837ED3800BCA6FB /* MWFavouritePoisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DEC792837ED3800BCA6FB /* MWFavouritePoisViewController.m */; };
 		6B5C362C2830FA6500CBF5EA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */; };
 		6B5C363028310AC000CBF5EA /* MWUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C362F28310AC000CBF5EA /* MWUtils.m */; };
@@ -48,6 +49,8 @@
 		56282E74A607A179EEF57B8B /* MWWindDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWindDirection.m; sourceTree = "<group>"; };
 		56282E8B339A4056AB120441 /* MWForecast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWForecast.h; sourceTree = "<group>"; };
 		56282FA0F2A969F7063C5EA6 /* current.example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = current.example.json; sourceTree = "<group>"; };
+		6B1EFB9D2846301E00423770 /* MWMyPositionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWMyPositionViewController.h; sourceTree = "<group>"; };
+		6B1EFB9E2846301E00423770 /* MWMyPositionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWMyPositionViewController.m; sourceTree = "<group>"; };
 		6B2DEC782837ED3800BCA6FB /* MWFavouritePoisViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWFavouritePoisViewController.h; sourceTree = "<group>"; };
 		6B2DEC792837ED3800BCA6FB /* MWFavouritePoisViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWFavouritePoisViewController.m; sourceTree = "<group>"; };
 		6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -93,6 +96,8 @@
 				6B6B4EAE283CEA5400EAA446 /* MWCurrentWeatherDetailVC.m */,
 				6B6B4EB0283D10A300EAA446 /* MWSettingsViewController.h */,
 				6B6B4EB1283D10A300EAA446 /* MWSettingsViewController.m */,
+				6B1EFB9D2846301E00423770 /* MWMyPositionViewController.h */,
+				6B1EFB9E2846301E00423770 /* MWMyPositionViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				6BF0C9D42827AE7F00163E04 /* main.m in Sources */,
 				6BF0C9C62827AE7B00163E04 /* SceneDelegate.m in Sources */,
 				6B5C363028310AC000CBF5EA /* MWUtils.m in Sources */,
+				6B1EFB9F2846301E00423770 /* MWMyPositionViewController.m in Sources */,
 				56282A41D2427EA83CB70BD6 /* MWPoi.m in Sources */,
 				5628293E40A4669201549761 /* MWManagers.m in Sources */,
 				6B6B4EAF283CEA5400EAA446 /* MWCurrentWeatherDetailVC.m in Sources */,
