@@ -15,27 +15,39 @@
                     <view key="view" contentMode="scaleToFill" id="0gF-TG-At3">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyW-Rq-uYD">
+                                <rect key="frame" x="0.0" y="88" width="414" height="500"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="8Q9-R5-8Wf" kind="embed" identifier="CurrentWeatherSegue" id="S3S-Up-5wh"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="xz4-8I-vC1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="My Position" id="9dW-eE-gJ8">
-                        <barButtonItem key="rightBarButtonItem" image="gear" catalog="system" id="F0l-ar-Mpj">
-                            <connections>
-                                <segue destination="X6d-uT-3co" kind="show" id="Qtj-wE-n2S"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="star" catalog="system" id="9RS-6w-Nsp"/>
+                            <barButtonItem image="gear" catalog="system" id="F0l-ar-Mpj">
+                                <connections>
+                                    <segue destination="X6d-uT-3co" kind="show" id="Qtj-wE-n2S"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xv-w3-JaO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="654" y="-555"/>
+            <point key="canvasLocation" x="653.62318840579712" y="-555.13392857142856"/>
         </scene>
         <!--Current Weather DetailVC-->
         <scene sceneID="SKU-JY-OA5">
             <objects>
                 <viewController id="8Q9-R5-8Wf" customClass="MWCurrentWeatherDetailVC" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fNC-x0-cYs">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="93l-Ce-7OP">
@@ -63,12 +75,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="umF-te-xP6">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="500"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="xmG-Fa-vwX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <outlet property="conditionsLabel" destination="aWm-iK-OgN" id="cqz-MJ-avv"/>
+                        <outlet property="loadingIndicator" destination="umF-te-xP6" id="Wr4-Hl-arb"/>
                         <outlet property="placemarkLabel" destination="XQU-JV-mMu" id="n8v-wT-ehB"/>
                         <outlet property="temperatureLabel" destination="imt-fF-4bt" id="9aF-Vb-IJ3"/>
                         <outlet property="weatherIconView" destination="93l-Ce-7OP" id="ZpW-JN-eXT"/>
@@ -76,7 +94,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y7f-TX-NHK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2276.8115942028985" y="-743.30357142857144"/>
+            <point key="canvasLocation" x="1505.7971014492755" y="-905.35714285714278"/>
         </scene>
         <!--Favorite Positions-->
         <scene sceneID="CMz-lc-1eU">
@@ -150,11 +168,11 @@
                         <sections>
                             <tableViewSection headerTitle="Temperature Metrics" id="2Ct-06-3ud">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Izb-zH-yOZ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Izb-zH-yOZ">
                                         <rect key="frame" x="20" y="49.5" width="374" height="39.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Izb-zH-yOZ" id="6P3-P7-3BW">
-                                            <rect key="frame" x="0.0" y="0.0" width="333.5" height="39.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="39.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <listContentConfiguration key="contentConfiguration" style="valueCell" text="Celsius (°C)"/>
@@ -181,11 +199,11 @@
                             </tableViewSection>
                             <tableViewSection headerTitle="Theme" id="q0j-zE-PJh">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" id="Rle-bt-jtl">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Rle-bt-jtl">
                                         <rect key="frame" x="20" y="218" width="374" height="39.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Rle-bt-jtl" id="4fj-ld-BWS">
-                                            <rect key="frame" x="0.0" y="0.0" width="333.5" height="39.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="374" height="39.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <listContentConfiguration key="contentConfiguration" style="valueCell" text="System" secondaryText=""/>
@@ -388,6 +406,7 @@
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
         <image name="rays" catalog="system" width="128" height="122"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <image name="star.square.fill" catalog="system" width="128" height="114"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

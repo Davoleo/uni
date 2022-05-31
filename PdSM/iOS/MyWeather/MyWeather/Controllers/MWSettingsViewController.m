@@ -15,12 +15,19 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //TODO set the right defaults depending on these values
-    MWThemeEnum themePref = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
-    if (themePref > 0) {
+}
 
-    }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //View Has appeared -> we set default checkmarked rows
     MWTemperatureMetricsEnum tempPref = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+    NSIndexPath* cellIndex = [NSIndexPath indexPathForRow:tempPref inSection:MW_SETTINGS_VC_SECTION_TEMPERATURE];
+    [self.tableView cellForRowAtIndexPath:cellIndex].accessoryType = UITableViewCellAccessoryCheckmark;
+
+    MWThemeEnum themePref = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
+    cellIndex = [NSIndexPath indexPathForRow:themePref inSection:MW_SETTINGS_VC_SECTION_THEME];
+    [self.tableView cellForRowAtIndexPath:cellIndex].accessoryType = UITableViewCellAccessoryCheckmark;
+    NSLog(@"TempPref: %ld", (long) themePref);
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -58,7 +65,6 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
         for (int i = 0; i < [tableView numberOfRowsInSection:indexPath.section]; ++i) {
             NSString* webDetail = [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text;
             if (webDetail != nil && [webDetail hasPrefix:@"https://"]) {
-                NSLog(@"HERE HERE HERE");
                 UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Open Link?" message:@"Continue will open your default web browser on the link you clicked" preferredStyle:UIAlertControllerStyleAlert];
                 [alert addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action) {
                     //Open link
