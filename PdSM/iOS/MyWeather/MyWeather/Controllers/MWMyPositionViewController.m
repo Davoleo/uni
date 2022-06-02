@@ -7,12 +7,13 @@
 
 #import "MWMyPositionViewController.h"
 #import "MWPoi.h"
-#import "MWCurrentWeatherDetailVC.h"
+#import "Detail/MWCurrentWeatherDetailVC.h"
 #import "MWManagers.h"
 
 @interface MWMyPositionViewController()<CLLocationManagerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView* container;
+@property (weak, nonatomic) IBOutlet UIView* currentContainer;
+
 @property (nonatomic, strong) MWPoi* myPoi;
 
 @end
@@ -22,6 +23,7 @@
 - (void)viewDidLoad {
     //Location Manager Setup
     CLLocationManager* manager = [MWManagers locationManager];
+    [manager requestWhenInUseAuthorization];
     manager.delegate = self;
 }
 
@@ -38,21 +40,25 @@
 - (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray<CLLocation*>*)locations {
     //Update location
     CLLocation* current = locations.lastObject;
+    NSLog(@"Location Detection");
 
     MWPoi* oldPoi = self.myPoi;
     self.myPoi = [MWPoi poiWithLatitude:current.coordinate.latitude longitude:current.coordinate.longitude];
     //First time position is assigned => we add the currentWeatherViewController to this VC's children
-    if (oldPoi == nil) {
-        [self displayCurrentWeatherController];
+    if (self.myPoi != nil && oldPoi == nil) {
+        [self.myPoi reverseGeocodeAndThen:^(CLPlacemark* placemark){
+            //First Detection after nulls -> init and display current weather controller
+            [self displayCurrentWeatherController];
+        }];
     }
 }
 
-//TODO Fix [Storyboard] Activity Indicator (Should probably be placed here now instead of the child VC)
 - (void) displayCurrentWeatherController {
     MWCurrentWeatherDetailVC* viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"currentWeatherVC"];
+    viewController.position = self.myPoi;
     [self addChildViewController:viewController];
-    [self.container addSubview:viewController.view];
-    viewController.view.frame = self.container.bounds;
+    [self.currentContainer addSubview:viewController.view];
+    viewController.view.frame = self.currentContainer.bounds;
     [viewController didMoveToParentViewController:self];
 }
 

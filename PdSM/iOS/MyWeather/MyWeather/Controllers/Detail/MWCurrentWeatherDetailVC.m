@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *temperatureLabel;
 @property (weak, nonatomic) IBOutlet UILabel *conditionsLabel;
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *currentWeatherLoadingIndicator;
 
 @end
 
@@ -29,27 +29,34 @@
     if (self.currentWeather == nil) {
         [MWUtils queryCurrentWeatherInLocation:self.position AndThen:^(MWWeatherData* data) {
             self.currentWeather = data;
-            [self setupUI];
-            [self.loadingIndicator stopAnimating];
+            //Update UI on the main queue
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self setupUI];
+            });
         }];
     }
 }
 
 - (void) setupUI {
     //Attach map pin image to location name & create NSString
-    NSTextAttachment* attachment = [[NSTextAttachment alloc] init];
-    attachment.image = [UIImage systemImageNamed:@"mappin"];
-    NSAttributedString* attachmentString = [NSAttributedString attributedStringWithAttachment:attachment];
-    NSMutableAttributedString* string = [[NSMutableAttributedString alloc] initWithString:self.position.placemarkCache.name];
-    [string appendAttributedString:attachmentString];
+    /*
+    NSTextAttachment* placemarkAttachment = [[NSTextAttachment alloc] init];
+    placemarkAttachment.image = [UIImage systemImageNamed:@"mappin"];
+    NSAttributedString* placemarkAttachString = [NSAttributedString attributedStringWithAttachment:placemarkAttachment];
+    NSMutableAttributedString* placemarkString = [[NSMutableAttributedString alloc] initWithString:self.position.placemarkCache.name];
+    [placemarkString appendAttributedString:placemarkAttachString];
+    */
+    self.placemarkLabel.text = self.position.placemarkCache.name;
 
     //Current Temperature formatting
     MWTemperatureMetricsEnum tempMetric = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%lf°%c", self.currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", self.currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
 
     BOOL isNight = self.currentWeather.timestamp > self.currentWeather.sunset || self.currentWeather.timestamp < self.currentWeather.sunrise;
     NSString* iconName = [self.currentWeather.condition decodeSystemImageNameAtNight:isNight];
     self.weatherIconView.image = [UIImage systemImageNamed:iconName];
+
+    self.conditionsLabel.text = self.currentWeather.condition.name;
 }
 
 
