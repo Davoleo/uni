@@ -24,7 +24,14 @@
   - Sezione di dettaglio con informazioni sul meteo nella posizione corrente
   
 ## Pagina di Dettaglio
-- TODO: Decidere cosa deve contenere e COME
+- Meteo Corrente
+  - Temperatura
+  - Le condizioni (Icona e Descrizione)
+  - Nome del luogo
+  - Velocità e Direzione del Vento
+  - Tramonto e Alba
+- Previsioni future
+  - 
 
 ## Impostazioni Possibili
 - Dark Mode / Light Mode / Auto

@@ -25,13 +25,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    NSAssert(self.position != nil, @"View Controller can't be initialized with nil position");
+    //self.currentWeatherLoadingIndicator.hidden = NO;
+    //[self.currentWeatherLoadingIndicator startAnimating];
+
+    NSAssert(self.position != nil, @"Current Weather Details View Controller can't be initialized with NIL POSITION");
+
     if (self.currentWeather == nil) {
         [MWUtils queryCurrentWeatherInLocation:self.position AndThen:^(MWWeatherData* data) {
             self.currentWeather = data;
             //Update UI on the main queue
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setupUI];
+                [self.currentWeatherLoadingIndicator stopAnimating];
             });
         }];
     }
