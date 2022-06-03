@@ -1,14 +1,14 @@
 //
-//  MWCurrentWeatherDetailVC.m
+//  MWWeatherDetailViewController.m
 //  MyWeather
 //
 //  Created by Leo Dav on 24/05/22.
 //
 
-#import "MWCurrentWeatherDetailVC.h"
+#import "MWWeatherDetailViewController.h"
 #import "MWUtils.h"
 
-@interface MWCurrentWeatherDetailVC ()
+@interface MWWeatherDetailViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *weatherIconView;
 
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation MWCurrentWeatherDetailVC
+@implementation MWWeatherDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,9 +30,9 @@
 
     NSAssert(self.position != nil, @"Current Weather Details View Controller can't be initialized with NIL POSITION");
 
-    if (self.currentWeather == nil) {
-        [MWUtils queryCurrentWeatherInLocation:self.position AndThen:^(MWWeatherData* data) {
-            self.currentWeather = data;
+    if (self.forecast == nil) {
+        [MWUtils queryForecastInLocation:self.position AndThen:^(MWForecast* data) {
+            self.forecast = data;
             //Update UI on the main queue
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self setupUI];
@@ -51,17 +51,20 @@
     NSMutableAttributedString* placemarkString = [[NSMutableAttributedString alloc] initWithString:self.position.placemarkCache.name];
     [placemarkString appendAttributedString:placemarkAttachString];
     */
+
+    MWWeatherData* currentWeather = self.forecast.current;
+
     self.placemarkLabel.text = self.position.placemarkCache.name;
 
     //Current Temperature formatting
     MWTemperatureMetricsEnum tempMetric = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", self.currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
 
-    BOOL isNight = self.currentWeather.timestamp > self.currentWeather.sunset || self.currentWeather.timestamp < self.currentWeather.sunrise;
-    NSString* iconName = [self.currentWeather.condition decodeSystemImageNameAtNight:isNight];
+    BOOL isNight = currentWeather.timestamp > currentWeather.sunset || currentWeather.timestamp < currentWeather.sunrise;
+    NSString* iconName = [currentWeather.condition decodeSystemImageNameAtNight:isNight];
     self.weatherIconView.image = [UIImage systemImageNamed:iconName];
 
-    self.conditionsLabel.text = self.currentWeather.condition.name;
+    self.conditionsLabel.text = currentWeather.condition.name;
 }
 
 

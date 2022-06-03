@@ -16,7 +16,7 @@
     return [[[NSProcessInfo processInfo] environment] objectForKey:@"WEATHER_API_KEY"];
 }
 
-+ (void)queryWeatherAPIInPoi:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis {
++ (void)queryOneCallAPIInPoi:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis {
     NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/onecall?lat=%lf&lon=%lf&exclude=alerts,minutely&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
@@ -25,23 +25,41 @@
             NSLog(@"Error while requesting OneCall Weather Information");
             return;
         }
-        MWForecast* forecast = [[MWForecast alloc] initWithJSONData:data AndPoi:poi];
+        MWForecast* forecast = [[MWForecast alloc] initWithOneCallJSONData:data AndPoi:poi];
         doThis(forecast);
     }];
     [task resume];
 }
 
 + (void) queryCurrentWeatherInLocation: (MWPoi*) poi AndThen: (MWWeatherDataConsumer) doThis {
-    NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/weather?lat=%lf&lon=%lf&appid=%@",
+    NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%lf&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     NSURLSessionTask* task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if (error != nil || data == nil) {
-            NSLog(@"Error while requesting OneCall Weather Information");
+            NSLog(@"Error while requesting Current Weather Information");
             return;
         }
         MWWeatherData* currentWeather = [[MWWeatherData alloc] initWithJSONData:data];
         doThis(currentWeather);
+    }];
+
+    [task resume];
+}
+
++ (void) queryForecastInLocation: (MWPoi*) poi AndThen: (MWForecastConsumer) doThis {
+    NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/forecast?lat=%lf&lon=%lf&appid=%@",
+            poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    NSURLSessionTask* task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+        if (error != nil || data == nil) {
+            NSLog(@"Error while requesting Forecast Information");
+            return;
+        }
+        [MWUtils queryCurrentWeatherInLocation:poi AndThen:^(MWWeatherData* current) {
+            MWForecast* currentForecast = [[MWForecast alloc] initWithJSONForecast:data AndCurrentWeather:current InPoi:poi];
+            doThis(currentForecast);
+        }];
     }];
 
     [task resume];

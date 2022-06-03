@@ -7,7 +7,7 @@
 
 @implementation MWForecast
 
-- (instancetype)initWithJSONData:(NSData*)data AndPoi: (MWPoi*)poi {
+- (instancetype)initWithOneCallJSONData:(NSData*)data AndPoi: (MWPoi*)poi {
     self = [super init];
 
     if (self) {
@@ -15,6 +15,7 @@
 
         NSError* error;
         id obj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingTopLevelDictionaryAssumed error:&error];
+        NSAssert(error == nil, @"Error while deserializing forecast information");
 
         if([obj isKindOfClass:[NSDictionary class]]) {
 
@@ -45,6 +46,43 @@
 
     return self;
 }
+
+- (instancetype)initWithJSONForecast:(NSData*)forecast AndCurrentWeather:(MWWeatherData*)currentWeather InPoi: (MWPoi*)poi {
+    self = [super init];
+
+    if (self) {
+        _location = poi;
+        _current = currentWeather;
+
+        NSError* error;
+        id forecastObj = [NSJSONSerialization JSONObjectWithData:forecast options:NSJSONReadingTopLevelDictionaryAssumed error:&error];
+        NSAssert(error == nil, @"Error while deserializing forecast information");
+
+        if([forecastObj isKindOfClass:[NSDictionary class]]) {
+
+            NSArray* weatherList = forecastObj[@"list"];
+            NSMutableArray<MWWeatherData*>* hourlyArr = [NSMutableArray array];
+            NSMutableArray<MWWeatherData*>* dailyArr = [NSMutableArray array];
+            [weatherList enumerateObjectsUsingBlock:^(id weatherObj, NSUInteger index, BOOL* stop) {
+                if ([weatherObj isKindOfClass:[NSDictionary class]]) {
+                    NSUInteger timestamp = [weatherObj[@"dt"] unsignedLongValue];
+                    if ([NSDate dateWithTimeIntervalSince1970:timestamp].timeIntervalSinceNow < 60 * 60 * 24) {
+                        [hourlyArr addObject:[[MWWeatherData alloc] initWithJSONObj:weatherObj]];
+                    }
+                    else {
+                        [dailyArr addObject:[[MWWeatherData alloc] initWithJSONObj:weatherObj]];
+                    }
+                }
+            }];
+
+            _hourly = hourlyArr;
+            _daily = dailyArr;
+        }
+    }
+
+    return self;
+}
+
 
 - (void)refreshCurrentWeather {
     [MWUtils queryCurrentWeatherInLocation:self.location AndThen:^(MWWeatherData* currentWeather) {

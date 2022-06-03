@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hyW-Rq-uYD">
-                                <rect key="frame" x="0.0" y="88" width="414" height="500"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </containerView>
                         </subviews>
@@ -42,10 +42,10 @@
             </objects>
             <point key="canvasLocation" x="653.62318840579712" y="-555.13392857142856"/>
         </scene>
-        <!--Current Weather DetailVC-->
+        <!--Weather Detail View Controller-->
         <scene sceneID="SKU-JY-OA5">
             <objects>
-                <viewController storyboardIdentifier="currentWeatherVC" id="8Q9-R5-8Wf" customClass="MWCurrentWeatherDetailVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="currentWeatherVC" id="8Q9-R5-8Wf" customClass="MWWeatherDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fNC-x0-cYs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

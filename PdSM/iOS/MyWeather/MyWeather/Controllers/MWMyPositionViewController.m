@@ -7,7 +7,7 @@
 
 #import "MWMyPositionViewController.h"
 #import "MWPoi.h"
-#import "Detail/MWCurrentWeatherDetailVC.h"
+#import "Detail/MWWeatherDetailViewController.h"
 #import "MWManagers.h"
 
 @interface MWMyPositionViewController()<CLLocationManagerDelegate>
@@ -54,7 +54,7 @@
 }
 
 - (void) displayCurrentWeatherController {
-    MWCurrentWeatherDetailVC* viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"currentWeatherVC"];
+    MWWeatherDetailViewController* viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"currentWeatherVC"];
     viewController.position = self.myPoi;
     [self addChildViewController:viewController];
     [self.currentContainer addSubview:viewController.view];
@@ -69,7 +69,7 @@
 //Prepare and send information to the ViewContainers
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"CurrentWeatherSegue"]) {
-        MWCurrentWeatherDetailVC* currentController = [segue destinationViewController];
+        MWWeatherDetailViewController* currentController = [segue destinationViewController];
         currentController.position = self.myPoi;
     }
 }

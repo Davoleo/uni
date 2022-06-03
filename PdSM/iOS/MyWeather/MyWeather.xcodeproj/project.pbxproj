@@ -12,11 +12,12 @@
 		5628234F45DE4E7DE422580E /* MWWindDirection.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282E74A607A179EEF57B8B /* MWWindDirection.m */; };
 		5628254ED881818AA097A616 /* MWForecast.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628234B6F307E47E335233F /* MWForecast.m */; };
 		562825C49CBB977A8FB32E34 /* onecall.example.json in Resources */ = {isa = PBXBuildFile; fileRef = 562827923931FF220C81D7C2 /* onecall.example.json */; };
-		562827642D1F618C255836E1 /* MWCurrentWeatherDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628217401E116DE03660FEF /* MWCurrentWeatherDetailVC.m */; };
+		562827642D1F618C255836E1 /* MWWeatherDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628217401E116DE03660FEF /* MWWeatherDetailViewController.m */; };
 		5628293E40A4669201549761 /* MWManagers.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628259BEF376B656E6B2D86 /* MWManagers.m */; };
 		56282A41D2427EA83CB70BD6 /* MWPoi.m in Sources */ = {isa = PBXBuildFile; fileRef = 5628272E19992AF864ECD154 /* MWPoi.m */; };
 		56282B5D2B25929DF99251CC /* MWFavouritesCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282017A9BDC65BC52CAF3E /* MWFavouritesCache.m */; };
 		56282B756F873F5FCB128449 /* MWWeatherCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282868FF5A8563D4512B37 /* MWWeatherCondition.m */; };
+		56282CFF49C95A88A7279EDD /* forecast.example.json in Resources */ = {isa = PBXBuildFile; fileRef = 56282C8BC81CB76B98AB2062 /* forecast.example.json */; };
 		6B1EFB9F2846301E00423770 /* MWMyPositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EFB9E2846301E00423770 /* MWMyPositionViewController.m */; };
 		6B2DEC7A2837ED3800BCA6FB /* MWFavouritePoisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DEC792837ED3800BCA6FB /* MWFavouritePoisViewController.m */; };
 		6B5C362C2830FA6500CBF5EA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */; };
@@ -34,7 +35,7 @@
 /* Begin PBXFileReference section */
 		56282017A9BDC65BC52CAF3E /* MWFavouritesCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFavouritesCache.m; sourceTree = "<group>"; };
 		5628213B17B7530CE3A76723 /* MWWeatherCondition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeatherCondition.h; sourceTree = "<group>"; };
-		5628217401E116DE03660FEF /* MWCurrentWeatherDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCurrentWeatherDetailVC.m; sourceTree = "<group>"; };
+		5628217401E116DE03660FEF /* MWWeatherDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeatherDetailViewController.m; sourceTree = "<group>"; };
 		5628224DC6BAC9617FA858C5 /* MWWeatherData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeatherData.m; sourceTree = "<group>"; };
 		5628234B6F307E47E335233F /* MWForecast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWForecast.m; sourceTree = "<group>"; };
 		5628244A887EB55A481F80A6 /* MWManagers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWManagers.h; sourceTree = "<group>"; };
@@ -47,7 +48,8 @@
 		56282868FF5A8563D4512B37 /* MWWeatherCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeatherCondition.m; sourceTree = "<group>"; };
 		56282AF2472971ABD627B745 /* MWSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSettings.h; sourceTree = "<group>"; };
 		56282C562123E2DB8E2FEDBB /* MWWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeatherData.h; sourceTree = "<group>"; };
-		56282E698F677549200FB95E /* MWCurrentWeatherDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCurrentWeatherDetailVC.h; sourceTree = "<group>"; };
+		56282C8BC81CB76B98AB2062 /* forecast.example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = forecast.example.json; sourceTree = "<group>"; };
+		56282E698F677549200FB95E /* MWWeatherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeatherDetailViewController.h; sourceTree = "<group>"; };
 		56282E74A607A179EEF57B8B /* MWWindDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWindDirection.m; sourceTree = "<group>"; };
 		56282E8B339A4056AB120441 /* MWForecast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWForecast.h; sourceTree = "<group>"; };
 		56282FA0F2A969F7063C5EA6 /* current.example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = current.example.json; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 		6B5C362F28310AC000CBF5EA /* MWUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWUtils.m; sourceTree = "<group>"; };
 		6B6B4EB0283D10A300EAA446 /* MWSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWSettingsViewController.h; sourceTree = "<group>"; };
 		6B6B4EB1283D10A300EAA446 /* MWSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWSettingsViewController.m; sourceTree = "<group>"; };
+		6BC385BB284A4ADF00F25E74 /* position.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = position.gpx; path = ../geocoding/position.gpx; sourceTree = "<group>"; };
 		6BF0C9BE2827AE7B00163E04 /* MyWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BF0C9C12827AE7B00163E04 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6BF0C9C22827AE7B00163E04 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -90,8 +93,8 @@
 		56282BB0B5D1C8AF2AB353D5 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				56282E698F677549200FB95E /* MWCurrentWeatherDetailVC.h */,
-				5628217401E116DE03660FEF /* MWCurrentWeatherDetailVC.m */,
+				56282E698F677549200FB95E /* MWWeatherDetailViewController.h */,
+				5628217401E116DE03660FEF /* MWWeatherDetailViewController.m */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 		6BF0C9B52827AE7B00163E04 = {
 			isa = PBXGroup;
 			children = (
+				6BC385BB284A4ADF00F25E74 /* position.gpx */,
 				6BF0C9C02827AE7B00163E04 /* MyWeather */,
 				6BF0C9BF2827AE7B00163E04 /* Products */,
 				6BF0C9DB2827BEFA00163E04 /* Frameworks */,
@@ -176,6 +180,7 @@
 				6BF0C9DA2827BB6400163E04 /* README.md */,
 				56282FA0F2A969F7063C5EA6 /* current.example.json */,
 				562827923931FF220C81D7C2 /* onecall.example.json */,
+				56282C8BC81CB76B98AB2062 /* forecast.example.json */,
 			);
 			path = MyWeather;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 				6BF0C9CC2827AE7B00163E04 /* Main.storyboard in Resources */,
 				5628214332709D825D026EF4 /* current.example.json in Resources */,
 				562825C49CBB977A8FB32E34 /* onecall.example.json in Resources */,
+				56282CFF49C95A88A7279EDD /* forecast.example.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,7 +281,7 @@
 				6B2DEC7A2837ED3800BCA6FB /* MWFavouritePoisViewController.m in Sources */,
 				5628234F45DE4E7DE422580E /* MWWindDirection.m in Sources */,
 				56282B5D2B25929DF99251CC /* MWFavouritesCache.m in Sources */,
-				562827642D1F618C255836E1 /* MWCurrentWeatherDetailVC.m in Sources */,
+				562827642D1F618C255836E1 /* MWWeatherDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
