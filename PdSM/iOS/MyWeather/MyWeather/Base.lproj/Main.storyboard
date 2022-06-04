@@ -106,7 +106,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="l3u-Zy-SvD">
-                                        <rect key="frame" x="50" y="294" width="274.5" height="30.5"/>
+                                        <rect key="frame" x="60" y="294" width="254.5" height="30.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sunrise.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="16C-UX-6BE">
                                                 <rect key="frame" x="0.0" y="-1.5" width="30" height="30"/>
@@ -122,20 +122,20 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nRH-bO-DM5">
-                                                <rect key="frame" x="121.5" y="0.0" width="40" height="30.5"/>
+                                                <rect key="frame" x="121.5" y="0.0" width="20" height="30.5"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="40" id="Dwz-DE-gwj"/>
+                                                    <constraint firstAttribute="width" constant="20" id="Dwz-DE-gwj"/>
                                                 </constraints>
                                             </view>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sunset.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="fIH-TM-v40">
-                                                <rect key="frame" x="166.5" y="-1.5" width="25.5" height="30"/>
+                                                <rect key="frame" x="146.5" y="-1.5" width="25.5" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="25.5" id="1qM-i7-ANG"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunset: **" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mlc-Kn-aYb">
-                                                <rect key="frame" x="197" y="0.0" width="77.5" height="30.5"/>
+                                                <rect key="frame" x="177" y="0.0" width="77.5" height="30.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>

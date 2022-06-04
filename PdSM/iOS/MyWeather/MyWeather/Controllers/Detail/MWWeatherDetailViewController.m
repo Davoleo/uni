@@ -74,7 +74,15 @@
 
     //Current Temperature formatting
     MWTemperatureMetrics tempMetric = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
+    double temperature = currentWeather.temperature;
+    if (tempMetric == MWTemperatureMetricCelsius)
+        temperature -= 273.15;
+    else if (tempMetric == MWTemperatureMetricFahrenheit) {
+        temperature -= 273.15;
+        temperature = (temperature * 9/5) + 32;
+    }
+
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
 
     BOOL isNight = currentWeather.timestamp > currentWeather.sunset || currentWeather.timestamp < currentWeather.sunrise;
     NSString* iconName = [currentWeather.condition decodeSystemImageNameAtNight:isNight];
