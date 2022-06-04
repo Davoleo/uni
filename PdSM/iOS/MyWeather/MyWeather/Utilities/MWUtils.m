@@ -67,11 +67,11 @@
 
 + (char)temperatureFormatCharForMetric:(MWTemperatureMetricsEnum)metric {
     switch (metric) {
-        case CELSIUS:
+        case MWTemperatureMetricCelsius:
             return 'C';
-        case FAHRENHEIT:
+        case MWTemperatureMetricFahrenheit:
             return 'F';
-        case KELVIN:
+        case MWTemperatureMetricKelvin:
             return 'K';
         default:
             NSAssert(false, @"No, non puoi essere qua dio bono");

@@ -22,11 +22,11 @@
 
 - (void)applicationDidBecomeActive:(UIApplication*)application {
     MWThemeEnum themeOverrideValue = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
-    if (themeOverrideValue != SYSTEM) {
-        if (themeOverrideValue == LIGHT) {
+    if (themeOverrideValue != MWThemeSystem) {
+        if (themeOverrideValue == MWThemeLight) {
             self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
         }
-        else { //DARK
+        else { //MWThemeDark
             self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
         }
     }
