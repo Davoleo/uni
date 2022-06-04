@@ -65,7 +65,7 @@
     [task resume];
 }
 
-+ (char)temperatureFormatCharForMetric:(MWTemperatureMetricsEnum)metric {
++ (char)temperatureFormatCharForMetric:(MWTemperatureMetrics)metric {
     switch (metric) {
         case MWTemperatureMetricCelsius:
             return 'C';

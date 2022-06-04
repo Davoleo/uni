@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)queryForecastInLocation:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis;
 
-+ (char)temperatureFormatCharForMetric: (MWTemperatureMetricsEnum) metric;
++ (char)temperatureFormatCharForMetric: (MWTemperatureMetrics) metric;
 @end
 
 NS_ASSUME_NONNULL_END

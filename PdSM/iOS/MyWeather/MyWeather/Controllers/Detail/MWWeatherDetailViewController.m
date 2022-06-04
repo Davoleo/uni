@@ -73,7 +73,7 @@
     self.placemarkLabel.text = self.position.placemarkCache.name;
 
     //Current Temperature formatting
-    MWTemperatureMetricsEnum tempMetric = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+    MWTemperatureMetrics tempMetric = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
     self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", currentWeather.temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
 
     BOOL isNight = currentWeather.timestamp > currentWeather.sunset || currentWeather.timestamp < currentWeather.sunrise;

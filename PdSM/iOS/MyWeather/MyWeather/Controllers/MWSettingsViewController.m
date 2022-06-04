@@ -20,7 +20,7 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //View Has appeared -> we set default checkmarked rows
-    MWTemperatureMetricsEnum tempPref = (MWTemperatureMetricsEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+    MWTemperatureMetrics tempPref = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
     NSIndexPath* cellIndex = [NSIndexPath indexPathForRow:tempPref inSection:MW_SETTINGS_VC_SECTION_TEMPERATURE];
     [self.tableView cellForRowAtIndexPath:cellIndex].accessoryType = UITableViewCellAccessoryCheckmark;
 
