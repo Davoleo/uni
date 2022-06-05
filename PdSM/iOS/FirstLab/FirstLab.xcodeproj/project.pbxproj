@@ -55,6 +55,7 @@
 		6B1D9A7B27EF17D1003D006C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B1D9A7D27EF17D1003D006C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B1D9A7E27EF17D1003D006C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6B834222284D030F00B10FA7 /* test.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = test.storyboard; path = ../../../../../../test.storyboard; sourceTree = "<group>"; };
 		6B953F80281D3FA500107BAF /* FLGeoFriend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLGeoFriend.h; sourceTree = "<group>"; };
 		6B953F81281D3FA500107BAF /* FLGeoFriend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLGeoFriend.m; sourceTree = "<group>"; };
 		6B953F84281D44D800107BAF /* FLFriendMapVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLFriendMapVC.h; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 				6B1D9A7527EF17D0003D006C /* Main.storyboard */,
 				6B1D9A7827EF17D1003D006C /* Assets.xcassets */,
 				6B1D9A7A27EF17D1003D006C /* LaunchScreen.storyboard */,
+				6B834222284D030F00B10FA7 /* test.storyboard */,
 				6B1D9A7D27EF17D1003D006C /* Info.plist */,
 				6B1D9A7E27EF17D1003D006C /* main.m */,
 			);
