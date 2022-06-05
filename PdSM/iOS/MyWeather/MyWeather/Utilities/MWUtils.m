@@ -74,8 +74,22 @@
         case MWTemperatureMetricKelvin:
             return 'K';
         default:
-            NSAssert(false, @"No, non puoi essere qua dio bono");
+            NSAssert(false, @"Unknown Temperature Metric not allowed!");
             return '-';
+    }
+}
+
++ (double)getTemperature:(double)temperature InMetric:(MWTemperatureMetrics)metric {
+    switch (metric) {
+        case MWTemperatureMetricCelsius:
+            return temperature - 273.15;
+        case MWTemperatureMetricFahrenheit:
+            return ((temperature - 273.15) * 9/5) + 32;
+        case MWTemperatureMetricKelvin:
+            return temperature;
+        default:
+            NSAssert(false, @"Unknown Temperature Metric not allowed!");
+            return temperature;
     }
 }
 
