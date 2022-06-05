@@ -20,9 +20,11 @@
 		56282CFF49C95A88A7279EDD /* forecast.example.json in Resources */ = {isa = PBXBuildFile; fileRef = 56282C8BC81CB76B98AB2062 /* forecast.example.json */; };
 		6B1EFB9F2846301E00423770 /* MWMyPositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EFB9E2846301E00423770 /* MWMyPositionViewController.m */; };
 		6B2DEC7A2837ED3800BCA6FB /* MWFavouritePoisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DEC792837ED3800BCA6FB /* MWFavouritePoisViewController.m */; };
+		6B53176D284CE9B800782F31 /* MWWeatherCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 562825FF15A466E02F7DA278 /* MWWeatherCardView.xib */; };
 		6B5C362C2830FA6500CBF5EA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */; };
 		6B5C363028310AC000CBF5EA /* MWUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C362F28310AC000CBF5EA /* MWUtils.m */; };
 		6B6B4EB2283D10A300EAA446 /* MWSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B4EB1283D10A300EAA446 /* MWSettingsViewController.m */; };
+		6BB23245284CB49300F75CEC /* MWWeatherCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB23244284CB49300F75CEC /* MWWeatherCardView.m */; };
 		6BF0C9C32827AE7B00163E04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C9C22827AE7B00163E04 /* AppDelegate.m */; };
 		6BF0C9C62827AE7B00163E04 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C9C52827AE7B00163E04 /* SceneDelegate.m */; };
 		6BF0C9CC2827AE7B00163E04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BF0C9CA2827AE7B00163E04 /* Main.storyboard */; };
@@ -41,6 +43,7 @@
 		5628244A887EB55A481F80A6 /* MWManagers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWManagers.h; sourceTree = "<group>"; };
 		562825952194D9FFE34C45F9 /* MWFavouritesCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFavouritesCache.h; sourceTree = "<group>"; };
 		5628259BEF376B656E6B2D86 /* MWManagers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWManagers.m; sourceTree = "<group>"; };
+		562825FF15A466E02F7DA278 /* MWWeatherCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MWWeatherCardView.xib; sourceTree = "<group>"; };
 		56282670289B9C795DA8E80F /* MWPoi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWPoi.h; sourceTree = "<group>"; };
 		5628272E19992AF864ECD154 /* MWPoi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWPoi.m; sourceTree = "<group>"; };
 		5628278BBF450BB49D61C771 /* MWWindDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWindDirection.h; sourceTree = "<group>"; };
@@ -62,6 +65,8 @@
 		6B5C362F28310AC000CBF5EA /* MWUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWUtils.m; sourceTree = "<group>"; };
 		6B6B4EB0283D10A300EAA446 /* MWSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWSettingsViewController.h; sourceTree = "<group>"; };
 		6B6B4EB1283D10A300EAA446 /* MWSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWSettingsViewController.m; sourceTree = "<group>"; };
+		6BB23243284CB49300F75CEC /* MWWeatherCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWWeatherCardView.h; sourceTree = "<group>"; };
+		6BB23244284CB49300F75CEC /* MWWeatherCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWWeatherCardView.m; sourceTree = "<group>"; };
 		6BC385BB284A4ADF00F25E74 /* position.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = position.gpx; path = ../geocoding/position.gpx; sourceTree = "<group>"; };
 		6BF0C9BE2827AE7B00163E04 /* MyWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BF0C9C12827AE7B00163E04 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -144,6 +149,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		6BB23242284CB46500F75CEC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6BB23243284CB49300F75CEC /* MWWeatherCardView.h */,
+				6BB23244284CB49300F75CEC /* MWWeatherCardView.m */,
+				562825FF15A466E02F7DA278 /* MWWeatherCardView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		6BF0C9B52827AE7B00163E04 = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +180,7 @@
 		6BF0C9C02827AE7B00163E04 /* MyWeather */ = {
 			isa = PBXGroup;
 			children = (
+				6BB23242284CB46500F75CEC /* Views */,
 				6B2DEC772837ECDC00BCA6FB /* Controllers */,
 				6B5C363128310D4100CBF5EA /* Models */,
 				6B5C362D28310A6C00CBF5EA /* Utilities */,
@@ -251,6 +267,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B53176D284CE9B800782F31 /* MWWeatherCardView.xib in Resources */,
 				6BF0C9D12827AE7F00163E04 /* LaunchScreen.storyboard in Resources */,
 				6BF0C9CE2827AE7F00163E04 /* Assets.xcassets in Resources */,
 				6BF0C9CC2827AE7B00163E04 /* Main.storyboard in Resources */,
@@ -274,6 +291,7 @@
 				6B1EFB9F2846301E00423770 /* MWMyPositionViewController.m in Sources */,
 				56282A41D2427EA83CB70BD6 /* MWPoi.m in Sources */,
 				5628293E40A4669201549761 /* MWManagers.m in Sources */,
+				6BB23245284CB49300F75CEC /* MWWeatherCardView.m in Sources */,
 				5628254ED881818AA097A616 /* MWForecast.m in Sources */,
 				5628205D97A1BC004EA600AC /* MWWeatherData.m in Sources */,
 				6B6B4EB2283D10A300EAA446 /* MWSettingsViewController.m in Sources */,
