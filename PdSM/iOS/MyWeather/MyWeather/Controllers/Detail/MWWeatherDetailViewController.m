@@ -25,7 +25,6 @@
 
 @property (weak, nonatomic) IBOutlet UIStackView *hourlyStack;
 @property (weak, nonatomic) IBOutlet UIStackView *dailyStack;
-@property (weak, nonatomic) IBOutlet UIView *hourlyStubView;
 
 @property (nonatomic) MWTemperatureMetrics metricPreference;
 
@@ -74,12 +73,28 @@
     [formatter setDateFormat:@"HH:mm"];
     [self.forecast.hourly enumerateObjectsUsingBlock:^ (MWWeatherData* weather, NSUInteger index, BOOL* stop) {
         [self.hourlyStack addArrangedSubview:[self cardWith:weather AndDateFormatter:formatter]];
+        //NSLog(@"Adding view...");
     }];
+
+    //Adjust StackView size
+    [self.hourlyStack layoutIfNeeded];
+    //Adjust ScrollView size
+    [self.hourlyStack.superview.widthAnchor constraintEqualToConstant:self.view.frame.size.width].active = YES;
+
+    //Debug Prints
+    //NSLog(@"scroll width: %f", self.hourlyStack.superview.frame.size.width);
+    //NSLog(@"width: %f, x: %f", self.hourlyStack.frame.size.width, self.hourlyStack.frame.origin.x);
+    //NSLog(@"view count %ld", self.hourlyStack.subviews.count);
 
     [formatter setDateFormat:@"E HH:mm"];
     [self.forecast.daily enumerateObjectsUsingBlock:^ (MWWeatherData* weather, NSUInteger index, BOOL* stop) {
         [self.dailyStack addArrangedSubview:[self cardWith:weather AndDateFormatter:formatter]];
     }];
+
+    //Adjust StackView size
+    [self.dailyStack layoutIfNeeded];
+    //Adjust ScrollView size
+    [self.dailyStack.superview.widthAnchor constraintEqualToConstant:self.view.frame.size.width].active = YES;
 }
 
 
@@ -105,6 +120,10 @@
     [temperatureAttrString addAttribute:NSForegroundColorAttributeName value:[UIColor systemBlueColor] range:[temperatureString rangeOfString:temperatureComponents.firstObject]];
     [temperatureAttrString addAttribute:NSForegroundColorAttributeName value:[UIColor systemRedColor] range:[temperatureString rangeOfString:temperatureComponents.lastObject]];
     card.temperatureLabel.attributedText = temperatureAttrString;
+
+    card.translatesAutoresizingMaskIntoConstraints = NO;
+    [card.heightAnchor constraintEqualToConstant:150].active = YES;
+    [card.widthAnchor constraintEqualToConstant:120].active = YES;
 
     return card;
 }

@@ -142,44 +142,49 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vj3-O9-TfN" userLabel="HourlyScroll">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="scrollableAxes" translatesAutoresizingMaskIntoConstraints="NO" id="Vj3-O9-TfN" userLabel="HourlyScroll">
                                         <rect key="frame" x="0.0" y="360" width="374" height="150"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Cbo-xr-fcT">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="150"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="150"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RYL-bt-B8M">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="150"/>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RYL-bt-B8M">
+                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="150"/>
                                                         <color key="backgroundColor" name="AccentColor"/>
                                                     </view>
                                                 </subviews>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="top" secondItem="IjK-Ru-ggd" secondAttribute="top" id="6PH-KU-pp3"/>
-                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="leading" secondItem="IjK-Ru-ggd" secondAttribute="leading" id="ajA-ds-fDT"/>
+                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="top" secondItem="rdM-Aa-wjr" secondAttribute="top" id="6PH-KU-pp3"/>
+                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="leading" secondItem="rdM-Aa-wjr" secondAttribute="leading" id="ajA-ds-fDT"/>
                                             <constraint firstAttribute="height" constant="150" id="bP8-vm-ftk"/>
-                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="trailing" secondItem="IjK-Ru-ggd" secondAttribute="trailing" id="dhk-mI-sLJ"/>
-                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="bottom" secondItem="IjK-Ru-ggd" secondAttribute="bottom" id="g6a-eA-VKX"/>
-                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="height" secondItem="uJ4-4O-Soe" secondAttribute="height" id="pzW-UT-esX"/>
+                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="trailing" secondItem="rdM-Aa-wjr" secondAttribute="trailing" id="dhk-mI-sLJ"/>
+                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="bottom" secondItem="rdM-Aa-wjr" secondAttribute="bottom" id="g6a-eA-VKX"/>
+                                            <constraint firstItem="Cbo-xr-fcT" firstAttribute="height" secondItem="Yb6-FA-Yeo" secondAttribute="height" priority="250" id="pzW-UT-esX"/>
                                         </constraints>
-                                        <viewLayoutGuide key="contentLayoutGuide" id="IjK-Ru-ggd"/>
-                                        <viewLayoutGuide key="frameLayoutGuide" id="uJ4-4O-Soe"/>
+                                        <viewLayoutGuide key="contentLayoutGuide" id="rdM-Aa-wjr"/>
+                                        <viewLayoutGuide key="frameLayoutGuide" id="Yb6-FA-Yeo"/>
                                     </scrollView>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dgb-oU-S4T" userLabel="DailyScroll">
                                         <rect key="frame" x="0.0" y="526" width="374" height="150"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="phs-pg-Xvh">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="150"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="150"/>
+                                                <subviews>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PnE-NO-JC1" userLabel="Daily Stub">
+                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="150"/>
+                                                        <color key="backgroundColor" name="AccentColor"/>
+                                                    </view>
+                                                </subviews>
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="phs-pg-Xvh" firstAttribute="height" secondItem="Dgb-oU-S4T" secondAttribute="height" id="2Yd-P1-2U0"/>
-                                            <constraint firstItem="phs-pg-Xvh" firstAttribute="leading" secondItem="yza-Tb-bC7" secondAttribute="leading" id="Evb-3C-9aQ"/>
+                                            <constraint firstItem="phs-pg-Xvh" firstAttribute="height" secondItem="yza-Tb-bC7" secondAttribute="height" priority="250" id="2Yd-P1-2U0"/>
+                                            <constraint firstItem="phs-pg-Xvh" firstAttribute="leading" secondItem="eFN-nS-Ed0" secondAttribute="leading" id="Evb-3C-9aQ"/>
                                             <constraint firstItem="phs-pg-Xvh" firstAttribute="top" secondItem="eFN-nS-Ed0" secondAttribute="top" id="Ka2-uP-qIM"/>
-                                            <constraint firstItem="phs-pg-Xvh" firstAttribute="width" secondItem="Dgb-oU-S4T" secondAttribute="width" id="Ps4-dh-R0y"/>
-                                            <constraint firstAttribute="bottom" secondItem="phs-pg-Xvh" secondAttribute="bottom" id="UgT-NF-nM6"/>
-                                            <constraint firstAttribute="trailing" secondItem="phs-pg-Xvh" secondAttribute="trailing" id="k2l-sB-kmF"/>
+                                            <constraint firstItem="eFN-nS-Ed0" firstAttribute="bottom" secondItem="phs-pg-Xvh" secondAttribute="bottom" id="UgT-NF-nM6"/>
+                                            <constraint firstItem="eFN-nS-Ed0" firstAttribute="trailing" secondItem="phs-pg-Xvh" secondAttribute="trailing" id="k2l-sB-kmF"/>
                                             <constraint firstAttribute="height" constant="150" id="mhw-Zk-duh"/>
                                         </constraints>
                                         <viewLayoutGuide key="contentLayoutGuide" id="eFN-nS-Ed0"/>
@@ -199,7 +204,6 @@
                         <outlet property="conditionsLabel" destination="aWm-iK-OgN" id="cqz-MJ-avv"/>
                         <outlet property="dailyStack" destination="phs-pg-Xvh" id="Uta-9l-vCQ"/>
                         <outlet property="hourlyStack" destination="Cbo-xr-fcT" id="dRm-lO-IFp"/>
-                        <outlet property="hourlyStubView" destination="RYL-bt-B8M" id="FvZ-91-rlI"/>
                         <outlet property="placemarkLabel" destination="XQU-JV-mMu" id="n8v-wT-ehB"/>
                         <outlet property="sunriseLabel" destination="jnT-WG-Hvf" id="9Uz-dg-woI"/>
                         <outlet property="sunsetLabel" destination="Mlc-Kn-aYb" id="df6-Zg-e5c"/>
