@@ -66,7 +66,7 @@
             [weatherList enumerateObjectsUsingBlock:^(id weatherObj, NSUInteger index, BOOL* stop) {
                 if ([weatherObj isKindOfClass:[NSDictionary class]]) {
                     NSUInteger timestamp = [weatherObj[@"dt"] unsignedLongValue];
-                    if ([NSDate dateWithTimeIntervalSince1970:timestamp].timeIntervalSinceNow < 60 * 60 * 24) {
+                    if ([NSDate dateWithTimeIntervalSince1970:timestamp].timeIntervalSinceNow < 60*60*24) {
                         [hourlyArr addObject:[[MWWeatherData alloc] initWithJSONObj:weatherObj]];
                     }
                     else {

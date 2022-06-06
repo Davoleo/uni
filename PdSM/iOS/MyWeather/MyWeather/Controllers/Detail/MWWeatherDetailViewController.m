@@ -79,7 +79,7 @@
     //Adjust StackView size
     [self.hourlyStack layoutIfNeeded];
     //Adjust ScrollView size
-    [self.hourlyStack.superview.widthAnchor constraintEqualToConstant:self.view.frame.size.width].active = YES;
+    [self.hourlyStack.superview.widthAnchor constraintEqualToConstant:self.view.frame.size.width - 20].active = YES;
 
     //Debug Prints
     //NSLog(@"scroll width: %f", self.hourlyStack.superview.frame.size.width);
@@ -94,7 +94,7 @@
     //Adjust StackView size
     [self.dailyStack layoutIfNeeded];
     //Adjust ScrollView size
-    [self.dailyStack.superview.widthAnchor constraintEqualToConstant:self.view.frame.size.width].active = YES;
+    [self.dailyStack.superview.widthAnchor constraintEqualToConstant:self.view.frame.size.width - 20].active = YES;
 }
 
 
