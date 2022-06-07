@@ -24,7 +24,14 @@
   - Sezione di dettaglio con informazioni sul meteo nella posizione corrente
   
 ## Pagina di Dettaglio
-- TODO: Decidere cosa deve contenere e COME
+- Meteo Corrente
+  - Temperatura
+  - Le condizioni (Icona e Descrizione)
+  - Nome del luogo
+  - Velocità e Direzione del Vento
+  - Tramonto e Alba
+- Previsioni future
+  - 
 
 ## Impostazioni Possibili
 - Dark Mode / Light Mode / Auto
@@ -47,6 +54,8 @@
 - [Dark Mode Overrides](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface/choosing_a_specific_interface_style_for_your_ios_app?language=objc)
 - [Open Link on Safari](https://stackoverflow.com/questions/12416469/how-to-launch-safari-and-open-url-from-ios-app)
 - [Checkmark Selected Row (TableView)](https://stackoverflow.com/questions/7982944/checkmark-selected-row-in-uitableviewcell)
+- [Scrolling Stack view StackOverflow](https://stackoverflow.com/questions/31668970/is-it-possible-for-uistackview-to-scroll)
+  - [Scrolling Stack view Example](https://github.com/ar-juan/uistackview-in-uiscrollview)
 ### OpenWeatherMap
   - https://openweathermap.org/api
   - https://openweathermap.org/api/one-call-api

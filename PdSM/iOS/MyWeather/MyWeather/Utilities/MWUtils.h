@@ -17,11 +17,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*) getWeatherAPIKey;
 
 
-+ (void)queryWeatherAPIInPoi:(MWPoi*)poi AndThen: (MWForecastConsumer) doThis;
++ (void)queryOneCallAPIInPoi:(MWPoi*)poi AndThen: (MWForecastConsumer) doThis;
 
 + (void)queryCurrentWeatherInLocation:(MWPoi*)poi AndThen:(MWWeatherDataConsumer)doThis;
 
-+ (char) temperatureFormatCharForMetric: (MWTemperatureMetricsEnum) metric;
++ (void)queryForecastInLocation:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis;
+
++ (char)temperatureFormatCharForMetric: (MWTemperatureMetrics) metric;
+
++ (double) getTemperature: (double) temperature InMetric: (MWTemperatureMetrics) metric;
 @end
 
 NS_ASSUME_NONNULL_END

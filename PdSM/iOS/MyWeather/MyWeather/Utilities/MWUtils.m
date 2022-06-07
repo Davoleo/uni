@@ -16,7 +16,7 @@
     return [[[NSProcessInfo processInfo] environment] objectForKey:@"WEATHER_API_KEY"];
 }
 
-+ (void)queryWeatherAPIInPoi:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis {
++ (void)queryOneCallAPIInPoi:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis {
     NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/onecall?lat=%lf&lon=%lf&exclude=alerts,minutely&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
@@ -25,19 +25,19 @@
             NSLog(@"Error while requesting OneCall Weather Information");
             return;
         }
-        MWForecast* forecast = [[MWForecast alloc] initWithJSONData:data AndPoi:poi];
+        MWForecast* forecast = [[MWForecast alloc] initWithOneCallJSONData:data AndPoi:poi];
         doThis(forecast);
     }];
     [task resume];
 }
 
 + (void) queryCurrentWeatherInLocation: (MWPoi*) poi AndThen: (MWWeatherDataConsumer) doThis {
-    NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/weather?lat=%lf&lon=%lf&appid=%@",
+    NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%lf&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     NSURLSessionTask* task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if (error != nil || data == nil) {
-            NSLog(@"Error while requesting OneCall Weather Information");
+            NSLog(@"Error while requesting Current Weather Information");
             return;
         }
         MWWeatherData* currentWeather = [[MWWeatherData alloc] initWithJSONData:data];
@@ -47,17 +47,49 @@
     [task resume];
 }
 
-+ (char)temperatureFormatCharForMetric:(MWTemperatureMetricsEnum)metric {
++ (void) queryForecastInLocation: (MWPoi*) poi AndThen: (MWForecastConsumer) doThis {
+    NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/forecast?lat=%lf&lon=%lf&appid=%@",
+            poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    NSURLSessionTask* task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
+        if (error != nil || data == nil) {
+            NSLog(@"Error while requesting Forecast Information");
+            return;
+        }
+        [MWUtils queryCurrentWeatherInLocation:poi AndThen:^(MWWeatherData* current) {
+            MWForecast* currentForecast = [[MWForecast alloc] initWithJSONForecast:data AndCurrentWeather:current InPoi:poi];
+            doThis(currentForecast);
+        }];
+    }];
+
+    [task resume];
+}
+
++ (char)temperatureFormatCharForMetric:(MWTemperatureMetrics)metric {
     switch (metric) {
-        case CELSIUS:
+        case MWTemperatureMetricCelsius:
             return 'C';
-        case FAHRENHEIT:
+        case MWTemperatureMetricFahrenheit:
             return 'F';
-        case KELVIN:
+        case MWTemperatureMetricKelvin:
             return 'K';
         default:
-            NSAssert(false, @"No, non puoi essere qua dio bono");
+            NSAssert(false, @"Unknown Temperature Metric not allowed!");
             return '-';
+    }
+}
+
++ (double)getTemperature:(double)temperature InMetric:(MWTemperatureMetrics)metric {
+    switch (metric) {
+        case MWTemperatureMetricCelsius:
+            return temperature - 273.15;
+        case MWTemperatureMetricFahrenheit:
+            return ((temperature - 273.15) * 9/5) + 32;
+        case MWTemperatureMetricKelvin:
+            return temperature;
+        default:
+            NSAssert(false, @"Unknown Temperature Metric not allowed!");
+            return temperature;
     }
 }
 
