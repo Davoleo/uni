@@ -110,8 +110,10 @@
     BOOL isNight = weatherData.timestamp > weatherData.sunset || weatherData.timestamp < weatherData.sunrise;
     card.weatherIcon.image = [UIImage systemImageNamed:[weatherData.condition decodeSystemImageNameAtNight:isNight]];
 
-    //Min and Max Temperatures Label
+    //Weather Condition
     card.conditionsLabel.text = weatherData.condition.name;
+
+    //Min and Max Temperatures Label
     char tempChar = [MWUtils temperatureFormatCharForMetric:self.metricPreference];
     double convertedMinTemperature = [MWUtils getTemperature:weatherData.minTemperature InMetric:self.metricPreference];
     double convertedMaxTemperature = [MWUtils getTemperature:weatherData.maxTemperature InMetric:self.metricPreference];
@@ -144,7 +146,7 @@
     NSString* iconName = [currentWeather.condition decodeSystemImageNameAtNight:isNight];
     self.weatherIconView.image = [UIImage systemImageNamed:iconName];
 
-    self.conditionsLabel.text = currentWeather.condition.name;
+    self.conditionsLabel.text = [currentWeather.condition.smallDesc capitalizedString];
 
     //Wind direction icon
     self.windSpeedLabel.text = [NSString stringWithFormat:@"Speed: %.2lfm/s", currentWeather.windSpeed];
