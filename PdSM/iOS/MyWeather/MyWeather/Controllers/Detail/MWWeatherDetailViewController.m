@@ -17,8 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel* temperatureLabel;
 @property (weak, nonatomic) IBOutlet UILabel* conditionsLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView* windIcon;
-@property (weak, nonatomic) IBOutlet UILabel* windLabel;
+@property (weak, nonatomic) IBOutlet UILabel *windSpeedLabel;
+@property (weak, nonatomic) IBOutlet UIImageView* windDirectionIcon;
+@property (weak, nonatomic) IBOutlet UILabel* windDirectionLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel* sunriseLabel;
 @property (weak, nonatomic) IBOutlet UILabel* sunsetLabel;
@@ -146,8 +147,9 @@
     self.conditionsLabel.text = currentWeather.condition.name;
 
     //Wind direction icon
-    self.windIcon.image = [UIImage systemImageNamed:currentWeather.windDirection.iconName];
-    self.windLabel.text = [NSString stringWithFormat:@"Direction: %@  -  Speed: %.2lfm/s", currentWeather.windDirection.direction, currentWeather.windSpeed];
+    self.windSpeedLabel.text = [NSString stringWithFormat:@"Speed: %.2lfm/s", currentWeather.windSpeed];
+    self.windDirectionIcon.image = [UIImage systemImageNamed:currentWeather.windDirection.iconName];
+    self.windDirectionLabel.text = [NSString stringWithFormat:@"Direction: %@", currentWeather.windDirection.direction];
 
     NSDate* currentSunrise = [NSDate dateWithTimeIntervalSince1970:currentWeather.sunrise];
     self.sunriseLabel.text = [NSString stringWithFormat:@"Sunrise: %@", [NSDateFormatter localizedStringFromDate:currentSunrise dateStyle:NSDateFormatterNoStyle timeStyle: NSDateFormatterShortStyle]];

@@ -70,7 +70,9 @@
                         [hourlyArr addObject:[[MWWeatherData alloc] initWithJSONObj:weatherObj]];
                     }
                     else {
-                        [dailyArr addObject:[[MWWeatherData alloc] initWithJSONObj:weatherObj]];
+                        if (index % 4 == 0) {
+                            [dailyArr addObject:[[MWWeatherData alloc] initWithJSONObj:weatherObj]];
+                        }
                     }
                 }
             }];
