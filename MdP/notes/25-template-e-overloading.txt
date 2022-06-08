@@ -7,7 +7,7 @@ alcune funzioni siano state ottenute come instanziazione o
 specializzazione di template di funzione.
 
 Si ricorda che, in senso tecnico, i template di funzione NON sono
-funzioni.  Vale forse la pena riperterlo: sono degli schemi per
+funzioni.  Vale forse la pena ripeterlo: sono degli schemi per
 generare, mediante istanziazione, un numero potenzialmente illimitato
 di funzioni vere e proprie; ad esempio, posso prendere l'indirizzo di
 una istanza del template, ma non esiste un indirizzo del template-
