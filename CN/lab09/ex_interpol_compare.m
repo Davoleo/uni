@@ -28,7 +28,7 @@ plot(x,y,'o', xspace, yspace, '-');
 legend('punti di interpolazione', 'polinomio interpolatore');
 title('Interpolazione Composita lineare');
 
-% Interpolazione tramite spline
+%% Interpolazione tramite spline
 figure;
 yspace = spline(x, y, xspace);
 plot(x, y, 'o', xspace, yspace, '-')
