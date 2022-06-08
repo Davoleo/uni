@@ -37,7 +37,7 @@
     [super viewDidLoad];
 
     UIActivityIndicatorView* loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
-    loadingIndicator.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    loadingIndicator.frame = CGRectMake(0, 0, self.view.superview.frame.size.width, self.view.superview.frame.size.height);
     loadingIndicator.center = self.view.center;
     loadingIndicator.backgroundColor = [UIColor systemBackgroundColor];
     loadingIndicator.hidesWhenStopped = YES;
@@ -107,8 +107,7 @@
     card.dateLabel.text = [formatter stringFromDate:date];
 
     //Weather Icon
-    BOOL isNight = weatherData.timestamp > weatherData.sunset || weatherData.timestamp < weatherData.sunrise;
-    card.weatherIcon.image = [UIImage systemImageNamed:[weatherData.condition decodeSystemImageNameAtNight:isNight]];
+    card.weatherIcon.image = [UIImage systemImageNamed:[weatherData.condition decodeSystemImageName]];
 
     //Weather Condition
     card.conditionsLabel.text = weatherData.condition.name;
@@ -142,8 +141,7 @@
 
     self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
 
-    BOOL isNight = currentWeather.timestamp > currentWeather.sunset || currentWeather.timestamp < currentWeather.sunrise;
-    NSString* iconName = [currentWeather.condition decodeSystemImageNameAtNight:isNight];
+    NSString* iconName = [currentWeather.condition decodeSystemImageName];
     self.weatherIconView.image = [UIImage systemImageNamed:iconName];
 
     self.conditionsLabel.text = [currentWeather.condition.smallDesc capitalizedString];

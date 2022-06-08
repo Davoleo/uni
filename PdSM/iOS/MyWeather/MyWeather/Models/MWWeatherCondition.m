@@ -9,7 +9,7 @@
 
 }
 
-- (NSString*) decodeSystemImageNameAtNight: (BOOL) night {
+- (NSString*) decodeSystemImageName {
     int id = self.id;
 
     //Group 2xx (Thunderstorm)
@@ -69,19 +69,19 @@
 
     //Group 800 (Clear)
     if (id == 800) {
-        return night ? @"moon.fill" : @"sun.max.fill";
+        return self.night ? @"moon.fill" : @"sun.max.fill";
     }
 
     //Group 80x (Clouds)
     if (id == 801 || id == 802) {
-        return night ? @"cloud.moon.fill" : @"cloud.sun.fill";
+        return self.night ? @"cloud.moon.fill" : @"cloud.sun.fill";
     }
     if (id == 803 || id == 804) {
         return @"cloud.fill";
     }
 
     NSLog(@"Unknown Weather condition, assuming \"variable\"");
-    return night ? @"cloud.moon.rain.fill" : @"cloud.sun.rain.fill";
+    return self.night ? @"cloud.moon.rain.fill" : @"cloud.sun.rain.fill";
 }
 
 - (instancetype)initWithJSONObject:(NSDictionary*)json {
@@ -91,6 +91,8 @@
         _id = [json[@"id"] intValue];
         _name = json[@"main"];
         _smallDesc = json[@"description"];
+        //If icon has n at the end it means it's nighttime
+        _night = [((NSString*)  json[@"icon"]) hasSuffix:@"n"];
     }
 
     return self;
