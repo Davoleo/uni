@@ -8,6 +8,7 @@
 #import "MWWeatherDetailViewController.h"
 #import "MWUtils.h"
 #import "MWWeatherCardView.h"
+#import "MWMyPositionViewController.h"
 
 @interface MWWeatherDetailViewController ()
 
@@ -29,6 +30,8 @@
 
 @property (nonatomic) MWTemperatureMetrics metricPreference;
 
+@property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;
+
 @end
 
 @implementation MWWeatherDetailViewController
@@ -36,39 +39,61 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    UIActivityIndicatorView* loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
-    loadingIndicator.frame = CGRectMake(0, 0, self.view.superview.frame.size.width, self.view.superview.frame.size.height);
-    loadingIndicator.center = self.view.center;
-    loadingIndicator.backgroundColor = [UIColor systemBackgroundColor];
-    loadingIndicator.hidesWhenStopped = YES;
-    [self.view addSubview:loadingIndicator];
-    [loadingIndicator bringSubviewToFront:self.view];
-    [loadingIndicator startAnimating];
+    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
+    self.loadingIndicator.frame = CGRectMake(0, 0, self.view.superview.frame.size.width, self.view.superview.frame.size.height);
+    self.loadingIndicator.center = self.view.center;
+    self.loadingIndicator.backgroundColor = [UIColor systemBackgroundColor];
+    self.loadingIndicator.hidesWhenStopped = YES;
+    [self.view addSubview:self.loadingIndicator];
+    [self.loadingIndicator bringSubviewToFront:self.view];
+    [self.loadingIndicator startAnimating];
 
     if (self.forecast == nil) {
-        [MWUtils queryForecastInLocation:self.position AndThen:^(MWForecast* data) {
-            self.forecast = data;
-            //Update UI on the main queue
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self setupUI];
-                [loadingIndicator stopAnimating];
-            });
-        }];
+        [self refreshWeatherDataAndPaint];
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //Register for position update notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPositionInterceptedVia:) name: NEW_POSITION_NOTIFICATION_ID object: nil];
     if (self.forecast != nil) {
         [self updateCurrentWeatherUI];
         self.metricPreference = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    //Unregisters from opsition update notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NEW_POSITION_NOTIFICATION_ID object:nil];
+}
+
+- (void) newPositionInterceptedVia: (NSNotification*) notification {
+    self.position = notification.userInfo[@"new_position"];
+    [self refreshWeatherDataAndPaint];
+}
+
+- (void)refreshWeatherDataAndPaint {
+    [self.loadingIndicator startAnimating];
+    [MWUtils queryForecastInLocation:self.position AndThen:^(MWForecast* data) {
+        self.forecast = data;
+        //Update UI on the main queue
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setupUI];
+            [self.loadingIndicator stopAnimating];
+        });
+    }];
+}
 
 - (void) setupUI {
 
     [self updateCurrentWeatherUI];
+
+    //Clean up previous data (if any)
+    [self.hourlyStack.subviews enumerateObjectsUsingBlock:^ (id object, NSUInteger index, BOOL* stop) {
+        if ([object isKindOfClass:[UIView class]])
+            [self.hourlyStack removeArrangedSubview:object];
+    }];
 
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm"];
@@ -86,6 +111,12 @@
     //NSLog(@"scroll width: %f", self.hourlyStack.superview.frame.size.width);
     //NSLog(@"width: %f, x: %f", self.hourlyStack.frame.size.width, self.hourlyStack.frame.origin.x);
     //NSLog(@"view count %ld", self.hourlyStack.subviews.count);
+
+    //Clean up previous data (if any)
+    [self.dailyStack.subviews enumerateObjectsUsingBlock:^ (id object, NSUInteger index, BOOL* stop) {
+        if ([object isKindOfClass:[UIView class]])
+            [self.dailyStack removeArrangedSubview:object];
+    }];
 
     [formatter setDateFormat:@"E HH:mm"];
     [self.forecast.daily enumerateObjectsUsingBlock:^ (MWWeatherData* weather, NSUInteger index, BOOL* stop) {

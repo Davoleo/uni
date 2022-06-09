@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString* NEW_POSITION_NOTIFICATION_ID = @"MWNewPositionNotification";
+
 @interface MWMyPositionViewController : UIViewController
 
 @end

@@ -44,13 +44,20 @@
 
     MWPoi* oldPoi = self.myPoi;
     self.myPoi = [MWPoi poiWithLatitude:current.coordinate.latitude longitude:current.coordinate.longitude];
+
     //First time position is assigned => we add the currentWeatherViewController to this VC's children
-    if (self.myPoi != nil && oldPoi == nil) {
-        [self.myPoi reverseGeocodeAndThen:^(CLPlacemark* placemark){
-            //First Detection after nulls -> init and display current weather controller
+    [self.myPoi reverseGeocodeAndThen:^(CLPlacemark* placemark){
+        //First Detection after nulls -> init and display current weather controller otherwise send notification to update
+        if (self.myPoi != nil && oldPoi == nil)
             [self displayCurrentWeatherController];
-        }];
-    }
+        else
+            [[NSNotificationCenter defaultCenter]
+                    postNotificationName:NEW_POSITION_NOTIFICATION_ID
+                                  object:nil
+                                userInfo:@{@"new_position": self.myPoi}
+            ];
+    }];
+
 }
 
 - (void) displayCurrentWeatherController {

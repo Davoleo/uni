@@ -31,7 +31,7 @@
   - Velocità e Direzione del Vento
   - Tramonto e Alba
 - Previsioni future
-  - 
+  - Weather Card: valutare se possibile aggiungere PoP
 
 ## Impostazioni Possibili
 - Dark Mode / Light Mode / Auto
