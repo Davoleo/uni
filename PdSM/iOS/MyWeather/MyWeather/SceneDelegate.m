@@ -6,6 +6,7 @@
 //
 
 #import "SceneDelegate.h"
+#import "MWSettings.h"
 
 @interface SceneDelegate ()
 
@@ -32,6 +33,21 @@
 - (void)sceneDidBecomeActive:(UIScene *)scene {
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+
+    MWThemeEnum themeOverrideValue = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
+    if (themeOverrideValue != MWThemeSystem) {
+        if (themeOverrideValue == MWThemeLight) {
+            UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+            NSLog(@"HERE BE LIGHT!");
+        }
+        else { //MWThemeDark
+            UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+            NSLog(@"HERE BE DARK!");
+        }
+    }
+    else
+        UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
+
 }
 
 

@@ -16,20 +16,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
     return YES;
-}
-
-- (void)applicationDidBecomeActive:(UIApplication*)application {
-    MWThemeEnum themeOverrideValue = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
-    if (themeOverrideValue != MWThemeSystem) {
-        if (themeOverrideValue == MWThemeLight) {
-            self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-        }
-        else { //MWThemeDark
-            self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
-        }
-    }
 }
 
 

@@ -39,11 +39,12 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
         //Check the selected cell
         selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
 
-        //Uncheck all the others cells
-        for (int i = 0; i < [tableView numberOfRowsInSection:indexPath.section]; ++i) {
-            if (i != indexPath.row)
-                [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:indexPath.section]].accessoryType = UITableViewCellAccessoryNone;
-        }
+        //Uncheck previously selected cell
+        MWThemeEnum themeId = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
+        if (themeId == indexPath.row)
+            return;
+
+        [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:themeId inSection:indexPath.section]].accessoryType = UITableViewCellAccessoryNone;
 
         //Save New Choice to User Defaults
         switch (indexPath.section) {
@@ -52,6 +53,20 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
                 break;
             case MW_SETTINGS_VC_SECTION_THEME:
                 [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:MW_THEME_PREF];
+                switch (indexPath.row) {
+                    case MWThemeSystem:
+                        UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleUnspecified;
+                        break;
+                    case MWThemeLight:
+                        UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+                        break;
+                    case MWThemeDark:
+                        UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+                        break;
+                    default:
+                        NSAssert(false, @"FAILED ASSERTION ON THEME OVERRIDING [SETTINGS VC]");
+                        break;
+                }
                 break;
             default:
                 NSAssert(false, @"FAILED ASSERTION ON USER DEFAULT PREFS SAVE [SETTINGS VC]");
