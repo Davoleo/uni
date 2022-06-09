@@ -19,6 +19,8 @@
 
         if([obj isKindOfClass:[NSDictionary class]]) {
 
+            _location.timezoneOffset = [obj[@"timezone_offset"] longValue];
+
             //Current Weather Deserialization
             _current = [[MWWeatherData alloc] initWithJSONObj:obj[@"current"]];
 
@@ -59,6 +61,8 @@
         NSAssert(error == nil, @"Error while deserializing forecast information");
 
         if([forecastObj isKindOfClass:[NSDictionary class]]) {
+            NSDictionary* cityObj = forecastObj[@"city"];
+            _location.timezoneOffset = [cityObj[@"timezone"] longValue];
 
             NSArray* weatherList = forecastObj[@"list"];
             NSMutableArray<MWWeatherData*>* hourlyArr = [NSMutableArray array];

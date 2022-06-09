@@ -151,9 +151,9 @@
     self.windDirectionIcon.image = [UIImage systemImageNamed:currentWeather.windDirection.iconName];
     self.windDirectionLabel.text = [NSString stringWithFormat:@"Direction: %@", currentWeather.windDirection.direction];
 
-    NSDate* currentSunrise = [NSDate dateWithTimeIntervalSince1970:currentWeather.sunrise];
+    NSDate* currentSunrise = [NSDate dateWithTimeIntervalSince1970:currentWeather.sunrise + self.forecast.location.timezoneOffset];
     self.sunriseLabel.text = [NSString stringWithFormat:@"Sunrise: %@", [NSDateFormatter localizedStringFromDate:currentSunrise dateStyle:NSDateFormatterNoStyle timeStyle: NSDateFormatterShortStyle]];
-    NSDate* currentSunset = [NSDate dateWithTimeIntervalSince1970:currentWeather.sunset];
+    NSDate* currentSunset = [NSDate dateWithTimeIntervalSince1970:currentWeather.sunset + self.forecast.location.timezoneOffset];
     self.sunsetLabel.text = [NSString stringWithFormat:@"Sunset: %@", [NSDateFormatter localizedStringFromDate:currentSunset dateStyle:NSDateFormatterNoStyle timeStyle: NSDateFormatterShortStyle]];
 }
 

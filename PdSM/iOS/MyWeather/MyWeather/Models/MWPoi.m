@@ -20,6 +20,7 @@
         _latitude = latitude;
         _longitude = longitude;
         _placemarkCache = placemarkCache;
+        _timezoneOffset = NSIntegerMin;
     }
 
     return self;
@@ -68,6 +69,10 @@
 
 - (NSString*) toString {
     return [NSString stringWithFormat:@"%lf^%lf", self.latitude, self.longitude];
+}
+
+- (BOOL) hasTimezoneOffset {
+    return self.timezoneOffset != NSIntegerMin;
 }
 
 + (MWPoi*) poiFromString: (NSString*) serializedPoi {

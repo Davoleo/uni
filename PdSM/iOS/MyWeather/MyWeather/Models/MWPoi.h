@@ -14,6 +14,8 @@ typedef void (^MWPlacemarkHandler)(CLPlacemark* placemark);
 
 @property (nonatomic, strong) CLPlacemark* placemarkCache;
 
+@property (nonatomic) NSInteger timezoneOffset;
+
 - (instancetype)initWithLatitude:(double)latitude longitude:(double)longitude;
 
 - (instancetype)initWithLatitude:(double)latitude longitude:(double)longitude placemarkCache:(CLPlacemark*)placemarkCache;
