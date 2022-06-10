@@ -113,7 +113,8 @@
 		"__functional_03": "c",
 		"filesystem": "c",
 		"__bits": "cpp",
-		"variant": "cpp"
+		"variant": "cpp",
+		"version": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false,

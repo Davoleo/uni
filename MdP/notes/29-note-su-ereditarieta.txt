@@ -17,7 +17,7 @@ utilizzato al di fuori dei confini stabiliti nei nostri semplici esempi.
 In particolare, cosa si può dire sulla possibilità o meno di rendere
 virtuali le seguenti categorie di metodi:
   - costruttori NO (non può essere chiamato su riferimenti all'oggetto, perché è lui che inizializza il riferimento o puntatore)
-  - distruttori SI (per fare in modo che venga chiamato il distruttore dell'oggetto concreto a tempo di esecuzione invece che )
+  - distruttori SI (per fare in modo che venga chiamato il distruttore dell'oggetto concreto a tempo di esecuzione invece che solo quello della classe base causando un memory leak)
   - funzioni membro (di istanza, cioè non statiche) SI (non obbligatorio) [se si vuole permettere alle sottoclassi di fare la cosa a modo loro]
   - funzioni membro statiche NO (manca il this, no risoluzione overriding)
   - template di funzioni membro (non statiche) NO (limitazione tecnica del C++ | Evitato perché troppo complicato da implementare, tabella dinamica potenzialmente infinita)
