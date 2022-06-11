@@ -60,8 +60,30 @@ public:
     virtual ~Panda() { }
 };
 
-template<typename T>
+//Ex 4
+#include <vector>
 
+template<typename T>
+T average(std::vector<T> values) {
+	T sum = 0;
+	for (T val : values)
+		sum += val;
+	return sum / values.size();
+}
+
+template<typename ITER, typename T>
+T average(ITER first, ITER last) {
+	int count = 0;
+	T sum = 0;
+	while (first != last) {
+		++count;
+		sum += *first;
+		++first
+	}
+	return sum/count;
+}
+
+//////////////////////////
 
 int main()
 {
