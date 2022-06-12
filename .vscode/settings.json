@@ -114,7 +114,8 @@
 		"filesystem": "c",
 		"__bits": "cpp",
 		"variant": "cpp",
-		"version": "cpp"
+		"version": "cpp",
+		"xtree": "cpp"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false,
