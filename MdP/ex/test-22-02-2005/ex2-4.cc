@@ -78,9 +78,20 @@ T average(ITER first, ITER last) {
 	while (first != last) {
 		++count;
 		sum += *first;
-		++first
+		++first;
 	}
 	return sum/count;
+}
+
+//////////////////////////
+#include "ex3Costante.hh"
+#include "ex3Angolo.hh"
+
+void testex3() {
+	std::cout << Costante::pi << std::endl;
+	std::cout << Angolo::retto << std::endl;
+	std::cout << Angolo::piatto << std::endl;
+	std::cout << Angolo::giro << std::endl;
 }
 
 //////////////////////////
@@ -118,6 +129,8 @@ int main()
 	//Endangered::print			<- Corretto: non è virtual quindi no RTI
 
 	std::cout << "------------" << std::endl;
+
+	testex3();
 
     return 0;
 }
