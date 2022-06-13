@@ -41,10 +41,15 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
 
         //Uncheck previously selected cell
         MWThemeEnum themeId = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
-        if (themeId == indexPath.row)
+        if (indexPath.section == 1 && themeId == indexPath.row)
             return;
-
         [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:themeId inSection:indexPath.section]].accessoryType = UITableViewCellAccessoryNone;
+
+
+        MWTemperatureMetrics originalMetrics = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+        if (indexPath.section == 0 && originalMetrics == indexPath.row)
+            return;
+        [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:originalMetrics inSection:indexPath.section]].accessoryType = UITableViewCellAccessoryNone;
 
         //Save New Choice to User Defaults
         switch (indexPath.section) {

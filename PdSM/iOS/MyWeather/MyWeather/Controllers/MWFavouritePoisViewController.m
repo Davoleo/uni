@@ -6,8 +6,11 @@
 //
 
 #import "MWFavouritePoisViewController.h"
+#import "MWUtils.h"
 
 @interface MWFavouritePoisViewController ()
+
+@property (nonatomic) MWTemperatureMetrics temperatureMetric;
 
 @end
 
@@ -17,8 +20,17 @@
     [super viewDidLoad];
 
     self.favourites = [[MWFavouritesCache alloc] init];
-    [self.favourites addFavoritePoi:[MWPoi poiWithLatitude:44 longitude:35]];
-    [self.favourites addFavoritePoi:[MWPoi poiWithLatitude:44 longitude:33]];
+    [self.favourites addPoi:[MWPoi poiWithLatitude:44 longitude:35] ThenExecuteSelector: @selector(refreshTableContents) OnObject: self];
+    [self.favourites addPoi:[MWPoi poiWithLatitude:44 longitude:33] ThenExecuteSelector: @selector(refreshTableContents) OnObject: self];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    self.temperatureMetric = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+    [self refreshTableContents];
+}
+
+- (void) refreshTableContents {
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table view data source
@@ -28,15 +40,18 @@
 }
 
 - (NSInteger) tableView: (UITableView*)tableView numberOfRowsInSection: (NSInteger)section {
+    NSLog(@"%ld", [self.favourites length]);
     return [self.favourites length];
 }
 
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"favouriteCell" forIndexPath:indexPath];
 
-    MWForecast* cellForecast = [self.favourites getAllFavourites][(NSUInteger) indexPath.row];
+    MWForecast* cellForecast = [self.favourites getAll][(NSUInteger) indexPath.row];
+    NSLog(@"Condition %@", cellForecast.current.condition.smallDesc);
     cell.textLabel.text = cellForecast.current.condition.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf°K", cellForecast.current.temperature];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf°%c", cellForecast.current.temperature, [MWUtils temperatureFormatCharForMetric:self.temperatureMetric]];
 
     return cell;
 }

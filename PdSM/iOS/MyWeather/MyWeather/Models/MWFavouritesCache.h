@@ -13,10 +13,9 @@ FOUNDATION_EXPORT NSString* MW_FAVOURITES_POI_ARRAY_KEY;
 
 - (void) saveFavourites;
 
-- (void) addFavoritePoi: (MWPoi*) poi;
+- (void)addPoi:(MWPoi*)poi ThenExecuteSelector:(SEL)method OnObject:(id)object;
 
-
-- (NSArray<MWForecast*>*)getAllFavourites;
+- (NSArray<MWForecast*>*)getAll;
 
 - (NSUInteger)length;
 @end

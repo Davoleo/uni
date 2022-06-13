@@ -42,13 +42,14 @@ NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
     [NSUserDefaults.standardUserDefaults setObject:favPOIs forKey:MW_FAVOURITES_POI_ARRAY_KEY];
 }
 
-- (void)addFavoritePoi:(MWPoi*)poi {
+- (void)addPoi:(MWPoi*)poi ThenExecuteSelector: (SEL) method OnObject: (id) object {
     [MWUtils queryOneCallAPIInPoi:poi AndThen:^(MWForecast* forecast) {
-        self.favoritesCache[[poi toString]] = forecast;
+        [self.favoritesCache setValue:forecast forKey:[poi toString]];
+        [object performSelectorOnMainThread:method withObject:nil waitUntilDone:false];
     }];
 }
 
-- (NSArray<MWForecast*>*) getAllFavourites {
+- (NSArray<MWForecast*>*)getAll {
     return self.favoritesCache.allValues;
 }
 

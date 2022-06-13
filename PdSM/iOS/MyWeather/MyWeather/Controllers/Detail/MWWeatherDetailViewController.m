@@ -60,6 +60,7 @@
     if (self.forecast != nil) {
         [self updateCurrentWeatherUI];
         self.metricPreference = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+        NSLog(@"APPARE RANMNAN");
     }
 }
 
@@ -69,6 +70,8 @@
 }
 
 - (void) newPositionInterceptedVia: (NSNotification*) notification {
+    if ([self.position.placemarkCache.name isEqualToString:self.position.placemarkCache.name])
+        return;
     self.position = notification.userInfo[@"new_position"];
     [self refreshWeatherDataAndPaint];
 }

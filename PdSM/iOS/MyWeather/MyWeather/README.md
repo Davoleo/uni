@@ -30,8 +30,12 @@
   - Nome del luogo
   - Velocità e Direzione del Vento
   - Tramonto e Alba
+  - Aggiungere Swipe down to refresh
 - Previsioni future
   - Weather Card: valutare se possibile aggiungere PoP
+- Ricerca
+- Aggiunta ai preferiti a partire dalla posizione corrente -> Solo quando ti trovi in un placemark decente
+- Schermata dei preferiti da cui puoi togliere e aggiungere preferiti e vederli sulla mappa
 
 ## Impostazioni Possibili
 - Dark Mode / Light Mode / Auto

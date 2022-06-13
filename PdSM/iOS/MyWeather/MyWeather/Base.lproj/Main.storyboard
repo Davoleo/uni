@@ -26,14 +26,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="My Position" id="9dW-eE-gJ8">
-                        <rightBarButtonItems>
-                            <barButtonItem image="star" catalog="system" id="9RS-6w-Nsp"/>
-                            <barButtonItem image="gear" catalog="system" id="F0l-ar-Mpj">
-                                <connections>
-                                    <segue destination="X6d-uT-3co" kind="show" id="Qtj-wE-n2S"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="gear" catalog="system" id="F0l-ar-Mpj">
+                            <connections>
+                                <segue destination="X6d-uT-3co" kind="show" id="Qtj-wE-n2S"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="currentContainer" destination="hyW-Rq-uYD" id="cid-Xy-17w"/>
@@ -547,17 +544,16 @@
         <segue reference="Qtj-wE-n2S"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="gear" catalog="system" width="128" height="119"/>
-        <image name="location" catalog="system" width="128" height="118"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="map" catalog="system" width="128" height="110"/>
-        <image name="mappin.and.ellipse" catalog="system" width="118" height="128"/>
-        <image name="rays" catalog="system" width="128" height="122"/>
-        <image name="star" catalog="system" width="128" height="116"/>
-        <image name="star.square.fill" catalog="system" width="128" height="114"/>
-        <image name="sunrise.fill" catalog="system" width="128" height="97"/>
-        <image name="sunset.fill" catalog="system" width="128" height="97"/>
-        <image name="wind" catalog="system" width="128" height="103"/>
+        <image name="gear" catalog="system" width="32" height="32"/>
+        <image name="location" catalog="system" width="32" height="32"/>
+        <image name="magnifyingglass" catalog="system" width="32" height="32"/>
+        <image name="map" catalog="system" width="32" height="32"/>
+        <image name="mappin.and.ellipse" catalog="system" width="32" height="32"/>
+        <image name="rays" catalog="system" width="32" height="32"/>
+        <image name="star.square.fill" catalog="system" width="32" height="32"/>
+        <image name="sunrise.fill" catalog="system" width="32" height="32"/>
+        <image name="sunset.fill" catalog="system" width="32" height="32"/>
+        <image name="wind" catalog="system" width="32" height="32"/>
         <namedColor name="AccentColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
