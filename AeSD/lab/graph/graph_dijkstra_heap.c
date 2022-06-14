@@ -479,7 +479,7 @@ int main(int argc, char** argv)
 
     // costruzione grafo
     for (int i = 0; i < n_nodi; i++) {
-        V[i] = i;
+        V[i] = i*2;
         E[i] = list_new();
 
         if (i == 0)
