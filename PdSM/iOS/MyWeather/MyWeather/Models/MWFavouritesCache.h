@@ -17,5 +17,7 @@ FOUNDATION_EXPORT NSString* MW_FAVOURITES_POI_ARRAY_KEY;
 
 - (NSArray<MWForecast*>*)getAll;
 
+- (MWForecast*) getByName: (NSString*) name;
+
 - (NSUInteger)length;
 @end

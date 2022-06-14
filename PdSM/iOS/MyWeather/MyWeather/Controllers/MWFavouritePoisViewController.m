@@ -7,6 +7,7 @@
 
 #import "MWFavouritePoisViewController.h"
 #import "MWUtils.h"
+#import "MWWeatherDetailViewController.h"
 
 @interface MWFavouritePoisViewController ()
 
@@ -40,7 +41,6 @@
 }
 
 - (NSInteger) tableView: (UITableView*)tableView numberOfRowsInSection: (NSInteger)section {
-    NSLog(@"%ld", [self.favourites length]);
     return [self.favourites length];
 }
 
@@ -49,21 +49,29 @@
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"favouriteCell" forIndexPath:indexPath];
 
     MWForecast* cellForecast = [self.favourites getAll][(NSUInteger) indexPath.row];
-    NSLog(@"Condition %@", cellForecast.current.condition.smallDesc);
-    cell.textLabel.text = cellForecast.current.condition.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf°%c", cellForecast.current.temperature, [MWUtils temperatureFormatCharForMetric:self.temperatureMetric]];
+    cell.textLabel.text = cellForecast.location.placemarkCache.name;
+    double temperature = [MWUtils getTemperature:cellForecast.current.temperature InMetric:self.temperatureMetric];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf°%c", temperature, [MWUtils temperatureFormatCharForMetric:self.temperatureMetric]];
 
     return cell;
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+    if ([segue.identifier isEqualToString:@"showWeatherDetail"] &&
+            [[segue destinationViewController] isKindOfClass:[MWWeatherDetailViewController class]]) {
+
+        MWWeatherDetailViewController* controller = [segue destinationViewController];
+
+        NSIndexPath* index = [self.tableView indexPathForCell:sender];
+        MWForecast* forecast =  [self.favourites getAll][(NSUInteger) index.row];
+        controller.forecast = forecast;
+        controller.position = forecast.location;
+    }
+
 }
-*/
 
 @end

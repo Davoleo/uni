@@ -48,9 +48,10 @@
     [self.loadingIndicator bringSubviewToFront:self.view];
     [self.loadingIndicator startAnimating];
 
-    if (self.forecast == nil) {
+    if (self.forecast == nil)
         [self refreshWeatherDataAndPaint];
-    }
+    else
+        [self setupUI];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

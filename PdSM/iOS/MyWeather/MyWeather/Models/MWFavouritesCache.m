@@ -53,6 +53,11 @@ NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
     return self.favoritesCache.allValues;
 }
 
+- (MWForecast*)getByName:(NSString*)name {
+    return [self.favoritesCache valueForKey:name];
+}
+
+
 - (NSUInteger) length {
     return self.favoritesCache.count;
 }
