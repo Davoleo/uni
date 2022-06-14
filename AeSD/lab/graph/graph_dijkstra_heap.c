@@ -477,6 +477,7 @@ int main(int argc, char** argv)
     //// init archi
     E = malloc(sizeof(list_t*) * n_nodi);
 
+	
     // costruzione grafo
     for (int i = 0; i < n_nodi; i++) {
         V[i] = i*2;
@@ -501,6 +502,10 @@ int main(int argc, char** argv)
                 }
             }
         }
+
+		// for(int j=0; j<n_nodi; ++j)
+        //     if(rand() % 10 == 0)
+        //         list_insert_front(E[i], j, rand() % 20 + 10);
     }
 
     // Small Shortcut Example
