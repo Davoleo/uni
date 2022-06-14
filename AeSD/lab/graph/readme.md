@@ -147,3 +147,16 @@ function visit(nodo n)
             visit(m)
         aggiungi n a L
 ```
+
+### Componenti Fortemente Connesse
+- Cicli che permettono in qualunque caso di raggiungere ogni punto della sezione del grafo
+- Chiamate componenti fortemente connesse
+- Esse possono essere identificate come dei gruppi di nodi che a loro volta possono essere utilizzati per creare un percorso aciclico attraverso questi gruppi (DAG)
+- Diventa quindi possibili usare l'ordinamento topologico su questo nuovo grafo con le strongly connected components collassate in un unico modo
+- Una componente aciclica può sapere dell'altra ma non viceversa, altrimenti le 2 componenti sarebbero fuse
+- Es:
+  -  Flusso delle informazioni che migrano sulle varie comunità
+  -  Componenti fortemente connesse di una rete stradale
+
+### Tarjan's Strongly Connected Components Algorithm
+- 

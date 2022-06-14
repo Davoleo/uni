@@ -115,7 +115,8 @@
 		"__bits": "cpp",
 		"variant": "cpp",
 		"version": "cpp",
-		"xtree": "cpp"
+		"xtree": "cpp",
+		"graphviz.h": "c"
 	},
     "editor.insertSpaces": false,
     "editor.detectIndentation": false,
