@@ -157,6 +157,65 @@ function visit(nodo n)
 - Es:
   -  Flusso delle informazioni che migrano sulle varie comunità
   -  Componenti fortemente connesse di una rete stradale
+- Se un nodo non appartiene ad un ciclo l'unica componente connessa a cui appartiene è quella dove c'è solo lui stesso
+- Le componenti fortemente connesse vengono prese come sottoalberi  dell'albero di visita di DFS
+- qualsiasi nodo di una componente può essere la sua radice (non cambia tra i vari nodi in quanto da tutti puoi andare ovunque)
 
 ### Tarjan's Strongly Connected Components Algorithm
-- 
+- **Invariante di Stack**
+  - I nodi sono piazzati nello stack nell'ordine di visita
+  - L'invariante è che: un nodo che rimane sullo stack dopo che è stato visitato se e solo se esiste un percorso nel grafo da lui a qualche nodo precedente
+  - In DFS un nodo può essere rimosso dallo stack solo quando tutti i percorsi sono stati attraversati [Rimossi da DFS]
+  - a `v` è assegnato un int unico `v.index` che contiene il numero del nodo rispetto alla suo gruppo componente fortemente connesso
+  - `v.lowlink`: rappresenta l'indice più piccolo di un qualsiasi nodo sullo stack che è raggiungibile da v attraverso il sottoalbero DFS di v 
+- PseudoCodice:
+```
+algorithm tarjan is
+    input: graph G = (V, E)
+    output: set of strongly connected components (sets of vertices)
+   
+    index := 0
+    S := empty stack
+    for each v in V do
+        if v.index is undefined then
+            strongconnect(v)
+        end if
+    end for
+   
+    function strongconnect(v)
+        // Set the depth index for v to the smallest unused index
+        v.index := index
+        v.lowlink := index
+        index := index + 1
+        S.push(v)
+        v.onStack := true	//Per evitare che il nodo venga aggiunto più volte nello stack
+      
+	  	//Pattern di DFS Iterazione + Ricorsione + controllo se non ancora visitato
+        // Consider successors of v
+        for each (v, w) in E do
+            if w.index is undefined then
+                // Successor w has not yet been visited; recurse on it
+                strongconnect(w)
+                v.lowlink := min(v.lowlink, w.lowlink)	//Se trovo un valore dell'indice di un nodo della componente fortemente connessa più piccolo modifico quello corrente
+            else if w.onStack then
+                // Successor w is in stack S and hence in the current SCC
+                // If w is not on stack, then (v, w) is an edge pointing to an SCC already found and must be ignored
+                // Note: The next line may look odd - but is correct.
+                // It says w.index not w.lowlink; that is deliberate and from the original paper
+                v.lowlink := min(v.lowlink, w.index)	//Riassegno nel caso il nodo che trovi sia sopra di me e quindi aggiorno il lowlink
+            end if
+        end for
+      
+	  	//Qui le chiamate ricorsive stanno per ritornare [postordine]
+        // If v is a root node, pop the stack and generate an SCC
+        if v.lowlink = v.index then
+            start a new strongly connected component
+            repeat
+                w := S.pop()
+                w.onStack := false
+                add w to current strongly connected component
+            while w ≠ v
+            output the current strongly connected component
+        end if
+    end function
+```
