@@ -65,31 +65,18 @@
     [task resume];
 }
 
-+ (char)temperatureFormatCharForMetric:(MWTemperatureMetrics)metric {
-    switch (metric) {
-        case MWTemperatureMetricCelsius:
-            return 'C';
-        case MWTemperatureMetricFahrenheit:
-            return 'F';
-        case MWTemperatureMetricKelvin:
-            return 'K';
-        default:
-            NSAssert(false, @"Unknown Temperature Metric not allowed!");
-            return '-';
-    }
-}
++(NSString*) temperature: (double) temperature FormattedInMetric: (MWTemperatureMetrics) metric {
 
-+ (double)getTemperature:(double)temperature InMetric:(MWTemperatureMetrics)metric {
     switch (metric) {
         case MWTemperatureMetricCelsius:
-            return temperature - 273.15;
+            return [NSString stringWithFormat:@"%f°C", temperature - 273.15];
         case MWTemperatureMetricFahrenheit:
-            return ((temperature - 273.15) * 9/5) + 32;
+            return [NSString stringWithFormat:@"%f°F", ((temperature - 273.15) * 9/5) + 32];
         case MWTemperatureMetricKelvin:
-            return temperature;
+            return [NSString stringWithFormat:@"%f°K", temperature];
         default:
             NSAssert(false, @"Unknown Temperature Metric not allowed!");
-            return temperature;
+            return @"---";
     }
 }
 

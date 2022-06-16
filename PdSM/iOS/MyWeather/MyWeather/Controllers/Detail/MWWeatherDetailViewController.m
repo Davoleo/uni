@@ -148,10 +148,9 @@
     card.conditionsLabel.text = weatherData.condition.name;
 
     //Min and Max Temperatures Label
-    char tempChar = [MWUtils temperatureFormatCharForMetric:self.metricPreference];
-    double convertedMinTemperature = [MWUtils getTemperature:weatherData.minTemperature InMetric:self.metricPreference];
-    double convertedMaxTemperature = [MWUtils getTemperature:weatherData.maxTemperature InMetric:self.metricPreference];
-    NSString* temperatureString = [NSString stringWithFormat:@"Min: %.1lf°%c\nMax: %.1lf°%c", convertedMinTemperature, tempChar, convertedMaxTemperature, tempChar];
+    NSString* minTemperature = [MWUtils temperature:weatherData.minTemperature FormattedInMetric:self.metricPreference];
+    NSString* convertedMaxTemperature = [MWUtils temperature:weatherData.maxTemperature FormattedInMetric:self.metricPreference];
+    NSString* temperatureString = [NSString stringWithFormat:@"Min: %@\nMax: %@", minTemperature, convertedMaxTemperature];
     NSArray<NSString*>* temperatureComponents = [temperatureString componentsSeparatedByString:@"\n"];
     NSMutableAttributedString* temperatureAttrString = [[NSMutableAttributedString alloc] initWithString:temperatureString];
     [temperatureAttrString addAttribute:NSForegroundColorAttributeName value:[UIColor systemBlueColor] range:[temperatureString rangeOfString:temperatureComponents.firstObject]];
@@ -172,9 +171,7 @@
 
     //Current Temperature formatting
     MWTemperatureMetrics tempMetric = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
-    double temperature = [MWUtils getTemperature:currentWeather.temperature InMetric:tempMetric];
-
-    self.temperatureLabel.text = [NSString stringWithFormat:@"%.1lf°%c", temperature, [MWUtils temperatureFormatCharForMetric:tempMetric]];
+    self.temperatureLabel.text = [NSString stringWithFormat:@"%@", [MWUtils temperature:currentWeather.temperature FormattedInMetric:tempMetric]];
 
     NSString* iconName = [currentWeather.condition decodeSystemImageName];
     self.weatherIconView.image = [UIImage systemImageNamed:iconName];

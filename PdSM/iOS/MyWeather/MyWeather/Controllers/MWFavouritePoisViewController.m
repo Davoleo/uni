@@ -50,8 +50,7 @@
 
     MWForecast* cellForecast = [self.favourites getAll][(NSUInteger) indexPath.row];
     cell.textLabel.text = cellForecast.location.placemarkCache.name;
-    double temperature = [MWUtils getTemperature:cellForecast.current.temperature InMetric:self.temperatureMetric];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lf°%c", temperature, [MWUtils temperatureFormatCharForMetric:self.temperatureMetric]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MWUtils temperature:cellForecast.current.temperature FormattedInMetric:self.temperatureMetric]];
 
     return cell;
 }
