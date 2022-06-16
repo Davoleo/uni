@@ -69,11 +69,11 @@
 
     switch (metric) {
         case MWTemperatureMetricCelsius:
-            return [NSString stringWithFormat:@"%f°C", temperature - 273.15];
+            return [NSString stringWithFormat:@"%.1f°C", temperature - 273.15];
         case MWTemperatureMetricFahrenheit:
-            return [NSString stringWithFormat:@"%f°F", ((temperature - 273.15) * 9/5) + 32];
+            return [NSString stringWithFormat:@"%.1f°F", ((temperature - 273.15) * 9/5) + 32];
         case MWTemperatureMetricKelvin:
-            return [NSString stringWithFormat:@"%f°K", temperature];
+            return [NSString stringWithFormat:@"%.1f°K", temperature];
         default:
             NSAssert(false, @"Unknown Temperature Metric not allowed!");
             return @"---";

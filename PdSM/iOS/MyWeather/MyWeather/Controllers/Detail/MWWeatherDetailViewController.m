@@ -9,6 +9,7 @@
 #import "MWUtils.h"
 #import "MWWeatherCardView.h"
 #import "MWMyPositionViewController.h"
+#import "LoadingAlert.h"
 
 @interface MWWeatherDetailViewController ()
 
@@ -30,23 +31,12 @@
 
 @property (nonatomic) MWTemperatureMetrics metricPreference;
 
-@property (strong, nonatomic) UIActivityIndicatorView* loadingIndicator;
-
 @end
 
 @implementation MWWeatherDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge];
-    self.loadingIndicator.frame = CGRectMake(0, 0, self.view.superview.frame.size.width, self.view.superview.frame.size.height);
-    self.loadingIndicator.center = self.view.center;
-    self.loadingIndicator.backgroundColor = [UIColor systemBackgroundColor];
-    self.loadingIndicator.hidesWhenStopped = YES;
-    [self.view addSubview:self.loadingIndicator];
-    [self.loadingIndicator bringSubviewToFront:self.view];
-    [self.loadingIndicator startAnimating];
 
     if (self.forecast == nil)
         [self refreshWeatherDataAndPaint];
@@ -78,13 +68,13 @@
 }
 
 - (void)refreshWeatherDataAndPaint {
-    [self.loadingIndicator startAnimating];
+    [LoadingAlert showInController:self];
     [MWUtils queryForecastInLocation:self.position AndThen:^(MWForecast* data) {
         self.forecast = data;
         //Update UI on the main queue
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setupUI];
-            [self.loadingIndicator stopAnimating];
+            [LoadingAlert dismissFromController:self];
         });
     }];
 }
