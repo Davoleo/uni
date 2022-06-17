@@ -164,8 +164,9 @@ int heap_remove_min()
 		}
 
 		// If right child exists
-		//  & right child is < than left child
-		//  & right child is < than the parent
+		//  & right child is < than left child 
+		//  & right child is < than the parent 
+		// In pratica il minimo tra i 3 valori 
 		ct_cmp += 2;
 		int r_child_val = heap[r_child];
 		ct_read++;
