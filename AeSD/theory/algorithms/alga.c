@@ -55,10 +55,10 @@ int dichotomic_search(int array[], int begin, int end, int value) {
 
 bool insertion_sort(int array[], int length) {
     if(array == NULL)
-        return VALUE_NOT_FOUND;
+        return false;
 
     if(length <= 0)
-        return VALUE_NOT_FOUND;
+        return false;
 
     for (int i = 1; i < length; i++) {
 
