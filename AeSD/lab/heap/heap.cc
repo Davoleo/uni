@@ -264,7 +264,6 @@ int heap_remove_max()
 		// & right child is > than the parent
 		if (r_child >= 0 && heap[r_child] > heap[l_child] && heap[r_child] > heap[i]) {
 			swap_with = r_child;
-
 		}
 		
 		if (swap_with >= 0) {
