@@ -314,8 +314,8 @@ int main(int argc, char **argv)
       for (i = 0; i < n; i++)
       {
         //A[i] = n - i;
-        // A[i]= rand() % (n*10);
-        A[i]= rand() % (n/4);
+        A[i]= rand() % (n*10);
+        //A[i]= rand() % (n/4);
       }
 
       if (details)
