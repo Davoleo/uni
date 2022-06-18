@@ -26,7 +26,7 @@ typedef void (^MWPlacemarkHandler)(CLPlacemark* placemark);
 
 // -------------------------
 
-+ (MWPoi*)poiFromString:(NSString*)serializedPoi;
++ (void)geocode:(NSString*)placeName AndThen:(void (^)(MWPoi*))doThis;
 
 - (void)reverseGeocode;
 

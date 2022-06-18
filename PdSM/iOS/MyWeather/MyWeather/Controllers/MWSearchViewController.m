@@ -50,7 +50,7 @@
         else
             self.placemarks = results;
 
-        [self.resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];
 
     }];
     [searchBar resignFirstResponder];
@@ -82,10 +82,10 @@
     MWFavouritesCache* cache = [MWFavouritesCache reference];
     BOOL isInFavorites = [cache has:mark.name];
     [button setImage:[UIImage systemImageNamed: isInFavorites ? @"star.fill" : @"star"] forState:UIControlStateNormal];
+    [button sizeToFit];
     [button addTarget:self action:@selector(handleStarButtonTap:) forControlEvents:UIControlEventTouchUpInside];
     button.tag = indexPath.row;
     cell.accessoryView = button;
-    //TODO fix accessory view [Maybe color issue?]
 
     return cell;
 }

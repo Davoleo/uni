@@ -17,10 +17,14 @@ static MWFavouritesCache* cacheRef;
     _favoritesCache = [NSMutableDictionary dictionaryWithCapacity:serializedPois.count];
 
     for (NSUInteger i = 0; i < serializedPois.count; ++i) {
-        MWPoi* poi = [MWPoi poiFromString:serializedPois[i]];
-        [MWUtils queryOneCallAPIInPoi:poi AndThen:^(MWForecast* forecast) {
-            self.favoritesCache[serializedPois[i]] = forecast;
+        [MWPoi geocode:serializedPois[i] AndThen:^(MWPoi* poi) {
+            [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* forecast) {
+                self.favoritesCache[serializedPois[i]] = forecast;
+            }];
         }];
+//        [MWUtils queryOneCallAPIInPoi:poi AndThen:^(MWForecast* forecast) {
+//            self.favoritesCache[serializedPois[i]] = forecast;
+//        }];
     }
 }
 
@@ -78,7 +82,9 @@ static MWFavouritesCache* cacheRef;
         [[MWManagers geocoder] geocodeAddressString:location completionHandler:^ (NSArray<CLPlacemark*>* placemarks, NSError* error){
             CLLocationCoordinate2D coords = placemarks.firstObject.location.coordinate;
             MWPoi* poi = [MWPoi poiWithLatitude: coords.latitude longitude:coords.longitude];
-            [MWUtils queryOneCallAPIInPoi:poi AndThen:^(MWForecast* fforecast) {
+            poi.placemarkCache = placemarks.firstObject;
+
+            [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* fforecast) {
                 [self.favoritesCache setValue:fforecast forKey:location];
             }];
         }];

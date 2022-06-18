@@ -8,7 +8,7 @@
 
 @interface MWForecast : NSObject
 
-@property (nonatomic, weak) MWPoi* location;
+@property (nonatomic, strong) MWPoi* location;
 
 @property (nonatomic, strong) MWWeatherData* current;
 @property (nonatomic, strong) NSArray<MWWeatherData*>* hourly;

@@ -75,9 +75,13 @@
     return self.timezoneOffset != NSIntegerMin;
 }
 
-+ (MWPoi*) poiFromString: (NSString*) serializedPoi {
-    NSArray<NSString*>* components = [serializedPoi componentsSeparatedByString:@"^"];
-    return [MWPoi poiWithLatitude:components[0].doubleValue longitude:components[1].doubleValue];
++ (void)geocode: (NSString*)placeName AndThen: (void (^)(MWPoi* poi)) doThis {
+    [[MWManagers geocoder] geocodeAddressString:placeName completionHandler:^(NSArray<CLPlacemark*>* placemarks, NSError* error) {
+        CLLocationCoordinate2D coords = placemarks.firstObject.location.coordinate;
+        MWPoi* poi = [MWPoi poiWithLatitude:coords.latitude longitude:coords.longitude];
+        poi.placemarkCache = placemarks.firstObject;
+        doThis(poi);
+    }];
 }
 
 @end
