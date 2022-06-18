@@ -1,25 +1,19 @@
 # Grafi
 
 Componenti: Vertici e Archi
-$
-G = \braket{V, A}\\
+$G = \braket{V, A}\\
 V = \{ Vertici \}\\
-A \subseteq V \times V\\
-$
+A \subseteq V \times V\\$
 
 Esempio Grafo Diretto:
-$
-G = \{ 1, 2, 3 \}\\
+$G = \{ 1, 2, 3 \}\\
 A = \{ (1,2), (2,3)  \}\\					% Single-linked
-A = \{ (1,2), (2,1), (2,3), (3,2) \}\\		% Double-linked
-$
+A = \{ (1,2), (2,1), (2,3), (3,2) \}\\		% Double-linked$
 
 Esempio Grafo indiretto:
-$
-V = \{Vertici\}\\
+$V = \{Vertici\}\\
 A = \{\{a,b\} : a,b \in V\}\\
-A = \{\{1,2\}, \{2,3\}\}
-$
+A = \{\{1,2\}, \{2,3\}\}$
 
 Numero di Nodi e Archi:
 - Grafo Diretto:
