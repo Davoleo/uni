@@ -447,7 +447,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wOm-6E-KDT">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="1000" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wOm-6E-KDT">
                                 <rect key="frame" x="0.0" y="115" width="414" height="698"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -486,7 +486,7 @@
                             <constraint firstItem="IgV-Ih-Lvg" firstAttribute="trailing" secondItem="OBr-SG-98w" secondAttribute="trailing" id="vFg-Tc-QrO"/>
                         </constraints>
                         <connections>
-                            <action selector="backgroundTouched:" destination="2No-VG-a8g" eventType="touchDown" id="PbE-gl-P1q"/>
+                            <action selector="backgroundTouched" destination="2No-VG-a8g" eventType="touchDown" id="80z-7q-Rg1"/>
                         </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="2dh-qL-cUT"/>

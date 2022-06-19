@@ -8,7 +8,7 @@
 
 NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
 
-static MWFavouritesCache* cacheRef;
+static MWFavouritesCache* cacheRef = nil;
 
 @implementation MWFavouritesCache
 
@@ -16,6 +16,7 @@ static MWFavouritesCache* cacheRef;
 
     _favoritesCache = [NSMutableDictionary dictionaryWithCapacity:serializedPois.count];
 
+    //TODO fix async semantics
     for (NSUInteger i = 0; i < serializedPois.count; ++i) {
         [MWPoi geocode:serializedPois[i] AndThen:^(MWPoi* poi) {
             [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* forecast) {
@@ -41,11 +42,13 @@ static MWFavouritesCache* cacheRef;
             _favoritesCache = [NSMutableDictionary dictionary];
     }
 
-    cacheRef = self;
     return self;
 }
 
 + (MWFavouritesCache*)reference {
+    if (cacheRef == nil) {
+        cacheRef = [[MWFavouritesCache alloc] init];
+    }
     return cacheRef;
 }
 
@@ -54,10 +57,17 @@ static MWFavouritesCache* cacheRef;
     [NSUserDefaults.standardUserDefaults setObject:favPOIs forKey:MW_FAVOURITES_POI_ARRAY_KEY];
 }
 
-- (void)addPoi:(MWPoi*)poi ThenExecuteSelector: (SEL) method OnObject: (id) object {
-    [MWUtils queryOneCallAPIInPoi:poi AndThen:^(MWForecast* forecast) {
-        [self.favoritesCache setValue:forecast forKey:[poi toString]];
-        [object performSelectorOnMainThread:method withObject:nil waitUntilDone:false];
+- (void) add:(NSString*)location
+        Then: (dispatch_block_t) doThis {
+    [[MWManagers geocoder] geocodeAddressString:location completionHandler:^ (NSArray<CLPlacemark*>* placemarks, NSError* error){
+        CLLocationCoordinate2D coords = placemarks.firstObject.location.coordinate;
+        MWPoi* poi = [MWPoi poiWithLatitude: coords.latitude longitude:coords.longitude];
+        poi.placemarkCache = placemarks.firstObject;
+
+        [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* fforecast) {
+            [self.favoritesCache setValue:fforecast forKey:location];
+            dispatch_async(dispatch_get_main_queue(), doThis);
+        }];
     }];
 }
 
@@ -77,7 +87,9 @@ static MWFavouritesCache* cacheRef;
     return self.favoritesCache.count;
 }
 
-- (void) add: (NSString*) location WithPrefetchedData: (MWForecast* __nullable) forecast {
+- (void)            add: (NSString*) location
+     WithPrefetchedData: (MWForecast* __nullable) forecast
+{
     if (forecast == nil) {
         [[MWManagers geocoder] geocodeAddressString:location completionHandler:^ (NSArray<CLPlacemark*>* placemarks, NSError* error){
             CLLocationCoordinate2D coords = placemarks.firstObject.location.coordinate;

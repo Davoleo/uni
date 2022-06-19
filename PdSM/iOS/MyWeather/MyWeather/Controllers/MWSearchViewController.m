@@ -11,7 +11,7 @@
 #import "MWWeatherDetailViewController.h"
 #import "MWFavouritesCache.h"
 
-@interface MWSearchViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MWSearchViewController () <UISearchBarDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBox;
 @property (weak, nonatomic) IBOutlet UITableView *resultsTable;
@@ -29,11 +29,6 @@
 
     self.searchBox.delegate = self;
     self.resultsTable.dataSource = self;
-    self.resultsTable.delegate = self;
-
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] init];
-    [tap addTarget:self.searchBox action:@selector(resignFirstResponder)];
-    //self.searchController = [[UISearchController alloc] init];
 
 }
 
@@ -91,17 +86,25 @@
 }
 
 - (void) handleStarButtonTap: (UIButton*) button {
-    CLPlacemark* placemark = self.placemarks[button.tag];
+    CLPlacemark* placemark = self.placemarks[(NSUInteger) button.tag];
+    MWFavouritesCache* cache = [MWFavouritesCache reference];
     if ([button.imageView.image isEqual:[UIImage systemImageNamed:@"star"]]) {
-       [[MWFavouritesCache reference] add:placemark.name WithPrefetchedData:nil];
-        [button setImage:[UIImage systemImageNamed:@"star.fill"] forState:UIControlStateNormal];
+        [button setImage:[UIImage systemImageNamed:@"rays"] forState:UIControlStateNormal];
+        __weak typeof(cache) weakCache = cache;
+        [cache add:placemark.name Then:^{
+            [button setImage:[UIImage systemImageNamed:@"star.fill"] forState:UIControlStateNormal];
+            [weakCache saveFavourites];
+        }];
     }
     else {
-        [[MWFavouritesCache reference] remove:placemark.name];
+        [cache remove:placemark.name];
         [button setImage:[UIImage systemImageNamed:@"star"] forState:UIControlStateNormal];
     }
 }
 
+- (IBAction) backgroundTouched {
+    [self.searchBox resignFirstResponder];
+}
 
 #pragma mark - Navigation
 

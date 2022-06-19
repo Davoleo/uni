@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.favourites = [[MWFavouritesCache alloc] init];
+    self.favourites = [MWFavouritesCache reference];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
