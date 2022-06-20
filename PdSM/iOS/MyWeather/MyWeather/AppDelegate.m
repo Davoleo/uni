@@ -6,7 +6,6 @@
 //
 
 #import "AppDelegate.h"
-#import "MWSettings.h"
 
 @interface AppDelegate ()
 

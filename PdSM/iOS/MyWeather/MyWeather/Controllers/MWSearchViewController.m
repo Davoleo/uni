@@ -11,7 +11,7 @@
 #import "MWWeatherDetailViewController.h"
 #import "MWFavouritesCache.h"
 
-@interface MWSearchViewController () <UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface MWSearchViewController () <UISearchBarDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBox;
 @property (weak, nonatomic) IBOutlet UITableView *resultsTable;
@@ -29,11 +29,6 @@
 
     self.searchBox.delegate = self;
     self.resultsTable.dataSource = self;
-    self.resultsTable.delegate = self;
-
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] init];
-    [tap addTarget:self.searchBox action:@selector(resignFirstResponder)];
-    //self.searchController = [[UISearchController alloc] init];
 
 }
 
@@ -50,7 +45,7 @@
         else
             self.placemarks = results;
 
-        [self.resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationLeft];
+        [self.resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];
 
     }];
     [searchBar resignFirstResponder];
@@ -82,26 +77,34 @@
     MWFavouritesCache* cache = [MWFavouritesCache reference];
     BOOL isInFavorites = [cache has:mark.name];
     [button setImage:[UIImage systemImageNamed: isInFavorites ? @"star.fill" : @"star"] forState:UIControlStateNormal];
+    [button sizeToFit];
     [button addTarget:self action:@selector(handleStarButtonTap:) forControlEvents:UIControlEventTouchUpInside];
     button.tag = indexPath.row;
     cell.accessoryView = button;
-    //TODO fix accessory view [Maybe color issue?]
 
     return cell;
 }
 
 - (void) handleStarButtonTap: (UIButton*) button {
-    CLPlacemark* placemark = self.placemarks[button.tag];
+    CLPlacemark* placemark = self.placemarks[(NSUInteger) button.tag];
+    MWFavouritesCache* cache = [MWFavouritesCache reference];
     if ([button.imageView.image isEqual:[UIImage systemImageNamed:@"star"]]) {
-       [[MWFavouritesCache reference] add:placemark.name WithPrefetchedData:nil];
-        [button setImage:[UIImage systemImageNamed:@"star.fill"] forState:UIControlStateNormal];
+        [button setImage:[UIImage systemImageNamed:@"rays"] forState:UIControlStateNormal];
+        __weak typeof(cache) weakCache = cache;
+        [cache add:placemark.name Then:^{
+            [button setImage:[UIImage systemImageNamed:@"star.fill"] forState:UIControlStateNormal];
+            [weakCache saveFavourites];
+        }];
     }
     else {
-        [[MWFavouritesCache reference] remove:placemark.name];
+        [cache remove:placemark.name];
         [button setImage:[UIImage systemImageNamed:@"star"] forState:UIControlStateNormal];
     }
 }
 
+- (IBAction) backgroundTouched {
+    [self.searchBox resignFirstResponder];
+}
 
 #pragma mark - Navigation
 
