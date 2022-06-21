@@ -19,6 +19,7 @@
 		56282B756F873F5FCB128449 /* MWWeatherCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282868FF5A8563D4512B37 /* MWWeatherCondition.m */; };
 		56282B765CE496B957FE9E49 /* LoadingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282E1CF717153BDFFADEB4 /* LoadingAlert.m */; };
 		56282CFF49C95A88A7279EDD /* forecast.example.json in Resources */ = {isa = PBXBuildFile; fileRef = 56282C8BC81CB76B98AB2062 /* forecast.example.json */; };
+		56282D5808FE38BC520F35CD /* MWPoi+WeatherAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 56282D5819FED623ADE342ED /* MWPoi+WeatherAnnotation.m */; };
 		6B1EFB9F2846301E00423770 /* MWMyPositionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B1EFB9E2846301E00423770 /* MWMyPositionViewController.m */; };
 		6B2DEC7A2837ED3800BCA6FB /* MWFavouritePoisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2DEC792837ED3800BCA6FB /* MWFavouritePoisViewController.m */; };
 		6B520B43285B202F00085C99 /* MWSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B520B42285B202F00085C99 /* MWSearchViewController.m */; };
@@ -26,6 +27,7 @@
 		6B5C362C2830FA6500CBF5EA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B5C362B2830FA6500CBF5EA /* CoreLocation.framework */; };
 		6B5C363028310AC000CBF5EA /* MWUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5C362F28310AC000CBF5EA /* MWUtils.m */; };
 		6B6B4EB2283D10A300EAA446 /* MWSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B6B4EB1283D10A300EAA446 /* MWSettingsViewController.m */; };
+		6B9BCF582861C80B0050AAE1 /* MWWeatherMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B9BCF572861C80B0050AAE1 /* MWWeatherMapViewController.m */; };
 		6BB23245284CB49300F75CEC /* MWWeatherCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BB23244284CB49300F75CEC /* MWWeatherCardView.m */; };
 		6BF0C9C32827AE7B00163E04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C9C22827AE7B00163E04 /* AppDelegate.m */; };
 		6BF0C9C62827AE7B00163E04 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BF0C9C52827AE7B00163E04 /* SceneDelegate.m */; };
@@ -52,9 +54,11 @@
 		5628278BBF450BB49D61C771 /* MWWindDirection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWindDirection.h; sourceTree = "<group>"; };
 		562827923931FF220C81D7C2 /* onecall.example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = onecall.example.json; sourceTree = "<group>"; };
 		56282868FF5A8563D4512B37 /* MWWeatherCondition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWeatherCondition.m; sourceTree = "<group>"; };
+		562829518B134810E1670670 /* MWPoi+WeatherAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MWPoi+WeatherAnnotation.h"; sourceTree = "<group>"; };
 		56282AF2472971ABD627B745 /* MWSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWSettings.h; sourceTree = "<group>"; };
 		56282C562123E2DB8E2FEDBB /* MWWeatherData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeatherData.h; sourceTree = "<group>"; };
 		56282C8BC81CB76B98AB2062 /* forecast.example.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = forecast.example.json; sourceTree = "<group>"; };
+		56282D5819FED623ADE342ED /* MWPoi+WeatherAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MWPoi+WeatherAnnotation.m"; sourceTree = "<group>"; };
 		56282E1CF717153BDFFADEB4 /* LoadingAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingAlert.m; sourceTree = "<group>"; };
 		56282E698F677549200FB95E /* MWWeatherDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWWeatherDetailViewController.h; sourceTree = "<group>"; };
 		56282E74A607A179EEF57B8B /* MWWindDirection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWWindDirection.m; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 		6B5C362F28310AC000CBF5EA /* MWUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWUtils.m; sourceTree = "<group>"; };
 		6B6B4EB0283D10A300EAA446 /* MWSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWSettingsViewController.h; sourceTree = "<group>"; };
 		6B6B4EB1283D10A300EAA446 /* MWSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWSettingsViewController.m; sourceTree = "<group>"; };
+		6B9BCF562861C80B0050AAE1 /* MWWeatherMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWWeatherMapViewController.h; sourceTree = "<group>"; };
+		6B9BCF572861C80B0050AAE1 /* MWWeatherMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWWeatherMapViewController.m; sourceTree = "<group>"; };
 		6BB23243284CB49300F75CEC /* MWWeatherCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWWeatherCardView.h; sourceTree = "<group>"; };
 		6BB23244284CB49300F75CEC /* MWWeatherCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MWWeatherCardView.m; sourceTree = "<group>"; };
 		6BC385BB284A4ADF00F25E74 /* position.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = position.gpx; path = ../geocoding/position.gpx; sourceTree = "<group>"; };
@@ -122,6 +128,8 @@
 				56282BB0B5D1C8AF2AB353D5 /* Detail */,
 				6B520B41285B202F00085C99 /* MWSearchViewController.h */,
 				6B520B42285B202F00085C99 /* MWSearchViewController.m */,
+				6B9BCF562861C80B0050AAE1 /* MWWeatherMapViewController.h */,
+				6B9BCF572861C80B0050AAE1 /* MWWeatherMapViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -153,6 +161,8 @@
 				5628278BBF450BB49D61C771 /* MWWindDirection.h */,
 				56282017A9BDC65BC52CAF3E /* MWFavouritesCache.m */,
 				562825952194D9FFE34C45F9 /* MWFavouritesCache.h */,
+				56282D5819FED623ADE342ED /* MWPoi+WeatherAnnotation.m */,
+				562829518B134810E1670670 /* MWPoi+WeatherAnnotation.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -294,6 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B9BCF582861C80B0050AAE1 /* MWWeatherMapViewController.m in Sources */,
 				6BF0C9C32827AE7B00163E04 /* AppDelegate.m in Sources */,
 				6BF0C9D42827AE7F00163E04 /* main.m in Sources */,
 				6BF0C9C62827AE7B00163E04 /* SceneDelegate.m in Sources */,
@@ -312,6 +323,7 @@
 				56282B5D2B25929DF99251CC /* MWFavouritesCache.m in Sources */,
 				562827642D1F618C255836E1 /* MWWeatherDetailViewController.m in Sources */,
 				56282B765CE496B957FE9E49 /* LoadingAlert.m in Sources */,
+				56282D5808FE38BC520F35CD /* MWPoi+WeatherAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

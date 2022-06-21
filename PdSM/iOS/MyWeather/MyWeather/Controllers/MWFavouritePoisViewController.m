@@ -8,6 +8,8 @@
 #import "MWFavouritePoisViewController.h"
 #import "MWUtils.h"
 #import "MWWeatherDetailViewController.h"
+#import "MWWeatherMapViewController.h"
+#import "MWPoi+WeatherAnnotation.h"
 
 @interface MWFavouritePoisViewController ()
 
@@ -70,6 +72,20 @@
         MWForecast* forecast =  [self.favourites getAll][(NSUInteger) index.row];
         controller.forecast = forecast;
         controller.position = forecast.location;
+    }
+
+    if ([segue.identifier isEqualToString:@"showWeatherMap"] &&
+            [[segue destinationViewController] isKindOfClass:[MWWeatherMapViewController class]]) {
+        MWWeatherMapViewController* mapController = [segue destinationViewController];
+
+        NSMutableArray* array = [NSMutableArray arrayWithCapacity:[self.favourites length]];
+        [[self.favourites getAll] enumerateObjectsUsingBlock:^(MWForecast* forecast, NSUInteger index, BOOL* stop) {
+            MWPoi* extendedPoi = forecast.location;
+            //TODO crash: Unknown selector sent to MWPoi
+            extendedPoi.conditionImageName = [forecast.current.condition decodeSystemImageName];
+            [array addObject:extendedPoi];
+        }];
+        mapController.positions = array;
     }
 
 }
