@@ -485,9 +485,6 @@
                             <constraint firstItem="wOm-6E-KDT" firstAttribute="bottom" secondItem="OBr-SG-98w" secondAttribute="bottom" id="jgQ-8J-QTY"/>
                             <constraint firstItem="IgV-Ih-Lvg" firstAttribute="trailing" secondItem="OBr-SG-98w" secondAttribute="trailing" id="vFg-Tc-QrO"/>
                         </constraints>
-                        <connections>
-                            <action selector="backgroundTouched" destination="2No-VG-a8g" eventType="touchDown" id="80z-7q-Rg1"/>
-                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="2dh-qL-cUT"/>
                     <connections>

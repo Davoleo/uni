@@ -30,6 +30,9 @@
     self.searchBox.delegate = self;
     self.resultsTable.dataSource = self;
 
+    UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.searchBox action:@selector(resignFirstResponder)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self.resultsTable addGestureRecognizer:tapGestureRecognizer];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar {
@@ -100,10 +103,6 @@
         [cache remove:placemark.name];
         [button setImage:[UIImage systemImageNamed:@"star"] forState:UIControlStateNormal];
     }
-}
-
-- (IBAction) backgroundTouched {
-    [self.searchBox resignFirstResponder];
 }
 
 #pragma mark - Navigation
