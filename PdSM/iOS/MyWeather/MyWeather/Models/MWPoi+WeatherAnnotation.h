@@ -8,6 +8,4 @@
 
 @interface MWPoi (WeatherAnnotation)<MKAnnotation>
 
-@property (strong, nonatomic) NSString* conditionImageName;
-
 @end

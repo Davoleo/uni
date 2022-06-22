@@ -44,8 +44,9 @@
         view.annotation = annotation;
 
         MWPoi* position = annotation;
-        UIImage* weatherImage = [UIImage systemImageNamed: position.conditionImageName];
-        view.image = weatherImage;
+        MWWeatherCondition* condition = self.conditions[[self.positions indexOfObject:position]];
+        UIImage* weatherImage = [UIImage systemImageNamed: [condition decodeSystemImageName]];
+        view.image = [weatherImage imageWithTintColor:[UIColor colorNamed:@"AccentColor"] renderingMode:UIImageRenderingModeAutomatic];
         view.leftCalloutAccessoryView = [[UIImageView alloc] initWithImage:weatherImage];
         view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeInfoDark];
 

@@ -78,14 +78,15 @@
             [[segue destinationViewController] isKindOfClass:[MWWeatherMapViewController class]]) {
         MWWeatherMapViewController* mapController = [segue destinationViewController];
 
-        NSMutableArray* array = [NSMutableArray arrayWithCapacity:[self.favourites length]];
+        NSMutableArray* posArray = [NSMutableArray arrayWithCapacity:[self.favourites length]];
+        NSMutableArray* icoArray = [NSMutableArray arrayWithCapacity:[self.favourites length]];
         [[self.favourites getAll] enumerateObjectsUsingBlock:^(MWForecast* forecast, NSUInteger index, BOOL* stop) {
             MWPoi* extendedPoi = forecast.location;
-            //TODO crash: Unknown selector sent to MWPoi
-            extendedPoi.conditionImageName = [forecast.current.condition decodeSystemImageName];
-            [array addObject:extendedPoi];
+            [posArray addObject:extendedPoi];
+            [icoArray addObject:forecast.current.condition];
         }];
-        mapController.positions = array;
+        mapController.positions = posArray;
+        mapController.conditions = icoArray;
     }
 
 }
