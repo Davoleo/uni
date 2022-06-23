@@ -55,6 +55,7 @@
                         handler:^(UIAction* action){
                             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
                             [[MWFavouritesCache reference] remove:cell.text];
+                            [[MWFavouritesCache reference] saveFavourites];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [self refreshTableContents];
                             });
@@ -81,8 +82,8 @@
     MWForecast* cellForecast = [self.favourites getAll][(NSUInteger) indexPath.row];
 
     //NSString* location = self.favourites.favoritesCache.allKeys[(NSUInteger) indexPath.row];
-
-    cell.textLabel.text = cellForecast.location.placemarkCache.name;
+    CLPlacemark* placemark = cellForecast.location.placemarkCache;
+    cell.textLabel.text = [placemark.name isEqualToString:@""] ? [NSString stringWithFormat:@"%@ %@", placemark.thoroughfare, placemark.locality] : placemark.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MWUtils temperature:cellForecast.current.temperature FormattedInMetric:self.temperatureMetric]];
     cell.image = [UIImage systemImageNamed:[cellForecast.current.condition decodeSystemImageName]];
 
