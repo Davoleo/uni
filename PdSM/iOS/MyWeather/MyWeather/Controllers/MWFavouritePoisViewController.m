@@ -42,6 +42,28 @@
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
+- (nullable UIContextMenuConfiguration*)tableView:(UITableView*)tableView contextMenuConfigurationForRowAtIndexPath:(NSIndexPath*)indexPath point:(CGPoint)point {
+    return [UIContextMenuConfiguration
+            configurationWithIdentifier:nil
+                        previewProvider:nil
+                         actionProvider:^(NSArray<UIMenuElement*>* suggestedActions) {
+
+        UIAction* deleteAction = [UIAction
+                actionWithTitle:@"Delete"
+                          image:[UIImage systemImageNamed:@"trash.fill"]
+                     identifier:@"delete_action"
+                        handler:^(UIAction* action){
+                            UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+                            [[MWFavouritesCache reference] remove:cell.text];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [self refreshTableContents];
+                            });
+                        }];
+        return [UIMenu menuWithTitle:@"" children:@[deleteAction]];
+    }];
+}
+
+
 #pragma mark - Table view data source
 
 - (NSInteger) numberOfSectionsInTableView: (UITableView*)tableView {
