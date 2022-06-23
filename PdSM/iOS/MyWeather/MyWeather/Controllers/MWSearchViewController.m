@@ -10,6 +10,7 @@
 #import "MWUtils.h"
 #import "MWWeatherDetailViewController.h"
 #import "MWFavouritesCache.h"
+#import "LoadingAlert.h"
 
 @interface MWSearchViewController () <UISearchBarDelegate, UITableViewDataSource>
 
@@ -29,6 +30,14 @@
 
     self.searchBox.delegate = self;
     self.resultsTable.dataSource = self;
+
+    if (![MWFavouritesCache isPresent]) {
+        [MWFavouritesCache onReadyCall:^{
+            [LoadingAlert dismissFromController:self];
+        }];
+        [LoadingAlert showInController:self];
+    }
+    [MWFavouritesCache reference];
 
     UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.searchBox action:@selector(resignFirstResponder)];
     tapGestureRecognizer.cancelsTouchesInView = NO;

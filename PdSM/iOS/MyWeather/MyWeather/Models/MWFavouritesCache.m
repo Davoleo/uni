@@ -10,7 +10,7 @@ NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
 
 static MWFavouritesCache* cacheRef = nil;
 
-static void (^onReady) () = nil;
+static void (^onReady) (void) = nil;
 
 @implementation MWFavouritesCache
 
@@ -35,9 +35,11 @@ static void (^onReady) () = nil;
         while (workingThreads > 0) {
             //  SPINLOCK
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            onReady();
-        });
+        if (onReady != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                onReady();
+            });
+        }
     });
 }
 
@@ -65,8 +67,12 @@ static void (^onReady) () = nil;
     return cacheRef;
 }
 
-+ (void) onReadyCall: (void (^) ()) block {
++ (void) onReadyCall: (void (^) (void)) block {
     onReady = block;
+}
+
++ (BOOL) isPresent {
+    return cacheRef != nil;
 }
 
 - (void)saveFavourites {

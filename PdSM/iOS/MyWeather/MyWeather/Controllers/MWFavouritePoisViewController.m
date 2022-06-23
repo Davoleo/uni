@@ -22,11 +22,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [LoadingAlert showInController:self];
-    [MWFavouritesCache onReadyCall:^{
-        [self refreshTableContents];
-        [LoadingAlert dismissFromController:self];
-    }];
+
+    if (![MWFavouritesCache isPresent]) {
+        [LoadingAlert showInController:self];
+        [MWFavouritesCache onReadyCall:^{
+            [self refreshTableContents];
+            [LoadingAlert dismissFromController:self];
+        }];
+    }
     self.favourites = [MWFavouritesCache reference];
 }
 
