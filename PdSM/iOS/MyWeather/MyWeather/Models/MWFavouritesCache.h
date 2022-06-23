@@ -13,6 +13,8 @@ FOUNDATION_EXPORT NSString* MW_FAVOURITES_POI_ARRAY_KEY;
 
 + (MWFavouritesCache*) reference;
 
++ (void)onReadyCall:(void (^)())method;
+
 - (void) saveFavourites;
 
 - (void)add:(NSString*)location Then:(dispatch_block_t)doThis;

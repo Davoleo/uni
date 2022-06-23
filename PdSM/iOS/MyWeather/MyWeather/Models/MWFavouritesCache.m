@@ -10,23 +10,35 @@ NSString* MW_FAVOURITES_POI_ARRAY_KEY = @"favourites_poi_array";
 
 static MWFavouritesCache* cacheRef = nil;
 
+static void (^onReady) () = nil;
+
 @implementation MWFavouritesCache
 
 - (void) populateForecastCacheForPOIs: (NSArray<NSString*>*) serializedPois {
 
     _favoritesCache = [NSMutableDictionary dictionaryWithCapacity:serializedPois.count];
 
-    //TODO fix async semantics
-    for (NSUInteger i = 0; i < serializedPois.count; ++i) {
-        [MWPoi geocode:serializedPois[i] AndThen:^(MWPoi* poi) {
-            [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* forecast) {
-                self.favoritesCache[serializedPois[i]] = forecast;
+    dispatch_queue_t dispatcherQueue = dispatch_queue_create("dispatcher_queue", NULL);
+    __block NSUInteger workingThreads = serializedPois.count;
+
+    dispatch_async(dispatcherQueue, ^{
+        for (NSUInteger i = 0; i < serializedPois.count; ++i) {
+            [MWPoi geocode:serializedPois[i] AndThen:^(MWPoi* poi) {
+                [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* forecast) {
+                    self.favoritesCache[serializedPois[i]] = forecast;
+                    --workingThreads;
+                }];
             }];
-        }];
-//        [MWUtils queryOneCallAPIInPoi:poi AndThen:^(MWForecast* forecast) {
-//            self.favoritesCache[serializedPois[i]] = forecast;
-//        }];
-    }
+            sleep(1);
+        }
+
+        while (workingThreads > 0) {
+            //  SPINLOCK
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            onReady();
+        });
+    });
 }
 
 - (instancetype)init {
@@ -36,6 +48,7 @@ static MWFavouritesCache* cacheRef = nil;
         id userDefObj = [NSUserDefaults.standardUserDefaults objectForKey:MW_FAVOURITES_POI_ARRAY_KEY];
         if (userDefObj != nil && [userDefObj isKindOfClass:[NSArray class]]) {
             NSArray* favPOIs = (NSArray*) userDefObj;
+            NSLog(@"favPOIs: [%@]", [favPOIs componentsJoinedByString:@","]);
             [self populateForecastCacheForPOIs:favPOIs];
         }
         else
@@ -50,6 +63,10 @@ static MWFavouritesCache* cacheRef = nil;
         cacheRef = [[MWFavouritesCache alloc] init];
     }
     return cacheRef;
+}
+
++ (void) onReadyCall: (void (^) ()) block {
+    onReady = block;
 }
 
 - (void)saveFavourites {

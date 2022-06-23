@@ -10,6 +10,7 @@
 #import "MWWeatherDetailViewController.h"
 #import "MWWeatherMapViewController.h"
 #import "MWPoi+WeatherAnnotation.h"
+#import "LoadingAlert.h"
 
 @interface MWFavouritePoisViewController ()
 
@@ -21,7 +22,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [LoadingAlert showInController:self];
+    [MWFavouritesCache onReadyCall:^{
+        [self refreshTableContents];
+        [LoadingAlert dismissFromController:self];
+    }];
     self.favourites = [MWFavouritesCache reference];
 }
 

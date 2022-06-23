@@ -77,6 +77,12 @@
 
 + (void)geocode: (NSString*)placeName AndThen: (void (^)(MWPoi* poi)) doThis {
     [[MWManagers geocoder] geocodeAddressString:placeName completionHandler:^(NSArray<CLPlacemark*>* placemarks, NSError* error) {
+        if (error != nil) {
+            NSLog(@"Error while geocoding location %@", placeName);
+        }
+        if (placemarks.count == 0) {
+            NSLog(@"No Placemarks found for location %@", placeName);
+        }
         CLLocationCoordinate2D coords = placemarks.firstObject.location.coordinate;
         MWPoi* poi = [MWPoi poiWithLatitude:coords.latitude longitude:coords.longitude];
         poi.placemarkCache = placemarks.firstObject;
