@@ -62,6 +62,7 @@
 
     cell.textLabel.text = cellForecast.location.placemarkCache.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MWUtils temperature:cellForecast.current.temperature FormattedInMetric:self.temperatureMetric]];
+    cell.image = [UIImage systemImageNamed:[cellForecast.current.condition decodeSystemImageName]];
 
     return cell;
 }
