@@ -128,7 +128,7 @@
     MWWeatherCardView* card = [[MWWeatherCardView alloc] init];
 
     //Hour/Day
-    NSDate* date = [NSDate dateWithTimeIntervalSince1970:weatherData.timestamp];
+    NSDate* date = [NSDate dateWithTimeIntervalSince1970:weatherData.timestamp + self.forecast.location.timezoneOffset];
     card.dateLabel.text = [formatter stringFromDate:date];
 
     //Weather Icon
