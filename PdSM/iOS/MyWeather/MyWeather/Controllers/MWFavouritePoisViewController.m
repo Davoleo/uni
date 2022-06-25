@@ -83,7 +83,7 @@
 
     //NSString* location = self.favourites.favoritesCache.allKeys[(NSUInteger) indexPath.row];
     CLPlacemark* placemark = cellForecast.location.placemarkCache;
-    cell.textLabel.text = [placemark.name isEqualToString:@""] ? [NSString stringWithFormat:@"%@ %@", placemark.thoroughfare, placemark.locality] : placemark.name;
+    cell.textLabel.text = placemark.thoroughfare != nil ? [NSString stringWithFormat:@"%@ %@", placemark.thoroughfare, placemark.locality] : placemark.name;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", [MWUtils temperature:cellForecast.current.temperature FormattedInMetric:self.temperatureMetric]];
     cell.image = [UIImage systemImageNamed:[cellForecast.current.condition decodeSystemImageName]];
 

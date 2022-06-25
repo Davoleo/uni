@@ -28,6 +28,7 @@ static void (^onReady) (void) = nil;
                     self.favoritesCache[serializedPois[i]] = forecast;
                     --workingThreads;
                 }];
+                NSLog(@"%@ | %@ %@", poi.placemarkCache.name, poi.placemarkCache.thoroughfare, poi.placemarkCache.locality);
             }];
             sleep(1);
         }
@@ -53,8 +54,11 @@ static void (^onReady) (void) = nil;
             NSLog(@"favPOIs: [%@]", [favPOIs componentsJoinedByString:@","]);
             [self populateForecastCacheForPOIs:favPOIs];
         }
-        else
+        else {
             _favoritesCache = [NSMutableDictionary dictionary];
+            if (onReady != nil)
+                onReady();
+        }
     }
 
     return self;
@@ -88,7 +92,14 @@ static void (^onReady) (void) = nil;
         poi.placemarkCache = placemarks.firstObject;
 
         [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* fforecast) {
-            [self.favoritesCache setValue:fforecast forKey:location];
+            NSString* locationName =
+                    poi.placemarkCache.thoroughfare != nil ?
+                            [NSString stringWithFormat:@"%@ %@", poi.placemarkCache.thoroughfare, poi.placemarkCache.locality] :
+                            poi.placemarkCache.name;
+
+            assert(locationName != nil);
+
+            [self.favoritesCache setValue:fforecast forKey:locationName];
             dispatch_async(dispatch_get_main_queue(), doThis);
         }];
     }];
@@ -131,5 +142,11 @@ static void (^onReady) (void) = nil;
 - (void) remove: (NSString*) location {
     [self.favoritesCache removeObjectForKey:location];
 }
+
+- (void)clear {
+    [self.favoritesCache removeAllObjects];
+    [self saveFavourites];
+}
+
 
 @end

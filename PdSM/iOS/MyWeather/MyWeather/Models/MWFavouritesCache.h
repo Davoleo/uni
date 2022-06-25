@@ -32,4 +32,6 @@ FOUNDATION_EXPORT NSString* MW_FAVOURITES_POI_ARRAY_KEY;
 - (void)add:(NSString*)location WithPrefetchedData:(MWForecast*)forecast;
 
 - (void)remove:(NSString*)location;
+
+- (void) clear;
 @end

@@ -54,8 +54,11 @@
             }
             self.placemarks = [NSArray array];
         }
-        else
+        else {
+            CLPlacemark* placemark = results.firstObject;
+            NSLog(@"%@ | %@ %@", placemark.name, placemark.thoroughfare, placemark.locality);
             self.placemarks = results;
+        }
 
         [self.resultsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationTop];
 
@@ -85,7 +88,6 @@
     //Add Accessory view
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    //TODO fix issue if user searches before accessing favorites for the first time not causing initialization of favorites cache
     MWFavouritesCache* cache = [MWFavouritesCache reference];
     BOOL isInFavorites = [cache has:mark.name];
     [button setImage:[UIImage systemImageNamed: isInFavorites ? @"star.fill" : @"star"] forState:UIControlStateNormal];
@@ -103,7 +105,8 @@
     if ([button.imageView.image isEqual:[UIImage systemImageNamed:@"star"]]) {
         [button setImage:[UIImage systemImageNamed:@"rays"] forState:UIControlStateNormal];
         __weak typeof(cache) weakCache = cache;
-        [cache add:placemark.name Then:^{
+        [cache add:placemark.thoroughfare == nil ? placemark.name : [NSString stringWithFormat:@"%@ %@", placemark.thoroughfare, placemark.locality]
+              Then:^{
             [button setImage:[UIImage systemImageNamed:@"star.fill"] forState:UIControlStateNormal];
             [weakCache saveFavourites];
         }];
