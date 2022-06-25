@@ -78,8 +78,11 @@
     if ([segue.identifier isEqualToString:@"showDetails"] &&
             [segue.destinationViewController isKindOfClass:[MWWeatherDetailViewController class]]) {
         MWWeatherDetailViewController* controller = segue.destinationViewController;
-        if ([sender isKindOfClass:[MWPoi class]]) {
-            controller.position = sender;
+        if ([sender isKindOfClass:[MKAnnotationView class]]) {
+            id<MKAnnotation> annotation = ((MKAnnotationView*) sender).annotation;
+            if ([annotation isKindOfClass:[MWPoi class]]) {
+                controller.position = annotation;
+            }
         }
     }
 }
