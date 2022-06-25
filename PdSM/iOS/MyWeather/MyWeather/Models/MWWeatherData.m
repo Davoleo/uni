@@ -27,7 +27,7 @@ const double MW_UNDEFINED_TEMPERATURE = DBL_MAX;
 
 - (void) initWindStatsWithDict:(NSDictionary*)jsonObj HasKeyPrefix:(BOOL) hasPrefix {
     NSString* prefix = hasPrefix ? @"wind_" : @"";
-    _windSpeed = [jsonObj[[NSString stringWithFormat:@"%@speed", prefix]] doubleValue];
+    _windSpeed = [jsonObj[[NSString stringWithFormat:@"%@speed", prefix]] doubleValue] * 3.6;
     int deg = [jsonObj[[NSString stringWithFormat:@"%@deg", prefix]] intValue];
     _windDirection = [MWWindDirection fromDegrees:deg];
 }

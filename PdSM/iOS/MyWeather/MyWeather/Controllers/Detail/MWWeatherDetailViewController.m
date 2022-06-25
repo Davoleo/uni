@@ -175,7 +175,7 @@
     self.conditionsLabel.text = [currentWeather.condition.smallDesc capitalizedString];
 
     //Wind direction icon
-    self.windSpeedLabel.text = [NSString stringWithFormat:@"Speed: %.2lfm/s", currentWeather.windSpeed];
+    self.windSpeedLabel.text = [NSString stringWithFormat:@"Speed: %.2lfkm/h", currentWeather.windSpeed];
     self.windDirectionIcon.image = [UIImage systemImageNamed:currentWeather.windDirection.iconName];
     self.windDirectionLabel.text = [NSString stringWithFormat:@"Direction: %@", currentWeather.windDirection.direction];
 
