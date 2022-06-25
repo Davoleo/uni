@@ -49,8 +49,14 @@
     //Register for position update notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newPositionInterceptedVia:) name: NEW_POSITION_NOTIFICATION_ID object: nil];
     if (self.forecast != nil) {
-        [self updateCurrentWeatherUI];
-        self.metricPreference = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+
+        MWTemperatureMetrics currentTempMetric = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
+        if (currentTempMetric != self.metricPreference) {
+            self.metricPreference = currentTempMetric;
+            [self setupUI];
+        }
+        else
+            [self updateCurrentWeatherUI];
         NSLog(@"APPARE RANMNAN");
     }
 }

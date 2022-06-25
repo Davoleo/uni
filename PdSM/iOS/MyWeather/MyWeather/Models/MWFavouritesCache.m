@@ -19,29 +19,29 @@ static void (^onReady) (void) = nil;
     _favoritesCache = [NSMutableDictionary dictionaryWithCapacity:serializedPois.count];
 
     dispatch_queue_t dispatcherQueue = dispatch_queue_create("dispatcher_queue", NULL);
-    __block NSUInteger workingThreads = serializedPois.count;
 
     dispatch_async(dispatcherQueue, ^{
-        for (NSUInteger i = 0; i < serializedPois.count; ++i) {
-            [MWPoi geocode:serializedPois[i] AndThen:^(MWPoi* poi) {
-                [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* forecast) {
-                    self.favoritesCache[serializedPois[i]] = forecast;
-                    --workingThreads;
-                }];
-                NSLog(@"%@ | %@ %@", poi.placemarkCache.name, poi.placemarkCache.thoroughfare, poi.placemarkCache.locality);
-            }];
-            sleep(1);
-        }
+        [self queryPositionFromArray:serializedPois AtIndex:0];
+    });
+}
 
-        while (workingThreads > 0) {
-            //  SPINLOCK
-        }
+- (void) queryPositionFromArray: (NSArray<NSString*>*) serializedPois  AtIndex: (NSUInteger) index {
+    if (index >= serializedPois.count) {
         if (onReady != nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 onReady();
             });
         }
-    });
+        return;
+    }
+
+    [MWPoi geocode:serializedPois[index] AndThen:^(MWPoi* poi) {
+        [MWUtils queryForecastInLocation:poi AndThen:^(MWForecast* forecast) {
+            self.favoritesCache[serializedPois[index]] = forecast;
+            [self queryPositionFromArray:serializedPois AtIndex:index+1];
+        }];
+        NSLog(@"%@ | %@ %@", poi.placemarkCache.name, poi.placemarkCache.thoroughfare, poi.placemarkCache.locality);
+    }];
 }
 
 - (instancetype)init {
