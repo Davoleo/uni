@@ -306,7 +306,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="8Q9-R5-8Wf" kind="show" identifier="showWeatherDetail" trigger="accessoryAction" id="Drb-Zp-3rd"/>
+                                    <segue destination="8Q9-R5-8Wf" kind="show" identifier="showWeatherDetail" id="XGi-F4-raf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -609,7 +609,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="8L2-j6-pgb"/>
-        <segue reference="Drb-Zp-3rd"/>
+        <segue reference="XGi-F4-raf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="gear" catalog="system" width="128" height="119"/>
