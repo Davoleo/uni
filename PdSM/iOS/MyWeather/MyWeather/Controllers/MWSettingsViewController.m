@@ -7,6 +7,7 @@
 
 #import "MWSettingsViewController.h"
 #import "MWSettings.h"
+#import "MWFavouritesCache.h"
 
 const int MW_SETTINGS_VC_SECTION_TEMPERATURE = 0;
 const int MW_SETTINGS_VC_SECTION_THEME = 1;
@@ -79,13 +80,34 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
         }
     }
 
+    //Danger Section
+    if (indexPath.section == 2) {
+        UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.text isEqualToString:@"Clear Favourites"]) {
+            UIAlertController* alert = [UIAlertController
+                    alertControllerWithTitle:@"Are you sure?"
+                                     message:@"\"Clear\" will remove all positions from Favourites"
+                              preferredStyle:UIAlertControllerStyleAlert];
+
+            [alert addAction:[UIAlertAction actionWithTitle:@"Clear" style:UIAlertActionStyleDestructive handler:^(UIAlertAction* action) {
+                [[MWFavouritesCache reference] clear];
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }
+
     //Last Section
     if (indexPath.section == tableView.numberOfSections - 1) {
 
         for (int i = 0; i < [tableView numberOfRowsInSection:indexPath.section]; ++i) {
             NSString* webDetail = [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text;
             if (webDetail != nil && [webDetail hasPrefix:@"https://"]) {
-                UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Open Link?" message:@"Continue will open your default web browser on the link you clicked" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertController* alert = [UIAlertController
+                        alertControllerWithTitle:@"Open Link?"
+                                         message:@"Continue will open your default web browser on the link you clicked"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+
                 [alert addAction:[UIAlertAction actionWithTitle:@"Continue" style:UIAlertActionStyleDefault handler:^(UIAlertAction* action) {
                     //Open link
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:webDetail] options:[NSDictionary dictionary] completionHandler:nil];
