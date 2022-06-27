@@ -1,5 +1,6 @@
 package net.davoleo.memorandum.persistence;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,6 +14,9 @@ public interface MemoDAO {
 
     @Query("SELECT * FROM Memo")
     List<Memo> getAll();
+
+    @Query("SELECT * FROM Memo")
+    LiveData<List<Memo>> getAllLive();
 
     @Insert
     void insertOne(Memo memo);

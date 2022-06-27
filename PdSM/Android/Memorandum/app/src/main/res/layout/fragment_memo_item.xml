@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/memo_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="test"
+        />
+
+    <TextView
+        android:id="@+id/memo_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/memo_title"
+        android:text="testDesc"
+        />
+
+    <TextView
+        android:id="@+id/memo_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/memo_title"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/pill"
+        android:padding="5dp"
+        android:text="STATUS1"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        />
+</RelativeLayout>
