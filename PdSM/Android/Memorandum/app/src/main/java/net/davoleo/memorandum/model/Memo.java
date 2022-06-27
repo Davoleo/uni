@@ -1,15 +1,50 @@
 package net.davoleo.memorandum.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.util.Date;
+
+@Entity
 public class Memo {
 
-    private int timestamp;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "uid")
+    public int uniqueId;
+
+    private Date timestamp;
     private Location location;
 
-    private String title;
-    private String description;
+    public String title;
+    public String description;
 
-    private MemoStatus status;
+    public MemoStatus status;
 
+    public Memo(String title, String description, MemoStatus status)
+    {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+    }
 
+    public Date getTimestamp()
+    {
+        return timestamp;
+    }
 
+    public void setTimestamp(Date timestamp)
+    {
+        this.timestamp = timestamp;
+    }
+
+    public Location getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(Location location)
+    {
+        this.location = location;
+    }
 }
