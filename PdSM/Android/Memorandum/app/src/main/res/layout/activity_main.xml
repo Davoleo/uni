@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:background="?attr/colorPrimary"
                 android:theme="@style/Theme.Memorandum.AppBarOverlay"
-                app:popupTheme="@style/ThemeOverlay.AppCompat"
+                app:popupTheme="@style/ThemeOverlay.MaterialComponents.Dark"
                 />
 
             <com.google.android.material.tabs.TabLayout
@@ -29,6 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabInlineLabel="true"
+                style="@style/Theme.Memorandum.TabLayout"
+
                 >
 
                 <com.google.android.material.tabs.TabItem
