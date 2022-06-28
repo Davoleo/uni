@@ -11,7 +11,7 @@ public class Memo {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "uid")
-    public int uniqueId;
+    public int uniqueId = 0;
 
     private Date timestamp;
     private Location location;
