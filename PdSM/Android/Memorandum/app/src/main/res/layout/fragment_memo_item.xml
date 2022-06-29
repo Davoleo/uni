@@ -2,11 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:padding="10dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+<!--    android:paddingTop="5dp"-->
+<!--    android:paddingBottom="5dp"-->
+<!--    android:paddingLeft="10dp"-->
+<!--    android:paddingRight="10dp"-->
 
     <TextView
         android:id="@+id/memo_title"
@@ -22,14 +27,67 @@
         android:id="@+id/memo_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:layout_marginTop="8dp"
         android:layout_below="@+id/memo_title"
-        android:text="testDesc"
+        android:layout_marginTop="8dp"
+        android:width="90dp"
+        android:scrollHorizontally="false"
+        android:singleLine="false"
+        android:text="DDDDDesc"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:maxLines="2"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/memo_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/memo_title"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:checkable="false"
+        android:text="STATUS1"
+        android:textAppearance="@style/Theme.Memorandum.ChipText"
+        android:textSize="12sp"
+        app:chipBackgroundColor="@color/lime_light"
+        app:chipCornerRadius="100dp"
+        app:chipEndPadding="2dp"
+        app:chipMinHeight="20dp"
+        app:chipMinTouchTargetSize="20dp"
+        app:chipStartPadding="2dp"
+        app:chipStrokeColor="@color/lime_500"
+        app:chipStrokeWidth="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/memo_status"
+        android:layout_alignRight="@id/memo_status"
+        android:layout_alignTop="@id/memo_description"
+        android:text="00:00"
+        android:id="@+id/memo_timestamp"
+        android:textSize="12sp"
+        android:maxLines="2"
         />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/memo_description"
+        android:layout_toRightOf="@id/memo_description"
+        android:layout_toEndOf="@id/memo_description"
+        android:layout_toLeftOf="@id/memo_timestamp"
+        android:layout_toStartOf="@id/memo_timestamp"
+        android:layout_marginHorizontal="20dp"
+        android:gravity="bottom|center"
+        android:id="@+id/memo_location"
+        android:scrollHorizontally="false"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="LOCATION" />
+
+    <!--<TextView
         android:id="@+id/memo_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,10 +95,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/pill"
-        android:padding="5dp"
         android:text="STATUS1"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textSize="12sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />-->
 </RelativeLayout>

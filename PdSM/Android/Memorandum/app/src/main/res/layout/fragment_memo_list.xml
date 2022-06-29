@@ -6,8 +6,6 @@
     android:name="net.davoleo.memorandum.ui.main.MemoFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.main.MemoListFragment"
     tools:listitem="@layout/fragment_memo_item" />

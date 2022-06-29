@@ -7,11 +7,12 @@
     <color name="green_dark">#FF338A3E</color>
     <color name="green_light">#FF98EE99</color>
     <color name="black">#FF000000</color>
-    <color name="black_40">#66000000</color>
+    <color name="black_semi">#80000000</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="memostatus_red">#FFE53935</color>
-    <color name="memostatus_green">#FF66BB6A</color>
-    <color name="memostatus_blue">#FF1E88E5</color>
+    <color name="memostatus_darkred">#FF7A1D1B</color>
+    <color name="memostatus_green">#FF64DD17</color>
+    <color name="memostatus_blue">#FF2979FF</color>
 
 </resources>

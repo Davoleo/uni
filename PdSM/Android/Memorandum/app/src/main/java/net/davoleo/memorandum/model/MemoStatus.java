@@ -1,13 +1,11 @@
 package net.davoleo.memorandum.model;
 
-import android.graphics.Color;
-
 public enum MemoStatus {
-    ACTIVE(0xFF00FF00),
-    EXPIRED(0xFFFFFF00),
-    COMPLETE(0x0000FFFF);
+    ACTIVE(0xFFCCDB37),
+    EXPIRED(0xFFE53935),
+    COMPLETE(0xFF66BB6A);
 
-    private int color;
+    private final int color;
 
     MemoStatus(int color)
     {

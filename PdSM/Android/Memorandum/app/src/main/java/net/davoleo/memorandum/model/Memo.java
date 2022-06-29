@@ -2,6 +2,7 @@ package net.davoleo.memorandum.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -21,11 +22,19 @@ public class Memo {
 
     public MemoStatus status;
 
+    @Ignore
     public Memo(String title, String description, MemoStatus status)
+    {
+        this(title, description, status, null, null);
+    }
+
+    public Memo(String title, String description, MemoStatus status, Date timestamp, Location location)
     {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.timestamp = timestamp;
+        this.location = location;
     }
 
     public Date getTimestamp()
