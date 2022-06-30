@@ -1,6 +1,7 @@
 package net.davoleo.memorandum.ui.main;
 
 import android.content.Context;
+import android.location.Address;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,10 +11,12 @@ import com.google.android.material.chip.Chip;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.databinding.FragmentMemoItemBinding;
 import net.davoleo.memorandum.model.Memo;
+import net.davoleo.memorandum.persistence.TypeConverters;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.ViewHolder> {
 
@@ -63,17 +66,34 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
                 break;
         }
 
-        int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
-        calendar.setTime(memo.getTimestamp());
-        int memoDay = calendar.get(Calendar.DAY_OF_YEAR);
+        //int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+        //calendar.setTime(memo.getTimestamp());
+        //int memoDay = calendar.get(Calendar.DAY_OF_YEAR);
+        // TODO: 30/06/2022 Use different formats depending on the current date
+        DateFormat dateformat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+        holder.memoTimestamp.setText(dateformat.format(memo.getTimestamp()).replaceFirst(" ", "\n"));
 
-        DateFormat dateformat;
-        //currentDay != memoDay
-        if (true) {
-            dateformat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-            holder.memoTimestamp.setText(dateformat.format(memo.getTimestamp()).replaceFirst(" ", "\n"));
+        Address address = memo.getLocation().getAddress();
+        String locationString = "";
+
+        if (address != null) {
+            locationString = new StringBuilder()
+                    .append(address.getThoroughfare() != null ? address.getThoroughfare() : "")
+                    .append(address.getSubThoroughfare() != null ? address.getSubThoroughfare() : "")
+                    .append(address.getLocality() != null ? address.getLocality() : "")
+                    .toString();
         }
 
+        if (locationString.isEmpty()) {
+            locationString = String.format(
+                    Locale.getDefault(),
+                    "Lat: %f\nLon: %f",
+                    memo.getLocation().getLatitude(),
+                    memo.getLocation().getLongitude()
+            );
+        }
+
+        holder.memoLocation.setText(locationString);
     }
 
     @Override

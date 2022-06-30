@@ -1,5 +1,6 @@
 package net.davoleo.memorandum.ui;
 
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.Menu;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
 import net.davoleo.memorandum.ui.main.MemoListFragment;
+import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;
 
@@ -29,7 +31,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {
         super.onCreate(savedInstanceState);
 
+        //Initialize DB
         MemorandumDatabase.init(this);
+        //Initialize Geocoder
+        Utils.geocoder = new Geocoder(this);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
