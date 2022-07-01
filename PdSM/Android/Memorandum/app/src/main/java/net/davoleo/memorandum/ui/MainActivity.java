@@ -13,7 +13,6 @@ import com.google.android.material.tabs.TabLayout;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
-import net.davoleo.memorandum.ui.main.MemoListFragment;
 import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;

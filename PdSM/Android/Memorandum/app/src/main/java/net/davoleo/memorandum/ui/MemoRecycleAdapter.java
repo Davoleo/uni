@@ -1,4 +1,4 @@
-package net.davoleo.memorandum.ui.main;
+package net.davoleo.memorandum.ui;
 
 import android.content.Context;
 import android.location.Address;
@@ -11,7 +11,6 @@ import com.google.android.material.chip.Chip;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.databinding.FragmentMemoItemBinding;
 import net.davoleo.memorandum.model.Memo;
-import net.davoleo.memorandum.persistence.TypeConverters;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -21,7 +20,7 @@ import java.util.Locale;
 public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<Memo> values;
+    private List<Memo> values;
 
     private final Calendar calendar;
 
@@ -30,6 +29,11 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         this.context = context;
         values = items;
         calendar =  Calendar.getInstance();
+    }
+
+    public void setData(List<Memo> values)
+    {
+        this.values = values;
     }
 
     @NonNull

@@ -50,10 +50,11 @@
             </com.google.android.material.tabs.TabLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
+        <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/main_container_layout"
+            android:name="net.davoleo.memorandum.ui.MemoListFragment"
             />
 
     </LinearLayout>
@@ -67,5 +68,15 @@
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add"
         android:layout_marginRight="@dimen/fab_margin"
+        />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:minHeight="40dp"
+        android:minWidth="40dp"
+        android:id="@+id/progress_circular"
+        android:layout_gravity="center"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

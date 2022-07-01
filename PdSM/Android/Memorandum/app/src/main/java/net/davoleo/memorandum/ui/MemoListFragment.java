@@ -1,11 +1,15 @@
-package net.davoleo.memorandum.ui.main;
+package net.davoleo.memorandum.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,18 +18,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
-import net.davoleo.memorandum.ui.MainActivity;
 import net.davoleo.memorandum.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * A fragment representing a list of Items.
  */
 public class MemoListFragment extends Fragment {
 
+    private static final String TAG = "MemoListFragment";
     public static ExecutorService memoListExecutor = Executors.newFixedThreadPool(4);
 
     /**
@@ -45,8 +52,13 @@ public class MemoListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_memo_list, container, false);
+        return inflater.inflate(R.layout.fragment_memo_list, container, false);
+    }
 
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         // Set the adapter
         if (view instanceof RecyclerView && this.getActivity() instanceof MainActivity)
         {
@@ -55,11 +67,32 @@ public class MemoListFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             DividerItemDecoration dividers = new DividerItemDecoration(recyclerView.getContext(), ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation());
             recyclerView.addItemDecoration(dividers);
+            MemoRecycleAdapter adapter = new MemoRecycleAdapter(this.getContext(), new ArrayList<>());
+            recyclerView.setAdapter(adapter);
 
-            //Populate data
+            ProgressBar progressIndicator = this.getActivity().findViewById(R.id.progress_circular);
+            progressIndicator.setVisibility(View.VISIBLE);
+
+            //Get Data for population
+            Future<List<Memo>> futureMemos = memoListExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().getAll());
             memoListExecutor.submit(() -> {
-                List<Memo> memos = MemorandumDatabase.instance.memoDAO().getAll();
-                Utils.MAIN_UI_THREAD_HANDLER.post(() -> recyclerView.setAdapter(new MemoRecycleAdapter(this.getContext(), memos)));
+                try
+                {
+                    List<Memo> memoList = futureMemos.get();
+
+                    for (Memo memo : memoList)
+                        memo.getLocation().reverseGeocode();
+
+                    Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
+                        ((MainActivity) getActivity()).memos = memoList;
+                        progressIndicator.setVisibility(View.GONE);
+                        adapter.setData(memoList);
+                        adapter.notifyDataSetChanged();
+                    });
+
+                } catch (ExecutionException | InterruptedException e) {
+                    Log.w(TAG, "onCreateView: Data Population failed due to " + e.getLocalizedMessage());
+                }
             });
 
             //FAB Hiding when scrolling
@@ -81,6 +114,5 @@ public class MemoListFragment extends Fragment {
                 }
             });
         }
-        return view;
     }
 }
