@@ -11,4 +11,10 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="tab_text_1">List</string>
     <string name="tab_text_2">Map</string>
+    <string name="label_memo_title">Memo Title</string>
+    <string name="label_memo_desc">Memo Description</string>
+    <string name="geocode_location">Geocode Location</string>
+    <string name="btn_add">Add</string>
+    <string name="choose_date_time"><![CDATA[Choose Date & Time]]></string>
+    <string name="label_memo_location">Memo Location</string>
 </resources>

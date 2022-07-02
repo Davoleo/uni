@@ -1,8 +1,10 @@
 package net.davoleo.memorandum.ui;
 
+import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.Menu;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -47,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabs.addOnTabSelectedListener(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "NYI (add new )", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(view ->
+                startActivityForResult(new Intent(getApplicationContext(), MemoAddActivity.class), 1)
+        );
     }
 
     @Override
@@ -56,6 +59,19 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (data != null) {
+            //AddMemo Activity Result
+            if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            }
+        }
     }
 
     @Override
