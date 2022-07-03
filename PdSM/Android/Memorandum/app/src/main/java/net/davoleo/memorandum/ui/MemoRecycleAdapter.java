@@ -22,13 +22,10 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
     private final Context context;
     private List<Memo> values;
 
-    private final Calendar calendar;
-
     public MemoRecycleAdapter(Context context, List<Memo> items)
     {
         this.context = context;
         values = items;
-        calendar =  Calendar.getInstance();
     }
 
     public void setData(List<Memo> values)

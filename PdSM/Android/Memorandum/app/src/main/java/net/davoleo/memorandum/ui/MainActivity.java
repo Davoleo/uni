@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (data != null) {
             //AddMemo Activity Result
             if (requestCode == 1 && resultCode == RESULT_OK) {
-
+                // TODO: 03/07/2022 Implement Memo Addition
             }
         }
     }
