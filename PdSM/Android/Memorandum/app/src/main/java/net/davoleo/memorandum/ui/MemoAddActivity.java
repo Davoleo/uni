@@ -54,9 +54,10 @@ public class MemoAddActivity extends AppCompatActivity {
             });
         });
 
-        findViewById(R.id.button_geocode).setOnClickListener(
-                view -> buttonGeocodeHandler(findViewById(R.id.txb_location), findViewById(R.id.txb_location_layout))
-        );
+        findViewById(R.id.button_geocode).setOnClickListener(view ->
+                MainActivity.memorandumExecutor.submit(() ->
+                        buttonGeocodeHandler(findViewById(R.id.txb_location), findViewById(R.id.txb_location_layout))
+        ));
 
         findViewById(R.id.button_add).setOnClickListener(this::addMemo);
     }
@@ -81,7 +82,7 @@ public class MemoAddActivity extends AppCompatActivity {
 
                 if (!locationString.isEmpty()) {
                     memoLocation = address;
-                    locTextBox.setText(locationString);
+                    Utils.MAIN_UI_THREAD_HANDLER.post(() -> locTextBox.setText(locationString));
                 }
                 else
                     error = true;
@@ -93,12 +94,15 @@ public class MemoAddActivity extends AppCompatActivity {
         }
         finally
         {
-            if (error) {
-                memoLocation = null;
-                locTextInputLayout.setError("No Location found!");
-            }
-            else
-                locTextInputLayout.setError(null);
+            final boolean finalError = error;
+            Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
+                if (finalError) {
+                    memoLocation = null;
+                    locTextInputLayout.setError("No Location found!");
+                }
+                else
+                    locTextInputLayout.setError(null);
+            });
         }
     }
 

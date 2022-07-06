@@ -3,29 +3,43 @@ package net.davoleo.memorandum.ui;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
 import net.davoleo.memorandum.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
+    private static final String TAG = "MainActivity";
+
+
     private TabLayout tabs;
-    protected List<Memo> memos;
+    protected ProgressBar progressIndicator;
+
+    protected List<Memo> memos = new ArrayList<>();
 
     private MemoListFragment listFragment;
     private Fragment mapFragment;
+
+    public static ExecutorService memorandumExecutor = Executors.newFixedThreadPool(4);
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,8 +55,32 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        progressIndicator = findViewById(R.id.progress_circular);
+        progressIndicator.setVisibility(View.VISIBLE);
 
-        listFragment = new MemoListFragment();
+        //Get Data for population
+        Future<List<Memo>> futureMemos = MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().getAll());
+        MainActivity.memorandumExecutor.submit(() -> {
+            try
+            {
+                List<Memo> memoList = futureMemos.get();
+
+                for (Memo memo : memoList)
+                    memo.getLocation().reverseGeocode();
+
+                Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
+                    memos.clear();
+                    memos.addAll(memoList);
+                    progressIndicator.setVisibility(View.GONE);
+                });
+
+            } catch (ExecutionException | InterruptedException e) {
+                Log.w(TAG, "onCreate: Data Population failed due to " + e.getLocalizedMessage());
+            }
+        });
+
+
+        listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentById(R.id.main_container_layout);
         mapFragment = new Fragment(); //TODO Placeholder
 
         tabs = findViewById(R.id.tabs);
@@ -69,7 +107,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (data != null) {
             //AddMemo Activity Result
             if (requestCode == 1 && resultCode == RESULT_OK) {
-                // TODO: 03/07/2022 Implement Memo Addition
+                Memo memo = Memo.fromBundle(data.getExtras());
+                int newMemoIndex = memos.size();
+                this.memos.add(memo);
+                memorandumExecutor.submit(() -> {
+                    MemorandumDatabase.instance.memoDAO().insertOne(memo);
+
+                    Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
+                        if (listFragment.isVisible()) {
+                            listFragment.recyclerView.getAdapter().notifyItemInserted(newMemoIndex);
+                        }
+                    });
+                });
             }
         }
     }

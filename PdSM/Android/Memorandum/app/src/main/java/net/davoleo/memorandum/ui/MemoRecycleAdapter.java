@@ -11,6 +11,7 @@ import com.google.android.material.chip.Chip;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.databinding.FragmentMemoItemBinding;
 import net.davoleo.memorandum.model.Memo;
+import net.davoleo.memorandum.util.Utils;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -78,11 +79,11 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         String locationString = "";
 
         if (address != null) {
-            locationString = new StringBuilder()
-                    .append(address.getThoroughfare() != null ? address.getThoroughfare() : "")
-                    .append(address.getSubThoroughfare() != null ? address.getSubThoroughfare() : "")
-                    .append(address.getLocality() != null ? address.getLocality() : "")
-                    .toString();
+            locationString = Utils.joinStrings(" ",
+                    (address.getThoroughfare() != null ? address.getThoroughfare() : ""),
+                    (address.getSubThoroughfare() != null ? address.getSubThoroughfare() : ""),
+                    (address.getLocality() != null ? address.getLocality() : "")
+            );
         }
 
         if (locationString.isEmpty()) {

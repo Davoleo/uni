@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import java.util.Calendar;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Utils {
 
@@ -34,4 +36,22 @@ public class Utils {
 
         datePicker.show();
     }
+
+    public static String joinStrings(CharSequence delimiter, CharSequence... elements) {
+        Objects.requireNonNull(delimiter);
+        Objects.requireNonNull(elements);
+
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < elements.length; i++)
+        {
+            CharSequence element = elements[i];
+            builder.append(element);
+
+            if (i+1 < elements.length)
+                builder.append(delimiter);
+        }
+
+        return builder.toString();
+    }
+
 }
