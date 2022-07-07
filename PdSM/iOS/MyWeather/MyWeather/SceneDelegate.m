@@ -38,11 +38,11 @@
     if (themeOverrideValue != MWThemeSystem) {
         if (themeOverrideValue == MWThemeLight) {
             UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
-            NSLog(@"HERE BE LIGHT!");
+            //NSLog(@"HERE BE LIGHT!");
         }
         else { //MWThemeDark
             UIApplication.sharedApplication.keyWindow.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
-            NSLog(@"HERE BE DARK!");
+            //NSLog(@"HERE BE DARK!");
         }
     }
     else

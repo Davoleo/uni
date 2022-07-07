@@ -57,7 +57,8 @@
         }
         else
             [self updateCurrentWeatherUI];
-        NSLog(@"APPARE RANMNAN");
+        //Debug Print
+        //NSLog(@"APPARE RANMAN");
     }
 }
 

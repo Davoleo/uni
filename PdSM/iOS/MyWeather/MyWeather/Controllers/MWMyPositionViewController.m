@@ -40,7 +40,8 @@
 - (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray<CLLocation*>*)locations {
     //Update location
     CLLocation* current = locations.lastObject;
-    NSLog(@"Location Detection");
+    //Debug Print
+    //NSLog(@"Location Detection");
 
     MWPoi* oldPoi = self.myPoi;
     self.myPoi = [MWPoi poiWithLatitude:current.coordinate.latitude longitude:current.coordinate.longitude];

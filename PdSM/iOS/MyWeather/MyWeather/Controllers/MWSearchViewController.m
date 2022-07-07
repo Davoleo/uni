@@ -55,8 +55,9 @@
             self.placemarks = [NSArray array];
         }
         else {
-            CLPlacemark* placemark = results.firstObject;
-            NSLog(@"%@ | %@ %@", placemark.name, placemark.thoroughfare, placemark.locality);
+            //Print debug placemark info
+            //CLPlacemark* placemark = results.firstObject;
+            //NSLog(@"%@ | %@ %@", placemark.name, placemark.thoroughfare, placemark.locality);
             self.placemarks = results;
         }
 

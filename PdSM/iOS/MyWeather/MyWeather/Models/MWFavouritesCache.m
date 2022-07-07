@@ -40,7 +40,8 @@ static void (^onReady) (void) = nil;
             self.favoritesCache[serializedPois[index]] = forecast;
             [self queryPositionFromArray:serializedPois AtIndex:index+1];
         }];
-        NSLog(@"%@ | %@ %@", poi.placemarkCache.name, poi.placemarkCache.thoroughfare, poi.placemarkCache.locality);
+        //Debug Print
+        //NSLog(@"%@ | %@ %@", poi.placemarkCache.name, poi.placemarkCache.thoroughfare, poi.placemarkCache.locality);
     }];
 }
 
@@ -51,7 +52,8 @@ static void (^onReady) (void) = nil;
         id userDefObj = [NSUserDefaults.standardUserDefaults objectForKey:MW_FAVOURITES_POI_ARRAY_KEY];
         if (userDefObj != nil && [userDefObj isKindOfClass:[NSArray class]]) {
             NSArray* favPOIs = (NSArray*) userDefObj;
-            NSLog(@"favPOIs: [%@]", [favPOIs componentsJoinedByString:@","]);
+            //Debug Print
+            //NSLog(@"favPOIs: [%@]", [favPOIs componentsJoinedByString:@","]);
             [self populateForecastCacheForPOIs:favPOIs];
         }
         else {
