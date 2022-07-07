@@ -12,10 +12,12 @@
  */
 @implementation MWUtils
 
+/// @return the weather API KEY from the environment variables
 + (NSString*)getWeatherAPIKey {
     return [[[NSProcessInfo processInfo] environment] objectForKey:@"WEATHER_API_KEY"];
 }
 
+/// Queries the OneCall API of https://openweathermap.org [currently unused]
 + (void)queryOneCallAPIInPoi:(MWPoi*)poi AndThen:(MWForecastConsumer)doThis {
     NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/onecall?lat=%lf&lon=%lf&exclude=alerts,minutely&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
@@ -31,6 +33,7 @@
     [task resume];
 }
 
+/// Queries the CurrentWeather from https://openweathermap.org
 + (void) queryCurrentWeatherInLocation: (MWPoi*) poi AndThen: (MWWeatherDataConsumer) doThis {
     NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%lf&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
@@ -47,6 +50,7 @@
     [task resume];
 }
 
+/// Queries the Forecast 2.5 object from https://openweathermap.org API
 + (void) queryForecastInLocation: (MWPoi*) poi AndThen: (MWForecastConsumer) doThis {
     NSString* urlString = [NSString stringWithFormat:@"https://api.openweathermap.org/data/2.5/forecast?lat=%lf&lon=%lf&appid=%@",
             poi.latitude, poi.longitude, [MWUtils getWeatherAPIKey]];
@@ -65,6 +69,10 @@
     [task resume];
 }
 
+/// Converts temperature in a certain metrics and returns with the correct format as a string
+/// @param temperature The input temperature [in Kelvins]
+/// @param metric The metric to convert the temperature to
+/// @return The output temperature, formatted correctly as a string and converted to the specified metric
 +(NSString*) temperature: (double) temperature FormattedInMetric: (MWTemperatureMetrics) metric {
 
     switch (metric) {

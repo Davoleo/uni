@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Class that contains a bunch of globally useful static methods
 @interface MWUtils : NSObject
 
 + (NSString*) getWeatherAPIKey;

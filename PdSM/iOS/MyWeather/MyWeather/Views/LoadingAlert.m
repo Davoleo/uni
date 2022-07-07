@@ -10,6 +10,7 @@ static UIVisualEffectView* blur;
 
 @implementation LoadingAlert
 
+/// Initializes necessary components, Visual effect, AlertController, and Indicator view
 + (void)initialize {
     //loadingAlert.view.tintColor = [UIColor blackColor];
     loadingAlert = [UIAlertController alertControllerWithTitle:nil message:@"Loading..." preferredStyle:UIAlertControllerStyleAlert];
@@ -23,17 +24,21 @@ static UIVisualEffectView* blur;
     [loadingAlert.view addSubview:loading];
 }
 
+/// Displays the Loading alert on the specified controller
+/// @param controller the controller to display the loading alert onto
 + (void)showInController:(UIViewController*)controller{
     blur.frame = controller.view.bounds;
     [controller.view addSubview:blur];
     [controller presentViewController:loadingAlert animated:YES completion:nil];
 }
 
+/// Hides the Loading alert from the controller
 + (void) dismissFromController: (UIViewController*) controller {
     if ([controller.presentedViewController isKindOfClass:[UIAlertController class]]) {
         [controller dismissViewControllerAnimated:NO completion:nil];
     }
-    
+
+    //Make sure to remove visual blur effect in the background
     [blur removeFromSuperview];
 }
 

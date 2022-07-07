@@ -9,6 +9,7 @@
 
 }
 
+/// @return The System Icon name depending on the weather condition of self
 - (NSString*) decodeSystemImageName {
     int id = self.id;
 

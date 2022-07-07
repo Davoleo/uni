@@ -89,7 +89,7 @@
     return self;
 }
 
-
+/// Queries current weather of this forecast again
 - (void)refreshCurrentWeather {
     [MWUtils queryCurrentWeatherInLocation:self.location AndThen:^(MWWeatherData* currentWeather) {
         self.current = currentWeather;

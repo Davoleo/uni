@@ -36,10 +36,13 @@
 
 ///--- Utility ---///
 
+/// Alternative reverseGeocode that doesn't call any callback
 - (void) reverseGeocode {
     [self reverseGeocodeAndThen:^(CLPlacemark* placemark){ /* noop */ }];
 }
 
+/// ReverseGeocodes the current Poi (made of latitude and longitude)
+/// @param handler Called once the geocode operation is successful -> param: The revGeocoded placemark
 - (void)reverseGeocodeAndThen:(MWPlacemarkHandler)handler {
     if (self.placemarkCache != nil) {
         handler(self.placemarkCache);
@@ -63,6 +66,7 @@
     }
 }
 
+/// Invalidate old placemark in this poi
 - (void) invalidatePlacemark {
     self.placemarkCache = nil;
 }
