@@ -40,7 +40,8 @@
 - (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray<CLLocation*>*)locations {
     //Update location
     CLLocation* current = locations.lastObject;
-    NSLog(@"Location Detection");
+    //Debug Print
+    //NSLog(@"Location Detection");
 
     MWPoi* oldPoi = self.myPoi;
     self.myPoi = [MWPoi poiWithLatitude:current.coordinate.latitude longitude:current.coordinate.longitude];
@@ -49,7 +50,7 @@
     [self.myPoi reverseGeocodeAndThen:^(CLPlacemark* placemark){
         //First Detection after nulls -> init and display current weather controller otherwise send notification to update
         if (self.myPoi != nil && oldPoi == nil)
-            [self displayCurrentWeatherController];
+            [self displayWeatherDetailViewController];
         else
             [[NSNotificationCenter defaultCenter]
                     postNotificationName:NEW_POSITION_NOTIFICATION_ID
@@ -60,7 +61,7 @@
 
 }
 
-- (void) displayCurrentWeatherController {
+- (void)displayWeatherDetailViewController {
     MWWeatherDetailViewController* viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"currentWeatherVC"];
     viewController.position = self.myPoi;
     [self addChildViewController:viewController];

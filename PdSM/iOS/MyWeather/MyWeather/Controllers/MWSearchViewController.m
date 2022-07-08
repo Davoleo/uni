@@ -31,6 +31,7 @@
     self.searchBox.delegate = self;
     self.resultsTable.dataSource = self;
 
+    //Same as in MWFavoritesViewController
     if (![MWFavouritesCache isPresent]) {
         [MWFavouritesCache onReadyCall:^{
             [LoadingAlert dismissFromController:self];
@@ -39,10 +40,12 @@
     }
     [MWFavouritesCache reference];
 
+    //Add Tap Gesture Recognizer to dismiss keyboard
     UITapGestureRecognizer* tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.searchBox action:@selector(resignFirstResponder)];
     tapGestureRecognizer.cancelsTouchesInView = NO;
     [self.resultsTable addGestureRecognizer:tapGestureRecognizer];
 }
+
 
 - (void)searchBarSearchButtonClicked:(UISearchBar*)searchBar {
 
@@ -55,8 +58,9 @@
             self.placemarks = [NSArray array];
         }
         else {
-            CLPlacemark* placemark = results.firstObject;
-            NSLog(@"%@ | %@ %@", placemark.name, placemark.thoroughfare, placemark.locality);
+            //Print debug placemark info
+            //CLPlacemark* placemark = results.firstObject;
+            //NSLog(@"%@ | %@ %@", placemark.name, placemark.thoroughfare, placemark.locality);
             self.placemarks = results;
         }
 
@@ -88,6 +92,7 @@
     //Add Accessory view
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
 
+    // Get Favorite state and set the correct icon button to the cell
     MWFavouritesCache* cache = [MWFavouritesCache reference];
     BOOL isInFavorites = [cache has:mark.name];
     [button setImage:[UIImage systemImageNamed: isInFavorites ? @"star.fill" : @"star"] forState:UIControlStateNormal];
@@ -99,10 +104,14 @@
     return cell;
 }
 
+/// Called When the star icon button is pressed
+/// @param button the pressed button
 - (void) handleStarButtonTap: (UIButton*) button {
     CLPlacemark* placemark = self.placemarks[(NSUInteger) button.tag];
     MWFavouritesCache* cache = [MWFavouritesCache reference];
+    //Decide what to do depending on the icon of the button
     if ([button.imageView.image isEqual:[UIImage systemImageNamed:@"star"]]) {
+        //Intermediate icon while the placemark is added to the favorites
         [button setImage:[UIImage systemImageNamed:@"rays"] forState:UIControlStateNormal];
         __weak typeof(cache) weakCache = cache;
         [cache add:placemark.thoroughfare == nil ? placemark.name : [NSString stringWithFormat:@"%@ %@", placemark.thoroughfare, placemark.locality]

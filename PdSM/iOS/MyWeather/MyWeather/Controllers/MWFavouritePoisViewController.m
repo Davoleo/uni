@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    //If the cache is not present show loading popup until it's ready (then dismiss it)
     if (![MWFavouritesCache isPresent]) {
         [LoadingAlert showInController:self];
         [MWFavouritesCache onReadyCall:^{
@@ -30,14 +31,17 @@
             [LoadingAlert dismissFromController:self];
         }];
     }
+    //Save a reference to the favorites cache
     self.favourites = [MWFavouritesCache reference];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    //When the view appears we set the new temperature metric preference and refresh table contents so that if the old one was wrong it gets updated
     self.temperatureMetric = (MWTemperatureMetrics) [[NSUserDefaults standardUserDefaults] integerForKey:MW_TEMPERATURE_METRIC_PREF];
     [self refreshTableContents];
 }
 
+///Refreshes all the table rows, filling with new content
 - (void) refreshTableContents {
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
@@ -48,15 +52,19 @@
                         previewProvider:nil
                          actionProvider:^(NSArray<UIMenuElement*>* suggestedActions) {
 
+        //Build a UIAction to add to the context menu
         UIAction* deleteAction = [UIAction
                 actionWithTitle:@"Delete"
                           image:[UIImage systemImageNamed:@"trash.fill"]
                      identifier:@"delete_action"
                         handler:^(UIAction* action){
+                            //Remove the placemark location identified by the placemark name (cell name) from the favourites
                             UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
                             [[MWFavouritesCache reference] remove:cell.text];
+                            //Persist favorites changes
                             [[MWFavouritesCache reference] saveFavourites];
                             dispatch_async(dispatch_get_main_queue(), ^{
+                                //Refresh table contents on the main thread so that the UI reflects the changes
                                 [self refreshTableContents];
                             });
                         }];
@@ -75,6 +83,7 @@
     return [self.favourites length];
 }
 
+///Builds the favorite cell with the correct information about the favorite location
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"favouriteCell" forIndexPath:indexPath];
@@ -92,9 +101,9 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
+    //Handles selection [short tap] of the cell -> Show Weather detail page
     if ([segue.identifier isEqualToString:@"showWeatherDetail"] &&
             [[segue destinationViewController] isKindOfClass:[MWWeatherDetailViewController class]]) {
 
@@ -106,6 +115,7 @@
         controller.position = forecast.location;
     }
 
+    //Handles map BarButton tap -> Show weather Map with placemarks
     if ([segue.identifier isEqualToString:@"showWeatherMap"] &&
             [[segue destinationViewController] isKindOfClass:[MWWeatherMapViewController class]]) {
         MWWeatherMapViewController* mapController = [segue destinationViewController];
@@ -113,10 +123,12 @@
         NSMutableArray* posArray = [NSMutableArray arrayWithCapacity:[self.favourites length]];
         NSMutableArray* icoArray = [NSMutableArray arrayWithCapacity:[self.favourites length]];
         [[self.favourites getAll] enumerateObjectsUsingBlock:^(MWForecast* forecast, NSUInteger index, BOOL* stop) {
+            //Extended poi refers to the category: MWPoi+WeatherAnnotation
             MWPoi* extendedPoi = forecast.location;
             [posArray addObject:extendedPoi];
             [icoArray addObject:forecast.current.condition];
         }];
+        //Update mapController with the data to display
         mapController.positions = posArray;
         mapController.conditions = icoArray;
     }

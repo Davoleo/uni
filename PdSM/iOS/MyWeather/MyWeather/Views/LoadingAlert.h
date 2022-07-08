@@ -6,6 +6,7 @@
 #import <UIKit/UIKit.h>
 
 
+/// Simple class to show and hide loading alert popup when the app is busy doing asynchronous work
 @interface LoadingAlert : NSObject
 
 + (void) showInController: (UIViewController*) controller;

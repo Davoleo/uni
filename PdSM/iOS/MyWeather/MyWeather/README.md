@@ -1,5 +1,11 @@
 # Progetto iOS - MyWeather
 
+### Disclaimer 
+Questa applicazione è un prototipo, 
+e perciò non funziona a se stante deve essere avviata all'interno di un IDE in modo
+che sia possibile aggiungere una variabile d'ambiente contenente l'API key per l'API di 
+https://openweathermap.org, il nome della variabile d'ambiente è: `WEATHER_API_KEY`
+
 ### Requirements:
 - Sviluppare un’applicazione per la visualizzazione della condizioni meteorologiche
 - L’utente visualizza le condizioni meteorologiche attuali e previste per i prossimi N giorni nella sua posizione attuale

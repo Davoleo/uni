@@ -8,6 +8,8 @@
 @implementation MWWindDirection
 
 
+/// @param degrees the input wind degrees
+/// @return a MWWindDirection Instance [Mixture of cardinal directions] from degrees
 + (MWWindDirection*)fromDegrees:(float)degrees {
     MWWindDirection* windDirection = [MWWindDirection alloc];
 

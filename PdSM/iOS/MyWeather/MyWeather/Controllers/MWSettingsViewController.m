@@ -28,12 +28,15 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
     MWThemeEnum themePref = (MWThemeEnum) [[NSUserDefaults standardUserDefaults] integerForKey:MW_THEME_PREF];
     cellIndex = [NSIndexPath indexPathForRow:themePref inSection:MW_SETTINGS_VC_SECTION_THEME];
     [self.tableView cellForRowAtIndexPath:cellIndex].accessoryType = UITableViewCellAccessoryCheckmark;
-    NSLog(@"TempPref: %ld", (long) themePref);
+
+    //Debug Print: App Theme pref
+    //NSLog(@"TempPref: %ld", (long) themePref);
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     UITableViewCell* selectedCell = [tableView cellForRowAtIndexPath:indexPath];
 
+    //Debug Print
     //NSLog([NSString stringWithFormat:@"section: %d  row: %d", indexPath.section, indexPath.row]);
 
     if (indexPath.section <= 1 && selectedCell.accessoryType != UITableViewCellAccessoryCheckmark) {
@@ -118,16 +121,5 @@ const int MW_SETTINGS_VC_SECTION_THEME = 1;
         }
     }
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

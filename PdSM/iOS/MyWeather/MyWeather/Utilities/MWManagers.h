@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-
+/// Contains Singleton instances of Service classes to be used inside the app
 @interface MWManagers : NSObject
 
 + (CLGeocoder*) geocoder;
