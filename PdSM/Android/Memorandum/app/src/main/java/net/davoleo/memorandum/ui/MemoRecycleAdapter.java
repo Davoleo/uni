@@ -52,6 +52,8 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         holder.memoDescription.setText(memo.description);
 
         holder.memoStatus.setText(memo.status.toString());
+        holder.memoStatus.setChipIconResource(memo.status.getIcon());
+        holder.memoStatus.setChipIconSize(60);
 
         switch (memo.status) {
             case COMPLETE:
