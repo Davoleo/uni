@@ -1,13 +1,16 @@
 package net.davoleo.memorandum.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -16,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
+import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
 import net.davoleo.memorandum.util.Utils;
 
@@ -31,20 +35,35 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private static final String TAG = "MainActivity";
 
 
+    //UI
     private TabLayout tabs;
     protected ProgressBar progressIndicator;
 
-    protected List<Memo> memos = new ArrayList<>();
-
+    //FRAGMENTS
     private MemoListFragment listFragment;
     private Fragment mapFragment;
 
+    //DATA
+    protected List<Memo> memos = new ArrayList<>();
+    @Nullable
+    protected MemoStatus filteredStatus = MemoStatus.ACTIVE;
+
+    //PREFERENCES
+    private SharedPreferences preferences;
+
+    //CONCURRENCY
     public static ExecutorService memorandumExecutor = Executors.newFixedThreadPool(4);
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        //Init shared preferences
+        preferences = getSharedPreferences(getString(R.string.memorandum_shared_prefs), MODE_PRIVATE);
+        //Load filtering settings
+        // TODO: 09/07/2022 Debug why this is not working correctly 
+        preferences.getInt("memo_filter", MemoStatus.ACTIVE.ordinal());
 
         //Initialize DB
         MemorandumDatabase.init(this);
@@ -147,4 +166,38 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabReselected(TabLayout.Tab tab)
     {}
+
+    public void filterMemos(MenuItem menuButton) {
+        SharedPreferences.Editor editablePrefs = preferences.edit();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Pick a Status to filter Memos (Dismiss to unset the filter)");
+        builder.setSingleChoiceItems(
+                MemoStatus.NAMES,
+                filteredStatus == null ? -1 : filteredStatus.ordinal(),
+                (dialog, which) -> {
+                    if (filteredStatus == null || which != filteredStatus.ordinal())
+                    {
+                        editablePrefs.putInt("memo_filter", which);
+                        editablePrefs.apply();
+                        filteredStatus = MemoStatus.byIndex(which);
+                        listFragment.processMemoList(memos, filteredStatus);
+                        listFragment.recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                    dialog.dismiss();
+                }
+        );
+        builder.setOnCancelListener(dialog -> {
+            if (filteredStatus != null)
+            {
+                editablePrefs.putInt("memo_filter", -1);
+                editablePrefs.apply();
+                filteredStatus = null;
+                listFragment.processMemoList(memos, null);
+                listFragment.recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        });
+
+        AlertDialog filterDialog = builder.create();
+        filterDialog.show();
+    }
 }

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.MainActivity"
+    android:animateLayoutChanges="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,7 +31,6 @@
                 android:layout_height="wrap_content"
                 app:tabInlineLabel="true"
                 style="@style/Theme.Memorandum.TabLayout"
-
                 >
 
                 <com.google.android.material.tabs.TabItem
@@ -60,6 +60,7 @@
 
     </LinearLayout>
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -70,6 +71,27 @@
         android:src="@drawable/ic_baseline_add_24"
         android:layout_marginRight="@dimen/fab_margin"
         />
+
+
+<!--    <LinearLayout-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginHorizontal="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:padding="16dp"-->
+<!--        android:gravity="center"-->
+<!--        android:id="@+id/filters_view"-->
+<!--        android:background="@color/lime_light"-->
+<!--        android:orientation="horizontal"-->
+<!--        >-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Filters" />-->
+
+<!--    </LinearLayout>-->
 
     <ProgressBar
         android:layout_width="wrap_content"

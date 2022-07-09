@@ -2,6 +2,7 @@ package net.davoleo.memorandum.model;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.Nullable;
 import net.davoleo.memorandum.R;
 
 public enum MemoStatus {
@@ -14,6 +15,8 @@ public enum MemoStatus {
 
     @DrawableRes
     private final int icon;
+
+    public static final String[] NAMES = { ACTIVE.name(), EXPIRED.name(), COMPLETE.name() };
 
     MemoStatus(int color, @DrawableRes int icon)
     {
@@ -32,8 +35,11 @@ public enum MemoStatus {
         return icon;
     }
 
+    @Nullable
     public static MemoStatus byIndex(int index) {
-        assert index >= 0 && index < MemoStatus.values().length;
-        return MemoStatus.values()[index];
+        if (index >= 0 && index < MemoStatus.values().length)
+            return MemoStatus.values()[index];
+        else
+            return null;
     }
 }

@@ -40,12 +40,12 @@
         />
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/memo_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/memo_title"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/memo_title"
+        android:id="@+id/memo_status"
         android:checkable="false"
         android:text="STATUS1"
         android:textAppearance="@style/Theme.Memorandum.ChipText"
@@ -53,11 +53,12 @@
         app:chipBackgroundColor="@color/lime_light"
         app:chipCornerRadius="100dp"
         app:chipEndPadding="2dp"
+        app:chipStartPadding="2dp"
         app:chipMinHeight="20dp"
         app:chipMinTouchTargetSize="20dp"
-        app:chipStartPadding="2dp"
         app:chipStrokeColor="@color/lime_500"
-        app:chipStrokeWidth="1dp" />
+        app:chipStrokeWidth="1dp"
+        />
 
     <TextView
         android:layout_width="wrap_content"

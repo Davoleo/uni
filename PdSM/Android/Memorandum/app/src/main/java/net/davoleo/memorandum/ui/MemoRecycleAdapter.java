@@ -2,8 +2,13 @@ package net.davoleo.memorandum.ui;
 
 import android.content.Context;
 import android.location.Address;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,9 +28,9 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
     private final Context context;
     private List<Memo> values;
 
-    public MemoRecycleAdapter(Context context, List<Memo> items)
+    public MemoRecycleAdapter(MemoListFragment fragment, List<Memo> items)
     {
-        this.context = context;
+        this.context = fragment.getContext();
         values = items;
     }
 
@@ -54,6 +59,28 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         holder.memoStatus.setText(memo.status.toString());
         holder.memoStatus.setChipIconResource(memo.status.getIcon());
         holder.memoStatus.setChipIconSize(60);
+
+        ////Re-inflate chip into the filter layout
+        //holder.memoStatus.setOnClickListener(v -> {
+        //    if (filterLayout.getVisibility() == View.VISIBLE)
+        //        return;
+        //
+        //    Chip original = (Chip) v;
+        //
+        //    View layout = LayoutInflater.from(context).inflate(R.layout.chip, filterLayout);
+        //    Chip newChip = layout.findViewById(R.id.filter_chip);
+        //
+        //    newChip.setText(original.getText());
+        //    newChip.setChipIconResource(android.R.drawable.ic_menu_close_clear_cancel);
+        //    newChip.setChipStrokeColor(original.getChipStrokeColor());
+        //    newChip.setChipBackgroundColor(original.getChipBackgroundColor());
+        //    newChip.setOnClickListener(chipView -> {
+        //        filterLayout.removeViewAt(1);
+        //        filterLayout.setVisibility(View.GONE);
+        //    });
+        //
+        //    filterLayout.setVisibility(View.VISIBLE);
+        //});
 
         switch (memo.status) {
             case COMPLETE:
