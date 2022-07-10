@@ -40,6 +40,14 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         this.values = values;
     }
 
+    protected void onSwipedLeft(int position) {
+
+    }
+
+    protected void onSwipedRight(int position) {
+
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)

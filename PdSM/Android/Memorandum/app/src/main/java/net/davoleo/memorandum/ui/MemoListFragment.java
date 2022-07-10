@@ -1,6 +1,8 @@
 package net.davoleo.memorandum.ui;
 
 import android.annotation.SuppressLint;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SortedList;
+import androidx.recyclerview.widget.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
@@ -93,6 +92,50 @@ public class MemoListFragment extends Fragment {
             recyclerView.setAdapter(adapter);
 
             processedList.addAll(activity.memos);
+
+            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                    ItemTouchHelper.START | ItemTouchHelper.END,
+                    ItemTouchHelper.START | ItemTouchHelper.END)
+            {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target)
+                {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
+                {
+                    if (direction == ItemTouchHelper.START) {
+                        adapter.onSwipedLeft(viewHolder.getBindingAdapterPosition());
+                    }
+                    else if (direction == ItemTouchHelper.END) {
+                        adapter.onSwipedRight(viewHolder.getBindingAdapterPosition());
+                    }
+
+                    adapter.notifyItemChanged(viewHolder.getBindingAdapterPosition());
+                }
+
+                @Override
+                public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive)
+                {
+                    View itemView = viewHolder.itemView;
+
+                    Paint paint = new Paint();
+                    if (dX > 0) {
+                        //Color for swipe right
+                        //paint.setColor();
+                        //https://stackoverflow.com/questions/30820806/adding-a-colored-background-with-text-icon-under-swiped-row-when-using-androids
+                    }
+                    else {
+                        //Color for swipe left
+                    }
+
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                }
+            });
+            touchHelper.attachToRecyclerView(recyclerView);
+
 
             //FAB Hiding when scrolling
             FloatingActionButton fab = this.getActivity().findViewById(R.id.fab);
