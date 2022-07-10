@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
 import com.google.android.material.chip.Chip;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.databinding.FragmentMemoItemBinding;
@@ -26,15 +27,15 @@ import java.util.Locale;
 public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.ViewHolder> {
 
     private final Context context;
-    private List<Memo> values;
+    private SortedList<Memo> values;
 
-    public MemoRecycleAdapter(MemoListFragment fragment, List<Memo> items)
+    public MemoRecycleAdapter(MemoListFragment fragment, SortedList<Memo> items)
     {
         this.context = fragment.getContext();
         values = items;
     }
 
-    public void setData(List<Memo> values)
+    public void setData(SortedList<Memo> values)
     {
         this.values = values;
     }
@@ -101,7 +102,7 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         //calendar.setTime(memo.getTimestamp());
         //int memoDay = calendar.get(Calendar.DAY_OF_YEAR);
         // TODO: 30/06/2022 Use different formats depending on the current date
-        DateFormat dateformat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+        DateFormat dateformat = android.text.format.DateFormat.getDateFormat(context);
         holder.memoTimestamp.setText(dateformat.format(memo.getTimestamp()).replaceFirst(" ", "\n"));
 
         Address address = memo.getLocation().getAddress();

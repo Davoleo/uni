@@ -1,0 +1,11 @@
+<resources>
+    <!-- Sorting Preference -->
+    <string-array name="sorting_entries">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+    <string-array name="sorting_values">
+        <item>1</item>
+        <item>-1</item>
+    </string-array>
+</resources>

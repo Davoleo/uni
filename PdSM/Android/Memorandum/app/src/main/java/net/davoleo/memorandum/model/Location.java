@@ -57,6 +57,19 @@ public class Location {
         return false;
     }
 
+    @Override
+    public boolean equals(@Nullable Object obj)
+    {
+        if (obj instanceof Location) {
+            Location otherLoc = (Location) obj;
+
+            return this.longitude == otherLoc.longitude &&
+                    this.latitude == otherLoc.latitude;
+        }
+
+        return false;
+    }
+
     @Nullable
     public Address getAddress()
     {

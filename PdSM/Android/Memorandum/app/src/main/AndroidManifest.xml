@@ -10,12 +10,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Memorandum">
         <activity
-            android:name=".ui.MemoAddActivity"
-            android:exported="true" >
+            android:name=".ui.SettingsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"
                 />
+        </activity>
+        <activity
+            android:name=".ui.MemoAddActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.MainActivity"

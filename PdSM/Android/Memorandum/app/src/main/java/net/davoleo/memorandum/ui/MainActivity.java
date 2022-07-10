@@ -112,6 +112,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (listFragment.isVisible()) {
+            listFragment.processMemoList(memos, filteredStatus);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -127,14 +136,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             //AddMemo Activity Result
             if (requestCode == 1 && resultCode == RESULT_OK) {
                 Memo memo = Memo.fromBundle(data.getExtras());
-                int newMemoIndex = memos.size();
                 this.memos.add(memo);
                 memorandumExecutor.submit(() -> {
                     MemorandumDatabase.instance.memoDAO().insertOne(memo);
 
                     Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
                         if (listFragment.isVisible()) {
-                            listFragment.recyclerView.getAdapter().notifyItemInserted(newMemoIndex);
+                            listFragment.addMemoToProcessedList(memo, filteredStatus);
                         }
                     });
                 });
@@ -199,5 +207,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         AlertDialog filterDialog = builder.create();
         filterDialog.show();
+    }
+
+    public void openSettings(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 }

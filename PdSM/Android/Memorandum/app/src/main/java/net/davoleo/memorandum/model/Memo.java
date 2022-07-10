@@ -1,6 +1,7 @@
 package net.davoleo.memorandum.model;
 
 import android.os.Bundle;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
