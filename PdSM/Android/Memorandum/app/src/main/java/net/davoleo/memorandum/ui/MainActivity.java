@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         progressIndicator = findViewById(R.id.progress_circular);
         progressIndicator.setVisibility(View.VISIBLE);
 
+        tabs = findViewById(R.id.tabs);
+        tabs.addOnTabSelectedListener(this);
+
         //Get Data for population
         Future<List<Memo>> futureMemos = MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().getAll());
         MainActivity.memorandumExecutor.submit(() -> {
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
                     memos.clear();
                     memos.addAll(memoList);
+                    onTabSelected(tabs.getTabAt(0));
                     progressIndicator.setVisibility(View.GONE);
                 });
 
@@ -99,11 +103,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         });
 
 
-        listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentById(R.id.main_container_layout);
+        listFragment = new MemoListFragment();
         mapFragment = new Fragment(); //TODO Placeholder
-
-        tabs = findViewById(R.id.tabs);
-        tabs.addOnTabSelectedListener(this);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view ->
