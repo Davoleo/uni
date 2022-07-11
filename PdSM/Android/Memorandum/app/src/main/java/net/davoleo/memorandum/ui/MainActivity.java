@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,12 +22,8 @@ import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
 import net.davoleo.memorandum.util.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
@@ -43,13 +38,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private MemoListFragment listFragment;
     private Fragment mapFragment;
 
-    //DATA
-    protected List<Memo> memos = new ArrayList<>();
-    @Nullable
-    protected MemoStatus filteredStatus = MemoStatus.ACTIVE;
-
     //PREFERENCES
-    private SharedPreferences preferences;
+    protected SharedPreferences preferences;
 
     //CONCURRENCY
     public static ExecutorService memorandumExecutor = Executors.newFixedThreadPool(4);
@@ -61,9 +51,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         //Init shared preferences
         preferences = getSharedPreferences(getString(R.string.memorandum_shared_prefs), MODE_PRIVATE);
-        //Load filtering settings
-        // TODO: 09/07/2022 Debug why this is not working correctly 
-        preferences.getInt("memo_filter", MemoStatus.ACTIVE.ordinal());
 
         //Initialize DB
         MemorandumDatabase.init(this);
@@ -80,29 +67,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabs = findViewById(R.id.tabs);
         tabs.addOnTabSelectedListener(this);
 
-        //Get Data for population
-        Future<List<Memo>> futureMemos = MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().getAll());
-        MainActivity.memorandumExecutor.submit(() -> {
-            try
-            {
-                List<Memo> memoList = futureMemos.get();
-
-                for (Memo memo : memoList)
-                    memo.getLocation().reverseGeocode();
-
-                Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
-                    memos.clear();
-                    memos.addAll(memoList);
-                    onTabSelected(tabs.getTabAt(0));
-                    progressIndicator.setVisibility(View.GONE);
-                });
-
-            } catch (ExecutionException | InterruptedException e) {
-                Log.w(TAG, "onCreate: Data Population failed due to " + e.getLocalizedMessage());
-            }
-        });
-
-
         listFragment = new MemoListFragment();
         mapFragment = new Fragment(); //TODO Placeholder
 
@@ -116,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     protected void onResume()
     {
         super.onResume();
-        if (listFragment.isVisible()) {
-            listFragment.processMemoList(memos, filteredStatus);
-        }
     }
 
     @Override
@@ -137,16 +98,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             //AddMemo Activity Result
             if (requestCode == 1 && resultCode == RESULT_OK) {
                 Memo memo = Memo.fromBundle(data.getExtras());
-                this.memos.add(memo);
-                memorandumExecutor.submit(() -> {
-                    MemorandumDatabase.instance.memoDAO().insertOne(memo);
-
-                    Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
-                        if (listFragment.isVisible()) {
-                            listFragment.addMemoToProcessedList(memo, filteredStatus);
-                        }
-                    });
-                });
+                listFragment.addMemoToProcessedList(memo);
             }
         }
     }
@@ -182,27 +134,25 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         builder.setTitle("Pick a Status to filter Memos (Dismiss to unset the filter)");
         builder.setSingleChoiceItems(
                 MemoStatus.NAMES,
-                filteredStatus == null ? -1 : filteredStatus.ordinal(),
+                listFragment.filteredStatus == null ? -1 : listFragment.filteredStatus.ordinal(),
                 (dialog, which) -> {
-                    if (filteredStatus == null || which != filteredStatus.ordinal())
+                    if (listFragment.filteredStatus == null || which != listFragment.filteredStatus.ordinal())
                     {
                         editablePrefs.putInt("memo_filter", which);
                         editablePrefs.apply();
-                        filteredStatus = MemoStatus.byIndex(which);
-                        listFragment.processMemoList(memos, filteredStatus);
-                        listFragment.recyclerView.getAdapter().notifyDataSetChanged();
+                        listFragment.filteredStatus = MemoStatus.byIndex(which);
+                        listFragment.queryMemoList();
                     }
                     dialog.dismiss();
                 }
         );
         builder.setOnCancelListener(dialog -> {
-            if (filteredStatus != null)
+            if (listFragment.filteredStatus != null)
             {
                 editablePrefs.putInt("memo_filter", -1);
                 editablePrefs.apply();
-                filteredStatus = null;
-                listFragment.processMemoList(memos, null);
-                listFragment.recyclerView.getAdapter().notifyDataSetChanged();
+                listFragment.filteredStatus = null;
+                listFragment.queryMemoList();
             }
         });
 

@@ -1,11 +1,11 @@
-package net.davoleo.memorandum.util;
+package net.davoleo.memorandum.ui.list;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.SortedList;
 import net.davoleo.memorandum.model.Memo;
-import net.davoleo.memorandum.ui.MemoRecycleAdapter;
+import net.davoleo.memorandum.util.Supplier;
 
 public class SortedMemosCallback extends SortedList.Callback<Memo> {
 

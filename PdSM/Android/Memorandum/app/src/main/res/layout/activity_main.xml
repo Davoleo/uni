@@ -54,6 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/main_container_layout"
+            android:name="net.davoleo.memorandum.ui.MemoListFragment"
+            android:tag="FRAGMENT_LIST"
             />
 
     </LinearLayout>

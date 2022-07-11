@@ -1,11 +1,9 @@
 package net.davoleo.memorandum.persistence;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
+import androidx.room.*;
 import net.davoleo.memorandum.model.Memo;
+import net.davoleo.memorandum.model.MemoStatus;
 
 import java.util.List;
 
@@ -15,6 +13,9 @@ public interface MemoDAO {
     @Query("SELECT * FROM Memo")
     List<Memo> getAll();
 
+    @Query("SELECT * FROM Memo WHERE status = :filter")
+    List<Memo> getAllOfStatus(MemoStatus filter);
+
     @Query("SELECT * FROM Memo")
     LiveData<List<Memo>> getAllLive();
 
@@ -23,6 +24,9 @@ public interface MemoDAO {
 
     @Insert
     void insertMany(Memo... memos);
+
+    @Update
+    void updateMemo(Memo memo);
 
     @Delete
     void delete(Memo memo);

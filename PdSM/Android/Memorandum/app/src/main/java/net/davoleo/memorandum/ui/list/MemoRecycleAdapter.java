@@ -1,14 +1,9 @@
-package net.davoleo.memorandum.ui;
+package net.davoleo.memorandum.ui.list;
 
 import android.content.Context;
 import android.location.Address;
-import android.transition.Slide;
-import android.transition.Transition;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,35 +12,39 @@ import com.google.android.material.chip.Chip;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.databinding.FragmentMemoItemBinding;
 import net.davoleo.memorandum.model.Memo;
+import net.davoleo.memorandum.model.MemoStatus;
+import net.davoleo.memorandum.persistence.MemorandumDatabase;
+import net.davoleo.memorandum.ui.MainActivity;
+import net.davoleo.memorandum.ui.MemoListFragment;
 import net.davoleo.memorandum.util.Utils;
 
 import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.ViewHolder> {
 
     private final Context context;
-    private SortedList<Memo> values;
+    protected SortedList<Memo> memos;
 
     public MemoRecycleAdapter(MemoListFragment fragment, SortedList<Memo> items)
     {
         this.context = fragment.getContext();
-        values = items;
+        memos = items;
     }
 
     public void setData(SortedList<Memo> values)
     {
-        this.values = values;
+        this.memos = values;
     }
 
-    protected void onSwipedLeft(int position) {
+    protected void onSwiped(int position, MemoStatus newStatus) {
+        Memo memo = memos.get(position);
+        memo.status = newStatus;
+        notifyItemChanged(position);
 
-    }
-
-    protected void onSwipedRight(int position) {
-
+        MainActivity.memorandumExecutor.submit(
+                () -> MemorandumDatabase.instance.memoDAO().updateMemo(memos.get(position))
+        );
     }
 
     @NonNull
@@ -60,14 +59,14 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        Memo memo = values.get(position);
+        Memo memo = memos.get(position);
 
         holder.memoTitle.setText(memo.title);
         holder.memoDescription.setText(memo.description);
 
         holder.memoStatus.setText(memo.status.toString());
         holder.memoStatus.setChipIconResource(memo.status.getIcon());
-        holder.memoStatus.setChipIconSize(60);
+        holder.memoStatus.setChipIconSize(Utils.convertDpToPx(context, 16));
 
         ////Re-inflate chip into the filter layout
         //holder.memoStatus.setOnClickListener(v -> {
@@ -139,7 +138,7 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
     @Override
     public int getItemCount()
     {
-        return values.size();
+        return memos.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -158,6 +157,11 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
             this.memoStatus = binding.memoStatus;
             this.memoTimestamp = binding.memoTimestamp;
             this.memoLocation = binding.memoLocation;
+        }
+
+        public Chip getStatusChip()
+        {
+            return memoStatus;
         }
     }
 }

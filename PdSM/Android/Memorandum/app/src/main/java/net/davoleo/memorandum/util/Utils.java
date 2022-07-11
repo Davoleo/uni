@@ -6,6 +6,7 @@ import android.content.Context;
 import android.location.Geocoder;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -37,6 +38,8 @@ public class Utils {
         datePicker.show();
     }
 
+    //////////////////////////////////////////////////////////////
+
     public static String joinStrings(CharSequence delimiter, CharSequence... elements) {
         Objects.requireNonNull(delimiter);
         Objects.requireNonNull(elements);
@@ -52,6 +55,20 @@ public class Utils {
         }
 
         return builder.toString();
+    }
+
+    public static <T> int indexOf(T[] array, T key) {
+        for (int i = 0; i < array.length; i++)
+        {
+            if (array[i].equals(key))
+                return i;
+        }
+
+        return -1;
+    }
+
+    public static int convertDpToPx(Context context, int dp){
+        return Math.round(dp * (context.getResources().getDisplayMetrics().xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
 }

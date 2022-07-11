@@ -2,7 +2,9 @@
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:viewportHeight="24"
+    android:name="net.davoleo.memorandum.ExpiredIcon"
+    >
   <path
       android:fillColor="#FF000000"
       android:pathData="M12,12.5ZM1,21 L12,2l11,19ZM11,15h2v-5h-2ZM12,18q0.425,0 0.713,-0.288Q13,17.425 13,17t-0.287,-0.712Q12.425,16 12,16t-0.712,0.288Q11,16.575 11,17t0.288,0.712Q11.575,18 12,18ZM4.45,19h15.1L12,6Z"/>

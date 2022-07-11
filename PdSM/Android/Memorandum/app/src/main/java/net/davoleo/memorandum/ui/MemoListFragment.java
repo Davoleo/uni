@@ -9,13 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
-import net.davoleo.memorandum.util.SortedMemosCallback;
+import net.davoleo.memorandum.persistence.MemorandumDatabase;
+import net.davoleo.memorandum.ui.list.ItemSwipeCallback;
+import net.davoleo.memorandum.ui.list.MemoRecycleAdapter;
+import net.davoleo.memorandum.ui.list.SortedMemosCallback;
+import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;
 
@@ -27,7 +32,11 @@ public class MemoListFragment extends Fragment {
     private static final String TAG = "MemoListFragment";
     protected RecyclerView recyclerView;
 
-    private SortedList<Memo> processedList;
+    protected SortedList<Memo> processedList;
+
+    @Nullable
+    protected MemoStatus filteredStatus = MemoStatus.ACTIVE;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -35,31 +44,55 @@ public class MemoListFragment extends Fragment {
      */
     public MemoListFragment()
     {
+
     }
 
-    protected void processMemoList(final List<Memo> original, final @Nullable MemoStatus filtered)
-    {
-        processedList.beginBatchedUpdates();
-        processedList.replaceAll(original);
+    protected void queryMemoList() {
+        MainActivity.memorandumExecutor.submit(() -> {
 
-        if (filtered != null) {
-            for (Memo memo : original)
-                if (memo.status != filtered)
-                    processedList.remove(memo);
-        }
+            List<Memo> memos;
+            if (filteredStatus != null)
+                memos = MemorandumDatabase.instance.memoDAO().getAllOfStatus(filteredStatus);
+            else
+                memos = MemorandumDatabase.instance.memoDAO().getAll();
 
-        processedList.endBatchedUpdates();
+            for (Memo memo : memos)
+                memo.getLocation().reverseGeocode();
+
+            Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
+                this.processedList.replaceAll(memos);
+
+                if (getActivity() instanceof MainActivity)
+                    ((MainActivity) getActivity()).progressIndicator.setVisibility(View.GONE);
+
+                recyclerView.getAdapter().notifyDataSetChanged();
+            });
+        });
     }
 
-    protected void addMemoToProcessedList(final Memo memo, final @Nullable MemoStatus currentFilter) {
-        if (memo.status == currentFilter)
+    protected void addMemoToProcessedList(final Memo memo) {
+        if (memo.status == filteredStatus)
             processedList.add(memo);
+
+        MainActivity.memorandumExecutor.submit(() -> {
+            MemorandumDatabase.instance.memoDAO().insertOne(memo);
+        });
     }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        if (!(getActivity() instanceof MainActivity))
+            return;
+
+        MainActivity activity = (MainActivity) this.getActivity();
+
+        //Load filtering settings
+        filteredStatus = MemoStatus.byIndex(activity.preferences.getInt("memo_filter", MemoStatus.ACTIVE.ordinal()));
+        processedList = new SortedList<>(Memo.class, new SortedMemosCallback(this.getContext(), () -> (MemoRecycleAdapter) recyclerView.getAdapter()));
+        queryMemoList();
+
         super.onCreate(savedInstanceState);
     }
 
@@ -76,8 +109,6 @@ public class MemoListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView && this.getActivity() instanceof MainActivity)
         {
-            MainActivity activity = (MainActivity) this.getActivity();
-
             recyclerView = (RecyclerView) view;
             //Set Recycler View Linear Layout Manager
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
@@ -86,56 +117,11 @@ public class MemoListFragment extends Fragment {
             recyclerView.addItemDecoration(dividers);
             //Set Memo Recycler Adapter
 
-            processedList = new SortedList<>(Memo.class, new SortedMemosCallback(this.getContext(), () -> (MemoRecycleAdapter) recyclerView.getAdapter()));
-
             MemoRecycleAdapter adapter = new MemoRecycleAdapter(this, processedList);
             recyclerView.setAdapter(adapter);
 
-            processedList.addAll(activity.memos);
-
-            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
-                    ItemTouchHelper.START | ItemTouchHelper.END,
-                    ItemTouchHelper.START | ItemTouchHelper.END)
-            {
-                @Override
-                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target)
-                {
-                    return false;
-                }
-
-                @Override
-                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
-                {
-                    if (direction == ItemTouchHelper.START) {
-                        adapter.onSwipedLeft(viewHolder.getBindingAdapterPosition());
-                    }
-                    else if (direction == ItemTouchHelper.END) {
-                        adapter.onSwipedRight(viewHolder.getBindingAdapterPosition());
-                    }
-
-                    adapter.notifyItemChanged(viewHolder.getBindingAdapterPosition());
-                }
-
-                @Override
-                public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive)
-                {
-                    View itemView = viewHolder.itemView;
-
-                    Paint paint = new Paint();
-                    if (dX > 0) {
-                        //Color for swipe right
-                        //paint.setColor();
-                        //https://stackoverflow.com/questions/30820806/adding-a-colored-background-with-text-icon-under-swiped-row-when-using-androids
-                    }
-                    else {
-                        //Color for swipe left
-                    }
-
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                }
-            });
+            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemSwipeCallback(getContext(), adapter));
             touchHelper.attachToRecyclerView(recyclerView);
-
 
             //FAB Hiding when scrolling
             FloatingActionButton fab = this.getActivity().findViewById(R.id.fab);
