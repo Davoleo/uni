@@ -1,15 +1,11 @@
 package net.davoleo.memorandum.ui;
 
 import android.annotation.SuppressLint;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,7 +23,7 @@ import java.util.List;
 /**
  * A fragment representing a list of Items.
  */
-public class MemoListFragment extends Fragment {
+public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnItemLongClickListener {
 
     private static final String TAG = "MemoListFragment";
     protected RecyclerView recyclerView;
@@ -36,6 +32,9 @@ public class MemoListFragment extends Fragment {
 
     @Nullable
     protected MemoStatus filteredStatus = MemoStatus.ACTIVE;
+
+
+    private int longPressedElementIndex = -1;
 
 
     /**
@@ -68,15 +67,21 @@ public class MemoListFragment extends Fragment {
                 recyclerView.getAdapter().notifyDataSetChanged();
             });
         });
+
+        Log.d(TAG, "queryMemoList: Querying Memos from Database");
     }
 
     protected void addMemoToProcessedList(final Memo memo) {
         if (memo.status == filteredStatus)
             processedList.add(memo);
 
-        MainActivity.memorandumExecutor.submit(() -> {
-            MemorandumDatabase.instance.memoDAO().insertOne(memo);
-        });
+        MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().insertOne(memo));
+    }
+
+    private void removeMemoFromProcessedList(final Memo memo) {
+        processedList.remove(memo);
+
+        MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().delete(memo));
     }
 
 
@@ -118,7 +123,9 @@ public class MemoListFragment extends Fragment {
             //Set Memo Recycler Adapter
 
             MemoRecycleAdapter adapter = new MemoRecycleAdapter(this, processedList);
+            adapter.setLongClickListener(this);
             recyclerView.setAdapter(adapter);
+            registerForContextMenu(recyclerView);
 
             ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemSwipeCallback(getContext(), adapter));
             touchHelper.attachToRecyclerView(recyclerView);
@@ -142,5 +149,32 @@ public class MemoListFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onItemLongClicked(View view, int position)
+    {
+        longPressedElementIndex = position;
+        view.showContextMenu();
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_memo_contextual, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item)
+    {
+        int actionId = item.getItemId();
+
+        if (actionId == R.id.context_remove_memo && longPressedElementIndex > -1 && longPressedElementIndex < processedList.size()) {
+            removeMemoFromProcessedList(processedList.get(longPressedElementIndex));
+        }
+
+        return true;
     }
 }

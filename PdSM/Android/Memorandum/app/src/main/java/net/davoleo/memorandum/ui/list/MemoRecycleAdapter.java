@@ -2,8 +2,7 @@ package net.davoleo.memorandum.ui.list;
 
 import android.content.Context;
 import android.location.Address;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +24,8 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
 
     private final Context context;
     protected SortedList<Memo> memos;
+
+    private OnItemLongClickListener longClickListener;
 
     public MemoRecycleAdapter(MemoListFragment fragment, SortedList<Memo> items)
     {
@@ -133,6 +134,16 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         }
 
         holder.memoLocation.setText(locationString);
+
+        holder.itemView.setLongClickable(true);
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onItemLongClicked(v, position);
+                System.out.println("test nonnul");
+            }
+
+            return true;
+        });
     }
 
     @Override
@@ -163,5 +174,16 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         {
             return memoStatus;
         }
+
     }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClicked(View view, int position);
+    }
+
+    public void setLongClickListener(OnItemLongClickListener longClickListener)
+    {
+        this.longClickListener = longClickListener;
+    }
+
 }
