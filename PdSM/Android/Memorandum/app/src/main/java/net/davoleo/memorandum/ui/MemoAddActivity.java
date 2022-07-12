@@ -44,7 +44,7 @@ public class MemoAddActivity extends AppCompatActivity {
             Utils.showDateTimePickerDialog(this, (year, month, day, hour, minute) -> {
                 dateTimeButton.setText(String.format(
                         Locale.getDefault(),
-                        "%d/%d/%d - %d:%d",
+                        "%02d/%02d/%d - %02d:%02d",
                         day, month, year, hour, minute
                 ));
                 if (memoTimestamp == null)
@@ -73,8 +73,16 @@ public class MemoAddActivity extends AppCompatActivity {
             else {
                 Address address = addresses.get(0);
                 Log.d(TAG, "button_geocode.OnClickListener: Geocoded location:\n" + address.getFeatureName() + "\n" + address.getThoroughfare() + "\n" + address.getSubThoroughfare() + "\n" + address.getLocality());
+
+
+                String featureString = "";
+                if (!address.getFeatureName().equals(address.getThoroughfare()) &&
+                        !address.getFeatureName().equals(address.getSubThoroughfare()) &&
+                        !address.getFeatureName().equals(address.getLocality()))
+                    featureString = address.getFeatureName() != null ? address.getFeatureName() : "";
+
                 String locationString = String.format("%s %s %s %s",
-                        address.getFeatureName() != null ? address.getFeatureName() : "",
+                        featureString,
                         address.getThoroughfare() != null ? address.getThoroughfare() : "",
                         address.getSubThoroughfare() != null ? address.getSubThoroughfare() : "",
                         address.getLocality() != null ? address.getLocality() : ""
