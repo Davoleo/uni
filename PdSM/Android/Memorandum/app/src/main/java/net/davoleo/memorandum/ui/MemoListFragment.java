@@ -33,7 +33,6 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
     @Nullable
     protected MemoStatus filteredStatus = MemoStatus.ACTIVE;
 
-
     private int longPressedElementIndex = -1;
 
 
@@ -46,6 +45,7 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     protected void queryMemoList() {
         MainActivity.memorandumExecutor.submit(() -> {
 
@@ -56,7 +56,7 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
                 memos = MemorandumDatabase.instance.memoDAO().getAll();
 
             for (Memo memo : memos)
-                memo.getLocation().reverseGeocode();
+                memo.getLocation().reverseGeocode(getContext());
 
             Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
                 this.processedList.replaceAll(memos);
@@ -64,18 +64,12 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
                 if (getActivity() instanceof MainActivity)
                     ((MainActivity) getActivity()).progressIndicator.setVisibility(View.GONE);
 
-                recyclerView.getAdapter().notifyDataSetChanged();
+                if (recyclerView != null && recyclerView.getAdapter() != null)
+                    recyclerView.getAdapter().notifyDataSetChanged();
             });
         });
 
         Log.d(TAG, "queryMemoList: Querying Memos from Database");
-    }
-
-    protected void addMemoToProcessedList(final Memo memo) {
-        if (memo.status == filteredStatus)
-            processedList.add(memo);
-
-        MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().insertOne(memo));
     }
 
     private void removeMemoFromProcessedList(final Memo memo) {
@@ -84,71 +78,60 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
         MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().delete(memo));
     }
 
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        if (!(getActivity() instanceof MainActivity))
-            return;
-
-        MainActivity activity = (MainActivity) this.getActivity();
-
-        //Load filtering settings
-        filteredStatus = MemoStatus.byIndex(activity.preferences.getInt("memo_filter", MemoStatus.ACTIVE.ordinal()));
-        processedList = new SortedList<>(Memo.class, new SortedMemosCallback(this.getContext(), () -> (MemoRecycleAdapter) recyclerView.getAdapter()));
-        queryMemoList();
-
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         return inflater.inflate(R.layout.fragment_memo_list, container, false);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
-        // Set the adapter
-        if (view instanceof RecyclerView && this.getActivity() instanceof MainActivity)
-        {
-            recyclerView = (RecyclerView) view;
-            //Set Recycler View Linear Layout Manager
-            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-            //Add Divider Decoration
-            DividerItemDecoration dividers = new DividerItemDecoration(recyclerView.getContext(), ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation());
-            recyclerView.addItemDecoration(dividers);
-            //Set Memo Recycler Adapter
+        if (!(view instanceof RecyclerView))
+            return;
 
-            MemoRecycleAdapter adapter = new MemoRecycleAdapter(this, processedList);
-            adapter.setLongClickListener(this);
-            recyclerView.setAdapter(adapter);
-            registerForContextMenu(recyclerView);
 
-            ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemSwipeCallback(getContext(), adapter));
-            touchHelper.attachToRecyclerView(recyclerView);
+        recyclerView = (RecyclerView) view;
+        //Set Recycler View Linear Layout Manager
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        //Add Divider Decoration
+        DividerItemDecoration dividers = new DividerItemDecoration(recyclerView.getContext(), ((LinearLayoutManager) recyclerView.getLayoutManager()).getOrientation());
+        recyclerView.addItemDecoration(dividers);
 
-            //FAB Hiding when scrolling
-            FloatingActionButton fab = this.getActivity().findViewById(R.id.fab);
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState)
-                {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                        fab.show();
-                    super.onScrollStateChanged(recyclerView, newState);
-                }
+        //Load filtering settings
+        filteredStatus = MemoStatus.byIndex(Utils.getSharedPreferences(getContext()).getInt("memo_filter", MemoStatus.ACTIVE.ordinal()));
+        processedList = new SortedList<>(Memo.class, new SortedMemosCallback(this.getContext(), () -> (MemoRecycleAdapter) recyclerView.getAdapter()));
 
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
-                {
-                    if (dy > 0 || dy < 0 && fab.isShown())
-                        fab.hide();
-                }
-            });
-        }
+        //Set Memo Recycler Adapter
+        MemoRecycleAdapter adapter = new MemoRecycleAdapter(this, processedList);
+        adapter.setLongClickListener(this);
+        recyclerView.setAdapter(adapter);
+        registerForContextMenu(recyclerView);
+
+        queryMemoList();
+
+        ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemSwipeCallback(getContext(), adapter));
+        touchHelper.attachToRecyclerView(recyclerView);
+
+        //FAB Hiding when scrolling
+        FloatingActionButton fab = this.getActivity().findViewById(R.id.fab);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState)
+            {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    fab.show();
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
+            {
+                if (dy > 0 || dy < 0 && fab.isShown())
+                    fab.hide();
+            }
+        });
     }
 
     @Override

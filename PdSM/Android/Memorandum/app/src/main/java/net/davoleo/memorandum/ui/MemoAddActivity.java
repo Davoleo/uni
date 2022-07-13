@@ -67,7 +67,7 @@ public class MemoAddActivity extends AppCompatActivity {
 
         try
         {
-            List<Address> addresses = Utils.geocoder.getFromLocationName(locTextBox.getText().toString(),1);
+            List<Address> addresses = Utils.getGeocoder(this).getFromLocationName(locTextBox.getText().toString(),1);
             if (addresses.isEmpty())
                 error = true;
             else {

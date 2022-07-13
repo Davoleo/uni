@@ -2,7 +2,6 @@ package net.davoleo.memorandum.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,9 +37,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private MemoListFragment listFragment;
     private Fragment mapFragment;
 
-    //PREFERENCES
-    protected SharedPreferences preferences;
-
     //CONCURRENCY
     public static ExecutorService memorandumExecutor = Executors.newFixedThreadPool(4);
 
@@ -49,13 +45,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {
         super.onCreate(savedInstanceState);
 
-        //Init shared preferences
-        preferences = getSharedPreferences(getString(R.string.memorandum_shared_prefs), MODE_PRIVATE);
-
         //Initialize DB
         MemorandumDatabase.init(this);
-        //Initialize Geocoder
-        Utils.geocoder = new Geocoder(this);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -98,7 +89,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             //AddMemo Activity Result
             if (requestCode == 1 && resultCode == RESULT_OK) {
                 Memo memo = Memo.fromBundle(data.getExtras());
-                listFragment.addMemoToProcessedList(memo);
+                MainActivity.memorandumExecutor.submit(() -> {
+                    MemorandumDatabase.instance.memoDAO().insertOne(memo);
+
+                });
             }
         }
     }
@@ -129,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {}
 
     public void filterMemos(MenuItem menuButton) {
-        SharedPreferences.Editor editablePrefs = preferences.edit();
+        SharedPreferences.Editor editablePrefs = Utils.getSharedPreferences(this).edit();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Pick a Status to filter Memos (Dismiss to unset the filter)");
         builder.setSingleChoiceItems(

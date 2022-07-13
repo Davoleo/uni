@@ -3,20 +3,41 @@ package net.davoleo.memorandum.util;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Geocoder;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
+import net.davoleo.memorandum.R;
 
 import java.util.Calendar;
 import java.util.Objects;
-import java.util.StringJoiner;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Utils {
 
     public static final Handler MAIN_UI_THREAD_HANDLER = new Handler(Looper.getMainLooper());
 
-    public static Geocoder geocoder;
+    private static Geocoder geocoder;
+    public static Geocoder getGeocoder(Context context) {
+        if (geocoder == null) {
+            //Initialize Geocoder
+            geocoder = new Geocoder(context);
+        }
+
+        return geocoder;
+    }
+
+    //PREFERENCES
+    private static SharedPreferences preferences;
+    public static SharedPreferences getSharedPreferences(Context context) {
+        if (preferences == null) {
+            //Init shared preferences
+            preferences = context.getSharedPreferences(context.getString(R.string.memorandum_shared_prefs), MODE_PRIVATE);
+        }
+        return preferences;
+    }
 
     public static void showDateTimePickerDialog(Context context, DateTimeConsumer consumer) {
 

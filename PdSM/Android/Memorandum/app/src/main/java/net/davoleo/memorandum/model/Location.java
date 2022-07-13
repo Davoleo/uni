@@ -1,6 +1,7 @@
 package net.davoleo.memorandum.model;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.location.Address;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -38,10 +39,10 @@ public class Location {
         return new Location(Double.parseDouble(splitLocation[0]), Double.parseDouble(splitLocation[1]));
     }
 
-    public boolean reverseGeocode() {
+    public boolean reverseGeocode(Context context) {
         try
         {
-            List<Address> addresses = Utils.geocoder.getFromLocation(this.latitude, this.longitude, 1);
+            List<Address> addresses = Utils.getGeocoder(context).getFromLocation(this.latitude, this.longitude, 1);
             if (addresses.isEmpty())
                 return false;
 
