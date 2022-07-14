@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabs = findViewById(R.id.tabs);
         tabs.addOnTabSelectedListener(this);
 
-        listFragment = new MemoListFragment();
+        listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentByTag("FRAGMENT_LIST");
         mapFragment = new Fragment(); //TODO Placeholder
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -89,10 +89,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             //AddMemo Activity Result
             if (requestCode == 1 && resultCode == RESULT_OK) {
                 Memo memo = Memo.fromBundle(data.getExtras());
-                MainActivity.memorandumExecutor.submit(() -> {
-                    MemorandumDatabase.instance.memoDAO().insertOne(memo);
-
-                });
+                listFragment.addMemoToProcessedList(memo);
             }
         }
     }

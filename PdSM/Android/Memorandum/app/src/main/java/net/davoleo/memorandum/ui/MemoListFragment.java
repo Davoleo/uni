@@ -19,6 +19,7 @@ import net.davoleo.memorandum.ui.list.SortedMemosCallback;
 import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * A fragment representing a list of Items.
@@ -42,13 +43,16 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
      */
     public MemoListFragment()
     {
-
+        ////Fragment is preparing no data method calls allowed
+        //synchronized (READY_LOCK) {
+        //    READY_LOCK.lock();
+        //}
     }
 
     @SuppressLint("NotifyDataSetChanged")
     protected void queryMemoList() {
-        MainActivity.memorandumExecutor.submit(() -> {
 
+        MainActivity.memorandumExecutor.submit(() -> {
             List<Memo> memos;
             if (filteredStatus != null)
                 memos = MemorandumDatabase.instance.memoDAO().getAllOfStatus(filteredStatus);
@@ -57,6 +61,7 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
 
             for (Memo memo : memos)
                 memo.getLocation().reverseGeocode(getContext());
+
 
             Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
                 this.processedList.replaceAll(memos);
@@ -67,6 +72,7 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
                 if (recyclerView != null && recyclerView.getAdapter() != null)
                     recyclerView.getAdapter().notifyDataSetChanged();
             });
+
         });
 
         Log.d(TAG, "queryMemoList: Querying Memos from Database");
@@ -76,6 +82,13 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
         processedList.remove(memo);
 
         MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().delete(memo));
+    }
+
+    protected void addMemoToProcessedList(final Memo memo) {
+        processedList.add(memo);
+        MainActivity.memorandumExecutor.submit(() -> {
+            MemorandumDatabase.instance.memoDAO().insertOne(memo);
+        });
     }
 
     @Nullable
@@ -90,7 +103,6 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
     {
         if (!(view instanceof RecyclerView))
             return;
-
 
         recyclerView = (RecyclerView) view;
         //Set Recycler View Linear Layout Manager
