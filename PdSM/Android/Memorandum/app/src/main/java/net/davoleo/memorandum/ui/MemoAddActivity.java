@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,10 +27,16 @@ public class MemoAddActivity extends AppCompatActivity {
 
     private static final String TAG = "MemoAddActivity";
 
+    private static final int ERR_OK = 0;
+    private static final int ERR_NO_RESULTS = 1;
+    private static final int ERR_IO = 2;
+
     @Nullable
     private Address memoLocation;
     @Nullable
     private Calendar memoTimestamp;
+
+    private ImageButton geocodeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,22 +61,25 @@ public class MemoAddActivity extends AppCompatActivity {
             });
         });
 
-        findViewById(R.id.button_geocode).setOnClickListener(view ->
-                MainActivity.memorandumExecutor.submit(() ->
-                        buttonGeocodeHandler(findViewById(R.id.txb_location), findViewById(R.id.txb_location_layout))
-        ));
+        geocodeButton = findViewById(R.id.button_geocode);
+        geocodeButton.setOnClickListener(view ->
+            MainActivity.memorandumExecutor.submit(() -> {
+                geocodeButton.setImageResource(R.drawable.ic_sync);
+                buttonGeocodeHandler(findViewById(R.id.txb_location), findViewById(R.id.txb_location_layout));
+            })
+        );
 
         findViewById(R.id.button_add).setOnClickListener(this::addMemo);
     }
 
     private void buttonGeocodeHandler(EditText locTextBox, TextInputLayout locTextInputLayout) {
-        boolean error = false;
+        int error = ERR_OK;
 
         try
         {
             List<Address> addresses = Utils.getGeocoder(this).getFromLocationName(locTextBox.getText().toString(),1);
             if (addresses.isEmpty())
-                error = true;
+                error = ERR_NO_RESULTS;
             else {
                 Address address = addresses.get(0);
                 Log.d(TAG, "button_geocode.OnClickListener: Geocoded location:\n" + address.getFeatureName() + "\n" + address.getThoroughfare() + "\n" + address.getSubThoroughfare() + "\n" + address.getLocality());
@@ -90,26 +100,39 @@ public class MemoAddActivity extends AppCompatActivity {
 
                 if (!locationString.isEmpty()) {
                     memoLocation = address;
-                    Utils.MAIN_UI_THREAD_HANDLER.post(() -> locTextBox.setText(locationString));
+                    Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
+                        locTextBox.setText(locationString);
+                        geocodeButton.setImageResource(R.drawable.ic_my_location);
+                    });
                 }
                 else
-                    error = true;
+                    error = ERR_NO_RESULTS;
             }
         }
         catch (IOException e)
         {
+            error = ERR_IO;
             Log.w(TAG, "button_geocode.OnClickListener: Error while geocoding position for location name: " + locTextBox.getText().toString());
+            e.printStackTrace();
         }
         finally
         {
-            final boolean finalError = error;
+            int finalError = error;
             Utils.MAIN_UI_THREAD_HANDLER.post(() -> {
-                if (finalError) {
-                    memoLocation = null;
-                    locTextInputLayout.setError("No Location found!");
+                switch (finalError) {
+                    case ERR_IO:
+                        memoLocation = null;
+                        locTextInputLayout.setError("Connection Error");
+                        geocodeButton.setImageResource(R.drawable.ic_location_searching);
+                    case ERR_NO_RESULTS:
+                        memoLocation = null;
+                        locTextInputLayout.setError("No Location found!");
+                        geocodeButton.setImageResource(R.drawable.ic_location_searching);
+                        break;
+                    case ERR_OK:
+                        locTextInputLayout.setError(null);
+                        break;
                 }
-                else
-                    locTextInputLayout.setError(null);
             });
         }
     }
