@@ -23,11 +23,11 @@ import net.davoleo.memorandum.util.Utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.Condition;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private static final String TAG = "MainActivity";
-
 
     //UI
     private TabLayout tabs;
@@ -99,14 +99,14 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {
         if (tabs.getSelectedTabPosition() == 0) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_container_layout, this.listFragment);
             transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out);
+            transaction.replace(R.id.main_container_layout, this.listFragment);
             transaction.commit();
         }
         else if (tabs.getSelectedTabPosition() == 1) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_container_layout, this.mapFragment);
             transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out);
+            transaction.replace(R.id.main_container_layout, this.mapFragment);
             transaction.commit();
         }
     }
