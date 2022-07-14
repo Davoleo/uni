@@ -19,7 +19,6 @@ import net.davoleo.memorandum.ui.list.SortedMemosCallback;
 import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * A fragment representing a list of Items.
@@ -43,10 +42,6 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
      */
     public MemoListFragment()
     {
-        ////Fragment is preparing no data method calls allowed
-        //synchronized (READY_LOCK) {
-        //    READY_LOCK.lock();
-        //}
     }
 
     @SuppressLint("NotifyDataSetChanged")
