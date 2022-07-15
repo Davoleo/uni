@@ -2,7 +2,9 @@ package net.davoleo.memorandum.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private MemoListFragment listFragment;
     private Fragment mapFragment;
 
+    private FloatingActionButton fab;
+
     //CONCURRENCY
     public static ExecutorService memorandumExecutor = Executors.newFixedThreadPool(4);
 
@@ -59,9 +63,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         tabs.addOnTabSelectedListener(this);
 
         listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentByTag("FRAGMENT_LIST");
-        mapFragment = new Fragment(); //TODO Placeholder
+        mapFragment = new MemoMapFragment();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(view ->
                 startActivityForResult(new Intent(getApplicationContext(), MemoAddActivity.class), 1)
         );
@@ -97,6 +101,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabSelected(TabLayout.Tab tab)
     {
+        //Protect against list fragment becoming null due to inflating issues
+        if (listFragment == null) {
+            listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentByTag("FRAGMENT_LIST");
+            assert listFragment != null;
+        }
+
+        //Runnable adjustFabPosition = () -> {
+        //    //Set FAB Gravity depending on the visible fragment
+        //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        //        fab.setForegroundGravity(mapFragment.isVisible() ? Gravity.START | Gravity.BOTTOM : Gravity.END | Gravity.BOTTOM);
+        //};
+
         if (tabs.getSelectedTabPosition() == 0) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out);

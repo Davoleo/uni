@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    //gradle secrets plugin to store Maps API_KEY
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -13,6 +15,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('net.davoleo.MAPS_API_KEY')}"]
     }
 
     buildTypes {
@@ -42,6 +48,7 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-android'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

@@ -1,6 +1,5 @@
 package net.davoleo.memorandum.persistence;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.*;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
@@ -16,8 +15,8 @@ public interface MemoDAO {
     @Query("SELECT * FROM Memo WHERE status = :filter")
     List<Memo> getAllOfStatus(MemoStatus filter);
 
-    @Query("SELECT * FROM Memo")
-    LiveData<List<Memo>> getAllLive();
+    @Query("SELECT * FROM Memo WHERE status = :filter ORDER BY timestamp ASC")
+    List<Memo> getAllOfStatusSorted(MemoStatus filter);
 
     @Insert
     void insertOne(Memo memo);

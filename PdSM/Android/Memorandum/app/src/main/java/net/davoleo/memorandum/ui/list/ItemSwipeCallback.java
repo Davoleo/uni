@@ -69,6 +69,12 @@ public class ItemSwipeCallback extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
+    public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder)
+    {
+        return 0.75F;
+    }
+
+    @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive)
     {
 
