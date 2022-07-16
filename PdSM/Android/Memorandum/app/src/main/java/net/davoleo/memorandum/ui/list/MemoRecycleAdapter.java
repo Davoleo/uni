@@ -13,6 +13,7 @@ import net.davoleo.memorandum.databinding.FragmentMemoItemBinding;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
+import net.davoleo.memorandum.persistence.TypeConverters;
 import net.davoleo.memorandum.ui.MainActivity;
 import net.davoleo.memorandum.ui.MemoListFragment;
 import net.davoleo.memorandum.util.Utils;
@@ -113,33 +114,18 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
         DateFormat dateformat = android.text.format.DateFormat.getDateFormat(context);
         holder.memoTimestamp.setText(dateformat.format(memo.getTimestamp()).replaceFirst(" ", "\n"));
 
-        Address address = memo.getLocation().getAddress();
-        String locationString = "";
-
-        if (address != null) {
-            locationString = Utils.joinStrings(" ",
-                    (address.getThoroughfare() != null ? address.getThoroughfare() : ""),
-                    (address.getSubThoroughfare() != null ? address.getSubThoroughfare() : ""),
-                    (address.getLocality() != null ? address.getLocality() : "")
-            );
-        }
-
-        if (locationString.isEmpty()) {
-            locationString = String.format(
-                    Locale.getDefault(),
-                    "Lat: %f\nLon: %f",
-                    memo.getLocation().getLatitude(),
-                    memo.getLocation().getLongitude()
-            );
-        }
-
+        String locationString = TypeConverters.addressToString(
+                memo.getLocation().getAddress(),
+                memo.getLocation().getLatitude(),
+                memo.getLocation().getLongitude()
+        );
         holder.memoLocation.setText(locationString);
 
         holder.itemView.setLongClickable(true);
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
                 longClickListener.onItemLongClicked(v, position);
-                System.out.println("test nonnul");
+                //System.out.println("test nonnul");
             }
 
             return true;

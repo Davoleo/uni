@@ -1,37 +1,57 @@
 package net.davoleo.memorandum.ui;
 
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import net.davoleo.memorandum.R;
+import net.davoleo.memorandum.model.Location;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
+import net.davoleo.memorandum.persistence.TypeConverters;
+import net.davoleo.memorandum.service.GeofenceBroadcastReceiver;
+import net.davoleo.memorandum.service.GeofencingJobIntentService;
 import net.davoleo.memorandum.util.Utils;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.Condition;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private static final String TAG = "MainActivity";
+    public static final int REQUEST_PERMISSIONS_CODE = 34;
+
+    //Geofencing
+    protected GeofencingClient geofencingClient;
+    private List<Geofence> geofenceList;
 
     //UI
+    private CoordinatorLayout coordinatorLayout;
     private TabLayout tabs;
     protected ProgressBar progressIndicator;
 
@@ -39,11 +59,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private MemoListFragment listFragment;
     private Fragment mapFragment;
 
-    private FloatingActionButton fab;
-
     //CONCURRENCY
     public static ExecutorService memorandumExecutor = Executors.newFixedThreadPool(4);
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,6 +70,28 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         //Initialize DB
         MemorandumDatabase.init(this);
+        geofencingClient = LocationServices.getGeofencingClient(this);
+
+        if (Utils.hasLocationPermissions(this)) {
+            Utils.requestLocationPermissions(this, coordinatorLayout);
+        }
+
+        if (Utils.hasLocationPermissions(this)) {
+
+            memorandumExecutor.submit(() -> {
+                Location[] locations = MemorandumDatabase.instance.memoDAO().getActiveLocations();
+                geofenceList = GeofencingJobIntentService.buildGeofences(MainActivity.this, locations);
+
+                GeofencingRequest.Builder requestBuilder = new GeofencingRequest.Builder();
+                requestBuilder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+                requestBuilder.addGeofences(geofenceList);
+
+                Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                geofencingClient.addGeofences(requestBuilder.build(), pendingIntent);
+            });
+        }
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -59,22 +100,31 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         progressIndicator = findViewById(R.id.progress_circular);
         progressIndicator.setVisibility(View.VISIBLE);
 
+        coordinatorLayout = findViewById(R.id.main_coordinator_layout);
+
         tabs = findViewById(R.id.tabs);
         tabs.addOnTabSelectedListener(this);
 
         listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentByTag("FRAGMENT_LIST");
         mapFragment = new MemoMapFragment();
 
-        fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view ->
                 startActivityForResult(new Intent(getApplicationContext(), MemoAddActivity.class), 1)
         );
     }
 
     @Override
-    protected void onResume()
+    protected void onStart()
     {
-        super.onResume();
+        super.onStart();
+
+        if (Utils.hasLocationPermissions(this)) {
+            Utils.requestLocationPermissions(this, coordinatorLayout);
+        }
+        else {
+            //todo perform pending tasks
+        }
     }
 
     @Override
@@ -170,5 +220,23 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public void openSettings(MenuItem item) {
         Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);
+    }
+
+    /// Permissions
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        if (requestCode == REQUEST_PERMISSIONS_CODE) {
+            if (grantResults.length <= 0) {
+                Log.d(TAG, "onRequestPermissionsResult: User Interaction Cancelled");
+            }
+            else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "onRequestPermissionsResult: Location Permission Granted");
+                //todo Perform pending task
+            }
+            else {
+                Snackbar.make(coordinatorLayout, "Location Permissions have been denied, you can change this from the settings", Snackbar.LENGTH_SHORT);
+            }
+        }
     }
 }

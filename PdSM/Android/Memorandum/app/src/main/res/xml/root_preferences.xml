@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/sorting_header">
 
@@ -9,6 +10,20 @@
             app:key="sorting_direction"
             app:title="@string/sorting_direction_title"
             app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/notification_header">
+
+        <SeekBarPreference
+            app:defaultValue="30"
+            android:max="100"
+            app:showSeekBarValue="true"
+            app:entries="@array/sorting_entries"
+            app:entryValues="@array/sorting_values"
+            app:key="location_radius"
+            app:title="@string/location_radius_setting"
+            app:seekBarIncrement="10" />
 
     </PreferenceCategory>
 

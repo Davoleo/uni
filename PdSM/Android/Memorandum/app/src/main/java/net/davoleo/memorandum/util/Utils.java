@@ -1,19 +1,27 @@
 package net.davoleo.memorandum.util;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
+import androidx.core.app.ActivityCompat;
+import com.google.android.material.snackbar.Snackbar;
 import net.davoleo.memorandum.R;
+import net.davoleo.memorandum.ui.MainActivity;
 
 import java.util.Calendar;
 import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
+import static net.davoleo.memorandum.ui.MainActivity.REQUEST_PERMISSIONS_CODE;
 
 public class Utils {
 
@@ -39,6 +47,31 @@ public class Utils {
         return preferences;
     }
 
+    ///////////////////////// Location Permissions
+
+    public static boolean hasLocationPermissions(Context context) {
+        int permissionCode = ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionCode == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void requestLocationPermissions(MainActivity mainRef, View snackbarHolder) {
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(mainRef, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (shouldProvideRationale) {
+            Snackbar bar = Snackbar.make(snackbarHolder, mainRef.getString(R.string.location_permission_rationale), Snackbar.LENGTH_LONG);
+            bar.setAction(android.R.string.ok, v ->
+                    ActivityCompat.requestPermissions(mainRef, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE));
+            bar.show();
+        }
+        else {
+            ActivityCompat.requestPermissions(mainRef, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
+        }
+    }
+
+
+    ///////////////////////// Dialog
+
     public static void showDateTimePickerDialog(Context context, DateTimeConsumer consumer) {
 
         Calendar calendar = Calendar.getInstance();
@@ -59,7 +92,7 @@ public class Utils {
         datePicker.show();
     }
 
-    //////////////////////////////////////////////////////////////
+    ///////////////////////////////////// MISC
 
     public static String joinStrings(CharSequence delimiter, CharSequence... elements) {
         Objects.requireNonNull(delimiter);

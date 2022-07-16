@@ -1,10 +1,13 @@
 package net.davoleo.memorandum.persistence;
 
+import android.location.Address;
 import androidx.room.TypeConverter;
 import net.davoleo.memorandum.model.Location;
 import net.davoleo.memorandum.model.MemoStatus;
+import net.davoleo.memorandum.util.Utils;
 
 import java.util.Date;
+import java.util.Locale;
 
 public class TypeConverters {
 
@@ -41,5 +44,28 @@ public class TypeConverters {
         return status.ordinal();
     }
 
+
+    public static String addressToString(Address address, double fallbackLatitude, double fallbackLongitude) {
+        String locationString = "";
+
+        if (address != null) {
+            locationString = Utils.joinStrings(" ",
+                    (address.getThoroughfare() != null ? address.getThoroughfare() : ""),
+                    (address.getSubThoroughfare() != null ? address.getSubThoroughfare() : ""),
+                    (address.getLocality() != null ? address.getLocality() : "")
+            );
+        }
+
+        if (locationString.isEmpty()) {
+            locationString = String.format(
+                    Locale.getDefault(),
+                    "Lat: %f\nLon: %f",
+                    fallbackLatitude,
+                    fallbackLongitude
+            );
+        }
+
+        return locationString;
+    }
 
 }

@@ -1,6 +1,7 @@
 package net.davoleo.memorandum.persistence;
 
 import androidx.room.*;
+import net.davoleo.memorandum.model.Location;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 
@@ -17,6 +18,9 @@ public interface MemoDAO {
 
     @Query("SELECT * FROM Memo WHERE status = :filter ORDER BY timestamp ASC")
     List<Memo> getAllOfStatusSorted(MemoStatus filter);
+
+    @Query("SELECT location FROM Memo WHERE status = 0")
+    Location[] getActiveLocations();
 
     @Insert
     void insertOne(Memo memo);

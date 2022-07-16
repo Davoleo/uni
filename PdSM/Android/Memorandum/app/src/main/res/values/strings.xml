@@ -34,4 +34,9 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="action_remove_memo">Remove Memo</string>
+
+    <string name="memo_geofence_entered_notification">You\'re now in an Active Memo location, click to read the details.</string>
+    <string name="location_permission_rationale">This App needs location permission to notify you whenever you enter an active memo location</string>
+    <string name="location_radius_setting">Location Notify Radius</string>
+    <string name="notification_header">Notifications</string>
 </resources>

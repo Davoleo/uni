@@ -9,10 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.common.collect.Lists;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
+import net.davoleo.memorandum.persistence.TypeConverters;
 import net.davoleo.memorandum.ui.list.ItemSwipeCallback;
 import net.davoleo.memorandum.ui.list.MemoRecycleAdapter;
 import net.davoleo.memorandum.ui.list.SortedMemosCallback;
@@ -76,11 +78,19 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
     private void removeMemoFromProcessedList(final Memo memo) {
         processedList.remove(memo);
 
+        if (getActivity() instanceof MainActivity) {
+            String locationString = TypeConverters.addressToString(memo.getLocation().getAddress(), memo.getLocation().getLatitude(), memo.getLocation().getLongitude());
+            ((MainActivity) getActivity()).geofencingClient.removeGeofences(Lists.newArrayList(locationString));
+        }
+
         MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().delete(memo));
     }
 
     protected void addMemoToProcessedList(final Memo memo) {
         processedList.add(memo);
+
+        if (getActivity() instanceof MainActivity)
+
         MainActivity.memorandumExecutor.submit(() -> {
             MemorandumDatabase.instance.memoDAO().insertOne(memo);
         });
