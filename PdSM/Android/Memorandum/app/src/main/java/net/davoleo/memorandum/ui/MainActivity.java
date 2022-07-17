@@ -1,7 +1,6 @@
 package net.davoleo.memorandum.ui;
 
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,9 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.preference.PreferenceManager;
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,12 +29,10 @@ import net.davoleo.memorandum.model.Location;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
-import net.davoleo.memorandum.persistence.TypeConverters;
-import net.davoleo.memorandum.service.GeofenceBroadcastReceiver;
 import net.davoleo.memorandum.service.GeofencingJobIntentService;
+import net.davoleo.memorandum.util.GeofencingUtils;
 import net.davoleo.memorandum.util.Utils;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -47,8 +42,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public static final int REQUEST_PERMISSIONS_CODE = 34;
 
     //Geofencing
-    protected GeofencingClient geofencingClient;
-    private List<Geofence> geofenceList;
+    protected GeofencingUtils geofencingHelper;
 
     //UI
     private CoordinatorLayout coordinatorLayout;
@@ -70,7 +64,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         //Initialize DB
         MemorandumDatabase.init(this);
-        geofencingClient = LocationServices.getGeofencingClient(this);
+
+        //Start Geofencing Notification Service
+        startService(new Intent(getApplicationContext(), GeofencingJobIntentService.class));
+
+        geofencingHelper = new GeofencingUtils(this);
 
         if (Utils.hasLocationPermissions(this)) {
             Utils.requestLocationPermissions(this, coordinatorLayout);
@@ -80,16 +78,16 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
             memorandumExecutor.submit(() -> {
                 Location[] locations = MemorandumDatabase.instance.memoDAO().getActiveLocations();
-                geofenceList = GeofencingJobIntentService.buildGeofences(MainActivity.this, locations);
 
-                GeofencingRequest.Builder requestBuilder = new GeofencingRequest.Builder();
-                requestBuilder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
-                requestBuilder.addGeofences(geofenceList);
+                Geofence[] geofenceList = new Geofence[locations.length];
+                for (int i = 0; i < locations.length; i++)
+                    geofenceList[i] = geofencingHelper.createGeofence(locations[i]);
 
-                Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                geofencingClient.addGeofences(requestBuilder.build(), pendingIntent);
+                GeofencingRequest request = geofencingHelper.createGeofencingRequest(geofenceList);
+                geofencingHelper.client
+                        .addGeofences(request, geofencingHelper.getPendingIntent())
+                        .addOnFailureListener(GeofencingUtils::debugLogGeofencingTask)
+                        .addOnSuccessListener(GeofencingUtils::debugLogGeofencingTask);
             });
         }
 
@@ -119,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     {
         super.onStart();
 
-        if (Utils.hasLocationPermissions(this)) {
+        if (!Utils.hasLocationPermissions(this)) {
             Utils.requestLocationPermissions(this, coordinatorLayout);
         }
         else {

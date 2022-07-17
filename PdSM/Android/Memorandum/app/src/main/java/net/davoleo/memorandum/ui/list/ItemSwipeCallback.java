@@ -33,9 +33,9 @@ public class ItemSwipeCallback extends ItemTouchHelper.SimpleCallback {
 
     @SuppressWarnings("unchecked")
     private final Pair<MemoStatus, MemoStatus>[] complementaryStatuses = new Pair[]{
-        Pair.create(MemoStatus.EXPIRED, MemoStatus.COMPLETE),
+        Pair.create(MemoStatus.COMPLETE, MemoStatus.EXPIRED),
                 Pair.create(MemoStatus.ACTIVE, MemoStatus.COMPLETE),
-                Pair.create(MemoStatus.ACTIVE, MemoStatus.EXPIRED)
+                Pair.create(MemoStatus.EXPIRED, MemoStatus.ACTIVE)
     };
 
 

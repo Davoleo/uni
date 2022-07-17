@@ -59,10 +59,13 @@ public class GeofencingJobIntentService extends JobIntentService {
     private void sendNotification(String notificationDetails) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String title = getString(R.string.app_name);
             NotificationChannel channel = new NotificationChannel("channel_1", title, NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
+            notificationBuilder.setChannelId(channel.getId());
         }
 
         //Intent that starts mainActivity
@@ -73,7 +76,7 @@ public class GeofencingJobIntentService extends JobIntentService {
         stackBuilder.addNextIntent(mainActivityIntent);
 
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(MemoStatus.ACTIVE.getColor())
                 .setContentTitle(notificationDetails)
@@ -82,26 +85,5 @@ public class GeofencingJobIntentService extends JobIntentService {
 
         notificationBuilder.setAutoCancel(true);
         notificationManager.notify(0, notificationBuilder.build());
-    }
-
-    public static List<Geofence> buildGeofences(Context context, Location... locations) {
-        List<Geofence> geofenceList = new ArrayList<>();
-
-        for (Location location : locations)
-        {
-            Geofence.Builder geofence = new Geofence.Builder();
-
-            if (location.getAddress() == null)
-                location.reverseGeocode(context);
-
-            geofence.setRequestId(TypeConverters.addressToString(location.getAddress(), location.getLatitude(), location.getLongitude()));
-
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            geofence.setCircularRegion(location.getLatitude(), location.getLongitude(), preferences.getInt("location_radius", 30));
-            geofence.setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER);
-            geofenceList.add(geofence.build());
-        }
-
-        return geofenceList;
     }
 }

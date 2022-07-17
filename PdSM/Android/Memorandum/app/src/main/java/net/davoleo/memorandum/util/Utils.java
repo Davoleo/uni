@@ -7,12 +7,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import androidx.core.app.ActivityCompat;
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.material.snackbar.Snackbar;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.ui.MainActivity;
@@ -48,24 +50,29 @@ public class Utils {
     }
 
     ///////////////////////// Location Permissions
+    private static final String LOCATION_PERMISSION =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ?
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION :
+                    Manifest.permission.ACCESS_FINE_LOCATION;
 
     public static boolean hasLocationPermissions(Context context) {
-        int permissionCode = ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCode = ActivityCompat.checkSelfPermission(context, LOCATION_PERMISSION);
         return permissionCode == PackageManager.PERMISSION_GRANTED;
     }
 
     public static void requestLocationPermissions(MainActivity mainRef, View snackbarHolder) {
+
         boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(mainRef, Manifest.permission.ACCESS_FINE_LOCATION);
+                ActivityCompat.shouldShowRequestPermissionRationale(mainRef, LOCATION_PERMISSION);
 
         if (shouldProvideRationale) {
             Snackbar bar = Snackbar.make(snackbarHolder, mainRef.getString(R.string.location_permission_rationale), Snackbar.LENGTH_LONG);
             bar.setAction(android.R.string.ok, v ->
-                    ActivityCompat.requestPermissions(mainRef, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE));
+                    ActivityCompat.requestPermissions(mainRef, new String[]{LOCATION_PERMISSION}, REQUEST_PERMISSIONS_CODE));
             bar.show();
         }
         else {
-            ActivityCompat.requestPermissions(mainRef, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_CODE);
+            ActivityCompat.requestPermissions(mainRef, new String[]{LOCATION_PERMISSION}, REQUEST_PERMISSIONS_CODE);
         }
     }
 

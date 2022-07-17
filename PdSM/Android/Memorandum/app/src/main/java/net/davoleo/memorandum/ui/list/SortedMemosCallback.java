@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.SortedList;
+import com.google.common.base.Supplier;
 import net.davoleo.memorandum.model.Memo;
-import net.davoleo.memorandum.util.Supplier;
 
 public class SortedMemosCallback extends SortedList.Callback<Memo> {
 

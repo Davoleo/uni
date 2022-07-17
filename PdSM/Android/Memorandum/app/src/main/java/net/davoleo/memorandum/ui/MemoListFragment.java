@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.collect.Lists;
 import net.davoleo.memorandum.R;
@@ -18,6 +20,7 @@ import net.davoleo.memorandum.persistence.TypeConverters;
 import net.davoleo.memorandum.ui.list.ItemSwipeCallback;
 import net.davoleo.memorandum.ui.list.MemoRecycleAdapter;
 import net.davoleo.memorandum.ui.list.SortedMemosCallback;
+import net.davoleo.memorandum.util.GeofencingUtils;
 import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;
@@ -78,21 +81,31 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
     private void removeMemoFromProcessedList(final Memo memo) {
         processedList.remove(memo);
 
-        if (getActivity() instanceof MainActivity) {
-            String locationString = TypeConverters.addressToString(memo.getLocation().getAddress(), memo.getLocation().getLatitude(), memo.getLocation().getLongitude());
-            ((MainActivity) getActivity()).geofencingClient.removeGeofences(Lists.newArrayList(locationString));
-        }
+        MainActivity.memorandumExecutor.submit(() -> {
+            MemorandumDatabase.instance.memoDAO().delete(memo);
 
-        MainActivity.memorandumExecutor.submit(() -> MemorandumDatabase.instance.memoDAO().delete(memo));
+            if (getActivity() instanceof MainActivity) {
+                String locationString = TypeConverters.locationToString(memo.getLocation());
+                ((MainActivity) getActivity()).geofencingHelper.client.removeGeofences(Lists.newArrayList(locationString));
+            }
+        });
     }
 
+    @SuppressLint("MissingPermission")
     protected void addMemoToProcessedList(final Memo memo) {
         processedList.add(memo);
 
-        if (getActivity() instanceof MainActivity)
-
         MainActivity.memorandumExecutor.submit(() -> {
             MemorandumDatabase.instance.memoDAO().insertOne(memo);
+
+            if (getActivity() instanceof MainActivity) {
+                GeofencingUtils utils = ((MainActivity) getActivity()).geofencingHelper;
+                Geofence fence = utils.createGeofence(memo.getLocation());
+                GeofencingRequest request = utils.createGeofencingRequest(fence);
+                utils.client.addGeofences(request, utils.getPendingIntent())
+                        .addOnSuccessListener(GeofencingUtils::debugLogGeofencingTask)
+                        .addOnFailureListener(GeofencingUtils::debugLogGeofencingTask);
+            }
         });
     }
 

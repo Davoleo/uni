@@ -1,5 +1,7 @@
 package net.davoleo.memorandum.ui;
 
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +10,12 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import net.davoleo.memorandum.R;
@@ -52,8 +56,21 @@ public class MemoMapFragment extends Fragment implements OnMapReadyCallback {
             if (firstLocation == null)
                 firstLocation = location;
 
-            MarkerOptions options = new MarkerOptions().position(location).title(memo.title).snippet(memo.description);
-            googleMap.addMarker(options);
+            MarkerOptions marker = new MarkerOptions()
+                    .position(location)
+                    .title(memo.title)
+                    .snippet(memo.description);
+            googleMap.addMarker(marker);
+
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            CircleOptions circle = new CircleOptions()
+                    .center(location)
+                    .radius(prefs.getInt("location_radius", 200))
+                    .strokeWidth(4)
+                    .strokeColor(Color.argb(255, 255, 0, 0))
+                    .fillColor(Color.argb(64, 255, 0, 0));
+            googleMap.addCircle(circle);
         }
 
         if (firstLocation != null)

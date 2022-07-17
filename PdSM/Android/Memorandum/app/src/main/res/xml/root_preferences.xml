@@ -16,29 +16,15 @@
     <PreferenceCategory app:title="@string/notification_header">
 
         <SeekBarPreference
-            app:defaultValue="30"
-            android:max="100"
+            app:defaultValue="200"
+            android:max="500"
+            app:min="50"
             app:showSeekBarValue="true"
             app:entries="@array/sorting_entries"
             app:entryValues="@array/sorting_values"
             app:key="location_radius"
             app:title="@string/location_radius_setting"
-            app:seekBarIncrement="10" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
+            app:seekBarIncrement="50" />
 
     </PreferenceCategory>
 
