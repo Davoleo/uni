@@ -49,6 +49,7 @@
         android:checkable="false"
         android:text="STATUS1"
         android:textAppearance="@style/Theme.Memorandum.ChipText"
+        android:textColor="@color/black"
         android:textSize="12sp"
         app:chipBackgroundColor="@color/lime_light"
         app:chipCornerRadius="100dp"
