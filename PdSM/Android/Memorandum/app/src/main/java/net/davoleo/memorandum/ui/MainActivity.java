@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -29,7 +28,6 @@ import net.davoleo.memorandum.model.Location;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
-import net.davoleo.memorandum.service.GeofencingJobIntentService;
 import net.davoleo.memorandum.util.GeofencingUtils;
 import net.davoleo.memorandum.util.Utils;
 
@@ -64,9 +62,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         //Initialize DB
         MemorandumDatabase.init(this);
-
-        //Start Geofencing Notification Service
-        startService(new Intent(getApplicationContext(), GeofencingJobIntentService.class));
 
         geofencingHelper = new GeofencingUtils(this);
 
@@ -120,9 +115,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (!Utils.hasLocationPermissions(this)) {
             Utils.requestLocationPermissions(this, coordinatorLayout);
         }
-        else {
-            //todo perform pending tasks
-        }
+        //else {
+        //    //todo perform pending tasks
+        //}
     }
 
     @Override

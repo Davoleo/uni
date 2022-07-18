@@ -74,7 +74,7 @@ public class MemoMapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         if (firstLocation != null)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(firstLocation));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 10));
     }
 
     @Nullable

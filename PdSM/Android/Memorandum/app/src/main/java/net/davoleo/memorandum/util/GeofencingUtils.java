@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
@@ -19,11 +20,15 @@ import java.util.Arrays;
 public class GeofencingUtils extends ContextWrapper {
 
     private static final String TAG = "GeofencingUtils";
-    public static final int GEOFENCE_BROADCAST_REQUEST_CODE = 340;
+    public static final int GEOFENCE_BROADCAST_REQUEST_CODE = 0;
 
     public final GeofencingClient client;
 
     private PendingIntent pendingIntent;
+
+    private static final int PENDING_INTENT_FLAGS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ?
+            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE :
+            PendingIntent.FLAG_UPDATE_CURRENT;
 
     public GeofencingUtils(Context base)
     {
@@ -64,7 +69,7 @@ public class GeofencingUtils extends ContextWrapper {
         if (pendingIntent == null)
         {
             Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(this, GEOFENCE_BROADCAST_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingIntent = PendingIntent.getBroadcast(this, GEOFENCE_BROADCAST_REQUEST_CODE, intent, PENDING_INTENT_FLAGS);
         }
 
         return pendingIntent;

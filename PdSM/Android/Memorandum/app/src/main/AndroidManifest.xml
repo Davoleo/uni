@@ -14,15 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Memorandum">
 
-        <receiver android:name=".service.GeofenceBroadcastReceiver" />
-
-        <service android:name=".service.GeofencingJobIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="false" />
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
+
+        <receiver android:name=".service.GeofenceBroadcastReceiver"
+            android:enabled="true" />
 
         <activity
             android:name=".ui.SettingsActivity"

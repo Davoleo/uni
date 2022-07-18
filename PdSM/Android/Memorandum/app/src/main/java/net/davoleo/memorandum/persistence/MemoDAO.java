@@ -22,6 +22,9 @@ public interface MemoDAO {
     @Query("SELECT location FROM Memo WHERE status = 0")
     Location[] getActiveLocations();
 
+    @Query("SELECT * FROM Memo WHERE location = :location")
+    Memo getMemoByLocation(Location location);
+
     @Insert
     void insertOne(Memo memo);
 
