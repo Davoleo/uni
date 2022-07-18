@@ -144,25 +144,27 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     public void onTabSelected(TabLayout.Tab tab)
     {
-        //Protect against list fragment becoming null due to inflating issues
-        if (listFragment == null) {
-            listFragment = (MemoListFragment) getSupportFragmentManager().findFragmentByTag("FRAGMENT_LIST");
-            assert listFragment != null;
-        }
-
-        //Runnable adjustFabPosition = () -> {
-        //    //Set FAB Gravity depending on the visible fragment
-        //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        //        fab.setForegroundGravity(mapFragment.isVisible() ? Gravity.START | Gravity.BOTTOM : Gravity.END | Gravity.BOTTOM);
-        //};
 
         if (tabs.getSelectedTabPosition() == 0) {
+            //Protect against list fragment becoming null due to inflating issues
+            if (listFragment == null) {
+                Snackbar.make(coordinatorLayout, "Memo List Tab is currently unavailable", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out);
             transaction.replace(R.id.main_container_layout, this.listFragment);
             transaction.commit();
         }
         else if (tabs.getSelectedTabPosition() == 1) {
+            //Protect against list fragment becoming null due to inflating issues
+            if (mapFragment == null) {
+                Snackbar.make(coordinatorLayout, "Memo Map Tab is currently unavailable", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out);
             transaction.replace(R.id.main_container_layout, this.mapFragment);
