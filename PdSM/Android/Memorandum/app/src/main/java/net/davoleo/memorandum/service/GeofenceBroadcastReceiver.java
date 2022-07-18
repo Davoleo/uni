@@ -30,7 +30,8 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Toast.makeText(context, "Geofence triggered!", Toast.LENGTH_SHORT).show();
+        //Debug Toast
+        //Toast.makeText(context, "Geofence triggered!", Toast.LENGTH_SHORT).show();
 
         GeofencingEvent event = GeofencingEvent.fromIntent(intent);
         if (event.hasError()) {
