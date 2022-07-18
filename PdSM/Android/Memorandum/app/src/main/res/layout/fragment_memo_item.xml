@@ -30,14 +30,13 @@
         android:layout_below="@+id/memo_title"
         android:layout_marginTop="8dp"
         android:width="90dp"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:scrollHorizontally="false"
         android:singleLine="false"
         android:text="DDDDDesc"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:maxLines="2"
-        android:textSize="14sp"
-        android:ellipsize="end"
-        />
+        android:textSize="14sp" />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/memo_status"

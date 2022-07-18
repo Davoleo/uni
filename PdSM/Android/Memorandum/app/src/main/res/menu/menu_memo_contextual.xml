@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="@string/action_remove_memo" android:id="@+id/context_remove_memo" />
+    <item android:id="@+id/context_show_details" android:title="@string/action_show_details" />
 
 </menu>

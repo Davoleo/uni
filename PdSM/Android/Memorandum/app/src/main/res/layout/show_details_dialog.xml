@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    >
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Memo Title"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/descView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titleView"
+        android:layout_marginTop="10dp"
+        android:layout_alignStart="@id/titleView"
+        android:layout_alignLeft="@id/titleView"
+        android:text="LOREM IPSUM ASKFLJALSFKJLFJSKFJASFAKLFJL ASFKJALSKFJAK ASKJF LASFJKLSFJ ASJ KAJFKLASJ FKLAJSFLKAJ" />
+
+    <LinearLayout
+        android:id="@+id/timestampViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descView"
+        android:layout_alignStart="@id/titleView"
+        android:layout_alignLeft="@id/titleView"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_schedule"
+            android:tint="?attr/colorOnPrimarySurface"
+            />
+
+        <TextView
+            android:id="@+id/timestampView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD/MM/YYYY - 00:00" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timestampViewLayout"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:src="@android:drawable/ic_dialog_map"
+            android:tint="?attr/colorOnPrimarySurface" />
+
+        <TextView
+            android:id="@+id/locationView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:text="Location Name" />
+    </LinearLayout>
+</RelativeLayout>

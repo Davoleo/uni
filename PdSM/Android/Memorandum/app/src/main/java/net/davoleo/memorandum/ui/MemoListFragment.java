@@ -17,6 +17,7 @@ import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
 import net.davoleo.memorandum.persistence.TypeConverters;
+import net.davoleo.memorandum.ui.dialog.MemoDetailsDialog;
 import net.davoleo.memorandum.ui.list.ItemSwipeCallback;
 import net.davoleo.memorandum.ui.list.MemoRecycleAdapter;
 import net.davoleo.memorandum.ui.list.SortedMemosCallback;
@@ -183,8 +184,15 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
     {
         int actionId = item.getItemId();
 
-        if (actionId == R.id.context_remove_memo && longPressedElementIndex > -1 && longPressedElementIndex < processedList.size()) {
+        if (longPressedElementIndex < 0 || longPressedElementIndex >= processedList.size())
+            return false;
+
+        if (actionId == R.id.context_remove_memo) {
             removeMemoFromProcessedList(processedList.get(longPressedElementIndex));
+        }
+
+        if (actionId == R.id.context_show_details) {
+            MemoDetailsDialog.show(getContext(), processedList.get(longPressedElementIndex));
         }
 
         return true;
