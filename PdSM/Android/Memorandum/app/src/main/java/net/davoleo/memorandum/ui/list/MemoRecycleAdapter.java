@@ -128,7 +128,7 @@ public class MemoRecycleAdapter extends RecyclerView.Adapter<MemoRecycleAdapter.
                 //System.out.println("test nonnul");
             }
 
-            return true;
+            return false;
         });
     }
 

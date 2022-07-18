@@ -168,7 +168,6 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
     public void onItemLongClicked(View view, int position)
     {
         longPressedElementIndex = position;
-        view.showContextMenu();
     }
 
     @Override
