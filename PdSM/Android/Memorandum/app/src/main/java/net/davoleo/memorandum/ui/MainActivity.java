@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     public void filterMemos(MenuItem menuButton) {
         SharedPreferences.Editor editablePrefs = Utils.getSharedPreferences(this).edit();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick a Status to filter Memos (Dismiss to unset the filter)");
+        builder.setTitle("Pick a Status to filter Memos");
         builder.setSingleChoiceItems(
                 MemoStatus.NAMES,
                 listFragment.filteredStatus == null ? -1 : listFragment.filteredStatus.ordinal(),
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                     dialog.dismiss();
                 }
         );
-        builder.setOnCancelListener(dialog -> {
+        builder.setNegativeButton("Unset", (dialog, which) -> {
             if (listFragment.filteredStatus != null)
             {
                 editablePrefs.putInt("memo_filter", -1);
