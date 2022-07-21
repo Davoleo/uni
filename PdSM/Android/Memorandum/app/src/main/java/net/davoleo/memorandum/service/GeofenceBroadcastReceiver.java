@@ -39,21 +39,17 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
             return;
         }
 
+        int geofenceTransition = event.getGeofenceTransition();
+        List<Geofence> triggeredGeofences = event.getTriggeringGeofences();
 
-        MainActivity.memorandumExecutor.submit(() -> {
-            int geofenceTransition = event.getGeofenceTransition();
-            List<Geofence> triggeredGeofences = event.getTriggeringGeofences();
+        if (triggeredGeofences != null && geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
 
-            if (triggeredGeofences != null && geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
-
-                for (Geofence geofence : triggeredGeofences) {
-                    Location location = TypeConverters.locationFromString(geofence.getRequestId());
-                    location.reverseGeocode(context);
-                    sendNotification(context, location);
-                }
-
+            for (Geofence geofence : triggeredGeofences) {
+                Location location = TypeConverters.locationFromString(geofence.getRequestId());
+                location.reverseGeocode(context);
+                sendNotification(context, location);
             }
-        });
+        }
     }
 
     private void sendNotification(Context context, Location location) {
