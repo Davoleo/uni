@@ -43,16 +43,16 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
         List<Geofence> triggeredGeofences = event.getTriggeringGeofences();
 
         if (triggeredGeofences != null && geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
+            Memo memo = Memo.fromBundle(intent.getExtras());
 
-            for (Geofence geofence : triggeredGeofences) {
-                Location location = TypeConverters.locationFromString(geofence.getRequestId());
-                location.reverseGeocode(context);
-                sendNotification(context, location);
+            if (memo != null) {
+                memo.getLocation().reverseGeocode(context);
+                sendNotification(context, memo);
             }
         }
     }
 
-    private void sendNotification(Context context, Location location) {
+    private void sendNotification(Context context, Memo memo) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
@@ -73,13 +73,12 @@ public class GeofenceBroadcastReceiver extends BroadcastReceiver {
 
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String placeName = TypeConverters.addressToString(location.getAddress(), location.getLatitude(), location.getLongitude());
-        Memo memo = MemorandumDatabase.instance.memoDAO().getMemoByLocation(location);
+        String placeName = TypeConverters.addressToString(memo.getLocation().getAddress(), memo.getLocation().getLatitude(), memo.getLocation().getLongitude());
 
         notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(MemoStatus.ACTIVE.getColor())
                 .setContentTitle(placeName)
-                .setContentText(String.format(context.getString(R.string.memo_geofence_entered_notification), memo != null ? memo.title : placeName))
+                .setContentText(String.format(context.getString(R.string.memo_geofence_entered_notification), memo.title))
                 .setContentIntent(notificationPendingIntent);
 
         notificationBuilder.setAutoCancel(true);

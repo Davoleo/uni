@@ -76,6 +76,10 @@ public class Memo {
          MemoStatus status = MemoStatus.byIndex(bundle.getInt("status"));
          Date timestamp = new Date(bundle.getLong("timestamp"));
          Location location = Location.fromString(bundle.getString("location"));
+
+         if (title == null || desc == null)
+             return null;
+
          return new Memo(title, desc, status, timestamp, location);
     }
 }

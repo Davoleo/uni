@@ -103,7 +103,7 @@ public class MemoListFragment extends Fragment implements MemoRecycleAdapter.OnI
                 GeofencingUtils utils = ((MainActivity) getActivity()).geofencingHelper;
                 Geofence fence = utils.createGeofence(memo.getLocation());
                 GeofencingRequest request = utils.createGeofencingRequest(fence);
-                utils.client.addGeofences(request, utils.getPendingIntent())
+                utils.client.addGeofences(request, utils.getPendingIntent(memo))
                         .addOnSuccessListener(GeofencingUtils::debugLogGeofencingTask)
                         .addOnFailureListener(GeofencingUtils::debugLogGeofencingTask);
             }

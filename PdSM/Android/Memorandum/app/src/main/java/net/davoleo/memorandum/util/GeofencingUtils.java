@@ -12,6 +12,7 @@ import androidx.preference.PreferenceManager;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.*;
 import net.davoleo.memorandum.model.Location;
+import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.persistence.TypeConverters;
 import net.davoleo.memorandum.service.GeofenceBroadcastReceiver;
 
@@ -64,11 +65,12 @@ public class GeofencingUtils extends ContextWrapper {
                 .build();
     }
 
-    public PendingIntent getPendingIntent()
+    public PendingIntent getPendingIntent(Memo memoData)
     {
         if (pendingIntent == null)
         {
             Intent intent = new Intent(this, GeofenceBroadcastReceiver.class);
+            intent.putExtras(memoData.toBundle());
             pendingIntent = PendingIntent.getBroadcast(this, GEOFENCE_BROADCAST_REQUEST_CODE, intent, PENDING_INTENT_FLAGS);
         }
 

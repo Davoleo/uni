@@ -31,6 +31,7 @@ import net.davoleo.memorandum.persistence.MemorandumDatabase;
 import net.davoleo.memorandum.util.GeofencingUtils;
 import net.davoleo.memorandum.util.Utils;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -72,17 +73,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (Utils.hasLocationPermissions(this)) {
 
             memorandumExecutor.submit(() -> {
-                Location[] locations = MemorandumDatabase.instance.memoDAO().getActiveLocations();
+                List<Memo> memos = MemorandumDatabase.instance.memoDAO().getAllOfStatus(MemoStatus.ACTIVE);
 
-                Geofence[] geofenceList = new Geofence[locations.length];
-                for (int i = 0; i < locations.length; i++)
-                    geofenceList[i] = geofencingHelper.createGeofence(locations[i]);
+                for (Memo memo : memos)
+                {
+                    Geofence fence = geofencingHelper.createGeofence(memo.getLocation());
+                    GeofencingRequest request = geofencingHelper.createGeofencingRequest(fence);
+                    geofencingHelper.client
+                            .addGeofences(request, geofencingHelper.getPendingIntent(memo))
+                            .addOnFailureListener(GeofencingUtils::debugLogGeofencingTask)
+                            .addOnSuccessListener(GeofencingUtils::debugLogGeofencingTask);
+                }
 
-                GeofencingRequest request = geofencingHelper.createGeofencingRequest(geofenceList);
-                geofencingHelper.client
-                        .addGeofences(request, geofencingHelper.getPendingIntent())
-                        .addOnFailureListener(GeofencingUtils::debugLogGeofencingTask)
-                        .addOnSuccessListener(GeofencingUtils::debugLogGeofencingTask);
             });
         }
 
@@ -115,9 +117,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (!Utils.hasLocationPermissions(this)) {
             Utils.requestLocationPermissions(this, coordinatorLayout);
         }
-        //else {
-        //    //todo perform pending tasks
-        //}
+        //Now that permissions have been granted app can do stuff
     }
 
     @Override
@@ -227,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             }
             else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "onRequestPermissionsResult: Location Permission Granted");
-                //todo Perform pending task
             }
             else {
                 Snackbar.make(coordinatorLayout, "Location Permissions have been denied, you can change this from the settings", Snackbar.LENGTH_SHORT);
