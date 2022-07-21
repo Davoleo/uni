@@ -17,11 +17,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import net.davoleo.memorandum.R;
 import net.davoleo.memorandum.model.Memo;
 import net.davoleo.memorandum.model.MemoStatus;
 import net.davoleo.memorandum.persistence.MemorandumDatabase;
+import net.davoleo.memorandum.ui.dialog.MemoDetailsDialog;
 import net.davoleo.memorandum.util.Utils;
 
 import java.util.List;
@@ -72,6 +74,23 @@ public class MemoMapFragment extends Fragment implements OnMapReadyCallback {
                     .fillColor(Color.argb(64, 255, 0, 0));
             googleMap.addCircle(circle);
         }
+
+        googleMap.setOnInfoWindowClickListener(windowMarker -> {
+
+            if (windowMarker == null)
+                return;
+
+            LatLng windowPos = windowMarker.getPosition();
+
+            for (Memo mapMemo : mapMemos)
+            {
+                System.out.println(mapMemo.getLocation().getLatitude());
+                LatLng loc = new LatLng(mapMemo.getLocation().getLatitude(), mapMemo.getLocation().getLongitude());
+                if (loc.latitude == windowPos.latitude && loc.longitude == windowPos.longitude) {
+                    MemoDetailsDialog.show(getContext(), mapMemo);
+                }
+            }
+        });
 
         if (firstLocation != null)
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 10));
