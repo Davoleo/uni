@@ -21,6 +21,15 @@ MdP/safe_stack/v1/docs
 # MATLAB temporary files
 *.asv
 
+# ------------- Visual studio Solutions ----------
+# IG
+**/Grafica/.vs
+**/Grafica/Debug
+**/Grafica/dlls
+**/Grafica/lib
+**/Grafica/includes
+
+
 # ------------- XCode Configuration --------------
 #####
 # OS X temporary files that should never be committed
