@@ -28,21 +28,21 @@ for	ENTRY in $(cat $NEWUSERSFILE); do
 	LASTNAME=$(echo $ENTRY | cut -d: -f2)
 
 	# Account Name
-	FIRSTINITIAL=$(echo $FIRSTNAME | cut -c 1 | tr '[:upper]' '[:lower]')
-	LOWERLASTNAME=$(echo $LASTNAME | tr '[:upper]' '[:lower]')
+	FIRSTINITIAL=$(echo $FIRSTNAME | cut -c 1 | tr '[:upper:]' '[:lower:]')
+	LOWERLASTNAME=$(echo $LASTNAME | tr '[:upper:]' '[:lower:]')
 
 	ACCOUNTNAME=$FIRSTINITIAL$LOWERLASTNAME
 
 	ACCTEXISTS=''
 	EXISTING_FULLNAME=''
 	
-	if id "$ACCOUNTNAME"; then
+	if id "$ACCOUNTNAME" &> /dev/null; then
 		ACCTEXISTS='y'
 		EXISTING_FULLNAME="$(grep ^$ACCOUNTNAME: /etc/passwd | cut -f5 -d:)"
 	fi
 
-	if [ $ACCTEXISTS = 'y' ]; then
-		if [ $EXISTING_FULLNAME -eq "$FIRSTNAME $LASTNAME" ]; then
+	if [ "$ACCTEXISTS" = 'y' ]; then
+		if [ "$EXISTING_FULLNAME" = "$FIRSTNAME $LASTNAME" ]; then
 			echo "Skipping $ACCOUNTNAME... (Duplicate Found)"
 		else
 			echo "Skipping $ACCOUNTNAME... (Conflict Found)"

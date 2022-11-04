@@ -9,8 +9,8 @@ for	ENTRY in $(cat $NEWUSERSFILE); do
 	LASTNAME=$(echo $ENTRY | cut -d: -f2)
 
 	# Account Name
-	FIRSTINITIAL=$(echo $FIRSTNAME | cut -c 1 | tr '[:upper]' '[:lower]')
-	LOWERLASTNAME=$(echo $LASTNAME | tr '[:upper]' '[:lower]')
+	FIRSTINITIAL=$(echo $FIRSTNAME | cut -c 1 | tr '[:upper:]' '[:lower:]')
+	LOWERLASTNAME=$(echo $LASTNAME | tr '[:upper:]' '[:lower:]')
 
 	ACCOUNTNAME=$FIRSTINITIAL$LOWERLASTNAME
 
