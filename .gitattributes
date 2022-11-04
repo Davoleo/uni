@@ -2,8 +2,8 @@
 *.sql linguist-detectable 
 
 # XML Data
-*.xml linguist-detectable
-*.xsd linguist-detectable
+SI/*.xml linguist-detectable
+SI/*.xsd linguist-detectable
 # hello Assembly
 *.s linguist-detectable
 
