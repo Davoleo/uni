@@ -1,0 +1,86 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+
+\author{Leonardo Davoli}
+\title{Special Characters in \LaTeX}
+\date{\today}
+
+\begin{document}
+
+	\maketitle
+	\tableofcontents
+
+	\section{Caratteri speciali e i loro usi in \LaTeX}
+
+	\subsection{Space [\ ]}
+	This      sentence      contains various   spaces,
+	although every group of consecutive spaces is collapsed into a single one.
+	Inserting a new line character is also considered like a space in the compiled documents,
+	allowing to break lines in the source independently from the compiled document structure.
+
+	If you insert 2 new line characters it's considered as if you're beginning 
+	to write a new paragraph which actually begins a new line and also indents it as per standard conventions.
+
+	\subsection{Double Quote ["]}
+	``Example quoted part of text", can also be used as a command in that case it has the
+	function of adding a special double pointed accent to the character \"{T}
+
+	\subsection{Hashtag [\#]}
+	Has the function of aligning things horizontally, can be escaped by writing: \textbackslash\#
+
+	\subsection{Dollar [\${}]}
+	Used to open small in-line math environments to write formulas and calculations,
+	for example: $ e^{i\pi} = -1 $
+
+	Can be escaped by writing: \textbackslash\$
+
+	\subsection{Percentage [\%]}
+	Used to write comments in \LaTeX .tex source files,
+	text after \% is ignored and stripped by the compiler.
+
+	Can be escaped this way: \textbackslash\%
+
+	\subsection{Ampersand [\&]}
+	Reserved character to align things vertically, can be escaped: \textbackslash\&
+
+	\subsection{Apostrophe (Single Quote) [']}
+	Can be used normally in text to single-quote text: 'Example single-quoted text'
+
+	Can be used as a command to put acute accent to a character: \'{H}
+
+	\subsection{Backslash [\textbackslash]}
+	Special Character used to begin any macro command in \LaTeX.
+
+	Can be escaped by writing: \textbackslash textbackslash
+
+	\subsection{Caret [\^{}]}
+	\begin{itemize}
+		\item Can be used as a normal character in text: \^{}
+		\item Can be used to put circumflex accent on a certain character: \^{J}
+		\item Can be used to write something in superscript in math environments [e.g. exponents]: $ 2^4 $
+	\end{itemize}
+
+	\subsection{Underscore [\_]}
+	Used in math environments to write something as subscript of something else,
+	for instance: $F_{in} = 2N$ or $F_{out} = 1N$
+
+	Can be escaped by writing: \textbackslash\_
+
+	\subsection{Backtick [`]}
+	The inverse symbol of the single quote,
+	can be used to add grave accents to characters in this way: \`{F}
+
+	\subsection{Open and Closed Brace [\{ \}]}
+	Reserved \LaTeX\ character to pass parameters to commands and environment names.
+
+	Can be escaped: \textbackslash\{, \textbackslash\}
+
+	\subsection{Tilde [\~{}]}
+	\begin{itemize}
+		\item Used~to~insert~a~space~that~can't~be~broken~when~\LaTeX~wants~to~put~the~words~on~2~different~lines
+		\item Can be used to add a tilde accent on a character: \~{Y}
+		\item Can be escaped: \~{}
+	\end{itemize}
+
+
+\end{document}
