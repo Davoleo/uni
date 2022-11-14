@@ -1,4 +1,4 @@
-package net.davoleo.unipr.examples;
+package net.davoleo.uni.examples;
 
 public class Example01 {
 
@@ -55,7 +55,7 @@ public class Example01 {
 		System.out.println("Notifier terminated");
 	}
 
-	public static main void(String[] args) {
+	public static void main(String[] args) {
 		new Example01().go();
 	}
 
