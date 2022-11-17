@@ -1,9 +1,19 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{hyperref}
 
 \author{Leonardo Davoli}
 \title{Special Characters in \LaTeX}
 \date{\today}
+
+%% BEGIN: Custom Commands %%
+
+\newcommand{\mystyle}[1]{\hl{\textit{\textbf{\texttt{#1}}}}}
+\newcommand{\mystylecolor}[2]{\sethlcolor{#1} \hl{\textit{\textbf{\texttt{#2}}}}}
+
+%% END: Custom Commands %%
 
 \begin{document}
 
@@ -81,6 +91,23 @@
 		\item Can be used to add a tilde accent on a character: \~{Y}
 		\item Can be escaped: \~{}
 	\end{itemize}
+
+	\section{Commands \& Declarations tests}
+	\begin{itemize}
+		\item First command that highlights: \hl{Highlit Text}
+		\item First command that highlights in green: {\sethlcolor{green} \hl{Highlit Text}}
+		\item Back to the original color...? \hl{Highlit Text}
+		\item Change style and highlight: \hl{\textit{\textbf{Highlit Text}}}
+		\item Change style and highlight: \hl{\textit{\textbf{\texttt{Highlit Text}}}}
+		\item Change style and highlight: \hl{\textsc{Highlit Text}}
+		\item \href{https://open.spotify.com/track/4AfmZe8i6uNAR5xTSZxqNn?si=aa3887b5fc244fe9}{Questa è una freccia: $\rightarrow$ [cit. Rancore]}
+		\item Questa è una frazione: $\frac{num}{den}$
+		\item \mystyle{This is my style using custom command}
+		\item \mystylecolor{pink}{This is my style but colored :moyai:}
+		
+	\end{itemize}
+
+	
 
 
 \end{document}
