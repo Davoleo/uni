@@ -1,6 +1,19 @@
-\documentclass[a4paper]{article}
+\documentclass{book}
+% Tipi: 
+% - article
+% - report: relazioni, tesi strutturate in diversi capitoli e dotate eventualmente di un sommario
+% - book: scrivere libri
+% - letter
+% -
+% Argomento opzionale: adatta il comportamento della classe del documento: dimensione del font, dimensione del foglio [a4paper, a5paper, letterpaper]
+% oneside, twoside -> se si stampa anche dietro ai fogli
+% twocolumn -> Stampa a 2 colonne [più testo in meno pagine]
+% openright, opnenany -> fanno iniziare i capitoli sempre in una pagina destra o una qualsiasi pagina
+% fleqn -> Allinea le formule a sinistra invece che al centro
+% leqno -> numerazione delle formule a sinistra invece che a destra
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
+\usepackage{blindtext}
 
 \author{Leonardo Davoli}
 \title{Test Document}
@@ -19,5 +32,16 @@ Accenti Moment: à è é ì ò ù \~n
 
 Inizio secondo paragrafo
 \section{Za Endo}
+
+\Blindtext
+
+\subsubsection{Mini Blind}
+\Blindtext
+
+\subsection{Mini Blind 2}
+\blindtext
+
+%\chapter{Test (?)}
+\blindtext
 
 \end{document}

@@ -1,4 +1,17 @@
 \documentclass[a4paper]{article}
+% Tipi: 
+% - article
+% - report: relazioni, tesi strutturate in diversi capitoli e dotate eventualmente di un sommario
+% - book: scrivere libri
+% - letter
+% -
+% Argomento opzionale: adatta il comportamento della classe del documento: dimensione del font, dimensione del foglio [a4paper, a5paper, letterpaper]
+% oneside, twoside -> se si stampa anche dietro ai fogli
+% twocolumn -> Stampa a 2 colonne [più testo in meno pagine]
+% openright, opnenany -> fanno iniziare i capitoli sempre in una pagina destra o una qualsiasi pagina
+% fleqn -> Allinea le formule a sinistra invece che al centro
+% leqno -> numerazione delle formule a sinistra invece che a destra
+
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{soul}
@@ -11,7 +24,8 @@
 %% BEGIN: Custom Commands %%
 
 \newcommand{\mystyle}[1]{\hl{\textit{\textbf{\texttt{#1}}}}}
-\newcommand{\mystylecolor}[2]{\sethlcolor{#1} \hl{\textit{\textbf{\texttt{#2}}}}}
+% I comandi possono essere nestati -> Cose complesse yay
+\newcommand{\mystylecolor}[2]{\sethlcolor{#1} \mystyle{#2}}
 
 %% END: Custom Commands %%
 
@@ -104,7 +118,6 @@
 		\item Questa è una frazione: $\frac{num}{den}$
 		\item \mystyle{This is my style using custom command}
 		\item \mystylecolor{pink}{This is my style but colored :moyai:}
-		
 	\end{itemize}
 
 	
