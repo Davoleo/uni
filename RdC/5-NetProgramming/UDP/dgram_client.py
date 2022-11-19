@@ -21,7 +21,7 @@ s = socket(AF_INET,SOCK_DGRAM)
 
 ta=time.time()
 
-Len = s.sendto("hello from Leonardo Davoli, in python",addr) 
+Len = s.sendto("hello from Leonardo Davoli, in python".encode('utf-8'),addr) 
 #Len=s.sendto("hello".encode('utf-8'),addr) 
 
 print ("sent ",Len," Bytes \n")
