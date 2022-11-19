@@ -20,7 +20,7 @@ s = socket(AF_INET,SOCK_STREAM)
 
 s.connect(addr)
 print ("Connesso al server", addr)
-messaggio="ciao"
+messaggio=options.message
 print ("Invio messaggio ", messaggio)
 s.send(messaggio.encode())
 risposta = s.recv(1500).decode()
