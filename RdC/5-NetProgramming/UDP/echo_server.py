@@ -14,7 +14,7 @@ parser.add_option('-s', '--server',   dest="server",  default="0.0.0.0", )
 parser.add_option('-b', '--bufsize',  dest="bufsize", default=1024, type=int , help="dimensione buffer" )
 options, remainder = parser.parse_args()
 
-print"   port:", options.port, "  server:", options.server, "bufsize:",options.bufsize
+print("   port:", options.port, "  server:", options.server, "bufsize:",options.bufsize)
 
 s = socket(AF_INET,SOCK_DGRAM)
 s.bind((options.server,options.port))
@@ -22,10 +22,10 @@ s.bind((options.server,options.port))
 try: 
   while(1):
         data,addr = s.recvfrom(options.bufsize)
-        print "from:",addr," data:", data
+        print("from:",addr," data:", data)
         Len = s.sendto(data,addr)
-        print "to:",addr,"  data:", data
-        print "----------------------------"
+        print("to:",addr,"  data:", data)
+        print("----------------------------")
 except (KeyboardInterrupt):
-  print "Chiudi socket ed esci.."      
-  s.close() 
+  	print("Chiudi socket ed esci..")
+  	s.close() 
