@@ -1,0 +1,133 @@
+\documentclass[11pt,b5paper,openany,titlepage,twoside]{book}
+\usepackage[utf8]{inputenc}
+
+% My packages
+\usepackage{geometry}
+\usepackage[italian]{babel}
+\usepackage{blindtext}
+\usepackage{mathtools,amsfonts, amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage[italian,tight]{minitoc}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,
+	urlcolor=cyan,
+	pdftitle=My \LaTeX Document,
+	pdfpagemode=FullScreen
+}
+
+\title{My \LaTeX\ Document}
+\author{Leonardo Davoli}
+\date{\today}
+
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\setcounter{minitocdepth}{3}
+\dominitoc
+
+\begin{document}
+	
+	\frontmatter
+	\maketitle
+	\tableofcontents
+
+	\mainmatter
+	\chapter{Background}
+	\minitoc
+	\mtcskip
+	In questo capitolo si presenteranno le informazioni per comprendere il contributo (che inizierà al Capitolo~\ref{ch:contr} a pagina~\ref{ch:contr}).
+	Altra frase di presentazione.
+
+	Nuovo capoverso che parla dello stesso argomento ma è \emph{logicamente} separato
+	
+	\section{\TeX e \LaTeX}
+	In questo capitolo si parla di \TeX e \LaTeX.
+	\blindtext
+	\subsection{\TeX}
+	\Blindtext
+	\subsection{\LaTeX}
+	\Blindtext
+	\subsection*{Altri Materiali}
+	\blindtext
+
+	\section{Gli strumenti di Scrittura (Editor)}
+	
+	\subsection{Distribuzione di \LaTeX}
+	\subsubsection{MiK\TeX}
+	\subsubsection{\TeX Live}
+
+	\subsection{Editor di Testo più utilizzati}
+
+	%% Troppo dettaglio
+	% \subsubsection{Offline}
+	% \paragraph{\TeX Works}
+	% \paragraph{\TeX Studio}
+	% \paragraph{WinEdt}
+
+	% \subsubsection{Online}
+	% Qui si parla solo di Overleaf.
+
+	\subsubsection{Windows}
+	\paragraph{\TeX Works}
+	\paragraph{\TeX Studio}
+	\paragraph{WinEdt}
+	\subsubsection{Mac OS}
+	\paragraph{\TeX Works}
+	\paragraph{\TeX Studio}
+	\subsubsection{Online (Overleaf)}
+	Qui si parla solo di Overleaf
+
+
+
+	\section{I Pacchetti più utilizzati}
+	\subsection*{hyperref}
+	\addcontentsline{toc}{subsection}{hyperref}
+	\subsection*{tabularx}
+	\addcontentsline{toc}{subsection}{tabularx}
+	\subsection*{graphix}
+	\addcontentsline{toc}{subsection}{graphix}
+	
+	\chapter{\label{ch:contr}Contributo}
+
+	Qui di seguito una formula matematica bella da vedere, non come $x^{2} = 4 \rightarrow x = 2$
+
+	\begin{equation}
+		\label{eqn:numero1}
+		\int_0^1{
+			\frac 1 x dx = \left[\log |x|\right]^1_0 = \log 1 - \log 0 = 0 - (- \infty) = +\infty
+			}
+	\end{equation}
+	\begin{equation}
+		\label{eqn:numero2}
+		\int_2^{+\infty}{
+			\frac 1 x dx = \left[\log |x|\right]^{+\infty}_2 = +\infty - \log 2  = +\infty
+		}
+	\end{equation}
+	\begin{equation*}
+		x^{x^{x^{x^x}}}
+	\end{equation*}
+
+	La prima equazione (Equazione~\ref{eqn:numero1}) 
+	mi sta più simpatica della seconda (Equazione~\ref{eqn:numero2})
+
+	\section{Section 1}
+	Qui il link alla pagina dell'\href{https://unipr.it}{Università di Parma}
+
+	\subsection{Subsection 1}
+	\subsection{Subsection 2}
+
+	\section{Section 2}
+	\subsection{Subsection 1}
+	\subsubsection{SubSub 1}
+	\subsubsection{SubSub 2}
+	\subsection{Subsection 2}
+	
+	\chapter{Metodologia}
+	
+	\chapter{Conclusioni}
+
+\section{Introduction}
+
+\end{document}
