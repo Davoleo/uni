@@ -16,7 +16,7 @@ parser.add_option('-s', '--server',   dest="server", default="0.0.0.0", )
 parser.add_option('-b', '--bufsize',  dest="bufsize", default=1024,  type=int , help="dimensione buffer" )
 options, remainder = parser.parse_args()
 
-print"   port:", options.port, "  server:", options.server, "bufsize:",options.bufsize
+print("   port:", options.port, "  server:", options.server, "bufsize:",options.bufsize)
 
 
 def handler_alrm(signum, frame):
@@ -37,5 +37,5 @@ s.bind((options.server,options.port))
 
 while(1):
         data,addr = s.recvfrom(options.bufsize)
-        print "addr:",addr," data:", data
+        print("addr:",addr," data:", data)
 
