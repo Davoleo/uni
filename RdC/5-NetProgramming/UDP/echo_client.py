@@ -20,7 +20,7 @@ s = socket(AF_INET,SOCK_DGRAM)
 
 ta=time.time()
 
-Len = s.sendto(options.message,addr)
+Len = s.sendto(options.message.encode('utf-8'),addr)
 print("to: ",addr,"  - data: ",options.message)
 
 data,addr = s.recvfrom(1500)
