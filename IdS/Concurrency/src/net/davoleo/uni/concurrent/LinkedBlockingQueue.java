@@ -4,25 +4,33 @@ import java.util.LinkedList;
 
 public class LinkedBlockingQueue<E> implements BlockingQueue<E> {
 
-    private final LinkedList<E> queue;
+    private Node head;
+    private Node tail;
+    
+    private Object mutex;
 
     public LinkedBlockingQueue()
     {
-        queue = new LinkedList<>();
+        head = null;
+        tail = null;
+        mutex = new Object();
     }
 
     @Override
     public E take() throws InterruptedException
     {
-        synchronized (queue) {
-            while (queue.size() == 0)
-                queue.wait();
+        synchronized (mutex) {
+            while (isEmpty())
+                mutex.wait();
 
-            E elem = queue.removeFirst();
+            @SuppressWarnings("unchecked")
+			E elem = (E) head.value;
+            head = head.next;
 
-            //If after removing there are still other elements we notify another consumer
-            if (queue.size() > 0)
-                queue.notify();
+            if (head == null)
+            	tail = null;
+            else //after removing there are still other elements we notify another consumer
+                mutex.notify();
 
             return elem;
         }
@@ -31,12 +39,23 @@ public class LinkedBlockingQueue<E> implements BlockingQueue<E> {
     @Override
     public void put(E element) throws InterruptedException
     {
-        synchronized (queue) {
-            queue.addLast(element);
-
-            //New element added -> notify other consumers
-            if (queue.size() == 1)
-                queue.notify();
+        synchronized (mutex) {
+    		Node node = new Node();
+    		node.next = null;
+    		node.value = element;
+        	
+        	if (isEmpty()) {
+        		head = tail = node;
+			}
+        	else {
+        		tail.next = node;
+        		tail = node;
+        	}
+        	
+        	//Only 1 element in the list -> notify waiting consumer
+        	if (head.next == null) {
+        		mutex.notify();
+			}
         }
     }
 
@@ -49,14 +68,21 @@ public class LinkedBlockingQueue<E> implements BlockingQueue<E> {
     @Override
     public boolean isEmpty()
     {
-        return queue.isEmpty();
+        synchronized (mutex) {
+			return head == null;
+		}
     }
 
     @Override
     public void clear()
     {
-        synchronized (queue) {
-            queue.clear();
+        synchronized (mutex) {
+            head = tail = null;
         }
+    }
+    
+    private static class Node {
+    	private Object value;
+    	private Node next;
     }
 }
