@@ -4,18 +4,24 @@ import net.davoleo.uni.concurrent.locks.Condition;
 import net.davoleo.uni.concurrent.locks.Lock;
 import net.davoleo.uni.concurrent.locks.ReentrantLock;
 
-public final class ArrayBlockingQueue<E> implements BlockingQueue<E> {
+public class ArrayBlockingQueue<E> implements BlockingQueue<E> {
 	
 	//Can't create an array of type E [because of type erasure]
 	protected Object[] queue;
-	
+
+	//indices that tell you where elements are inserted and where they're retrieved from [in the array]
 	protected int in, out;
-	
+
+	//size = max count of elems in queue
+	//count = current number of elems in queue
 	protected int count, size;
-	
-	private Lock lock;
-	
-	private Condition isNotEmpty, isNotFull;
+
+	//Lock to manage queue and condition locks atomically
+	// we can't use synchronized because certain times the critical section goes out of the boundaries of methods and code blocks
+	private final Lock lock;
+
+	//Condition locks that put threads in wait for a certain event to happen
+	private final Condition isNotEmpty, isNotFull;
 	
 	public ArrayBlockingQueue(int size) {
 		if (size < 1) 
@@ -50,6 +56,8 @@ public final class ArrayBlockingQueue<E> implements BlockingQueue<E> {
 			return result;
 		}
 		finally {
+			//To emulate synchronized block with our lock
+			//We want to ensure it doesn't remain locked
 			lock.unlock();
 		}
 	}
@@ -103,7 +111,7 @@ public final class ArrayBlockingQueue<E> implements BlockingQueue<E> {
 	@Override
 	public void clear() {
 		lock.lock();
-		in =  out = count = 0;
+		in = out = count = 0;
 		//Free array -> allow GC to clean up
 		queue = new Object[size];
 		

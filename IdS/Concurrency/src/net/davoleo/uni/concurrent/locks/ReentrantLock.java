@@ -14,7 +14,7 @@ public class ReentrantLock implements Lock {
 	}
 
 	@Override
-	public void lock() throws InterruptedException {
+	public void lock() {
 		if (counter < 0)
 			throw new IllegalMonitorStateException("counter < 0");
 
@@ -23,8 +23,14 @@ public class ReentrantLock implements Lock {
 		synchronized (mutex) {
 
 			//while owner exists and is different from the current thread -> thread goes in locked state
-			while (owner != null && owner != currentThread)
-				mutex.wait();
+			while (owner != null && owner != currentThread) {
+				try {
+					mutex.wait();
+				}
+				catch (InterruptedException e) {
+					throw new IllegalMonitorStateException("interrupted");
+				}
+			}
 
 			if (owner == null)
 				owner = currentThread;
@@ -58,7 +64,7 @@ public class ReentrantLock implements Lock {
 	}
 	
 	private class InnerCondition implements Condition {
-		private Object condition;
+		private final Object condition;
 
 		private InnerCondition() {
 			this.condition = new Object();
@@ -66,18 +72,22 @@ public class ReentrantLock implements Lock {
 		
 		@Override
 		public void await() throws InterruptedException {
+			//release the lock [we're the only ones who can do it]
+			//to allow other threads to optionally acquire it
 			unlock();
-			
+
+			//Wait for the condition to be signaled
 			synchronized (condition) {
 				condition.wait();
 			}
-			
+
+			//We reach this point if the condition was signaled -> we then acquire the lock to do whatever we need to
 			lock();
 		}
 
 		@Override
 		public void signal() {
-			synchronized (this) {
+			synchronized (mutex) {
 				if (owner != Thread.currentThread())
 					throw new IllegalMonitorStateException("owner != Thread.currentThread()");
 			}
@@ -90,7 +100,7 @@ public class ReentrantLock implements Lock {
 
 		@Override
 		public void signalAll() {
-			synchronized (this) {
+			synchronized (mutex) {
 				if (owner != Thread.currentThread())
 					throw new IllegalMonitorStateException();
 			}
