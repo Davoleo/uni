@@ -2,17 +2,54 @@ package net.davoleo.uni.concurrent.locks;
 
 public class ReentrantLock implements Lock {
 
-	private Object mutex;
-	
+	private Thread owner;
+	private int counter;
+	private final Object mutex;
+
+	public ReentrantLock()
+	{
+		this.owner = null;
+		this.counter = 0;
+		mutex = new Object();
+	}
+
 	@Override
-	public void lock() {
-		// TODO Auto-generated method stub
-		
+	public void lock() throws InterruptedException {
+		if (counter < 0)
+			throw new IllegalMonitorStateException("counter < 0");
+
+		Thread currentThread = Thread.currentThread();
+
+		synchronized (mutex) {
+
+			//while owner exists and is different from the current thread -> thread goes in locked state
+			while (owner != null && owner != currentThread)
+				mutex.wait();
+
+			if (owner == null)
+				owner = currentThread;
+			counter++;
+		}
 	}
 
 	@Override
 	public void unlock() {
-		// TODO Auto-generated method stub
+		synchronized (mutex) {
+			//Design choice: Lock can only be managed by the owner
+			if (owner != Thread.currentThread())
+				throw new IllegalMonitorStateException("owner != Thread.currentThread()");
+
+			//Sanity Check
+			if (counter <= 0)
+				throw new IllegalMonitorStateException("counter <= 0");
+
+			counter--;
+
+			if (counter == 0) {
+				owner = null;
+				mutex.notify();
+			}
+		}
 	}
 	
 	@Override
@@ -40,7 +77,7 @@ public class ReentrantLock implements Lock {
 
 		@Override
 		public void signal() {
-			synchronized (mutex) {
+			synchronized (this) {
 				if (owner != Thread.currentThread())
 					throw new IllegalMonitorStateException("owner != Thread.currentThread()");
 			}
@@ -53,7 +90,7 @@ public class ReentrantLock implements Lock {
 
 		@Override
 		public void signalAll() {
-			synchronized (mutex) {
+			synchronized (this) {
 				if (owner != Thread.currentThread())
 					throw new IllegalMonitorStateException();
 			}

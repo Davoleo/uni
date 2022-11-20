@@ -2,7 +2,7 @@ package net.davoleo.uni.concurrent.locks;
 
 public interface Lock {
 	
-	void lock();
+	void lock() throws InterruptedException;
 	
 	void unlock();
 	
