@@ -32,8 +32,6 @@ public class Example04 {
 			System.out.println(i);
 			i = counter.updateAndGet(t -> t+1);
 		}
-		
-		
 	}
 	
 	public static void main(String[] args) {
