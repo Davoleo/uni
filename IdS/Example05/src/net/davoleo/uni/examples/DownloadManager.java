@@ -24,12 +24,12 @@ public class DownloadManager {
 		executorService.shutdown();
 	}
 	
-	public void download(String url) {
+	public Future<ResourceContent> download(String url) {
 		if (url == null) {
 			throw new IllegalArgumentException("url == null");
 		}
 		
-		executorService.execute(() -> downloadAndPrint(url));
+		return executorService.execute(() -> downloadResourceContent(url));
 	}
 	
 	private void downloadAndPrint(String url) {
@@ -48,10 +48,7 @@ public class DownloadManager {
 			
 			byte[] data = outputStream.toByteArray();
 			
-			System.out.println("Downloaded " + data.length + " bytes from " + url);
-		}		
-		catch (Throwable throwable) {
-			System.err.println("Cannot download with error: " + throwable.getMessage());
+			return new ResourceContent(url, data);
 		}
 	}
 

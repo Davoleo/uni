@@ -58,6 +58,82 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		
 	}
 	
+	@Override
+	public Future<?> submit(Runnable task) {
+		if (task == null)
+			throw new NullPointerException("task == null");
+		
+		
+		SimpleFuture<?> future = new SimpleFuture<>();
+		
+		execute(() -> {
+			try {
+				task.run();
+				future.setValue(null);
+			} catch (Throwable throwable) {
+				future.setException(throwable);
+			}
+		});
+		
+		return future;
+	}
+	
+	@Override
+	public void submit(Runnable task, Callback<?> callback) {
+		if (task == null)
+			throw new NullPointerException("task == null");
+		
+		if (callback == null)
+			throw new NullPointerException("callback == null");
+		
+		execute(() -> {
+			try {
+				task.run();
+				callback.onSuccess(null);
+			} catch (Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
+	}
+	
+	@Override
+	public <T> Future<T> submit(Callable<T> task) {
+		if (task == null)
+			throw new NullPointerException("task == null");
+		
+		
+		SimpleFuture<T> future = new SimpleFuture<>();
+		
+		execute(() -> {
+			try {
+				T result = task.call();
+				future.setValue(result);
+			} catch (Throwable throwable) {
+				future.setException(throwable);
+			}
+		});
+		
+		return future;
+	}
+	
+	@Override
+	public <T> void submit(Callable<T> task, Callback<T> callback) {
+		if (task == null)
+			throw new NullPointerException("task == null");
+		
+		if (callback == null)
+			throw new NullPointerException("callback == null");
+		
+		execute(() -> {
+			try {
+				T result = task.call();
+				callback.onSuccess(result);
+			} catch (Throwable throwable) {
+				callback.onFailure(throwable);
+			}
+		});
+	}
+	
 	
 	private class Worker implements Runnable {
 
