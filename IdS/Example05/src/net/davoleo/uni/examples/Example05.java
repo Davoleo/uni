@@ -1,14 +1,14 @@
 package net.davoleo.uni.examples;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import net.davoleo.uni.concurrent.ExecutionException;
+import net.davoleo.uni.concurrent.Future;
 
 public class Example05 {
 	
 	private void process(Future<ResourceContent> future) {
 		try {
 			ResourceContent content = future.get();
-			System.out.println("Downloaded " + content.getData().length + " bytes from " content.getURL());
+			System.out.println("Downloaded " + content.getData().length + " bytes from " + content.getURL());
 		}
 		catch (ExecutionException e) {
 			System.err.println("Cannot download with error " + e.getMessage());

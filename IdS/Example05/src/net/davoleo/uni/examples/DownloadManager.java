@@ -2,10 +2,14 @@ package net.davoleo.uni.examples;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import net.davoleo.uni.concurrent.ExecutionException;
+import net.davoleo.uni.concurrent.ExecutorService;
+import net.davoleo.uni.concurrent.Executors;
+import net.davoleo.uni.concurrent.Future;
 
 public class DownloadManager {
 	
@@ -24,15 +28,21 @@ public class DownloadManager {
 		executorService.shutdown();
 	}
 	
-	public Future<ResourceContent> download(String url) {
+	public Future<ResourceContent> download(String url) throws ExecutionException {
 		if (url == null) {
 			throw new IllegalArgumentException("url == null");
 		}
 		
-		return executorService.execute(() -> downloadResourceContent(url));
+		return executorService.submit(() -> {
+			try {
+				return downloadResourceContent(url);
+			} catch (IOException e) {
+				throw new ExecutionException(e);
+			}
+		});
 	}
 	
-	private void downloadAndPrint(String url) {
+	private ResourceContent downloadResourceContent(String url) throws IOException {
 		try (InputStream inputStream = new URL(url).openStream();
 				BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
 				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
