@@ -1,11 +1,11 @@
-package net.davoleo.uni.examples.ex9;
+package net.davoleo.uni.examples.ex09;
 
 import java.util.List;
 
 import net.davoleo.uni.examples.beans.Bean;
 import net.davoleo.uni.examples.beans.BeanLoader;
-import net.davoleo.uni.examples.ex9.models.simple.SimpleBook;
-import net.davoleo.uni.examples.ex9.models.simple.SimpleStudent;
+import net.davoleo.uni.examples.ex09.models.simple.SimpleBook;
+import net.davoleo.uni.examples.ex09.models.simple.SimpleStudent;
 
 public class Example09 {
 	private void go() {

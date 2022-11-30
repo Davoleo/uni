@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples.ex5;
+package net.davoleo.uni.examples.ex05;
 
 public final class ResourceContent {
 	private String url;

@@ -1,6 +1,6 @@
-package net.davoleo.uni.examples.ex9.models.simple;
+package net.davoleo.uni.examples.ex09.models.simple;
 
-import net.davoleo.uni.examples.ex9.models.Book;
+import net.davoleo.uni.examples.ex09.models.Book;
 
 public class SimpleBook implements Book, Cloneable {
 

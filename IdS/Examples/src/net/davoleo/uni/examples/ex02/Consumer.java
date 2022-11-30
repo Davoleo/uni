@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples.ex2;
+package net.davoleo.uni.examples.ex02;
 
 import net.davoleo.uni.concurrent.BlockingQueue;
 

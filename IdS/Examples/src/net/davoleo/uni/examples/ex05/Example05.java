@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples.ex5;
+package net.davoleo.uni.examples.ex05;
 
 import net.davoleo.uni.concurrent.ExecutionException;
 import net.davoleo.uni.concurrent.Future;

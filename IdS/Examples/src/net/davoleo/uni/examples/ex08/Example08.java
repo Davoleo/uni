@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples.ex8;
+package net.davoleo.uni.examples.ex08;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

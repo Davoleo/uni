@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples.ex5;
+package net.davoleo.uni.examples.ex05;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;

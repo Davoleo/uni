@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples.ex9.models;
+package net.davoleo.uni.examples.ex09.models;
 
 import net.davoleo.uni.examples.beans.Bean;
 
