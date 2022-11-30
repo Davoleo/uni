@@ -47,13 +47,10 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 	public void shutdown() {
 		synchronized (tasks) {
 			shutdown = true;
-			
 			int length = workers.length;
-			
-			for(int i = 0; i < tasks.remainingCapacity(); i++) {
-				
+			for(int i = 0; i < length; i++) {
+				workers[i].shutdown();
 			}
-			
 		}
 		
 	}

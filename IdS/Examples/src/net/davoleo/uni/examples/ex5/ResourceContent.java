@@ -1,9 +1,8 @@
-package net.davoleo.uni.examples;
+package net.davoleo.uni.examples.ex5;
 
-public class ResourceContent {
-	
+public final class ResourceContent {
 	private String url;
-	
+
 	private byte[] data;
 
 	public ResourceContent(String url, byte[] data) {

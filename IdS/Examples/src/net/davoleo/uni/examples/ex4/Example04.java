@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples;
+package net.davoleo.uni.examples.ex4;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;

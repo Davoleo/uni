@@ -1,4 +1,4 @@
-package net.davoleo.uni.examples;
+package net.davoleo.uni.examples.ex1;
 
 public class Example01 {
 
