@@ -1,9 +1,13 @@
 package net.davoleo.uni.examples.ex09.models.simple;
 
+import java.io.Serializable;
+
 import net.davoleo.uni.examples.ex09.models.Book;
 
 public class SimpleBook implements Book, Cloneable {
 
+	private static final long serialVersionUID = -2226149390229286074L;
+	
 	private int id;
 	private String author;
 	private String title;

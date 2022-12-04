@@ -1,5 +1,7 @@
 package net.davoleo.uni.examples.beans;
 
-public interface Bean {
+import java.io.Serializable;
+
+public interface Bean extends Serializable {
 
 }

@@ -4,6 +4,8 @@ import net.davoleo.uni.examples.ex09.models.Student;
 
 public class SimpleStudent implements Student, Cloneable {
 	
+	private static final long serialVersionUID = 1357573549375503999L;
+	
 	private int id;
 	private String name;
 	private String surname;
