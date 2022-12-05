@@ -1,5 +1,10 @@
 package net.davoleo.uni.aspects;
 
-public interface RemoteResponse {
+import java.io.Serializable;
 
+public interface RemoteResponse extends Serializable {
+
+	Object getResult();
+	Throwable getexception();
+	
 }
