@@ -1,11 +1,17 @@
 package net.davoleo.uni.aspects;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ReloadableAspect {
 	
-	public static <T> ReloadableAspect<T> newHandler(Class<T> reloadableInterface, String className, String[] classpath) {
+	public static <T> ReloadableHandler<T> newHandler(Class<T> reloadableInterface, String className, String[] classpath) {
 		if (reloadableInterface == null) 
 			throw new IllegalArgumentException("reloadableInterface == null");
 		
@@ -28,6 +34,8 @@ public class ReloadableAspect {
 		private InnerReloadableHandler(String classname, String[] classpath) {
 			this.className = classname;
 			this.classpath = classpath;
+			this.parentClassLoader = getClass().getClassLoader();
+			this.classLoaders = new HashMap<>();
 		}
 		
 		@Override
@@ -56,7 +64,12 @@ public class ReloadableAspect {
 			InnerClassLoader classLoader = classLoaders.get(name);
 			
 			long lastModified = file.lastModified();
-			if (classLoader == null || lastModified > classLoader.getLastModifed()) {
+			if (classLoader == null) {
+				classLoader = new InnerClassLoader(this, name, file, lastModified);
+				classLoaders.put(name, classLoader);
+			} 
+			else if (className.equals(name) && lastModified > classLoader.getLastModified()) {
+				classLoaders.clear();
 				classLoader = new InnerClassLoader(this, name, file, lastModified);
 				classLoaders.put(name, classLoader);
 			}
@@ -69,18 +82,30 @@ public class ReloadableAspect {
 			
 			for (String path : classpath) {
 				File file = new File(path + File.separatorChar + filename);
+				
+				if (file.exists() && file.isFile() && file.canRead()) 
+					return file;
 			}
 			
-			//TODO ...
+			return null;
 		}
 		
 		private static class InnerClassLoader extends ClassLoader {
-			//TODO
+			private static final int BUFFER_SIZE = 1024;
 			
-			private long lastModified;
-			private String className;
 			private InnerReloadableHandler<?> handler;
+			private String className;
+			private File classFile;
+			private Class<?> clazz;
+			private long lastModified;			
 			
+			private InnerClassLoader(InnerReloadableHandler<?> handler, String className, File classFile, long lastModified) {
+				this.handler = handler;
+				this.className = className;
+				this.classFile = classFile;
+				this.lastModified = lastModified;
+			}
+
 			long getLastModified() {
 				return lastModified;
 			}
@@ -96,16 +121,41 @@ public class ReloadableAspect {
 					throw new IllegalArgumentException("name == null || name.length() == 0");
 				
 				if (!className.equals(name))
-					return handler.loadClass(name, false);
+					return handler.loadClass(name, true);
 				
-				if (clazz != null) {
+				if (clazz != null)
 					return clazz;
+				
+				synchronized (this) {
+					if (!classFile.exists() || !classFile.isFile() || !classFile.canRead())
+						throw new ClassNotFoundException();
 					
+					try (InputStream inputStream = new FileInputStream(classFile);
+							BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+							ByteArrayOutputStream outputStream = new ByteArrayOutputStream();) {
+						System.out.println("Loading class " + className + " from " + classFile);
+						
+						byte[] buffer = new byte[BUFFER_SIZE];
+						int read = bufferedInputStream.read(buffer);
+						
+						while (read >= 0) {
+							outputStream.write(buffer, 0, read);
+							read = bufferedInputStream.read(buffer);
+						}
+						
+						byte[] bytecode = outputStream.toByteArray();
+						clazz = defineClass(className, bytecode, 0, bytecode.length);
+						
+						if (resolve)
+							resolveClass(clazz);
+						
+						System.out.println("Loaded class " + className + " from " + classFile);
+						return clazz;
+					}
+					catch (Throwable throwable) {
+						throw new ClassNotFoundException(className, throwable.getCause());
+					}
 				}
-				
-				//TODO ..-
-				
-				return super.loadClass(name, resolve);
 			}
 		}
 		
