@@ -6,7 +6,7 @@ import net.davoleo.uni.aspects.RemoteHandler;
 
 public class Example15Server {
 	private void go() {
-		FileManager fileManager = new SimpleFileManager("src/net/davoleo/uni/examples");
+		FileManager fileManager = new SimpleFileManager("res");
 		fileManager = LoggingAspect.attach(fileManager);
 		
 		try {
