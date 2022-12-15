@@ -1,15 +1,16 @@
 package net.davoleo.uni.examples.ex15;
 
 import net.davoleo.uni.aspects.LoggingAspect;
+import net.davoleo.uni.aspects.RemoteAspect;
 import net.davoleo.uni.aspects.RemoteHandler;
 
 public class Example15Server {
 	private void go() {
-		FileManager fileManager = new SimpleFileManager("fucking path");
+		FileManager fileManager = new SimpleFileManager("src/net/davoleo/uni/examples");
 		fileManager = LoggingAspect.attach(fileManager);
 		
 		try {
-			RemoteHandler<FileManager> fileManagerHandler = RemoteAspect.attach(FileManager.class, fileManager, 1784);
+			RemoteHandler<FileManager> fileManagerHandler = RemoteAspect.attach(FileManager.class, fileManager, 1704);
 			
 			Thread.sleep(60000);
 			

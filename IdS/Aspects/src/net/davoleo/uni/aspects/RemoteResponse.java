@@ -5,6 +5,6 @@ import java.io.Serializable;
 public interface RemoteResponse extends Serializable {
 
 	Object getResult();
-	Throwable getexception();
+	Throwable getException();
 	
 }
