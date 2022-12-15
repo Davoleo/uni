@@ -1,6 +1,4 @@
-package net.davoleo.uni.examples.ex09.models.simple;
-
-import net.davoleo.uni.examples.ex09.models.Book;
+package net.davoleo.uni.examples.ex17;
 
 public class SimpleBook implements Book, Cloneable {
 
@@ -73,11 +71,11 @@ public class SimpleBook implements Book, Cloneable {
 		
 		
 		SimpleBook otherBook = (SimpleBook) obj;
-		return id == otherBook.id && title.equals(otherBook.id) && author.equals(otherBook.id);
+		return id == otherBook.id && title.equals(otherBook.title) && author.equals(otherBook.author);
 	}
 	
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public Book clone() {
 		return new SimpleBook(id, author, title);
 	}
 	
