@@ -3,6 +3,9 @@ FROM fedora
 # Install HTTPD service
 RUN yum install -y httpd
 
+# Default Env
+ENV DOCUMENTROOT /srv/www/http PORT 80
+
 # Expose HTTP port
 EXPOSE 80
 
