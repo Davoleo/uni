@@ -14,7 +14,7 @@ SO/**/doc/** linguist-documentation
 # *.puml linguist-detectable
 
 # YAML
-{*.yml,*.yaml} linguist-detectable
+*.{yml,yaml} linguist-detectable
 
 * text eol=lf
 
