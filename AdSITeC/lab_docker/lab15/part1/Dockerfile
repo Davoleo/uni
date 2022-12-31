@@ -1,7 +1,7 @@
 FROM fedora
 
 # Install HTTPD service
-RUN yum install -y httpd
+RUN yum install -y httpd which gettext
 
 # Default Env
 ENV DOCUMENTROOT /srv/www/http PORT 80
@@ -14,3 +14,5 @@ EXPOSE $PORT
 
 COPY httpd.template.conf /etc/httpd/conf/httpd.template.conf
 COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]

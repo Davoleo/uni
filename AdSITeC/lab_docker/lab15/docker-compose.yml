@@ -9,4 +9,4 @@ services:
     ports:
       - 80:8080
     volumes:
-      - $PWD/part1/html/index.html:/srv/www/index.html
+      - $PWD/part1/html:/srv/www/
