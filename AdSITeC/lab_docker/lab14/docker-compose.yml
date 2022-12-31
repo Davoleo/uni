@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  lab14:
+    build: .
+    image: adsitec/lab18
+    environment:
+      - AUTHOR=Davoleo
+    ports:
+      - 8018:80
+  

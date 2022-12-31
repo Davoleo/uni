@@ -1,6 +1,6 @@
 FROM fedora
 
-RUN yum -y install httpd gettext
+RUN yum -y install httpd which gettext
 
 WORKDIR /var/www/html
 COPY Hello_docker.html /var/www/html
