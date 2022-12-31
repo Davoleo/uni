@@ -10,8 +10,7 @@ RUN mkdir -p /srv/www/http && chown -R apache:apache /srv/www/http
 ENV DOCUMENTROOT /srv/www/http PORT 80
 
 # Expose HTTP port
-EXPOSE 80
+EXPOSE $PORT
 
-COPY httpd.conf /etc/httpd/conf/httpd.conf
-
-CMD [ "/usr/sbin/httpd", "-D", "FOREGROUND" ]
+COPY httpd.template.conf /etc/httpd/conf/httpd.template.conf
+COPY entrypoint.sh /entrypoint.sh
