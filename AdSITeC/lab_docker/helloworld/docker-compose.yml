@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  hello:
+    build: .
+    image: "compose/hello-world"
+    environment:
+      - AUTHOR=Davoleo

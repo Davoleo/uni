@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  lab-15.4:
+    build: ./part1
+    image: "compose/lab15_4"
+    environment:
+      - DOCUMENTROOT=/srv/www
+      - PORT=8080
+    ports:
+      - 80:8080
+    volumes:
+      - $PWD/part1/html/index.html:/srv/www/index.html

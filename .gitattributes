@@ -13,6 +13,9 @@ SO/**/doc/** linguist-documentation
 # PlantUML
 # *.puml linguist-detectable
 
+# YAML
+{*.yml,*.yaml} linguist-detectable
+
 * text eol=lf
 
 #
