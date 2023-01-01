@@ -21,6 +21,9 @@ MdP/safe_stack/v1/docs
 # MATLAB temporary files
 *.asv
 
+# Python Cache folders
+__pycache__
+
 # ------------- Visual studio Solutions ----------
 # IG
 **/Grafica/.vs

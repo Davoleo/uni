@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  web:
+    # Uses the image built from the Dockerfile in the current directory + exposes the default flask web server port
+    build: .
+    ports:
+      - 80:5000
+    volumes:
+      - .:/code
+    environment:
+      FLASK_ENV: development
+  redis:
+    # Uses a public Redis Image from the Docker hub registry
+    image: redis:alpine
