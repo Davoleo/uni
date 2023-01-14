@@ -1,20 +1,20 @@
 package net.davoleo.uni.examples.ex05;
 
+import net.davoleo.uni.concurrent.ExecutorService;
+import net.davoleo.uni.concurrent.Executors;
+import net.davoleo.uni.concurrent.Future;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import net.davoleo.uni.concurrent.ExecutorService;
-import net.davoleo.uni.concurrent.Executors;
-import net.davoleo.uni.concurrent.Future;
-
 public class DownloadManager {
 	
 	private static final int BUFFER_SIZE = 1024;
 	
-	private ExecutorService executorService;
+	private final ExecutorService executorService;
 	
 	public DownloadManager(int connection) {
 		if (connection < 1) 

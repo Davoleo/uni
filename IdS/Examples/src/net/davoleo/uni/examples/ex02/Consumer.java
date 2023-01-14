@@ -4,8 +4,8 @@ import net.davoleo.uni.concurrent.BlockingQueue;
 
 public class Consumer implements Runnable {
 	
-	private int id;
-	private BlockingQueue<String> queue;
+	private final int id;
+	private final BlockingQueue<String> queue;
 	
 	public Consumer(int id, BlockingQueue<String> queue) {
 		if (id < 0)

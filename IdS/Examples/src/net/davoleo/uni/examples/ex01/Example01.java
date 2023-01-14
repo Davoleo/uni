@@ -2,7 +2,7 @@ package net.davoleo.uni.examples.ex01;
 
 public class Example01 {
 
-	private Object mutex = new Object();
+	private final Object mutex = new Object();
 
 	private boolean waitInProgress = false;
 

@@ -4,8 +4,8 @@ import net.davoleo.uni.concurrent.BlockingQueue;
 
 public class Producer implements Runnable {
 	
-	private int id;
-	private BlockingQueue<String> queue;
+	private final int id;
+	private final BlockingQueue<String> queue;
 	
 	public Producer(int id, BlockingQueue<String> queue) {
 		if (id < 0)

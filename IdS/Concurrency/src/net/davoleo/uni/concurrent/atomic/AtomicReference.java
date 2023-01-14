@@ -5,7 +5,7 @@ import java.util.function.UnaryOperator;
 public class AtomicReference<T> {
 	private T value;
 	
-	private Object lock;
+	private final Object lock;
 	
 	public AtomicReference() {
 		this(null);

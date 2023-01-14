@@ -1,9 +1,9 @@
 package net.davoleo.uni.examples.ex05;
 
 public final class ResourceContent {
-	private String url;
+	private final String url;
 
-	private byte[] data;
+	private final byte[] data;
 
 	public ResourceContent(String url, byte[] data) {
 		if (url == null || url.length() == 0)

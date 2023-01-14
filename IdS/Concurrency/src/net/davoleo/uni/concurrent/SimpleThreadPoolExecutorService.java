@@ -3,8 +3,8 @@ package net.davoleo.uni.concurrent;
 //Package scope -> to avoid end user creating instances of this class directly 
 class SimpleThreadPoolExecutorService implements ExecutorService {
 
-	private Worker[] workers;
-	private BlockingQueue<Runnable> tasks;
+	private final Worker[] workers;
+	private final BlockingQueue<Runnable> tasks;
 	private boolean shutdown;
 	
 	SimpleThreadPoolExecutorService(int count) {
@@ -47,9 +47,8 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 	public void shutdown() {
 		synchronized (tasks) {
 			shutdown = true;
-			int length = workers.length;
-			for(int i = 0; i < length; i++) {
-				workers[i].shutdown();
+			for (Worker worker : workers) {
+				worker.shutdown();
 			}
 		}
 		
@@ -135,7 +134,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 	private class Worker implements Runnable {
 
 		private boolean shutdown;
-		private Thread thread;
+		private final Thread thread;
 		
 		public Worker() {
 			this.shutdown = false;

@@ -1,6 +1,7 @@
 package net.davoleo.uni.examples.ex04;
 
-import java.util.concurrent.atomic.AtomicReference;
+import net.davoleo.uni.concurrent.atomic.AtomicReference;
+
 import java.util.function.UnaryOperator;
 
 public class Example04 {
