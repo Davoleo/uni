@@ -1,10 +1,10 @@
 package net.davoleo.uni.examples.ex12;
 
+import net.davoleo.uni.aspects.LoggingAspect;
+
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
-
-import net.davoleo.uni.aspects.LoggingAspect;
 
 public class Example12 {
 	
@@ -13,7 +13,7 @@ public class Example12 {
 		comparator = LoggingAspect.attach(comparator);
 		
 		Set<String> set = new TreeSet<>(comparator);
-		
+
 		set.add("Verdi");
 		set.add("Bianchi");
 		set.add("Neri");

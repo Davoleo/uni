@@ -1,13 +1,11 @@
 package net.davoleo.uni.concurrent;
 
-import java.util.LinkedList;
-
 public class LinkedBlockingQueue<E> implements BlockingQueue<E> {
 
     private Node head;
     private Node tail;
     
-    private Object mutex;
+    private final Object mutex;
 
     public LinkedBlockingQueue()
     {

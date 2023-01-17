@@ -9,8 +9,9 @@ import java.util.Scanner;
 public class Example08 {
 	
 	private void dump(Class<?> clazz) {
-		System.out.println("Class: " + clazz.getName());
 		
+		System.out.println("Class: " + clazz.getName());
+
 		Class<?> baseClass = clazz.getSuperclass();
 		
 		if (baseClass != null) {
@@ -18,62 +19,59 @@ public class Example08 {
 		}
 		
 		Class<?>[] interfaces = clazz.getInterfaces();
-		
-		for (int i = 0; i < interfaces.length; ++i)
-			System.out.println("Implemented Interface: " + interfaces[i].getName());
+
+		for (Class<?> anInterface : interfaces)
+			System.out.println("Implemented Interface: " + anInterface.getName());
 		
 		Field[] fields = clazz.getFields();
-		
-		for (int i = 0; i < fields.length; ++i) {
-			Field field = fields[i];
+
+		for (Field field : fields) {
 			Class<?> fieldClass = field.getType();
 			System.out.println("Field: " + fieldClass.getName() + " " + field.getName());
 		}
 		
 		Constructor<?>[] constructors = clazz.getConstructors();
-		
-		for (int i = 0; i < constructors.length; ++i) {
-			Constructor<?> constructor = constructors[i];
+
+		for (Constructor<?> constructor : constructors) {
 			System.out.println("Constructor: " + constructor.getName() + '(');
-			
+
 			Parameter[] parameters = constructor.getParameters();
-			
+
 			for (int j = 0; j < parameters.length; ++j) {
 				Parameter parameter = parameters[j];
 				Class<?> parameterClass = parameter.getType();
 				System.out.print(parameterClass.getName() + " " + parameter.getName());
-				
-				if (j != parameters.length-1)
+
+				if (j != parameters.length - 1)
 					System.out.print(", ");
 			}
-			
+
 			System.out.println(')');
 		}
 		
 		Method[] methods = clazz.getMethods();
-		
-		for (int i = 0; i < methods.length; ++i) {
-			Method method = methods[i];
+
+		for (Method method : methods) {
 			System.out.println("Method: " + method.getName() + '(');
-			
+
 			Parameter[] parameters = method.getParameters();
-			
+
 			for (int j = 0; j < parameters.length; ++j) {
 				Parameter parameter = parameters[j];
 				Class<?> parameterClass = parameter.getType();
 				System.out.print(parameterClass.getName() + " " + parameter.getName());
-				
-				if (j != parameters.length-1)
+
+				if (j != parameters.length - 1)
 					System.out.print(", ");
 			}
-			
+
 			System.out.println(')');
 		}
 	}
 	
 	private void show(String className) {
 		try {
-			Class<?> klass = Class.forName(className);		
+			Class<?> klass = Class.forName(className);
 			dump(klass);
 		}
 		catch (ClassNotFoundException e) {

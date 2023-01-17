@@ -36,12 +36,10 @@ public class LoggingAspect {
 	}
 	
 	private static class InnerInvocationHandler implements InvocationHandler {
-		private Object target;
-		private Object lock;
+		private final Object target;
 		
 		private InnerInvocationHandler(Object target) {
 			this.target = target;
-			this.lock = new Object();
 		}
 
 		@Override

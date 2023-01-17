@@ -1,12 +1,12 @@
 package net.davoleo.uni.concurrent;
 
-//Package scope -> to avoid end user creating instances of this class directly 
+//Package scope -> to avoid end user creating instances of this class directly
 class SimpleThreadPoolExecutorService implements ExecutorService {
 
 	private final Worker[] workers;
 	private final BlockingQueue<Runnable> tasks;
 	private boolean shutdown;
-	
+
 	SimpleThreadPoolExecutorService(int count) {
 		if (count < 1)
 			throw new IllegalArgumentException("count < 1");
@@ -27,7 +27,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 	public void execute(Runnable command) {
 		if (command == null)
 			throw new NullPointerException("command == null");
-		
+
 		synchronized (tasks) {
 			if (shutdown)
 				throw new RejectedExecutionException("shutdown == true");
@@ -38,7 +38,6 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 			} catch (InterruptedException e) {
 				// Only when out of memory
 			}
-			
 		}
 
 	}
@@ -119,7 +118,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		
 		if (callback == null)
 			throw new NullPointerException("callback == null");
-		
+
 		execute(() -> {
 			try {
 				T result = task.call();

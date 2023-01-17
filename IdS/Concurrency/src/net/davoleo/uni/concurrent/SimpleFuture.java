@@ -2,7 +2,7 @@ package net.davoleo.uni.concurrent;
 
 public class SimpleFuture<T> implements Future<T> {
 
-	private Object mutex;
+	private final Object mutex;
 	private T value;
 	private Throwable exception;
 	private boolean done;

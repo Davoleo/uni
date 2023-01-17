@@ -21,10 +21,10 @@ public class BeanLoader {
 
 			Class<?>[] propertyTypes = getPropertyTypes(clazz, propertyNames);
 
-			List<T> result = new ArrayList<T>();
+			List<T> result = new ArrayList<>();
 
 			while (scanner.hasNext()) {
-				T bean = (T) clazz.newInstance();
+				T bean = clazz.newInstance();
 
 				String line = scanner.nextLine();
 
@@ -67,7 +67,7 @@ public class BeanLoader {
 
 		throw new IllegalArgumentException("cannot convert " + text + " to " + clazz.getName());
 	}
-	
+
 	private <T> Class<?>[] getPropertyTypes(Class<T> clazz, String[] propertyNames) throws IOException {
 		Method[] methods = clazz.getMethods();
 

@@ -10,7 +10,7 @@ public class SharedAspect {
 	public static <T> T attach(T target) {
 		if (target == null)
 			throw new IllegalArgumentException("target == null");
-		
+
 		Class<?> targetClass = target.getClass();
 		Class<?>[] targetInterfaces = targetClass.getInterfaces();
 		
@@ -23,12 +23,12 @@ public class SharedAspect {
 	}
 	
 	private SharedAspect() {
-		
+
 	}
 	
 	private static class InnerInvocationHandler implements InvocationHandler {
-		private Object target;
-		private Object lock;
+		private final Object target;
+		private final Object lock;
 		
 		private InnerInvocationHandler(Object target) {
 			this.target = target;
