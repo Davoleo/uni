@@ -6,8 +6,18 @@ struct elem {
     elem* next;
 };
 
+elem* firstEven(elem* lst) {
+	while (lst != nullptr) {
+		if (lst->info % 2 == 0) {
+			return lst;
+		}
+		lst = lst->next;
+	}
+}
+
 //The pointer must be passed as a reference because the function acts by side-effect and by changing the value of list
 void insertHead(elem*& list, int value) {
+	
     elem* newElem = new elem;
     newElem->info = value;
     //Link the new element to the old first pointer
@@ -16,11 +26,20 @@ void insertHead(elem*& list, int value) {
     list = newElem;
 }
 
+
 void print(elem* list) {
-    while(list != nullptr) {
-        std::cout << list->info << "  ";
-        list = list->next;
-    }
+	std::cout << "[ ";
+	while(list != nullptr) {
+		std::cout << list->info << " -> ";
+		list = list->next;
+	}
+	std::cout << " ]\n";
+}
+
+void removeHead(elem*& list) {
+	elem* elemToRemove = list;
+	list = list->next;
+	delete elemToRemove;
 }
 
 int extractHead(elem*& list) {
@@ -33,18 +52,34 @@ int extractHead(elem*& list) {
     return x;
 }
 
-void insertEnd(elem*& list, int value) {
-    if (list == nullptr)
-        insertHead(list, value);
-    else {
-        elem* newElem = new elem;
-        newElem->info = value;
-        newElem->next = nullptr;
-        elem* oldLast = list;
-        while (oldLast->next != nullptr)
-            oldLast = oldLast->next;
-        oldLast->next = newElem;
-    }
+void removeTail(elem*& list) {
+
+	elem* current = list;
+	while (current->next->next != nullptr) {
+		current = current->next;
+	}
+
+	elem* elemToRemove = current->next;
+	delete elemToRemove;
+	current->next = nullptr;
+}
+
+void insertTail(elem*& list, int newVal) {
+
+	if (list == nullptr)
+		insertHead(list, newVal);
+	else {
+		elem* newElem = new elem;
+		newElem->info = newVal;
+		newElem->next = nullptr;
+
+		elem* current = list;
+		while(current->next != nullptr) {
+			current = current->next;
+		}
+
+		current->next = newElem;
+	}
 }
 
 int length(elem* list) {
@@ -61,7 +96,7 @@ int recursiveLength(elem* list) {
     if (list == nullptr)
         return 0;
     else 
-        return recursiveLength(list->next);
+        return 1+recursiveLength(list->next);
 }
 
 bool contains(elem* list, int value) {
@@ -93,8 +128,54 @@ int main() {
     llist = new elem;
     llist->info = 5;
     llist->next = nullptr;
+	
     insertHead(llist, 3);
     insertHead(llist, 7);
+
+	elem* list = new elem;
+	list->info = 5;
+	elem* newElem = new elem;
+	newElem->info = 6;
+	list->next = newElem;
+	elem* newElem2 = new elem;
+	newElem2->info = 7;
+	newElem->next = newElem2;
+
+	printList(list);
+	removeTail(list);
+	printList(list);
+
+	std::ifstream input;
+	input.open("prova.txt");
+	char string[250];
+	input.getline(string, 100, '\n');
+	std::cout << string << std::endl;
+	input.getline(string, 100, '\n');
+	std::cout << string  << std::endl;
+	input.getline(string, 100, '\n');
+	std::cout << string  << std::endl;
+	input.close();
+
+
+	
+	//Array: [][][][][]
+	//Random Access
+	//List: [1]->[2]->[3]->[4]->[5]->[6]
+	//Sequetianl Access
+	
+	//	int x = 10;
+	//	int y[10];
+	//	TestStruct str;
+	//	str.c1 = 12;
+
+	//Modificatori di tipo
+	//int
+	//int*
+	//int& -
+
+	//Operatori su variabile
+	//&a -> Indirizzo di memoria che punta ad a -> int*
+	//*p -> Ottieni il valore di a partendo dall puntatore p
 
     return 0;
 }
