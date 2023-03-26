@@ -1,0 +1,2 @@
+#SLURM_JOB_NODELIST      : wn[80-81]
+# mpirun    IMB-MPI1 pingpong

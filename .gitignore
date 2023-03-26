@@ -24,6 +24,9 @@ MdP/safe_stack/v1/docs
 # Python Cache folders
 __pycache__
 
+# IMB 40MB stupid output file
+PP&HPC/perf/IMB/IMB_out_0
+
 # ------------- Visual studio Solutions ----------
 # IG
 **/Grafica/.vs

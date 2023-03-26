@@ -1,0 +1,3 @@
+function,iter,pi,error,time,hostname
+#Funct  Inter  pi    error   time   hostname 
+2, 100000000,  3.1415926536, 1.0476064460e-12, 0.99919,  wn23 

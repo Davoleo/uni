@@ -1,0 +1,5 @@
+device     bitrate band lat cost
+GBE         1       0.1  47    0.03
+10GBe       10      0.9  13    0.1
+OPA         100     12    1    1
+Infiniband  100     12    1    1

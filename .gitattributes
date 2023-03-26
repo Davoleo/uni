@@ -16,6 +16,9 @@ SO/**/doc/** linguist-documentation
 # YAML
 *.{yml,yaml} linguist-detectable
 
+# MPI Benchmarks
+PP&HPC/perf/IMB/mpi-benchmarks-IMB/** linguist-vendored
+
 * text eol=lf
 
 #
