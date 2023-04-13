@@ -1,0 +1,13 @@
+1) Analisi:
+L'algoritmo genera 2 numeri primi [quelli per l'encrypting dei contenuti] in seguito si calcola la chiave pubblica m tramite p*q, 
+una volta che abbiamo la chiave pubblica possiamo provare a trovare a forza bruta uno dei 2 numeri primi utilizzati per generarla facendo passare 
+tutti i numeri primi finché non se ne trova uno di nome x che se inserito nella divisione: m/x restituisce 0 di resto.
+
+2) Parallelizzazione:
+La decomposizione del dominio può essere a grana grossa poiché nel caso di un algoritmo di ricerca del prossimo numero primo tramite un incremento di 2,
+e la divisione in blocchi di grandezza uguale tra di loro, è possibile dividere il carico in modo abbastanza bilanciato anche 
+senza ricorrere alla decomposizione a grana fine.
+La legge di Amdahl impatta sulla sezione non parallelizzabile di setup all'inizio del programma, 
+ma una volta che si entra nel ciclo di ricerca del numero primo, l'algoritmo diventa parallelizzabile senza troppo overhead.
+Per la comunicazione si potrebbe mantenere una variabile condivisa che tiene lo stato della ricerca, e che viene aggiornata in modo consistente su tutte le 
+cache dei processori/core o nella memoria condivisa/distribuita, in modo che l'accesso a questa variabile ritorni sempre il valore più recente di esso.

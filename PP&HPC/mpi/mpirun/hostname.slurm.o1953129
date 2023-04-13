@@ -1,0 +1,6 @@
+#SLURM_JOB_NODELIST      : wn[20-21]
+#SLURM_JOB_CPUS_PER_NODE : 2(x2)
+wn20
+wn20
+wn21
+wn21

@@ -1,0 +1,4 @@
+wn51  slots=4
+wn52  slots=4
+wn53
+wn54

@@ -1,0 +1,44 @@
+#SLURM_JOB_NODELIST      : wn[20-21]
+#SLURM_JOB_CPUS_PER_NODE : 2(x2)
+#SLURM_JOB_PARTITION     : cpu_guest
+ ###################### GNU 
+gnu8 senza-opzioni
+wn21
+wn21
+wn20
+wn20
+*** Avg round trip time = 2 microseconds
+*** Avg one way latency = 1 microseconds
+gnu8 npernode 1
+wn21
+wn20
+*** Avg round trip time = 3 microseconds
+*** Avg one way latency = 1 microseconds
+gnu8 npernode 2
+wn20
+wn20
+*** Avg round trip time = 3 microseconds
+*** Avg one way latency = 1 microseconds
+ ###################### INTEL 
+intel senza opzioni
+wn20
+wn20
+wn21
+wn21
+*** Avg round trip time = 4 microseconds
+*** Avg one way latency = 2 microseconds
+intel mpicc -ppn 2
+wn20
+wn20
+*** Avg round trip time = 6 microseconds
+*** Avg one way latency = 3 microseconds
+intel mpiicc ppn 1
+wn21
+wn20
+*** Avg round trip time = 118 microseconds
+*** Avg one way latency = 59 microseconds
+intel mpiicc ppn 2
+wn20
+wn20
+*** Avg round trip time = 3 microseconds
+*** Avg one way latency = 1 microseconds

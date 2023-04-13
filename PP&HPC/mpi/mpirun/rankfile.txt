@@ -1,0 +1,8 @@
+rank 0=wn01 slot=16-31 
+rank 1=wn01 slot=16-31 
+rank 2=wn01 slot=16-31 
+rank 3=wn01 slot=16-31 
+rank 4=wn02 slot=0-15
+rank 5=wn02 slot=0-15 
+rank 6=wn02 slot=0-15 
+rank 7=wn02 slot=0-15 

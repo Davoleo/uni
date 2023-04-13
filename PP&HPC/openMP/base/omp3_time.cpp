@@ -2,22 +2,19 @@
 #include <iostream>
 #include <unistd.h>
 
-using namespace std;
+int main()
+{
 
-int main() {
+    double t1, t2;
 
-double t1,t2; 
+    std::cout << "Start timer" << std::endl;
+    t1 = omp_get_wtime();
 
+    // Do something long
+    sleep(2);
 
-cout << "Start timer" << endl; 
-t1=omp_get_wtime();
+    std::cout << "Stop timer" << std::endl;
+    t2 = omp_get_wtime();
 
-// Do something long 
-sleep(2);
-
-cout << "Stop timer" << endl; 
-t2=omp_get_wtime();
-
-cout << "time: " << t2-t1 << endl; 
-
+    std::cout << "time: " << t2 - t1 << std::endl;
 }

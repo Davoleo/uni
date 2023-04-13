@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <openssl/bn.h>
+#include <omp.h> 
 
 void status() {}
 

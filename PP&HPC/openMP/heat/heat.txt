@@ -1,0 +1,20 @@
+Ho parallelizzato il programma omp_heat.c, inserendo le direttive:
+`#pragma omp parallel private(i) shared(j, T, T_new)`
+e
+`#pragma omp for schedule(static)` 
+nella funzione "Jacobi_Iterator_CPU", questo mi permette di parallelizzare i singoli 
+loop del ciclo esterno mantenenedo l'indice del loop interno come variabile e tutte le altre come variabili condivise tra thread.
+
+Ho creato una nuova flag per il programma di nome -t che riceve il numero di thread nella pool per l'esecuzione in parallelo.
+
+Ho aggiunto una variabile che tiene traccia del numero di thread utilizzati [Variabile aggiornata una sola volta grazie a #pragma omp single]
+per ogni esecuzione del programma.
+
+Ho creato lo script 'omp_heat_scaling.slurm.sh, che:
+- Testa il programma omp_heat con diversi numeri di thread paralleli da 1 a 16
+- la flag di output di slurm è impostata a /dev/null in quanto tutto l'output necessario del programma e ridirezionato nello script in file diversi
+- Il programma è avviato su una matrice di simulazione del calore di 2048x2048 celle con 1000 iterazioni di simulazione.
+- Ho compilato il programma di simulazione del calore utilizzando le 4 versioni di compilatore presenti sul cluster. (gnu4, gnu5, gnu8, intel) 
+
+In seguito ho modificato il file heat_scaling_plot.py [aggiungendo il prefisso omp_*] e cambiando i plot in modo che rappresentino correttamente i tempi e 
+lo speedup all'aumentare dei thread, includendo una linea nel grafico per ogni compilatore.
