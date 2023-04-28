@@ -1,0 +1,138 @@
+#mpiTasks=1 mpiRank=0, n=100000000, range=100000000, StartLocal=0, HostLocal=wn20
+#ID 0 terminated - piLocal = 3.1415926936  0.122511
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	100000000	3.1415926936	4.0000423418e-08	0.1225	1	# wn20 
+#mpiTasks=2 mpiRank=0, n=200000000, range=100000000, StartLocal=0, HostLocal=wn20
+#mpiTasks=2 mpiRank=1, n=200000000, range=100000000, StartLocal=100000000, HostLocal=wn20
+#ID 0 terminated - piLocal = 1.8545904560  0.122017
+#ID 1 terminated - piLocal = 1.2870022336  0.132735
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	200000000	3.1415926896	3.5999955461e-08	0.1220	2	# wn20 
+#mpiTasks=4 mpiRank=2, n=400000000, range=100000000, StartLocal=200000000, HostLocal=wn20
+#mpiTasks=4 mpiRank=3, n=400000000, range=100000000, StartLocal=300000000, HostLocal=wn20
+#mpiTasks=4 mpiRank=0, n=400000000, range=100000000, StartLocal=0, HostLocal=wn20
+#mpiTasks=4 mpiRank=1, n=400000000, range=100000000, StartLocal=100000000, HostLocal=wn20
+#ID 2 terminated - piLocal = 0.7194140072  0.121325
+#ID 3 terminated - piLocal = 0.5675882248  0.121417
+#ID 0 terminated - piLocal = 0.9799146625  0.124560
+#ID 1 terminated - piLocal = 0.8746757929  0.124514
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	400000000	3.1415926874	3.3811828004e-08	0.1246	4	# wn20 
+#mpiTasks=8 mpiRank=2, n=800000000, range=100000000, StartLocal=200000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=3, n=800000000, range=100000000, StartLocal=300000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=4, n=800000000, range=100000000, StartLocal=400000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=6, n=800000000, range=100000000, StartLocal=600000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=7, n=800000000, range=100000000, StartLocal=700000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=1, n=800000000, range=100000000, StartLocal=100000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=0, n=800000000, range=100000000, StartLocal=0, HostLocal=wn20
+#mpiTasks=8 mpiRank=5, n=800000000, range=100000000, StartLocal=500000000, HostLocal=wn20
+#ID 7 terminated - piLocal = 0.2662726579  0.121757
+#ID 6 terminated - piLocal = 0.3013155665  0.121850
+#ID 3 terminated - piLocal = 0.4195077593  0.128358
+#ID 4 terminated - piLocal = 0.3798068294  0.128448
+#ID 2 terminated - piLocal = 0.4551680333  0.128519
+#ID 1 terminated - piLocal = 0.4824946792  0.128439
+#ID 5 terminated - piLocal = 0.3396071774  0.128437
+#ID 0 terminated - piLocal = 0.4974199832  0.128492
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	800000000	3.1415926862	3.2639943637e-08	0.1285	8	# wn20 
+#mpiTasks=16 mpiRank=1, n=1600000000, range=100000000, StartLocal=100000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=2, n=1600000000, range=100000000, StartLocal=200000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=4, n=1600000000, range=100000000, StartLocal=400000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=8, n=1600000000, range=100000000, StartLocal=800000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=9, n=1600000000, range=100000000, StartLocal=900000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=10, n=1600000000, range=100000000, StartLocal=1000000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=3, n=1600000000, range=100000000, StartLocal=300000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=13, n=1600000000, range=100000000, StartLocal=1300000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=0, n=1600000000, range=100000000, StartLocal=0, HostLocal=wn20
+#mpiTasks=16 mpiRank=6, n=1600000000, range=100000000, StartLocal=600000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=11, n=1600000000, range=100000000, StartLocal=1100000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=14, n=1600000000, range=100000000, StartLocal=1400000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=15, n=1600000000, range=100000000, StartLocal=1500000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=5, n=1600000000, range=100000000, StartLocal=500000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=7, n=1600000000, range=100000000, StartLocal=700000000, HostLocal=wn20
+#mpiTasks=16 mpiRank=12, n=1600000000, range=100000000, StartLocal=1200000000, HostLocal=wn20
+#ID 13 terminated - piLocal = 0.1460537805  0.128402
+#ID 14 terminated - piLocal = 0.1372851268  0.128407
+#ID 15 terminated - piLocal = 0.1289875311  0.128562
+#ID 1 terminated - piLocal = 0.2477447407  0.132058
+#ID 2 terminated - piLocal = 0.2439718243  0.132116
+#ID 8 terminated - piLocal = 0.1949674072  0.132056
+#ID 9 terminated - piLocal = 0.1848394220  0.132075
+#ID 4 terminated - piLocal = 0.2316248233  0.132165
+#ID 10 terminated - piLocal = 0.1747521250  0.132122
+#ID 3 terminated - piLocal = 0.2385228549  0.132151
+#ID 11 terminated - piLocal = 0.1648550523  0.132118
+#ID 0 terminated - piLocal = 0.2496752425  0.132150
+#ID 5 terminated - piLocal = 0.2235432099  0.132103
+#ID 6 terminated - piLocal = 0.2145590875  0.132123
+#ID 7 terminated - piLocal = 0.2049486717  0.132155
+#ID 12 terminated - piLocal = 0.1552617859  0.132153
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	1600000000	3.1415926856	3.2034403130e-08	0.1321	16	# wn20 
+#mpiTasks=32 mpiRank=28, n=3200000000, range=100000000, StartLocal=2800000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=29, n=3200000000, range=100000000, StartLocal=2900000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=26, n=3200000000, range=100000000, StartLocal=2600000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=27, n=3200000000, range=100000000, StartLocal=2700000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=30, n=3200000000, range=100000000, StartLocal=3000000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=31, n=3200000000, range=100000000, StartLocal=3100000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=18, n=3200000000, range=100000000, StartLocal=1800000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=19, n=3200000000, range=100000000, StartLocal=1900000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=5, n=3200000000, range=100000000, StartLocal=500000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=10, n=3200000000, range=100000000, StartLocal=1000000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=17, n=3200000000, range=100000000, StartLocal=1700000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=1, n=3200000000, range=100000000, StartLocal=100000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=9, n=3200000000, range=100000000, StartLocal=900000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=2, n=3200000000, range=100000000, StartLocal=200000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=7, n=3200000000, range=100000000, StartLocal=700000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=25, n=3200000000, range=100000000, StartLocal=2500000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=4, n=3200000000, range=100000000, StartLocal=400000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=11, n=3200000000, range=100000000, StartLocal=1100000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=13, n=3200000000, range=100000000, StartLocal=1300000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=12, n=3200000000, range=100000000, StartLocal=1200000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=14, n=3200000000, range=100000000, StartLocal=1400000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=20, n=3200000000, range=100000000, StartLocal=2000000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=22, n=3200000000, range=100000000, StartLocal=2200000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=23, n=3200000000, range=100000000, StartLocal=2300000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=0, n=3200000000, range=100000000, StartLocal=0, HostLocal=wn20
+#mpiTasks=32 mpiRank=3, n=3200000000, range=100000000, StartLocal=300000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=8, n=3200000000, range=100000000, StartLocal=800000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=15, n=3200000000, range=100000000, StartLocal=1500000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=21, n=3200000000, range=100000000, StartLocal=2100000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=24, n=3200000000, range=100000000, StartLocal=2400000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=16, n=3200000000, range=100000000, StartLocal=1600000000, HostLocal=wn20
+#mpiTasks=32 mpiRank=6, n=3200000000, range=100000000, StartLocal=600000000, HostLocal=wn20
+#ID 29 terminated - piLocal = 0.0675754086  0.132106
+#ID 28 terminated - piLocal = 0.0697097181  0.132164
+#ID 27 terminated - piLocal = 0.0719023677  0.132161
+#ID 30 terminated - piLocal = 0.0655007984  0.132168
+#ID 26 terminated - piLocal = 0.0741514128  0.132323
+#ID 31 terminated - piLocal = 0.0634867326  0.132723
+#ID 18 terminated - piLocal = 0.0936871115  0.145016
+#ID 19 terminated - piLocal = 0.0911523105  0.145006
+#ID 5 terminated - piLocal = 0.1214048335  0.145022
+#ID 10 terminated - piLocal = 0.1128448345  0.145021
+#ID 17 terminated - piLocal = 0.0962220380  0.145005
+#ID 1 terminated - piLocal = 0.1247159075  0.144976
+#ID 2 terminated - piLocal = 0.1242318859  0.144991
+#ID 7 terminated - piLocal = 0.1184838549  0.145047
+#ID 9 terminated - piLocal = 0.1148696702  0.144996
+#ID 12 terminated - piLocal = 0.1084479976  0.144894
+#ID 4 terminated - piLocal = 0.1225669907  0.145083
+#ID 11 terminated - piLocal = 0.1106983754  0.145084
+#ID 20 terminated - piLocal = 0.0886281538  0.144989
+#ID 24 terminated - piLocal = 0.0788075365  0.144964
+#ID 3 terminated - piLocal = 0.1235128548  0.145033
+#ID 13 terminated - piLocal = 0.1061110899  0.145064
+#ID 14 terminated - piLocal = 0.1037044741  0.145052
+#ID 15 terminated - piLocal = 0.1012441976  0.145036
+#ID 22 terminated - piLocal = 0.0836479360  0.145048
+#ID 25 terminated - piLocal = 0.0764542495  0.145137
+#ID 0 terminated - piLocal = 0.1249593350  0.145089
+#ID 8 terminated - piLocal = 0.1167551531  0.145045
+#ID 16 terminated - piLocal = 0.0987453692  0.145055
+#ID 21 terminated - piLocal = 0.0861239711  0.145074
+#ID 23 terminated - piLocal = 0.0812071163  0.145095
+#ID 6 terminated - piLocal = 0.1200390000  0.144985
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	3200000000	3.1415926853	3.1726792304e-08	0.1451	32	# wn20 

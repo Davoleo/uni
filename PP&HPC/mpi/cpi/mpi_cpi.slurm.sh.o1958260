@@ -1,0 +1,20 @@
+#SLURM_JOB_NODELIST      : wn20
+#SLURM_JOB_CPUS_PER_NODE : 8
+#mpiTasks=8 mpiRank=0, n=100000000, range=12500000, StartLocal=0, HostLocal=wn20
+#mpiTasks=8 mpiRank=2, n=100000000, range=12500000, StartLocal=25000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=3, n=100000000, range=12500000, StartLocal=37500000, HostLocal=wn20
+#mpiTasks=8 mpiRank=7, n=100000000, range=12500000, StartLocal=87500000, HostLocal=wn20
+#mpiTasks=8 mpiRank=5, n=100000000, range=12500000, StartLocal=62500000, HostLocal=wn20
+#mpiTasks=8 mpiRank=6, n=100000000, range=12500000, StartLocal=75000000, HostLocal=wn20
+#mpiTasks=8 mpiRank=1, n=100000000, range=12500000, StartLocal=12500000, HostLocal=wn20
+#mpiTasks=8 mpiRank=4, n=100000000, range=12500000, StartLocal=50000000, HostLocal=wn20
+#ID 2 terminated - piLocal = 0.4551680662  0.016494
+#ID 3 terminated - piLocal = 0.4195077900  0.016507
+#ID 7 terminated - piLocal = 0.2662726778  0.016492
+#ID 0 terminated - piLocal = 0.4974200182  0.016686
+#ID 1 terminated - piLocal = 0.4824947137  0.016490
+#ID 4 terminated - piLocal = 0.3798068574  0.016497
+#ID 6 terminated - piLocal = 0.3013155889  0.016508
+#ID 5 terminated - piLocal = 0.3396072026  0.016515
+#Funct	Inter	pi	error	time	numtasks	hostname
+1	100000000	3.1415929147	2.6111910323e-07	0.0167	8	# wn20 
