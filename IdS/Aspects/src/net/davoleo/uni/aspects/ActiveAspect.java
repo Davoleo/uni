@@ -1,14 +1,14 @@
 package net.davoleo.uni.aspects;
 
+import net.davoleo.uni.concurrent.Callback;
+import net.davoleo.uni.concurrent.ExecutorService;
+import net.davoleo.uni.concurrent.Executors;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
-
-import net.davoleo.uni.concurrent.Callback;
-import net.davoleo.uni.concurrent.ExecutorService;
-import net.davoleo.uni.concurrent.Executors;
 
 public class ActiveAspect {
 	
@@ -82,26 +82,25 @@ public class ActiveAspect {
 			if (parameterCount > 0 && parameterTypes[parameterCount - 1] == Callback.class) {
 				parameterCount--;
 				
-				Class<?>[] newParameterTypes = (Class<?>[]) Arrays.copyOf(parameterTypes, parameterCount);
+				Class<?>[] newParameterTypes = Arrays.copyOf(parameterTypes, parameterCount);
 				Method targetMethod = targetClass.getMethod(method.getName(), newParameterTypes);
-				
-				@SuppressWarnings("Unchecked")
+
+				@SuppressWarnings("unchecked")
 				Callback<Object> callback = (Callback<Object>) args[parameterCount];
 				
 				Object[] newArguments = Arrays.copyOf(args, parameterCount);
 				
-				executorService.submit(() -> invokeMethod(target, targetMethod, newArguments));
-				
+				executorService.submit(() -> invokeMethod(targetMethod, newArguments), callback);
 				
 				return null;
 			}
 			else {
 				Method targetMethod = targetClass.getMethod(method.getName(), parameterTypes);
-				return executorService.submit(() -> invokeMethod(target, targetMethod, args));
+				return executorService.submit(() -> invokeMethod(targetMethod, args));
 			}
 		}
 		
-		private Object invokeMethod(Object target, Method targetMethod, Object[] arguments) throws Exception {
+		private Object invokeMethod(Method targetMethod, Object[] arguments) throws Exception {
 			try {
 				return targetMethod.invoke(target, arguments);
 			} catch (InvocationTargetException e) {

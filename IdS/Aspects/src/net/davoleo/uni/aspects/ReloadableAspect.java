@@ -1,11 +1,6 @@
 package net.davoleo.uni.aspects;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,11 +13,11 @@ public class ReloadableAspect {
 		if (className == null || className.length() == 0) 
 			throw new IllegalArgumentException("className == null || className.length() == 0");
 		
-		if (className == null || classpath.length == 0)
+		if (classpath == null || classpath.length == 0)
 			throw new IllegalArgumentException("classpath == null || classpath.length == 0");
 		
 		//Classpath contiene un elenco di nomi di cartelle con classi che si possono importare
-		return new InnerReloadableHandler<T>(className, classpath);
+		return new InnerReloadableHandler<>(className, classpath);
 	}
 	
 	private static final class InnerReloadableHandler<T> implements ReloadableHandler<T> {
@@ -78,6 +73,7 @@ public class ReloadableAspect {
 		}
 		
 		private File getClassFile(String name) {
+			// replace . with / or \ and append .class
 			String filename = name.replace('.', File.separatorChar) + ".class";
 			
 			for (String path : classpath) {
