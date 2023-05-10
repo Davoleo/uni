@@ -1,0 +1,21 @@
+#SLURM_JOB_NODELIST      : wn20
+#SLURM_JOB_CPUS_PER_NODE : 1
+
+# Modulus: 97219FA6BD3D7735 64 bits - prime 32 bit: address 6 bit, block 26 bit 
+
+Task 0/1 - block Address size 64, range 0-63 
+Task 0/1 - block 63 - NOT found
+Task 0/1 - block 62 - NOT found
+Task 0/1 - block 61 - NOT found
+Task 0/1 - block 60 - NOT found
+Task 0/1 - block 59 - NOT found
+Task 0/1 - block 58 - NOT found
+Task 0/1 - block 57 - NOT found
+Task 0/1 - block 56 - NOT found
+Task 0/1 - block 55 - NOT found
+Task 0/1 - block 54 - NOT found
+Task 0/1 - block 53 - NOT found
+Task 0/1 - block 52 - NOT found
+Task 0/1 - block 51 - NOT found
+Task 0/1 - block 50 - FOUND: C9322BF5
+Task 0/1  exiting,  time 64.0 sec.  

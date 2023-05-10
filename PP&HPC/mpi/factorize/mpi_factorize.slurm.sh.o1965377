@@ -1,0 +1,69 @@
+#SLURM_JOB_NODELIST      : wn[23-24]
+#SLURM_JOB_CPUS_PER_NODE : 8(x2)
+
+# Modulus: 97219FA6BD3D7735 64 bits - prime 32 bit: address 6 bit, block 26 bit 
+
+Task 8/16 - block Address size 4, range 32-35 
+Task 0/16 - block Address size 4, range 0-3 
+Task 9/16 - block Address size 4, range 36-39 
+Task 1/16 - block Address size 4, range 4-7 
+Task 10/16 - block Address size 4, range 40-43 
+Task 2/16 - block Address size 4, range 8-11 
+Task 11/16 - block Address size 4, range 44-47 
+Task 3/16 - block Address size 4, range 12-15 
+Task 12/16 - block Address size 4, range 48-51 
+Task 4/16 - block Address size 4, range 16-19 
+Task 13/16 - block Address size 4, range 52-55 
+Task 5/16 - block Address size 4, range 20-23 
+Task 14/16 - block Address size 4, range 56-59 
+Task 6/16 - block Address size 4, range 24-27 
+Task 15/16 - block Address size 4, range 60-63 
+Task 7/16 - block Address size 4, range 28-31 
+Task 0/16 - block 3 - NOT found
+Task 4/16 - block 19 - NOT found
+Task 6/16 - block 27 - NOT found
+Task 2/16 - block 11 - NOT found
+Task 1/16 - block 7 - NOT found
+Task 7/16 - block 31 - NOT found
+Task 3/16 - block 15 - NOT found
+Task 5/16 - block 23 - NOT found
+Task 14/16 - block 59 - NOT found
+Task 10/16 - block 43 - NOT found
+Task 12/16 - block 51 - NOT found
+Task 8/16 - block 35 - NOT found
+Task 9/16 - block 39 - NOT found
+Task 11/16 - block 47 - NOT found
+Task 15/16 - block 63 - NOT found
+Task 13/16 - block 55 - NOT found
+Task 12/16 - block 50 - FOUND: C9322BF5
+Task 12/16  exiting,  time 16.0 sec.  
+Task 4/16 - block 18 - NOT found
+Task 0/16 - block 2 - NOT found
+Task 6/16 - block 26 - NOT found
+Task 1/16 - block 6 - NOT found
+Task 5/16 - block 22 - NOT found
+Task 7/16 - block 30 - NOT found
+Task 2/16 - block 10 - NOT found
+Task 3/16 - block 14 - NOT found
+Task 0/16  exiting,  time 22.0 sec.  
+Task 1/16  exiting,  time 22.0 sec.  
+Task 4/16  exiting,  time 22.0 sec.  
+Task 2/16  exiting,  time 22.0 sec.  
+Task 3/16  exiting,  time 22.0 sec.  
+Task 5/16  exiting,  time 22.0 sec.  
+Task 7/16  exiting,  time 22.0 sec.  
+Task 6/16  exiting,  time 22.0 sec.  
+Task 10/16 - block 42 - NOT found
+Task 10/16  exiting,  time 24.0 sec.  
+Task 14/16 - block 58 - NOT found
+Task 14/16  exiting,  time 24.0 sec.  
+Task 8/16 - block 34 - NOT found
+Task 8/16  exiting,  time 24.0 sec.  
+Task 9/16 - block 38 - NOT found
+Task 9/16  exiting,  time 24.0 sec.  
+Task 11/16 - block 46 - NOT found
+Task 11/16  exiting,  time 24.0 sec.  
+Task 15/16 - block 62 - NOT found
+Task 15/16  exiting,  time 24.0 sec.  
+Task 13/16 - block 54 - NOT found
+Task 13/16  exiting,  time 24.0 sec.  

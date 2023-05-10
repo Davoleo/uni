@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
    flag = 0;
 
    if (MPIrank == 0)
-      x = 7;   
+      x = 7;
 
    // invio di x da rank 0 a tutti gli altri
    MPI_Bcast(&x, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -54,10 +54,11 @@ int main(int argc, char *argv[])
          received = r;
          // invio a tutti di r
          int i;
-         for (i = 0; i < MPIsize; i++) {
-	 	if (i != MPIrank)
-			MPI_Send(&r, 1, MPI_INT, i, 666, MPI_COMM_WORLD);
-	 }
+         for (i = 0; i < MPIsize; i++)
+         {
+            if (i != MPIrank)
+               MPI_Send(&r, 1, MPI_INT, i, 666, MPI_COMM_WORLD);
+         }
       }
    }
 

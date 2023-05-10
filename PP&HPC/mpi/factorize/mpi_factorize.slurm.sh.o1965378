@@ -1,0 +1,29 @@
+#SLURM_JOB_NODELIST      : wn[23-24]
+#SLURM_JOB_CPUS_PER_NODE : 4(x2)
+
+# Modulus: F27F04CC3A51A3090B7D 80 bits - prime 40 bit: address 6 bit, block 34 bit 
+
+Task 0/8 - block Address size 8, range 0-7 
+Task 1/8 - block Address size 8, range 8-15 
+Task 4/8 - block Address size 8, range 32-39 
+Task 2/8 - block Address size 8, range 16-23 
+Task 5/8 - block Address size 8, range 40-47 
+Task 3/8 - block Address size 8, range 24-31 
+Task 6/8 - block Address size 8, range 48-55 
+Task 7/8 - block Address size 8, range 56-63 
+Task 7/8 - block 63 - FOUND: FD9A3AAF67
+Task 7/8  exiting,  time 1161.0 sec.  
+Task 4/8 - block 39 - NOT found
+Task 4/8  exiting,  time 2522.0 sec.  
+Task 5/8 - block 47 - NOT found
+Task 5/8  exiting,  time 2522.0 sec.  
+Task 6/8 - block 55 - NOT found
+Task 6/8  exiting,  time 2539.0 sec.  
+Task 0/8 - block 7 - NOT found
+Task 0/8  exiting,  time 2897.0 sec.  
+Task 2/8 - block 23 - NOT found
+Task 2/8  exiting,  time 2899.0 sec.  
+Task 3/8 - block 31 - NOT found
+Task 3/8  exiting,  time 2905.0 sec.  
+Task 1/8 - block 15 - NOT found
+Task 1/8  exiting,  time 2906.0 sec.  
