@@ -1,9 +1,10 @@
 #!/bin/sh
 
 #SBATCH --output=/dev/null
-#SBATCH --partition=cpu_guest        # Nome della partizione
-#SBATCH --qos=cpu_guest              # Nome della partizione
+#SBATCH --partition=cpu              # Nome della partizione
+#SBATCH --qos=cpu                    # Nome della partizione
 #SBATCH --nodes=2                    # numero di nodi richiesti
+#SBATCH --constraint=omnipath        # ! make sure we use intel OPAs
 #SBATCH --ntasks-per-node=8          # numero di cpu per nodo
 ##SBATCH --mem=2G                    # massima memoria utilizzata
 #SBATCH --time=0-00:10:00            # massimo tempo di calcolo

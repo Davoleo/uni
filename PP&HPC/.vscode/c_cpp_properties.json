@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/hpc/share/tools/parallel_studio_xe/2019.5/compilers_and_libraries_2019.5.281/linux/mpi/**"
+                "/hpc/share/tools/parallel_studio_xe/2019.5/compilers_and_libraries_2019.5.281/linux/mpi/**",
+                "/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

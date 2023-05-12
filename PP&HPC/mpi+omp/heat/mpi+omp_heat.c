@@ -2,10 +2,9 @@
 mpi_heat.c
 
 module load intel impi
-mpicc -O2 mpi_heat.c -o mpi_heat.out
+mpicc -O2 mpi_heat.c -o mpi_heat
 
-mpirun mpi_heat.out -h
-mpirun mpi_heat.out -r 32 -c 32
+OMP_NUM_THREADS=2 mpirun -np 2 mpi+omp_heat.out -r 2048 -c 2048 1 > /dev/null
 
 */
 
@@ -16,6 +15,7 @@ mpirun mpi_heat.out -r 32 -c 32
 #include <getopt.h>
 #include <string.h>
 #include <sys/time.h> //gettimeofday
+#include <omp.h>
 #include <mpi.h>
 
 void options(int argc, char *argv[]);
@@ -46,6 +46,8 @@ MPI_Request request2;
 MPI_Request request3;
 MPI_Request request4;
 
+int omp_rank, omp_size;
+
 float *h_T_new;
 float *h_T_old;
 float *h_T_temp;
@@ -74,6 +76,13 @@ int main(int argc, char **argv)
     NX = WNX;                // Local NX: numero colonne per rank
     NY = WNY / mpi_size + 2; // Local NY: numero righe   per rank
 
+    // Regione parallela giusto per capire quali sono le risorse che abbiamo a disposizione.
+    #pragma omp parallel
+    {
+        omp_rank = omp_get_thread_num();
+        omp_size = omp_get_num_threads();
+    }
+
     // stampa tutti i dati della simulazione
     fprintf(stderr, "#WNX: %d, WNY: %d, MAX_ITER: %d, MPI_RANK: %d, MPI_SIZE: %d, NX: %d, NY: %d \n", WNX, WNY, MAX_ITER, mpi_rank, mpi_size, NX, NY);
 
@@ -91,32 +100,33 @@ int main(int argc, char **argv)
         h_T_new = h_T_old;
         h_T_old = h_T_temp;
 
-        //Init_center(h_T_old,  NX, NY);
+        //    Init_center(h_T_old,  NX, NY);
         Init_left(h_T_old, NX, NY);
         //  if (mpi_rank==0)   Init_top(h_T_old,     NX, NY);
         copy_cols(h_T_old, NX, NY);
 
         // scambio delle righe di bordo
-        //bottom row            
+        //bottom row
         MPI_Sendrecv(h_T_old + (NX * (NY-2)), NX, MPI_FLOAT, next_rank, tag, 
                 h_T_old, NX, MPI_FLOAT, prev_rank, tag, MPI_COMM_WORLD, &status);
-
-
         //top row
         MPI_Sendrecv(h_T_old + NX, NX, MPI_FLOAT, prev_rank, tag, 
-                h_T_old + (NX * (NY-1)), NX, MPI_FLOAT, next_rank, tag, MPI_COMM_WORLD, &status);
+            h_T_old + (NX * (NY-1)), NX, MPI_FLOAT, next_rank, tag, MPI_COMM_WORLD, &status);
+
 
         Jacobi_Iterator_CPU(h_T_old, h_T_new, NX, NY);
     }
 
     t2 = MPI_Wtime();
 
-    if (mpi_rank == 0)
-        fprintf(stderr, "%f %d %d %d %d \n", t2 - t1, mpi_size, WNX, WNY, MAX_ITER);
+    if (mpi_rank == 0) {
+        #pragma omp parallel
+        #pragma omp single
+        fprintf(stderr,"%d %d %d %f %d %d \n", NX, NY, MAX_ITER, t2-t1, mpi_size, omp_size);
+    }
 
     // invio dei sottodomini a rank 0
     MPI_Gather(h_T_new + NX, NX*(NY-2), MPI_FLOAT, h_T_whole + ((NY-2) * NX * mpi_rank), NX*(NY-2), MPI_FLOAT, 0, MPI_COMM_WORLD);
-
 
     if (mpi_rank == 0)
         print_colormap(h_T_whole, WNX, WNY);
@@ -139,6 +149,7 @@ void Jacobi_Iterator_CPU(float *__restrict T, float *__restrict T_new, const int
     int i, j;
 
     // --- Only update "interior" (not boundary) node points
+    #pragma omp parallel for private (i)
     for (j = 1; j < NY - 1; j++)
         for (i = 1; i < NX - 1; i++)
         {
