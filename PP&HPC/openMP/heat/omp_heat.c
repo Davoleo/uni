@@ -13,6 +13,7 @@ icc -O2 heat.c -o heat
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <string.h>
 #include <sys/time.h>  //gettimeofday
 #include <omp.h>
@@ -47,6 +48,11 @@ int main(int argc, char **argv)
     options(argc, argv);         /* optarg management */
 
     omp_set_num_threads(THREADS);
+
+    #pragma omp parallel 
+    {
+        actual_threads = omp_get_num_threads();
+    }
 
     float *h_T_new = (float *) calloc(NX * NY, sizeof(float));
     float *h_T_old = (float *) calloc(NX * NY, sizeof(float));
@@ -97,26 +103,15 @@ void Jacobi_Iterator_CPU(float * __restrict T, float * __restrict T_new, const i
 {
     int i,j;
 
-#pragma omp parallel private(i) shared(j, T, T_new)
-    {
-
-#pragma omp single
-        {
-            if (actual_threads == -1) {
-                actual_threads = omp_get_num_threads();
-            }
-        }
-
-#pragma omp for schedule(static)
-        for(j=1; j<NY-1; j++) {
-            //fprintf(stderr, "# Thr: %d / %d ", omp_get_thread_num(), omp_get_num_threads());
-            for(i=1; i<NX-1; i++) {
-                float T_E = T[(i+1) + NX*j];
-                float T_W = T[(i-1) + NX*j];
-                float T_N = T[i + NX*(j+1)];
-                float T_S = T[i + NX*(j-1)];
-                T_new[NX*j + i] = 0.25*(T_E + T_W + T_N + T_S); //Normalize back to 0..1 interval [temp is based on the 4 adjacent cells]
-            }
+    #pragma omp parallel for private(i) schedule(static)
+    for(j=1; j<NY-1; j++) {
+        //fprintf(stderr, "# Thr: %d / %d ", omp_get_thread_num(), omp_get_num_threads());
+        for(i=1; i<NX-1; i++) {
+            float T_E = T[(i+1) + NX*j];
+            float T_W = T[(i-1) + NX*j];
+            float T_N = T[i + NX*(j+1)];
+            float T_S = T[i + NX*(j-1)];
+            T_new[NX*j + i] = 0.25*(T_E + T_W + T_N + T_S); //Normalize back to 0..1 interval [temp is based on the 4 adjacent cells]
         }
     }
 }

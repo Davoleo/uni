@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #!/bin/bash
-#SBATCH --output=%x.o%j  # Nome del file per lo strandard output
+#SBATCH --output=/dev/null           # Nome del file per lo strandard output
 #SBATCH --partition=cpu              # Nome della partizione
 #SBATCH --qos=cpu                    # Nome della partizione
 #SBATCH --nodes=2                    # numero di nodi richiesti
@@ -30,7 +30,7 @@ DIM=8192
 
 for T in 1 2 4 8
 do
-                                     omp_heat.out -t $T -c $DIM -r $DIM   1> /dev/null  2>>omp_heat_strong.dat
-                   mpirun -np $T     mpi_heat.out       -c $DIM -r $DIM   1> /dev/null  2>>mpi_heat_strong.dat
-OMP_NUM_THREADS=$T mpirun -ppn 1 mpi+omp_heat.out       -c $DIM -r $DIM   1> /dev/null  2>>mpi+omp_heat_strong.dat
+                                     omp_heat.out -t $T -c $DIM -r $DIM 1> /dev/null  2>> omp_heat_strong.dat
+                   mpirun -np $T     mpi_heat.out       -c $DIM -r $DIM 1> /dev/null  2>> mpi_heat_strong.dat
+OMP_NUM_THREADS=$T mpirun -ppn 1 mpi+omp_heat.out -t $T -c $DIM -r $DIM 1> /dev/null  2>> mpi+omp_heat_strong.dat
 done

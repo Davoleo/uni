@@ -33,6 +33,7 @@ void print_colormap(float *__restrict h_T, const int NX, const int NY); //
 int WNX = 256;       // --- Number of discretization points along the x axis
 int WNY = 256;       // --- Number of discretization points along the y axis
 int MAX_ITER = 1000; // --- Number of Jacobi iterations
+int THREADS = -1;     // --- Number of OMP THREADS in execution
 int NX, NY;
 
 // variabili globali per MPI
@@ -64,6 +65,9 @@ int main(int argc, char **argv)
     double t1, t2;
 
     options(argc, argv); /* optarg management */
+
+    if (THREADS > 0)
+        omp_set_num_threads(THREADS);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
@@ -310,7 +314,7 @@ void options(int argc, char *argv[])
 {
 
     int i;
-    while ((i = getopt(argc, argv, "c:r:s:h")) != -1)
+    while ((i = getopt(argc, argv, "c:r:s:t:h")) != -1)
     {
         switch (i)
         {
@@ -322,6 +326,9 @@ void options(int argc, char *argv[])
             break;
         case 's':
             MAX_ITER = strtol(optarg, NULL, 10);
+            break;
+        case 't':
+            THREADS = strtol(optarg, NULL, 10);  
             break;
         case 'h':
             usage(argv);
