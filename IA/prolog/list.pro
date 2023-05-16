@@ -32,3 +32,16 @@ reverse([H | T], L, SoFar) :-
 select(A, [A | B], B).
 select(A, [B, C | D], [B | E]) :- 
 	select(A, [C | D], E).
+
+
+%% Predicato nonmember tramite cut e fail
+nonmember(_, []).
+nonmember(X, [X | _]) :-
+	!,
+	fail.
+nonmember(X, [_ | R]) :-
+	nonmember(X, R).
+
+% Questa soluzione come tutte le soluzioni che coinvolgono la negazione ah dei comportamenti anomali in presenza di variabili libere. Ad esempio:
+:- nonmember(R, [a, b, c]).  % false
+:- nonmember(z, [a, b, R]).  % false
