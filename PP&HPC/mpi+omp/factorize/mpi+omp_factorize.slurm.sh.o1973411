@@ -1,0 +1,60 @@
+#SLURM_JOB_NODELIST      : wn[23-24]
+#SLURM_JOB_CPUS_PER_NODE : 8(x2)
+
+# Modulus: F27F04CC3A51A3090B7D 80 bits - prime 40 bit: address 6 bit, block 34 bit 
+
+Task 0/2 - block Address size 32, range 0-31 
+Task 1/2 - block Address size 32, range 32-63 
+Task 1/2 - block 63 - FOUND: FD9A3AAF67
+Task 1/2  exiting,  time 426.0 sec., threads: 1  
+Task 0/2 - block 31 - NOT found
+Task 0/2  exiting,  time 983.0 sec., threads: 1  
+
+# Modulus: F27F04CC3A51A3090B7D 80 bits - prime 40 bit: address 6 bit, block 34 bit 
+
+Task 0/2 - block Address size 32, range 0-31 
+Task 1/2 - block Address size 32, range 32-63 
+Task 1/2 - block 63 - FOUND: FD9A3AAF67
+Task 0/2 - block 15 - NOT found
+Task 0/2 - block 31 - NOT found
+Task 0/2  exiting,  time 984.0 sec., threads: 2  
+Task 1/2 - block 47 - NOT found
+Task 1/2  exiting,  time 1069.0 sec., threads: 2  
+
+# Modulus: F27F04CC3A51A3090B7D 80 bits - prime 40 bit: address 6 bit, block 34 bit 
+
+Task 0/2 - block Address size 32, range 0-31 
+Task 1/2 - block Address size 32, range 32-63 
+Task 1/2 - block 63 - FOUND: FD9A3AAF67
+Task 1/2 - block 55 - NOT found
+Task 1/2 - block 47 - NOT found
+Task 1/2 - block 39 - NOT found
+Task 1/2  exiting,  time 1193.0 sec., threads: 4  
+Task 0/2 - block 7 - NOT found
+Task 0/2 - block 15 - NOT found
+Task 0/2 - block 31 - NOT found
+Task 0/2 - block 23 - NOT found
+Task 0/2  exiting,  time 2186.0 sec., threads: 4  
+
+# Modulus: F27F04CC3A51A3090B7D 80 bits - prime 40 bit: address 6 bit, block 34 bit 
+
+Task 0/2 - block Address size 32, range 0-31 
+Task 1/2 - block Address size 32, range 32-63 
+Task 1/2 - block 63 - FOUND: FD9A3AAF67
+Task 1/2 - block 51 - NOT found
+Task 1/2 - block 47 - NOT found
+Task 0/2 - block 3 - NOT found
+Task 0/2 - block 27 - NOT found
+Task 0/2 - block 11 - NOT found
+Task 0/2 - block 23 - NOT found
+Task 1/2 - block 55 - NOT found
+Task 1/2 - block 43 - NOT found
+Task 1/2 - block 35 - NOT found
+Task 1/2 - block 59 - NOT found
+Task 1/2 - block 39 - NOT found
+Task 1/2  exiting,  time 2446.0 sec., threads: 8  
+Task 0/2 - block 15 - NOT found
+Task 0/2 - block 7 - NOT found
+Task 0/2 - block 19 - NOT found
+Task 0/2 - block 31 - NOT found
+Task 0/2  exiting,  time 2657.0 sec., threads: 8  
