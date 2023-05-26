@@ -1,0 +1,1 @@
+/usr/bin/cc      CMakeFiles/matrixMul.dir/matrixMul_gold.cpp.o CMakeFiles/matrixMul.dir/./matrixMul_generated_matrixMul.cu.o  -o matrixMul -rdynamic /hpc/share/tools/cuda/10.2.89/lib64/libcudart.so -lstdc++ -lm -Wl,-rpath,/hpc/share/tools/cuda/10.2.89/lib64 
