@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/hpc/share/tools/parallel_studio_xe/2019.5/compilers_and_libraries_2019.5.281/linux/mpi/**",
-                "/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include"
+                "/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include",
+                "/hpc/share/tools/cuda/11.6.0/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

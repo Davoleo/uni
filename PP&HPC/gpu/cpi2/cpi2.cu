@@ -1,5 +1,7 @@
+#include <stdlib.h>
 #include <iostream>
 #include <stdio.h>
+#include <math.h>
 
 static void HandleError(cudaError_t err,
                         const char *file,
@@ -25,10 +27,16 @@ __global__ void add(float *res)
     //// da modificare con il calcolo del proprio relativo pezzo di rettangoli
     //// utilizzare blockIdx.x, blockDim.x e gridDim.x per calcolare la propria posizione e le divisioni da gestire
     int x = threadIdx.x + blockDim.x * blockIdx.x;
+
+    //cpi calculation: f1
     shr[threadIdx.x] = (1.0 / (1.0 + x*x));
+
+    //cpi calculation: f2
+    //shr[threadIdx.x] = (sqrt(1-x*x));
     
 
     __syncthreads();
+
     // for reductions, threadsPerBlock must be a power of 2 // because of the following code
     int i = blockDim.x / 2;
     while (i != 0)
@@ -45,18 +53,32 @@ __global__ void add(float *res)
 int main(void)
 {
 
+    //Time 
+    float time_passed;
+    cudaEvent_t start;
+    cudaEvent_t stop;
+
     int nblocks = 128;
     printf("hi\n");
 
     float *res = (float *)malloc(nblocks * sizeof(float));
     float *dev_res;
     HANDLE_ERROR(cudaMalloc((void **)&dev_res, nblocks * sizeof(float)));
+    
     printf("start\n");
+    cudaEventCreate(&start);
+    cudaEventRecord(start, NULL);
 
     add<<<nblocks, threadsPerBlock>>>(dev_res);
 
+    puts("end");
+    cudaEventCreate(&stop);
+    cudaEventRecord(stop, NULL);
+    cudaEventSynchronize(stop);
+    cudaEventElapsedTime(&time_passed, start, stop);
+    
     HANDLE_ERROR(cudaMemcpy(res, dev_res, nblocks * sizeof(float), cudaMemcpyDeviceToHost));
-    printf("ok %f\n", res[0]);
+    printf("ok %f, time passed: %f\n", res[0], time_passed);
 
     float total = 0;
     for (int i = 0; i < nblocks; i++)
