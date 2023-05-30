@@ -21,7 +21,8 @@ public class Main {
 		}
 		
 		try {
-			Thread.sleep(1000 * 60);
+			Thread.sleep(1000 * 10);
+			actors.forEach(Actor::stop);
 		} catch (InterruptedException e) {
 			System.out.println("interrupted!");
 			e.printStackTrace();

@@ -12,7 +12,6 @@ public class SimpleLock implements Lock {
 	
 	@Override
 	public synchronized void lock() throws InterruptedException {
-		
 		while (owner != null && owner != Thread.currentThread()) {
 			wait();
 		}
@@ -40,7 +39,7 @@ public class SimpleLock implements Lock {
 	}
 	
 	public synchronized boolean isCurrentThreadOwner() {
-		return owner == Thread.currentThread();
+		return owner == Thread.currentThread();	
 	}
 	
 	

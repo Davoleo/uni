@@ -11,7 +11,7 @@ public class Actor {
 	private final List<Actor> allActors;
 	private final List<Resource> allResources;
 	
-	private Thread workingThread;
+	private final Thread workingThread;
 	
 	public Actor(int id, List<Actor> actors, List<Resource> resources) {
 		this.id = id;
@@ -27,18 +27,28 @@ public class Actor {
 		if (message.getValue() <= 0)
 			return;
 		
+		System.out.println("Actor n" + id + " Received message with value: " + message.getValue() + " about");
 		synchronized (this) {
 			getAnotherRandomActor().deliver(message.decremented());
 		}
 	}
 	
 	private Actor getAnotherRandomActor() {
-		int newActor = random.nextInt(allActors.size()-1);
-		
-		if (newActor >= id)
-			newActor++;
-		
+		int newActor;
+		do {
+			newActor = random.nextInt(allActors.size());
+		} while (newActor != id);
+
+//		int newActor = random.nextInt(allActors.size()-1);
+//
+//		if (newActor >= id)
+//			newActor++;
+
 		return allActors.get(newActor);
+	}
+
+	public void stop() {
+		workingThread.interrupt();
 	}
 	
 	private void mainCycle() {
@@ -50,20 +60,27 @@ public class Actor {
 			
 			List<Resource> myResources = allResources.subList(id*maxResources, id*maxResources + resCount);
 			int sum = 0; 
+			System.out.println("Actor n" + id + " will use resources: (" + id*maxResources + ".." + (id*maxResources + resCount) + ")");
 			
 			try {
 				for (Resource resource : myResources) {
 					resource.acquire();
 					sum += resource.use();
-				}			
+				}
 				
 				Thread.sleep(sum);
 				
-				myResources.forEach((resource) -> resource.release());
+				myResources.forEach(Resource::release);
 				getAnotherRandomActor().deliver(new Message(sum));
 			}
 			catch (Throwable e) {
-				System.out.println("Thread n°" + id + " catched an exception while managing resource in: (" + id*maxResources + ".." + id*maxResources+resCount + ")");
+				//If thread got interrupted -> return from the mainCycle
+				if (e instanceof InterruptedException) {
+					System.err.println("Thread n°" + id + " was terminated!");
+					return;
+				}
+				else
+					System.err.println("Thread n°" + id + " catched an exception while managing resource in: (" + id*maxResources + ".." + (id*maxResources+resCount) + ")");
 			}
 		}
 	}

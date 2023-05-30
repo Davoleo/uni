@@ -21,6 +21,7 @@ class ResourceImpl implements Resource {
 	@Override
 	public void acquire() throws InterruptedException {
 		lock.lock();
+		//System.out.println("Thread " + Thread.currentThread().getName() + " Acquired Resource n" + this.id);
 	}
 
 	@Override
