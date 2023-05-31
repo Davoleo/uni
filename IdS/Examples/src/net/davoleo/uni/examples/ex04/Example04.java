@@ -33,6 +33,16 @@ public class Example04 {
 			System.out.println(i);
 			i = counter.updateAndGet(t -> t+1);
 		}
+		
+		while (i <= 40) {
+			System.out.println(i);
+			i = counter.updateAndGet(this::increment);
+		}
+		
+	}
+	
+	private int increment(int i) {
+		return i+1;
 	}
 	
 	public static void main(String[] args) {
