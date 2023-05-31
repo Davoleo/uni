@@ -20,10 +20,9 @@ public class Main {
 			System.out.println("--- Interrupted during detection ---");
 			e.printStackTrace();
 		}
-		finally {
-			 for (int i = 0; i < K; i++)
-				 sensors[i].stop();
-		}
+		
+		for (int i = 0; i < K; i++)
+			 sensors[i].stop();
 		
 	}
 	

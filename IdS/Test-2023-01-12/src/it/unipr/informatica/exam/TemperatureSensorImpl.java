@@ -1,33 +1,30 @@
 package it.unipr.informatica.exam;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class TemperatureSensorImpl implements TemperatureSensor {
 	
 	private static final Random RANDOM = new Random();
 	
 	private final int sensorID;
-	private final AtomicReference<Double> temperature;
+	private double temperature;
 	
 	//Threads
 	private final Thread sensorThread;
-	private final ExecutorService threadPool;
+	private final SimpleThreadPool threadPool;
 	
 	private final Set<TemperatureObserver> observers;
 	
 	public TemperatureSensorImpl(int sensorID) {
 		this.sensorID = sensorID;
-		this.temperature = new AtomicReference<>(0D);
+		this.temperature = 0D;
 	
 		this.sensorThread = new Thread(this::detectTemperature);
-		this.threadPool = Executors.newFixedThreadPool(10);
+		this.threadPool = new SimpleThreadPool(10);
 		
-		this.observers = new HashSet<>();
+		this.observers = new LinkedHashSet<>();
 	}
 
 	@Override
@@ -36,8 +33,12 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 	}
 
 	@Override
-	public double getTemperature() {
-		return temperature.get();
+	public synchronized double getTemperature() {
+		return temperature;
+	}
+	
+	public synchronized void setTemperature(double temperature) {
+		this.temperature = temperature;
 	}
 
 	@Override
@@ -48,6 +49,7 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 	@Override
 	public void stop() {
 		this.sensorThread.interrupt();
+		this.threadPool.shutdown();
 	}
 
 	@Override
@@ -66,7 +68,7 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 		while (true) {
 			try {
 				double detected= RANDOM.nextDouble(100);
-				temperature.set(detected);
+				setTemperature(detected);
 				for (TemperatureObserver observer : observers) {
 					threadPool.execute(() -> observer.update(this));
 				}
