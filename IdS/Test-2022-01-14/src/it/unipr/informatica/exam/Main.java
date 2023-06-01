@@ -2,11 +2,27 @@ package it.unipr.informatica.exam;
 
 public class Main {
 	
+	public static final int W = 9;
+	
 	public static void main(String[] args) {
-		Worker[] workers = new Worker[9];
+		Worker[] workers = new Worker[W];
 		
-		for (int i = 0; i < 9; ++i) {
+		for (int i = 0; i < W; ++i) {
 			workers[i] = new Worker();
 		}
+		
+		for (Worker worker : workers) {
+			worker.start();
+		}
+		
+		try {
+			Thread.sleep(1000 * 6);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+		for (Worker worker : workers) {
+			worker.stop();
+		}	
 	}
 }

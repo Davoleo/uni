@@ -17,43 +17,37 @@ public class ResourceManager {
 	
 	
 	private final int R = 9;
-	private final ResourceImpl[] resources;
+	private final ResourceImpl[] allResources;
 	
 	private ResourceManager() {
-		resources = new ResourceImpl[R];
+		allResources = new ResourceImpl[R];
 		for (int i = 0; i < R; ++i) {
-			resources[i] = new ResourceImpl(i);
+			allResources[i] = new ResourceImpl(i);
 		}
 	}
 	
 	
-	public Resource[] acquire(int id) {
+	public Resource[] acquire(int id) throws InterruptedException {
 		
-		ResourceImpl[] result = new ResourceImpl[3];
+		ResourceImpl[] myResources = new ResourceImpl[3];
 		
 		for (int i = 0; i < 3; ++i) {
 			int index = (id+i)%R;
-			result[i] = resources[index];
-			
+			myResources[i] = allResources[index];
 		}
 		
-		while () {
-			synchronized (resources[id]) {
-				try {
-					resources[id].wait();					
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
+		while (myResources[0].isAcquired() || myResources[1].isAcquired() || myResources[2].isAcquired()) {
+			synchronized (myResources[0]) {
+				myResources[0].wait();
 			}
 		}
 		
-		for (int i = 0; i < 3; ++i) {
-			result[(id+i)%R].acquire();
-		}
+		for (ResourceImpl resource : myResources) 
+			resource.acquire();
 		
-		return result;
+		System.out.println("Worker" + id + ": acquired resources [" + id + "-" + (id+1)%R + "-" + (id+2)%R + ']');
+		
+		return myResources;
 	}
 
 }

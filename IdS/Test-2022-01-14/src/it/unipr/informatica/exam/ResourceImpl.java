@@ -8,7 +8,7 @@ public class ResourceImpl implements Resource {
 	
 	private final int id;
 	
-	private volatile boolean acquired;
+	private boolean acquired;
 
 	public ResourceImpl(int id) {
 		this.id = id;
@@ -27,18 +27,19 @@ public class ResourceImpl implements Resource {
 	@Override
 	public synchronized int use() {
 		if (!acquired)
-			throw new IllegalStateException("Resource was used when not acquired!");
+			throw new IllegalStateException("Resource" + id + " was used when not acquired!");
 		
 		return RANDOM.nextInt(id, id+100);
 	}
-	
-	public void acquire() {
+
+	public synchronized void acquire() {
 		this.acquired = true;
 	}
 
 	@Override
-	public void release() {
+	public synchronized void release() {
 		acquired = false;
+		notify();
 	}
 
 }
