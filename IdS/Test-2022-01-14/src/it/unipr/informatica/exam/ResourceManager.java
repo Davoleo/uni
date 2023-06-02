@@ -31,7 +31,7 @@ public class ResourceManager {
 	 * Synchronized because otherwise every worker goes ahead and tries to acquire the resources at the beginning since they're theoretically all free
 	 * Hopefully doesn't hinder parallel execution too much.
 	 */
-	public synchronized Resource[] acquire(int id) throws InterruptedException {
+	public Resource[] acquire(int id) throws InterruptedException {
 		
 		ResourceImpl[] myResources = new ResourceImpl[3];
 		
@@ -39,15 +39,16 @@ public class ResourceManager {
 			int index = (id+i)%R;
 			myResources[i] = allResources[index];
 		}
-		
-		while (myResources[0].isAcquired() || myResources[1].isAcquired() || myResources[2].isAcquired()) {
-			synchronized (myResources[0]) {
+
+		synchronized (myResources[0]) {
+			while (myResources[0].isAcquired() || myResources[1].isAcquired() || myResources[2].isAcquired())
 				myResources[0].wait();
+
+			synchronized (allResources) {
+				for (ResourceImpl resource : myResources)
+					resource.acquire(id);
 			}
 		}
-		
-		for (ResourceImpl resource : myResources) 
-			resource.acquire(id);
 		
 		System.out.println("Worker" + id + ": acquired resources [" + id + "-" + (id+1)%R + "-" + (id+2)%R + ']');
 		
@@ -62,7 +63,7 @@ public class ResourceManager {
 		for(int i=0; i < 3; i++) {
 			int index = (id - i + allResources.length) % R;
 			synchronized (allResources[index]) {
-				allResources[index].notify();
+				allResources[index].notifyAll();
 			}			
 		}
 	}

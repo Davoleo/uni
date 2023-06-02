@@ -33,7 +33,11 @@ public class ResourceImpl implements Resource {
 		return RANDOM.nextInt(id, id+100);
 	}
 
-	public synchronized void acquire(int worker) {
+	/**
+	 * Not Thread-Safe! 
+	 * Must be called on a single thread at the time.
+	 */
+	public void acquire(int worker) {
 		if (ownerId != FREE)
 			throw new IllegalStateException("Worker" + worker + " is trying to acquire busy resource (id:" + id + ")! current owner: Worker" + ownerId);
 		this.ownerId = worker;
