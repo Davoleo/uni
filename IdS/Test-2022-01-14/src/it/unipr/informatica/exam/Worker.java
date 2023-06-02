@@ -9,30 +9,36 @@ public class Worker {
 	
 	public Worker() {
 		this.id = internalCount++;
-		this.thread = new Thread(() -> {
-			while (true) {
-				Resource[] resources;
+		this.thread = new Thread(this::loop);
+	}
+	
+	private void loop() {
+		while (true) {
+			Resource[] resources;
+			ResourceManager manager = ResourceManager.get();
+			
+			try {
+				resources = manager.acquire(id);
 				
-				try {
-					resources = ResourceManager.get().acquire(id);
-					
-					Logger.get().useAndPrint(resources[0], resources[1], resources[2]);
-					
-					for (Resource resource : resources)
-						resource.release();
-					System.out.println("Worker" + id + ": released resources [" + resources[0].getID() + "-" + resources[1].getID() + "-" + resources[2].getID() + ']');
-					
-					Thread.sleep(100);
-				} 
-				catch (InterruptedException e) {
-					System.out.println("Worker" + id + ": Interrupted while acquiring resources!");
-					return;
+				Logger.get().useAndPrint(resources[0], resources[1], resources[2]);
+				
+				for (Resource resource : resources) {
+					resource.release();
+					manager.notifyRelease(resource.getID());
 				}
-				catch (IllegalStateException e) {
-					e.printStackTrace();
-				}
+				
+				System.out.println("Worker" + id + ": released resources [" + resources[0].getID() + "-" + resources[1].getID() + "-" + resources[2].getID() + ']');
+				
+				Thread.sleep(100);
+			} 
+			catch (InterruptedException e) {
+				System.out.println("Worker" + id + ": Interrupted while acquiring resources!");
+				return;
 			}
-		});
+			catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void start() {
