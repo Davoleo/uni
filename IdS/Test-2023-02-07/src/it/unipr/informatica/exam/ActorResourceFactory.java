@@ -13,6 +13,9 @@ public abstract class ActorResourceFactory {
 		return factory;
 	}
 	
+	private ActorResourceFactory() {
+	}
+	
 	public abstract Actor createActor(int id, List<Actor> allActors, List<Resource> allResources);
 	
 	public abstract Resource createResource();
