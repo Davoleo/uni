@@ -45,6 +45,7 @@ public class ResourceManager {
 				myResources[0].wait();
 
 			synchronized (allResources) {
+				
 				for (ResourceImpl resource : myResources)
 					resource.acquire(id);
 			}

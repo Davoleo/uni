@@ -23,6 +23,6 @@ public class Main {
 		
 		for (Worker worker : workers) {
 			worker.stop();
-		}	
+		}
 	}
 }
