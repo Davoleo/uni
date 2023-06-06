@@ -73,7 +73,7 @@ public class SimpleStudent implements Student, Cloneable {
 		
 		
 		SimpleStudent other = (SimpleStudent) obj;
-		return id == other.id && surname.equals(other.id) && name.equals(other.id);
+		return id == other.id && surname.equals(other.surname) && name.equals(other.name);
 	}
 	
 	@Override

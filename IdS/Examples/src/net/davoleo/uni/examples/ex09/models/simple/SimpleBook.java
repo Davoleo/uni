@@ -73,7 +73,7 @@ public class SimpleBook implements Book, Cloneable {
 		
 		
 		SimpleBook otherBook = (SimpleBook) obj;
-		return id == otherBook.id && title.equals(otherBook.id) && author.equals(otherBook.id);
+		return id == otherBook.id && title.equals(otherBook.title) && author.equals(otherBook.author);
 	}
 	
 	@Override
