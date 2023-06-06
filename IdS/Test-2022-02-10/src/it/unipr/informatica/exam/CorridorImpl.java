@@ -24,6 +24,8 @@ public class CorridorImpl implements Corridor {
 				if (count >= K) {
 					for (int i = 0; i < K; i++)
 						this.notify();
+					
+					count = count - K;
 				}
 			}
 			
@@ -45,7 +47,7 @@ public class CorridorImpl implements Corridor {
 		
 		//Notify checker thread to do its waiting count check
 		synchronized (checkerThread) {
-			checkerThread.notify();			
+			checkerThread.notify();
 		}
 		
 		count++;
