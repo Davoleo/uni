@@ -1,10 +1,15 @@
 {
     "files.associations": {
+        "*.pro": "prolog",
         "unistd.h": "c",
         "posix_opt.h": "c",
         "stddef.h": "c",
         "features.h": "c",
         "confname.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "cmath": "cpp",
+        "cstdlib": "cpp"
     }
 }

@@ -90,13 +90,14 @@ int main(int argc, char *argv[])
                 printf(" %d bits - prime %d bit: address %d bit, block %d bit \n\n", modulus_bit, prime_bit, block_addr_bit, block_dim_bit);
         }
         MPI_Barrier(MPI_COMM_WORLD);
+        //^ Per assicurarsi che tutti i task siano in pari
 
         int lastBlock = block_addr_size * (MPIrank + 1) - 1;
         int firstBlock = block_addr_size * MPIrank;
 
         printf("Task %d/%d - block Address size %d, range %d-%d \n", MPIrank, MPIsize, block_addr_size, firstBlock, lastBlock);
 
-        // Attiva la Ricezione della comunicazione dagli altri rank
+        // Attiva la Ricezione asincrona immediata della comunicazione del risultato da parte di altri rank
         int result_found = 0;
         MPI_Irecv(&result_found, 1, MPI_INT, MPI_ANY_SOURCE, 123, MPI_COMM_WORLD, &request);
 
@@ -114,12 +115,11 @@ int main(int argc, char *argv[])
                 {
                         flag = 1;
                         result_found = 1;
-                        // Invia un messaggio a tutti i task (TODO)
+                        // Invia un messaggio a tutti i task
                         for (i = 0; i < MPIsize; i++)  {
                                 if (i == MPIrank)
                                         continue;
                                 MPI_Send(&result_found, 1, MPI_INT, i, 123, MPI_COMM_WORLD);
-
                         }
 
                         printf("Task %d/%d - block %d - FOUND: ", MPIrank, MPIsize, block_idx);

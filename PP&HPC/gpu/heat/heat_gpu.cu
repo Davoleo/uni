@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     float *h_T = (float *)calloc(NX * NY, sizeof(float));
     Init_center(h_T, NX, NY);
     //   Init_left(h_T,    NX, NY);
-    Init_top(h_T, NX, NY);
+    //Init_top(h_T, NX, NY);
     float *h_T_GPU_result = (float *)malloc(NX * NY * sizeof(float));
     float *temp;
 
@@ -232,7 +232,7 @@ __global__ void Jacobi_Iterator_GPU_Shared(const float *__restrict__ T_old, floa
     const int j = blockIdx.y * blockDim.y + threadIdx.y;
 
     const int CACHE_SIZEX = BLOCK_SIZE_X + 2;
-    __shared__ float cache[(BLOCK_SIZE_Y * 2) * (CACHE_SIZEX)];
+    __shared__ float cache[(BLOCK_SIZE_Y + 2) * (CACHE_SIZEX)];
 
     int cacheX = threadIdx.x + 1;
     int cacheY = threadIdx.y + 1;
@@ -306,15 +306,16 @@ __global__ void Jacobi_Iterator_GPU_Shared(const float *__restrict__ T_old, floa
 void Init_center(float *__restrict h_T, const int NX, const int NY)
 {
     int i, j;
-    int startx = NX / 2 - NX / 10;
-    int endx = NX / 2 + NX / 10;
-    int starty = NY / 2 - NY / 10;
-    int endy = NY / 2 + NY / 10;
+    int startx = NX / 2 - NX / 8;
+    int endx = NX / 2 + NX / 8;
+    int starty = NY / 2 - NY / 8;
+    int endy = NY / 2 + NY / 8;
     //    int starty=NY/4;
     //    int endy=NY-NY/4;
     for (i = startx; i < endx; i++)
         for (j = starty; j < endy; j++)
-            h_T[NX * j + i] = 1.0;
+            if (abs(i - (NX/2)) >= NX/12 && abs(j - (NX/2)) >= NX/12)
+                    h_T[NX * j + i] = 1.0;
 }
 
 /********************************/

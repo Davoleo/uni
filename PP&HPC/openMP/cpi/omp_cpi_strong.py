@@ -8,7 +8,7 @@ import pandas as pd
 data = pd.read_csv("omp_cpi_strong.dat", sep='\s+', names=["f", "n","pi","error","time","thr","host"])
 
 
-plt.title('CPI omp scaling <nome e data>')
+plt.title('CPI omp scaling')
 
 plt.grid()
 plt.title('strong scaling')
@@ -22,7 +22,7 @@ plt.savefig('omp_cpi_strong_time.png')
 
 plt.clf()
 
-plt.title('CPI omp scaling <nome e data>')
+plt.title('CPI omp scaling')
 
 plt.grid()
 plt.title('strong scaling')

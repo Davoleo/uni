@@ -8,6 +8,7 @@
 #SBATCH --gres=gpu:v100_hylab:1
 #SBATCH --time=0-00:10:00
 #SBATCH --mem=3G
+#SBATCH --cpus-per-tast=1
  
  
 module load gnu/5.4.0   cuda/11.5.2

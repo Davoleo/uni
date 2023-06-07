@@ -97,12 +97,13 @@ int main(int argc, char **argv)
         copy_cols(h_T_old, NX, NY);
 
         // scambio delle righe di bordo
-        //bottom row            
+
+        //Inviamo la penultima riga -> Riceviamo come prima riga del rank successivo      
         MPI_Sendrecv(h_T_old + (NX * (NY-2)), NX, MPI_FLOAT, next_rank, tag, 
                 h_T_old, NX, MPI_FLOAT, prev_rank, tag, MPI_COMM_WORLD, &status);
 
 
-        //top row
+        //Inviamo la seconda riga -> Riceviamo come ultima riga del rank precedente
         MPI_Sendrecv(h_T_old + NX, NX, MPI_FLOAT, prev_rank, tag, 
                 h_T_old + (NX * (NY-1)), NX, MPI_FLOAT, next_rank, tag, MPI_COMM_WORLD, &status);
 
@@ -115,6 +116,11 @@ int main(int argc, char **argv)
         fprintf(stderr, "%f %d %d %d %d \n", t2 - t1, mpi_size, WNX, WNY, MAX_ITER);
 
     // invio dei sottodomini a rank 0
+    // 1° param: sendArray 
+    // 2° param: Numero di celle inviate [-2 righe perché la matrice piccola contiene anche righe in più per la comunicazione]
+    // 4° param: Posizionamento delle mini-matrici dentro alla matrice grossa a seconda del rank di MPI
+    // 5° param: Numero di celle ricevute
+    // 7° param: rank di  ricezione: 0
     MPI_Gather(h_T_new + NX, NX*(NY-2), MPI_FLOAT, h_T_whole + ((NY-2) * NX * mpi_rank), NX*(NY-2), MPI_FLOAT, 0, MPI_COMM_WORLD);
 
 

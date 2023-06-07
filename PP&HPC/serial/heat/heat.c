@@ -15,11 +15,13 @@ icc -O2 heat.c -o heat
 #include <unistd.h>
 #include <string.h>
 #include <sys/time.h>  //gettimeofday
+#include <getopt.h>
 
 
 void options(int argc, char * argv[]) ;
 void usage(char * argv[]);
 void Jacobi_Iterator_CPU(float * __restrict T, float * __restrict T_new, const int NX, const int NY); 
+void Init_custom(float * __restrict h_T, const int NX, const int NY); // custom 
 void Init_center(float * __restrict h_T, const int NX, const int NY); // center 
 void Init_left(float * __restrict h_T, const int NX, const int NY);   // left border
 void Init_top(float * __restrict h_T, const int NX, const int NY);    // top border
@@ -59,8 +61,9 @@ int main(int argc, char **argv)
         h_T_old=h_T_temp;
 
         //Init_center(h_T_old, NX, NY);
-        Init_left(h_T_old,    NX, NY);
-        Init_top(h_T_old, NX, NY);
+        //Init_left(h_T_old,    NX, NY);
+        //Init_top(h_T_old, NX, NY);
+        Init_custom(h_T_old, NX, NY);
         copy_rows(h_T_old, NX, NY);
         copy_cols(h_T_old, NX, NY);
 
@@ -121,6 +124,22 @@ void Init_center(float * __restrict h_T, const int NX, const int NY)
     for(i=startx; i<endx; i++)
         for(j=starty; j<endy; j++)
               h_T[NX*j + i] = 1.0;
+}
+
+/* Squared Torus */
+void Init_custom(float *__restrict h_T, const int NX, const int NY)
+{
+    int i, j;
+    int startx = NX / 2 - NX / 6;
+    int endx = NX / 2 + NX / 6;
+    int starty = NY / 2 - NY / 6;
+    int endy = NY / 2 + NY / 6;
+    //    int starty=NY/4;
+    //    int endy=NY-NY/4;
+    for (i = startx; i < endx; i++)
+        for (j = starty; j < endy; j++)
+            if (abs(i - (NX/2)) >= NX/12 && abs(j - (NX/2)) >= NX/12)
+                    h_T[NX * j + i] = 1.0;
 }
 
 

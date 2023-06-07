@@ -15,12 +15,12 @@ plt.xlabel('threads')
 #plt.yscale('log')
 plt.ylabel('tempo')
 plt.plot(df_gnu.nthreads, df_gnu.Tnp, 'r-o', label='Tnp')
-plt.plot(df_gnu.nthreads, df_gnu.Tp, 'g-o', label='Tp_gnu')
+plt.plot(df_gnu.nthreads, df_gnu.Tp, 'g-o', label='Tp_gnu4')
 plt.plot(df_gnu8.nthreads, df_gnu8.Tp, 'y-o', label='Tp_gnu8')
 plt.plot(df_gnu5.nthreads, df_gnu5.Tp, 'b-o', label='Tp_gnu5')
 plt.plot(df_intel.nthreads, df_intel.Tp, 'm-o', label='Tp_intel')
 plt.legend(shadow=True)
-plt.savefig('heat_scaling_tempo.png')
+plt.savefig('heat_scaling_tempo_other.png')
 
 plt.clf()
 
@@ -34,7 +34,11 @@ plt.ylabel('speedup')
 # for i in range(3):
 #     ideal_speedup[i] = df.at[0, 'Tp'] / df.at[i, 'nthreads']
 
-plt.plot(df_gnu.nthreads, (df_gnu.at[0, 'Tp']/df_gnu.nthreads)/df_gnu.Tp, 'g-o', label='Speedup_gnu')
+# 1 thread : df_gnu.at[0, 'Tp']
+# Tempo ideale: 1Thread / df_gnu.nthreads
+# 
+
+plt.plot(df_gnu.nthreads, (df_gnu.at[0, 'Tp']/df_gnu.nthreads)/df_gnu.Tp, 'g-o', label='Speedup_gnu4')
 plt.plot(df_gnu8.nthreads, (df_gnu8.at[0, 'Tp']/df_gnu8.nthreads)/df_gnu8.Tp, 'y-o', label='Speedup_gnu8')
 plt.plot(df_gnu5.nthreads, (df_gnu5.at[0, 'Tp']/df_gnu5.nthreads)/df_gnu5.Tp, 'b-o', label='Speedup_gnu5')
 plt.plot(df_intel.nthreads, (df_intel.at[0, 'Tp']/df_intel.nthreads)/df_intel.Tp, 'm-o', label='Speedup_intel')

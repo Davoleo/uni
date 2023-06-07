@@ -5,6 +5,7 @@
 #include <unistd.h> //optarg
 #include <stdlib.h>
 #include <mpi.h>
+#include <getopt.h>
 
 void options(int argc, char *argv[]);
 void usage(char *argv[]);

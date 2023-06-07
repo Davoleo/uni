@@ -168,14 +168,17 @@ int block_factorize(unsigned long int block_addr)
         BN_sub(Y, Y, TWO);                           // y = y - 2
         BLOCK_IDX = BN_dup(X);
 
-        while (BN_cmp(BLOCK_IDX, Y))
+        #pragma omp parallel
         {
-                BN_add(BLOCK_IDX, BLOCK_IDX, TWO);
-                BN_mod(R, M, BLOCK_IDX, ctx2);
-                if (BN_is_zero(R))
+                while (BN_cmp(BLOCK_IDX, Y))
                 {
-                        F = BN_dup(BLOCK_IDX);
-                        return (1);
+                        BN_add(BLOCK_IDX, BLOCK_IDX, TWO);
+                        BN_mod(R, M, BLOCK_IDX, ctx2);
+                        if (BN_is_zero(R))
+                        {
+                                F = BN_dup(BLOCK_IDX);
+                                return (1);
+                        }
                 }
         }
 

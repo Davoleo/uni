@@ -153,7 +153,7 @@ void Jacobi_Iterator_CPU(float *__restrict T, float *__restrict T_new, const int
     int i, j;
 
     // --- Only update "interior" (not boundary) node points
-    #pragma omp parallel for private (i)
+    #pragma omp parallel for private(i)
     for (j = 1; j < NY - 1; j++)
         for (i = 1; i < NX - 1; i++)
         {
