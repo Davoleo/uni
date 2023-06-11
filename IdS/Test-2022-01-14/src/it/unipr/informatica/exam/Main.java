@@ -1,15 +1,14 @@
 package it.unipr.informatica.exam;
 
+import java.util.Arrays;
+
 public class Main {
 	
 	public static final int W = 9;
 	
 	public static void main(String[] args) {
 		Worker[] workers = new Worker[W];
-		
-		for (int i = 0; i < W; ++i) {
-			workers[i] = new Worker();
-		}
+		Arrays.setAll(workers, Worker::new);
 		
 		for (Worker worker : workers) {
 			worker.start();

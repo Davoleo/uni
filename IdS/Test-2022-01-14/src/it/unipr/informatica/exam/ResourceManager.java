@@ -1,5 +1,7 @@
 package it.unipr.informatica.exam;
 
+import java.util.Arrays;
+
 public class ResourceManager {
 
 	private static volatile ResourceManager instance;
@@ -21,12 +23,13 @@ public class ResourceManager {
 	
 	private ResourceManager() {
 		allResources = new ResourceImpl[R];
-		for (int i = 0; i < R; ++i) {
-			allResources[i] = new ResourceImpl(i);
-		}
+		Arrays.setAll(allResources, ResourceImpl::new);
 	}
-	
-	
+
+	public ResourceImpl[] getAllResources() {
+		return allResources;
+	}
+
 	/**
 	 * Synchronized because otherwise every worker goes ahead and tries to acquire the resources at the beginning since they're theoretically all free
 	 * Hopefully doesn't hinder parallel execution too much.
@@ -45,7 +48,6 @@ public class ResourceManager {
 				myResources[0].wait();
 
 			synchronized (allResources) {
-				
 				for (ResourceImpl resource : myResources)
 					resource.acquire(id);
 			}
@@ -62,7 +64,7 @@ public class ResourceManager {
 	 */
 	public void notifyRelease(int id) {
 		for(int i=0; i < 3; i++) {
-			int index = (id - i + allResources.length) % R;
+			int index = (id - i + R) % R;
 			synchronized (allResources[index]) {
 				allResources[index].notifyAll();
 			}			

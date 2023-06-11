@@ -1,31 +1,31 @@
 package it.unipr.informatica.exam;
 
-public class Worker {
-	
-	private static int internalCount = 0;
+public class Worker  {
 	
 	private final int id;
 	private final Thread thread;
 	
-	public Worker() {
-		this.id = internalCount++;
+	public Worker(int id) {
+		this.id = id;
 		this.thread = new Thread(this::loop);
 	}
 	
 	private void loop() {
+		ResourceManager manager = ResourceManager.get();
 		while (true) {
-			Resource[] resources;
-			ResourceManager manager = ResourceManager.get();
-			
 			try {
-				resources = manager.acquire(id);
-				
+
+				//Una synchronized sull'array qui aggiusta i problemi di race condition ma allo stesso tempo rovina tutto il parallelismo del sistema rendendolo seriale...
+				//synchronized (manager.getAllResources()) {
+				Resource[] resources = manager.acquire(id);
+
 				Logger.get().useAndPrint(resources[0], resources[1], resources[2]);
-				
+
 				for (Resource resource : resources) {
 					resource.release();
 					manager.notifyRelease(resource.getID());
 				}
+				//}
 				
 				System.out.println("Worker" + id + ": released resources [" + resources[0].getID() + "-" + resources[1].getID() + "-" + resources[2].getID() + ']');
 				

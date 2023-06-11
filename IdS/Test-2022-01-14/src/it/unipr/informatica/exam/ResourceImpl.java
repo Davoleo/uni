@@ -34,7 +34,7 @@ public class ResourceImpl implements Resource {
 	}
 
 	/**
-	 * Not Thread-Safe! 
+	 * Not Thread-Safe! Internal Method
 	 * Must be called on a single thread at the time.
 	 */
 	public void acquire(int worker) {
