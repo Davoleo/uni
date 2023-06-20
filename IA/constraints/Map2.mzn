@@ -23,4 +23,4 @@ output [
 	"Q = ", show(q), "\n",
 	"NSW = ", show(nsw), "\n",
 	"V = ", show(v), "\n",
-]
+];

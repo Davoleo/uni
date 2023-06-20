@@ -4,13 +4,13 @@ var 0..100: c; % number of chocolate cakes
 % flour
 constraint 250*b +200*c <= 4000;
 % bananas 
-constaint 2*b <= 6;
+constraint 2*b <= 6;
 % sugar 
-constaint 75*b + 150*c <= 2000;
+constraint 75*b + 150*c <= 2000;
 % butter
-constaint 100*b + 150*c <= 500;
+constraint 100*b + 150*c <= 500;
 % cocoa
-constaint 75*c <= 500;
+constraint 75*c <= 500;
 
 % maximize our profit
 solve maximize 400*b + 450*c;
