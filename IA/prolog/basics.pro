@@ -27,3 +27,16 @@ fact(N, F) :-
 % Extra in Prolog se la chiamata ricorsiva è l'ultima si può riutilizzare
 % il frame nella ricorsione il che permette di avere stack di "dimensione arbitraria"
 % In questo caso a causa degli operatori extra-logici c'è questo tipo di limitazione/problema
+
+guess_num :- loop(start).
+
+loop(15) :-
+	write('You Guessed it!').
+
+loop(X) :-
+	X \= 15,
+	write('Guess Number'),
+	read(Guess),
+	write(Guess),
+	write(' is not the number'), nl,
+	loop(Guess).
