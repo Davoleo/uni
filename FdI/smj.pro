@@ -1,2 +1,0 @@
-% Stack machine with jumps
-

@@ -1,1 +1,0 @@
-g++ practice_a.cpp -o practice_a -O -Wall
