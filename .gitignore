@@ -12,11 +12,11 @@
 *.out
 
 # Matrix project compiled files
-SO/MatrixProject/out
+bachelor/SO/MatrixProject/out
 
 # Doxygen Docs
-SO/MatrixProject/docs
-MdP/safe_stack/v1/docs
+bachelor/SO/MatrixProject/docs
+bachelor/MdP/safe_stack/v1/docs
 
 # MATLAB temporary files
 *.asv
@@ -25,7 +25,7 @@ MdP/safe_stack/v1/docs
 __pycache__
 
 # IMB 40MB stupid output file
-PP&HPC/perf/IMB/IMB_out_0
+bachelor/PP&HPC/perf/IMB/IMB_out_0
 
 # ------------- Visual studio Solutions ----------
 # IG
