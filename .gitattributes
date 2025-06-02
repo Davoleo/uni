@@ -24,6 +24,9 @@ master/ML/lab_notebooks/*.ipynb linguist-vendored
 
 * text eol=lf
 
+# II project files shouldn't be touched by eol conversions
+master/II/** -text
+
 #
 ## These files are binary and should be left untouched
 #
