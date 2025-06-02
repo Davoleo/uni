@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_blinker_v2_behav/xsimk.exe -simmode gui -wdb tb_blinker_v2_behav.wdb -simrunnum 0 -socket 10018
+Design successfully loaded
+Design Loading Memory Usage: 28576 KB (Peak: 28576 KB)
+Design Loading CPU Usage: 749 ms
+Simulation completed
+Simulation Memory Usage: 29372 KB (Peak: 29372 KB)
+Simulation CPU Usage: 1061 ms

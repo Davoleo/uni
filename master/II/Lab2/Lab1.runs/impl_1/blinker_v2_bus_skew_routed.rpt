@@ -1,0 +1,16 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (win64) Build 5239630 Fri Nov 08 22:35:27 MST 2024
+| Date         : Mon May 26 13:12:39 2025
+| Host         : LAPTOP-GF3IISH0 running 64-bit major release  (build 9200)
+| Command      : report_bus_skew -warn_on_violation -file blinker_v2_bus_skew_routed.rpt -pb blinker_v2_bus_skew_routed.pb -rpx blinker_v2_bus_skew_routed.rpx
+| Design       : blinker_v2
+| Device       : 7s25-csga225
+| Speed File   : -1  PRODUCTION 1.23 2018-06-13
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Bus Skew Report
+
+No bus skew constraints
+

@@ -1,0 +1,19 @@
+Vivado Simulator v2024.2.0
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: C:/Xilinx/Vivado/2024.2/bin/unwrapped/win64.o/xelab.exe --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot tb_blinker_v2_behav xil_defaultlib.tb_blinker_v2 -log elaborate.log 
+Using 2 slave threads.
+Starting static elaboration
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling package std.standard
+Compiling package std.textio
+Compiling package ieee.std_logic_1164
+Compiling architecture behavioral_ffre of entity xil_defaultlib.blinker_v2_FFRE [blinker_v2_ffre_default]
+Compiling architecture behavioral of entity xil_defaultlib.blinker_v2_pulsegen [blinker_v2_pulsegen_default]
+Compiling architecture behavioral of entity xil_defaultlib.blinker_v2_fsm [blinker_v2_fsm_default]
+Compiling architecture blincker_v2_behavioral of entity xil_defaultlib.blinker_v2 [blinker_v2_default]
+Compiling architecture behavioral of entity xil_defaultlib.tb_blinker_v2
+Built simulation snapshot tb_blinker_v2_behav

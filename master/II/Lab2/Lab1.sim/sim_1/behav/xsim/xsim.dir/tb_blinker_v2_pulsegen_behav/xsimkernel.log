@@ -1,0 +1,7 @@
+Running: xsim.dir/tb_blinker_v2_pulsegen_behav/xsimk.exe -simmode gui -wdb tb_blinker_v2_pulsegen_behav.wdb -simrunnum 0 -socket 9062
+Design successfully loaded
+Design Loading Memory Usage: 28616 KB (Peak: 28616 KB)
+Design Loading CPU Usage: 514 ms
+Simulation completed
+Simulation Memory Usage: 29392 KB (Peak: 29392 KB)
+Simulation CPU Usage: 639 ms
