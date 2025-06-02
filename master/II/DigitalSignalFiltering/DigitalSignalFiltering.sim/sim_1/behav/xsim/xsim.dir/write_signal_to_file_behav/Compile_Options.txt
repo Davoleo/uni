@@ -1,0 +1,1 @@
+--incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "write_signal_to_file_behav" "xil_defaultlib.write_signal_to_file" -log "elaborate.log" 

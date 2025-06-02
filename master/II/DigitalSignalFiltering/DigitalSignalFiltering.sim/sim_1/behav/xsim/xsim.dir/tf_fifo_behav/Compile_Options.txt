@@ -1,0 +1,1 @@
+--incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "tf_fifo_behav" "xil_defaultlib.tf_fifo" -log "elaborate.log" 
