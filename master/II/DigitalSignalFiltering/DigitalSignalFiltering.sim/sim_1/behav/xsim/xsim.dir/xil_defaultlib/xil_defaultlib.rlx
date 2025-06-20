@@ -3,10 +3,12 @@
 Nov  8 2024
 22:36:57
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sim_1/imports/tbenches/tb_accumulator.vhd,1750432270,vhdl,,,,tb_accumulator,,,,,,,,
+C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sim_1/imports/tbenches/tb_divideby.vhd,1750434682,vhdl,,,,tb_divide_by,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sim_1/imports/tbenches/tb_multiadder.vhd,1748871679,vhdl,,,,tb_multiadder,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sim_1/imports/tbenches/tf_fifo.vhd,1748791680,vhdl,,,,tf_fifo,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sim_1/imports/tbenches/write_signal_to_file.vhd,1748120244,vhdl,,,,write_signal_to_file,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sources_1/imports/Downloads/COUNTER.vhd,1748362500,vhdl,,,,counter,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sources_1/imports/design/accumulator.vhd,1750430415,vhdl,,,,accumulator,,,,,,,,
+C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sources_1/imports/design/divide_by.vhd,1750435571,vhdl,,,,divide_by,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sources_1/imports/design/fifo.vhd,1748120244,vhdl,,,,fifo,,,,,,,,
 C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sources_1/imports/design/multiadder.vhd,1748871256,vhdl,,,,multiadder,,,,,,,,

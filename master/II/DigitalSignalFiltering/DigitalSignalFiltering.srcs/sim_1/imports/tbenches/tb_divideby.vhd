@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date: 05/23/2025 03:36:52 PM
+-- Create Date: 05/23/2025 01:49:05 PM
 -- Design Name: 
--- Module Name: tb_accumulator - Behavioral
+-- Module Name: tf_fifo - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -17,8 +17,6 @@
 -- Additional Comments:
 -- 
 ----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use ieee.numeric_std.all;
@@ -32,22 +30,21 @@ use ieee.numeric_std.all;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity tb_accumulator is
+entity tb_divide_by is
 --  Port ( );
-end tb_accumulator;
+end tb_divide_by;
 
-architecture Behavioral of tb_accumulator is
+architecture Behavioral of tb_divide_by is
 
 constant numbNb:integer:=8;
 constant numblog2NFIFO:integer:=6;
 
-component accumulator is
-generic(
-  Nb: integer;
-  log2NFIFO: integer);
-  port 
-(en, rst, clk: in std_logic;
-datain: in signed(Nb+log2NFIFO-1 downto 0);
+component divide_by is 
+generic (
+  Nb: integer:=numbNb;
+  log2NFIFO: integer:=numblog2NFIFO);
+port (en, rst, clk: in std_logic;
+datain:in signed(Nb+log2NFIFO-1 downto 0);
 dataout: out signed(Nb+log2NFIFO-1 downto 0));
 end component;
 
@@ -61,6 +58,7 @@ component counter is
 
 signal clks, rsts, ens: std_logic;
 signal datains, dataouts: signed(numbNb+numblog2NFIFO-1 downto 0);
+signal datains2: std_logic_vector(numbNb+numblog2NFIFO-1 downto 0);
 begin
 
 clk_process: process
@@ -77,9 +75,9 @@ end process;
 
 rsts <= '0';
 
-datains <= "00110011001100";
+datains <= "11001100111111";
 
-dut_accumulator: accumulator generic map (Nb => numbNb, log2NFIFO => numblog2NFIFO)
+dut_divideby: divide_by generic map (Nb => numbNb, log2NFIFO => numblog2NFIFO)
 port map (ens, rsts, clks, datains, dataouts);
 
 end Behavioral;

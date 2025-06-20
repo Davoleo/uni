@@ -1,2 +1,2 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sim_1/imports/tbenches/tb_accumulator.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'tb_accumulator'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Dev/uni/master/II/DigitalSignalFiltering/DigitalSignalFiltering.srcs/sources_1/imports/design/divide_by.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'divide_by'
