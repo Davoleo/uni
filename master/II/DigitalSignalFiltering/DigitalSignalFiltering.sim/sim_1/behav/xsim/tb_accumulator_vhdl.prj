@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../DigitalSignalFiltering.srcs/sources_1/imports/design/accumulator.vhd" \
+"../../../../DigitalSignalFiltering.srcs/sim_1/imports/tbenches/tb_accumulator.vhd" \
+
+# Do not sort compile order
+nosort
