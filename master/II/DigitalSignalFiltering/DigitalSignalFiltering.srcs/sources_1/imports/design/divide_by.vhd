@@ -42,7 +42,7 @@ begin
   process(clk)
   begin
     if rising_edge(clk) then
-      if rst = '1' then
+      if rst = '0' then
         reg <= (others => '0');
       elsif en = '1' then
         reg(Nacc - log2NFIFO-1 downto 0) <= datain(Nacc - 1 downto log2NFIFO);

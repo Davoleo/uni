@@ -56,7 +56,7 @@ signal dataouts:signed(numbNb+numblog2NFIFO-1 downto 0);
 begin
 
 dut_multiadder: multiadder generic map (Nb => numbNb, log2NFIFO => numblog2NFIFO)
-port map (datain_fifo => "01111111", dataout_fifo => "00000001", dataout_accumulator => "01111111111111", 
+port map (datain_fifo => "00000001", dataout_fifo => "00001111", dataout_accumulator => "11111111111111", 
 dataout => dataouts);
 
 end Behavioral;

@@ -73,7 +73,7 @@ ens <= '0'; wait for 30 ns;
 ens <= '1'; wait for 1 ms;
 end process;
 
-rsts <= '0';
+rsts <= '1';
 
 datains <= "11001100111111";
 
