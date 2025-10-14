@@ -1,0 +1,73 @@
+@startuml Project Architecture Data Model
+
+' non si definisce nulla sul tipo, in quanto siamo ad alto livello, 
+' manca anche la visibilità
+class Product {
+	code
+	description
+}
+
+class Goods {
+	number
+}
+note right of Goods
+	<<size>>
+	tenth of bytes
+end note
+
+Product "1" - "0..*" Goods
+
+
+class InShelf {
+	measUnit = # items in shelf
+}
+note bottom of InShelf
+	<<precision>>
+	+-20%
+end note
+note bottom of InShelf
+	<<abstraction>>
+	shelf
+end note
+
+class InShop {
+	measUnit = # items in shop
+}
+note bottom of InShop
+	<<precision>>
+	+-5%
+end note
+note bottom of InShop
+	<<abstraction>>
+	shop
+end note
+
+class InCenter {
+	measUnit = # items in center
+}
+note bottom of InCenter
+	<<precision>>
+	+-2%
+end note
+note bottom of InCenter
+	<<abstraction>>
+	center
+end note
+
+class Need {
+	measUnit = # needed items
+}
+note bottom of Need
+	<<precision>>
+	strong
+end note
+
+class Sold {
+	measUnit = # needed items
+}
+note bottom of Sold
+	<<precision>>
+	strong
+end note
+
+@enduml

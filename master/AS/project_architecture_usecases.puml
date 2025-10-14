@@ -1,0 +1,36 @@
+@startuml Proj Arch use cases
+
+:Shelf operator: as shelfop
+:Shop manager: as shopman
+:Purchase manager: as purchman
+
+(Fill shelf) as fill
+(Supply management) as supply
+(Purchases Management) as purchase
+
+:POS: -up-> fill
+:POS: -up-> supply
+:POS: -up-> purchase
+
+shelfop <-- fill
+shopman <-- supply
+purchman <-- purchase
+
+note as shoploc
+	<<location>>
+	shop
+end note
+shopman .. shoploc
+shelfop .. shoploc
+
+note bottom of purchman
+	<<location>>
+	center
+end note
+
+note left of :POS:
+	<<location>>
+	shop
+end note
+
+@enduml

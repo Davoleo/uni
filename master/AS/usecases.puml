@@ -1,0 +1,22 @@
+@startuml Project Architecture
+
+:Utente: as user
+
+user --> (preleva) 
+user --> (paga telefono)
+
+
+:ECommerceVisitor: as visitor
+:ECommerceUser: as euser
+(Aggiungi al carrello) as aggiungi
+(Checkout) as checkout
+
+visitor --> (Guarda catalogo)
+visitor --> (Autenticazione)
+euser --> aggiungi
+euser --> checkout
+euser --> (Guarda catalogo)
+checkout .> (autenticazione) : <<include>>
+
+
+@enduml
