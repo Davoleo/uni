@@ -1,8 +1,10 @@
 close all
-clear all
+clear
 clc
 
-im = imread("colorTransfer/image1.png")
+
+%{
+im = imread("colorTransfer/image1.png");
 
 % prima riga
 r1 = im(1, :, :);
@@ -28,6 +30,7 @@ subplot(1,4,3), imshow(im(:, :, 3))
 subplot(1,4,4), imshow(im)
 
 close all
+%}
 
 % ---------------------
 %% Color Transfer
@@ -64,10 +67,12 @@ stat_im2 = mean(im2_ycbcr);
 % Centrare i valori annullando la media
 im1_ycbcr(:, 2) = im1_ycbcr(:, 2) - stat_im1(2);
 im1_ycbcr(:, 3) = im1_ycbcr(:, 3) - stat_im1(3);
+mean(im1_ycbcr)
 
 % Utilizzo la media della nuova immagine come nuovi valori
-im1_ycbcr(:, 2) = im1_ycbcr(:, 2) - stat_im2(2);
-im1_ycbcr(:, 3) = im1_ycbcr(:, 3) - stat_im2(3);
+im1_ycbcr(:, 2) = im1_ycbcr(:, 2) + stat_im2(2);
+im1_ycbcr(:, 3) = im1_ycbcr(:, 3) + stat_im2(3);
+mean(im1_ycbcr)
 
 % ricomposizione delle immagini
 im1_ycbcr = reshape(im1_ycbcr, S1);
@@ -78,8 +83,8 @@ im1_rgb = ycbcr2rgb(im1_ycbcr);
 im2_rgb = ycbcr2rgb(im2_ycbcr);
 
 % trasformo in uint8, da double
-im1_rgb = im2uint8(im1_rgb)
-im2_rgb = im2uint8(im2_rgb)
+im1_rgb = im2uint8(im1_rgb);
+im2_rgb = im2uint8(im2_rgb);
 figure(3), imshow(im1_rgb)
 figure(4), imshow(im2_rgb)
 
