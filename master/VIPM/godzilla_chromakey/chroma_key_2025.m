@@ -1,6 +1,6 @@
 % Per fare chromakey è importante che le immagini siano della stessa grandezza (dobbiamo lavorare con una maschera pixel per pixel)
-im1 = im2double(imread('godzilla_chromakey/godzilla_1.jpg'));
-im2 = im2double(imread('godzilla_chromakey/godzilla_2.jpg'));
+im1 = im2double(imread('godzilla_1.jpg'));
+im2 = im2double(imread('godzilla_2.jpg'));
 S1 = size(im1);
 
 imshow(im1);
