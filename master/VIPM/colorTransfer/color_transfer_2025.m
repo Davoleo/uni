@@ -37,8 +37,8 @@ close all
 % Y CbCr - Separa la luminanza Y dai canali colore CbCr
 % noi vogliamo trasportare
 
-im1 = imread("colorTransfer/image1.png");
-im2 = imread("colorTransfer/image2.png");
+im1 = imread("colorTransfer/image4.png");
+im2 = imread("colorTransfer/image3.png");
 
 figure(1), imshow(im1);
 figure(2), imshow(im2);
@@ -88,7 +88,7 @@ im2_rgb = im2uint8(im2_rgb);
 figure(3), imshow(im1_rgb)
 figure(4), imshow(im2_rgb)
 
-imwrite(im1_rgb, 'im1_trasformata.png')
-imwrite(im2_rgb, 'im2_trasformata.png')
+imwrite(im1_rgb, 'im4_trasformata.png')
+imwrite(im2_rgb, 'im4_ambience_source.png')
 
 % Assignment 1 parte 1: Trovare un'altra coppia di immagini  su cui questa elaborazione funziona
