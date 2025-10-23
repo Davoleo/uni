@@ -1,0 +1,80 @@
+% L'immagine underexposed.jpg è sia sovraesposta (fuori dalla finestra) che sottoesposta (interno), questo la rendere difficile da trattare
+% In quanto aumentare il contrasto fuori fa perdere troppe informazioni sull'interno
+% mentre aumentare la luminosità all'interno brucia i dettagli fuori dalla finestra
+
+im = imread('underexposed.jpg');
+
+figure(1);
+imshow(im), title('immagine originale');
+
+% gamma correction globale
+im = im2double(im);
+
+%.^ : elevami ogni elemento della matrice (invece che utilizzare il prodotto matriciale)
+gamma = 0.4;
+im1 = im.^gamma;
+
+gamma = 4;
+im2 = im.^gamma;
+
+% Tramite questa operazione, siccome non è lineare, potrebbe cambiare la relazione tra i canali colore, 
+% perché i 3 RGB possono essere influenzati in modo diverso dallo stesso valore di gamma
+% Un modo migliore è traformare l'immagine in YCbCr e applicare la gamma correction solo al canale della luminanza
+
+figure(2);
+subplot(1,2,1), imshow(im1);
+subplot(1,2,2), imshow(im2);
+
+%Cambiamento di gamma troppo repentino => schifezza
+gamma = 4*rand(size(im, 1), size(im, 2));
+im3 = im.^gamma;
+figure(3), imshow(im3)
+
+%% Gamma correction adattiva
+% in diverse regioni dell'immagine utilizziamo un valore di gamma diverso, in modo che si ottengano i vantaggi di entrambi i valori.
+
+close all
+clear
+clc
+
+% perciò utilizziamo il filtro gaussiano per creare un immagine maschera dove i valori sono smooth, e non cambiano repentinamente,
+% ma si mantiene in media l'informazione della lightness dell'immagine.
+
+% Artefatti possibili: halo sugli oggetti, perché se ci sono hard borders, la maschera come filtro gaussiano tende a rendere morbidi i cambiamenti.
+% quindi la gamma correction schiarisce un po dove dovrebbe scurire e viceversa lungo i bordi
+%  Per sistemare il problema degli halo si potrebbe applicare il filtro bilaterale.
+
+im = imread('underexposed.jpg');
+im = im2double(im);
+
+% converto in YCbCr
+Ycbcr = rgb2ycbcr(im);
+
+% estraggo il canale Y
+channelY = Ycbcr(:,:,1);
+
+% TODO : Operazioni che devo fare sul canale Y
+
+% Calcolo la maschera
+mask = 1-channelY;
+figure, imshow(mask);
+mask = imgaussfilt(mask, 5); % TODO : Trovare un buon parametro per sigma
+figure, imshow(mask)
+
+gamma=mask*255;
+gamma=gamma-128;
+gamma=gamma/128;
+
+newChannelY = channelY.^(2.^gamma);
+
+% sovrascrivo il canale Y
+Ycbcr(:,:,1) = newChannelY;
+
+%riconverto in RGB
+imfinal = ycbcr2rgb(Ycbcr);
+figure, imshow(imfinal);
+
+% Consegna:
+% - Codice
+% - Presentazione (file documento per )
+% Formato zip con dentro tutto
