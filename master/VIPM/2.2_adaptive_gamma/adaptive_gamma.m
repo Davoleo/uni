@@ -53,18 +53,13 @@ Ycbcr = rgb2ycbcr(im);
 % estraggo il canale Y
 channelY = Ycbcr(:,:,1);
 
-% TODO : Operazioni che devo fare sul canale Y
-
 % Calcolo la maschera
 mask = 1-channelY;
 figure, imshow(mask);
-mask = imgaussfilt(mask, 5); % TODO : Trovare un buon parametro per sigma
+mask = imgaussfilt(mask, 14); % TODO : Trovare un buon parametro per sigma
 figure, imshow(mask)
 
-gamma=mask*255;
-gamma=gamma-128;
-gamma=gamma/128;
-
+gamma = (0.5 - mask) / 0.5;
 newChannelY = channelY.^(2.^gamma);
 
 % sovrascrivo il canale Y
