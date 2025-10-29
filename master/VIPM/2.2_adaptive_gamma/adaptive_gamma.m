@@ -57,7 +57,7 @@ channelY = Ycbcr(:,:,1);
 mask = 1-channelY;
 gaussmask = imgaussfilt(mask, 14);
 figure, imshow(gaussmask)
-bilatmask = imbilatfilt(mask, 10, 3);
+bilatmask = imbilatfilt(mask, 10, 4);
 figure, imshow(bilatmask);
 
 % Gamma values utilizzando gaussian blur filter
@@ -76,8 +76,10 @@ im_bilat = Ycbcr;
 im_bilat(:,:,1) = bilatChannelY;
 
 %riconverto in RGB e mostro l'immagine
-figure, imshow(ycbcr2rgb(im_gauss));
-figure, imshow(ycbcr2rgb(im_bilat));
+rgb_gauss = ycbcr2rgb(im_gauss);
+rgb_bilat = ycbcr2rgb(im_bilat);
+figure, imshow(rgb_gauss), imwrite(rgb_gauss, "processed_gauss.jpg");
+figure, imshow(rgb_bilat), imwrite(rgb_bilat, "processed_bilateral.jpg");
 
 % Consegna:
 % - Codice
