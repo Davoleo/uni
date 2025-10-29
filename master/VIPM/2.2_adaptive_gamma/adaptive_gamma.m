@@ -55,19 +55,29 @@ channelY = Ycbcr(:,:,1);
 
 % Calcolo la maschera
 mask = 1-channelY;
-figure, imshow(mask);
-mask = imgaussfilt(mask, 14); % TODO : Trovare un buon parametro per sigma
-figure, imshow(mask)
+gaussmask = imgaussfilt(mask, 14);
+figure, imshow(gaussmask)
+bilatmask = imbilatfilt(mask, 10, 3);
+figure, imshow(bilatmask);
 
-gamma = (0.5 - mask) / 0.5;
-newChannelY = channelY.^(2.^gamma);
+% Gamma values utilizzando gaussian blur filter
+gamma = (0.5 - gaussmask) / 0.5;
+gaussChannelY = channelY.^(2.^gamma);
+
+% Gamma values utilizzando bilateral filter
+gamma = (0.5 - bilatmask) / 0.5;
+bilatChannelY = channelY.^(2.^gamma);
 
 % sovrascrivo il canale Y
-Ycbcr(:,:,1) = newChannelY;
+im_gauss = Ycbcr;
+im_gauss(:,:,1) = gaussChannelY;
 
-%riconverto in RGB
-imfinal = ycbcr2rgb(Ycbcr);
-figure, imshow(imfinal);
+im_bilat = Ycbcr;
+im_bilat(:,:,1) = bilatChannelY;
+
+%riconverto in RGB e mostro l'immagine
+figure, imshow(ycbcr2rgb(im_gauss));
+figure, imshow(ycbcr2rgb(im_bilat));
 
 % Consegna:
 % - Codice
