@@ -35,6 +35,7 @@ master/II/** -text
 *.png binary
 *.jpg binary
 *.jpeg binary
+*.tiff binary
 *.gif binary
 *.ico binary
 *.mov binary
