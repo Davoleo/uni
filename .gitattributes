@@ -21,6 +21,7 @@ PP&HPC/perf/IMB/mpi-benchmarks-IMB/** linguist-vendored
 
 # Lab Notebooks
 master/ML/lab_notebooks/*.ipynb linguist-vendored
+master/AML/lab*[0-9]/*.ipynb linguist-vendored
 
 * text eol=lf
 
