@@ -57,14 +57,14 @@ for y = 2:size(im, 1)-1
 			B(y,x) = w(2,2);
 		elseif (mod(y, 2) == 0 && mod(x, 2) == 1)
 			% Green channel part 1
-			R(y,x) = mean([w(3,3), w(3,1)]);
+			R(y,x) = mean([w(1,2), w(3,2)]);
 			G(y,x) = w(2,2);
-			B(y,x) = mean([w(1,1), w(1,3)]);
+			B(y,x) = mean([w(2,1), w(2,3)]);
 		elseif (mod(y, 2) == 1 && mod(x, 2) == 0)
 			% Green channel part 2
-			R(y,x) = mean([w(1,1), w(1,3)]);
+			R(y,x) = mean([w(2,1), w(2,3)]);
 			G(y,x) = w(2,2);
-			B(y,x) = mean([w(3,3), w(3,1)]);
+			B(y,x) = mean([w(1,2), w(3,2)]);
 		end
 	end
 end
@@ -97,7 +97,7 @@ coeffgw = [0.5, 0.5, 0.5]./media;
 % im = im*diag(coeffgw);
 mean(im);
 
-% White Patch (WP) -------------
+% MaxRGB (WP) -------------
 maxx = max(im)
 for i = 1:3
 	im(:,i) = im(:, i)./maxx(i);
@@ -180,16 +180,25 @@ im = reshape(im, S);
 figure(4), imshow(im)
 
 %% Image Enhancement ---------------------------
-% Saturation factor -> Increase image saturation
-Sfactor = 1.15;
+% Saturation factor -> Decrease image saturation
+Sfactor = 0.90;
 
 % conversione a HSV
 im = rgb2hsv(im);
 % Moltiplichiamo il canale di saturazione
 im(:,:,2) = im(:,:,2) * Sfactor;
-% TODO : Optional - aumento del contrasto.
+
+% Value Balancing (Intensity)
+minvalue = min(min(im(:,:,3)))
+maxvalue = max(max(im(:,:,3)))
+
+im(:,:,3) = im(:,:,3)-minvalue;
+im(:,:,3) = im(:,:,3)/maxvalue;
+
 % conversione in RGB
 im = hsv2rgb(im);
+
+figure(5), imshow(im)
 
 % Compressione e salvataggio immagine
 % Se l'immagine finisce per essere troppo pesante per l'assignemnt si può comprimere con
