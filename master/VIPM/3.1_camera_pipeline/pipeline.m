@@ -36,9 +36,9 @@ figure(1), clf, imshow(im);
 % Green: Colonne pari e righe dispari o viceversa
 % G = im(1:2:end, 2:2:end);
 
-R = zeros(size(im, 1)-2, size(im, 2)-2);
-G = zeros(size(im, 1)-2, size(im, 2)-2);
-B = zeros(size(im, 1)-2, size(im, 2)-2);
+R = zeros(size(im));
+G = zeros(size(im));
+B = zeros(size(im));
 
 for y = 2:size(im, 1)-1
 	for x = 2:size(im, 2)-1
@@ -47,24 +47,24 @@ for y = 2:size(im, 1)-1
 
 		if mod(y, 2) == 1 && mod(x, 2) == 1
 			% Red Channel
-			R(y-1,x-1) = w(2,2);
-			G(y-1,x-1) = mean([w(1,2), w(3,2), w(2,1), w(2,3)]);
-			B(y-1,x-1) = mean([w(1,1), w(1,3), w(3,3), w(3,1)]);
+			R(y,x) = w(2,2);
+			G(y,x) = mean([w(1,2), w(3,2), w(2,1), w(2,3)]);
+			B(y,x) = mean([w(1,1), w(1,3), w(3,3), w(3,1)]);
 		elseif mod(y, 2) == 0 && mod(x, 2) == 0
 			% Blue channel
-			R(y-1,x-1) = mean([w(1,1), w(1,3), w(3,3), w(3,1)]);
-			G(y-1,x-1) = mean([w(1,2), w(3,2), w(2,1), w(2,3)]);
-			B(y-1,x-1) = w(2,2);
+			R(y,x) = mean([w(1,1), w(1,3), w(3,3), w(3,1)]);
+			G(y,x) = mean([w(1,2), w(3,2), w(2,1), w(2,3)]);
+			B(y,x) = w(2,2);
 		elseif (mod(y, 2) == 0 && mod(x, 2) == 1)
 			% Green channel part 1
-			R(y-1,x-1) = mean([w(3,3), w(3,1)]);
-			G(y-1,x-1) = w(2,2);
-			B(y-1,x-1) = mean([w(1,1), w(1,3)]);
+			R(y,x) = mean([w(3,3), w(3,1)]);
+			G(y,x) = w(2,2);
+			B(y,x) = mean([w(1,1), w(1,3)]);
 		elseif (mod(y, 2) == 1 && mod(x, 2) == 0)
 			% Green channel part 2
-			R(y-1,x-1) = mean([w(1,1), w(1,3)]);
-			G(y-1,x-1) = w(2,2);
-			B(y-1,x-1) = mean([w(3,3), w(3,1)]);
+			R(y,x) = mean([w(1,1), w(1,3)]);
+			G(y,x) = w(2,2);
+			B(y,x) = mean([w(3,3), w(3,1)]);
 		end
 	end
 end
@@ -91,7 +91,7 @@ media = mean(im);
 % Ogni canale viene diviso per la media e viene ingrandito più/meno a seconda di quanto colore è presente.
 coeffgw = [0.5, 0.5, 0.5]./media;
 % Per ogni canale moltiplico per il coefficiente di correzione
-% im(:, 1) = im(:, 1)*coeff(1);
+%im(:, 1) = im(:, 1)*coeff(1);
 % oppure applico correzione diagonale creando una matrice diagonale in cui i 3 valori di correzione sono sulla diag principale
 %  in questo caso il primo valore sulla diagonale sarà moltiplicato per il primo canale
 % im = im*diag(coeffgw);
