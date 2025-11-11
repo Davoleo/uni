@@ -8,16 +8,16 @@ sceneImage = imread('img/clutteredDesk.jpg');
 
 %% keypoint detection
 % Si fanno detection e description separate perché è possibile utilizzare algoritmi diversi
-elephantPoints = detectSURFFeatures(elephantImage, MetricThreshold=700);
-scenePoints = detectSURFFeatures(sceneImage);
+elephantPoints = detectSURFFeatures(elephantImage, MetricThreshold=500);
+scenePoints = detectSURFFeatures(sceneImage, MetricThreshold=500);
 
 figure(1), clf;
 imshow(elephantImage), hold on
-plot(selectStrongest(elephantPoints,100)), hold off
+plot(selectUniform(elephantPoints, 300, size(elephantImage))), hold off
 
 figure(2), clf;
 imshow(sceneImage), hold on
-plot(selectStrongest(scenePoints,100)), hold off
+plot(selectStrongest(scenePoints, 1000)), hold off
 
 %% keypoint description
 % Restituisce le descrizioni dei punti e una versione aggiornata della lista dei punti
@@ -32,12 +32,14 @@ elephantPairs = matchFeatures(elephantFeatures, sceneFeatures, MaxRatio=0.8);
 % PRendiamo solo le righe di elephantPoints indicizzate dalla prima colonna delle pairs
 matchedElephantPoints = elephantPoints(elephantPairs(:,1), :);
 matchedScenePoints = scenePoints(elephantPairs(:, 2), :);
+figure(3)
 showMatchedFeatures(elephantImage, sceneImage, matchedElephantPoints, matchedScenePoints, ...
 	'montage');
 
 %% Geometric consistency check
 % tform è la trasformazioni che la estimate ha trovato
-[tform, inlierElephantPoints, inlierScenePoints] = estimateGeometricTransform(matchedElephantPoints, matchedScenePoints, 'affine', MaxNumTrials=5000);
+[tform, inlierElephantPoints, inlierScenePoints] = estimateGeometricTransform(matchedElephantPoints, matchedScenePoints, 'affine', MaxDistance=4);
+figure(4)
 showMatchedFeatures(elephantImage, sceneImage, inlierElephantPoints, inlierScenePoints, ...
 	'montage');
 
@@ -74,3 +76,8 @@ hold off
 % (possibile aumentare la tolleranza geometrica per permettere una maggior trasformazione dell'oggetto).
 % Il geometric consistency check (RANSAC) è random e quindi può dipendere dalle run.
 % Consegna: Il codice
+
+% aumentato MaxDistance per aumentare il threshold di consistenza geometrica
+% Aumentato il numero di punti rilevati da SURF
+% Ammorbidito il vincolo per la creazione di pairs template<->scena
+% Sampling di valori uniformi sul template invece che i valori più forti per permettere un sampling di più parti diverse del template
