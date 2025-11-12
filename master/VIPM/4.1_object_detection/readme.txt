@@ -11,14 +11,14 @@ Si ripete anche con rotazione diversa se non si trova.
 Questo rende l'approccio molto oneroso computazionalmente.
 
 In ogni punto facciamo la Sum of square differences, e registriamo il risultato nella mappa finale.
-(no distanza euclidea senza radice quadrata perché è un operazione pesante e non cambia la funzione in quanto è monotona)
+(no distanza euclidea [radice quadrata] perché è un operazione pesante e non cambia la funzione in quanto è monotona)
 Inversione + treshold permette di trovare i true matching, o quasi true.
 La sum of square differences risente di cambi locali di contrasto, che quindi influenzano la detection.
 
 Altro approccio: Normalized Cross-correlation
 Prendo il template e lo traslo in modo che abbia media 0.
 Ogni volta che analizzo una posizione dell'immagine, normalizzo anche quella posizione (sottraendo alla finestra il valore medio per quella finestra).
-Aggiunge robustezza alla formula della distanza, con un costo non indifferente per la sliding window sulla finestra.
+Aggiunge robustezza alla formula della distanza, con un costo non indifferente per la sliding window sull'immagine.
 
 
 SSD: più veloce ma sensibile al contrasto dell'immagine
@@ -70,7 +70,8 @@ Keypoint matching: confronto le firme dei keypoint del template con quelle dell'
 Costruiamo una omografia: esiste una rototraslazione che permetta di riadattare l'immagine per renderla uguale al template?
 	Se si abbiamo trovato l'immagine, altrimenti nada 
 RANSAC: provo a creare una trasformazione basata su intuizioni basate sui keypoint matching, poi si testa randomicamente 
-quanti punti all'interno dell'immagine sono d'accordo con la trasformazione, e se sono sopra ad una certa soglia possiamo decidere la trasformazione adeguata.
+quanti punti all'interno dell'immagine sono d'accordo con la trasformazione, 
+e se sono sopra ad una certa soglia possiamo decidere la trasformazione adeguata.
 (è comunque possibile trovare outliers rispetto all'immagine, e quindi bisogna essere un minimo flessibili.)
 
 Applicazioni:
