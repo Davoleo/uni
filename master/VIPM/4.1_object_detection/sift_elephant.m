@@ -17,7 +17,7 @@ scenePoints = detectSURFFeatures(sceneImage, MetricThreshold=500);
 
 figure(1), clf;
 imshow(elephantImage), hold on
-%plot(selectUniform(elephantPoints, 600, size(elephantImage))), hold off
+%plot(selectUniform(elephantPoints, 500, size(elephantImage))), hold off
 plot(selectStrongest(elephantPoints, 400)), hold off
 
 figure(2), clf;
@@ -33,7 +33,7 @@ plot(selectStrongest(scenePoints, 1000)), hold off
 %% features matching
 % Su ogni riga abbiamo una coppia di punti che hanno matchato:
 % Sulla prima cella abbiamo l'indice del keypoint nel template, mentre nella seconda l'indice del keypoint all'interno della scena
-elephantPairs = matchFeatures(elephantFeatures, sceneFeatures, MaxRatio=0.8, MatchThreshold=40);
+elephantPairs = matchFeatures(elephantFeatures, sceneFeatures, MaxRatio=0.7, MatchThreshold=12);
 % PRendiamo solo le righe di elephantPoints indicizzate dalla prima colonna delle pairs
 matchedElephantPoints = elephantPoints(elephantPairs(:,1), :);
 matchedScenePoints = scenePoints(elephantPairs(:, 2), :);
