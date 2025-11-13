@@ -30,6 +30,10 @@ bachelor/PP&HPC/perf/IMB/IMB_out_0
 # AML useless assignments weights files
 master/AML/assignment*[0-9]/**/*.weights.h5
 
+# VIPM: 
+# dataset
+master/VIPM/5_BOW/image.orig
+
 # ------------- Visual studio Solutions ----------
 # IG
 **/Grafica/.vs
