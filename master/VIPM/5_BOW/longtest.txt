@@ -1,0 +1,47 @@
+creazione griglia
+Elapsed time is 0.001160 seconds.
+estrazione features
+Elapsed time is 20.704687 seconds.
+kmeans
+Replicate 1, 306 iterations, total sum of distances = 61146.9.
+Warning: Failed to converge in 500 iterations.
+> In kmeans/loopBody (line 479)
+In internal.stats.parallel.smartForReduce (line 136)
+In kmeans (line 343)
+In BOW (line 65)
+Best total sum of distances = 61146.9
+Elapsed time is 1096.641065 seconds.
+rappresentazione BOW training
+Elapsed time is 4.001884 seconds.
+classifier
+Training binary learner 1 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 2 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 3 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 4 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 5 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 6 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 7 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 8 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 9 (SVM) out of 10 with 720 negative and 80 positive observations.
+Training binary learner 10 (SVM) out of 10 with 720 negative and 80 positive observations.
+rappresentazione BOW test
+Elapsed time is 3.617475 seconds.
+classificazione del test set
+
+CM =
+
+    0.8000         0    0.0500         0         0    0.0500         0    0.0500    0.0500         0
+         0    0.6500    0.0500         0         0    0.0500    0.0500    0.0500    0.1500         0
+    0.0500         0    0.6000    0.0500    0.0500         0         0    0.1000    0.1000    0.0500
+         0         0         0    1.0000         0         0         0         0         0         0
+         0         0         0         0    1.0000         0         0         0         0         0
+    0.1000    0.1500    0.0500         0         0    0.5000    0.1500    0.0500         0         0
+    0.1500         0         0         0         0    0.0500    0.8000         0         0         0
+         0         0         0         0         0         0         0    1.0000         0         0
+         0    0.2500    0.0500         0         0    0.0500         0    0.0500    0.6000         0
+    0.0500    0.0500         0    0.0500         0    0.0500         0         0         0    0.8000
+
+
+accuracy =
+
+    0.7750

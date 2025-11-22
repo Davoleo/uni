@@ -1,11 +1,12 @@
 clc
 clear
+close all
 
 disp("creazione griglia")
 
 pointPositions = [];
-featStep = 30; % TODO TBD
-imsize = 500; % Le immagini sono sempre 256x384 o 384x256
+featStep = 10; % TODO TBD
+imsize = 256; % Le immagini sono sempre 256x384 o 384x256
 
 tic
 for ii = featStep:featStep:imsize-featStep
@@ -29,25 +30,25 @@ for class=0:9
 		im=im2double(imread(['image.orig/' num2str(100*class+nimage), '.jpg']));
 		
 		% croppo l'immagine con dimensioni pari al minimo tra le due, in modo che la dimensione maggiore sia tagliata mantenendo il contenuto centrale
-		%padding = floor((size(im)-imsize)/2);
-		%im=im(padding(1)+1:imsize, padding(2)+1:imsize, :);
+		padding = floor((size(im, 1:2)-imsize)/2);
+		im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
 		
 		%im=imresize(im, [imsize imsize]);
 
 		% Resize while keeping ratio
-		realsize = size(im, 1:2);
-		scale = min(imsize/realsize(2), imsize/realsize(1));
-		im = imresize(im, scale);
+		% realsize = size(im, 1:2);
+		% scale = min(imsize/realsize(2), imsize/realsize(1));
+		% im = imresize(im, scale);
 		im=rgb2gray(im);
 
-		realsize = size(im, 1:2);
-		impadded = zeros(imsize);
-		impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
-		imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
+		% realsize = size(im, 1:2);
+		% impadded = zeros(imsize);
+		% impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
+		% imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
 
 		% specifichiamo il metodo perché di default non sa inferirlo
 		% il sottoinsieme di punti ridotto di quelli sul bordo non mi interessa per come sono stati calcolati i punti quindi dontcare
-		[imfeatures,dontcare] = extractFeatures(impadded, pointPositions, 'Method', 'SURF');
+		[imfeatures,dontcare] = extractFeatures(im, pointPositions, 'Method', 'SURF');
 		features = [features; imfeatures];
 		% per ogni riga (descrittore) costruiamo una colonna con le categorie e il numero dell'immagine
 		labels = [labels; repmat(class,size(imfeatures, 1), 1) repmat(nimage, size(imfeatures, 1), 1)];
@@ -58,10 +59,10 @@ toc
 %% creazione del vocabolario
 disp('kmeans')
 % 100 parole
-K = 1000; %TODO - TBD
+K = 4000; %TODO - TBD
 tic
-% Clusterizzare le 100k feature in K cluster
-[IDX, C] = kmeans(features, K, "Replicates", 3);
+% Clusterizzare le feature in K cluster
+[IDX, C] = kmeans(features, K, "MaxIter", 1000, "Display", "final");
 toc
 
 %% istogrammi BOW training
@@ -94,10 +95,11 @@ toc
 disp('classifier')
 % input: BOW_tr e labels_tr
 
-knn = fitcknn(BOW_tr, labels_tr, NumNeighbors=12, Distance="euclidean");
+% Less accurate than SVMs most times
+%knn = fitcknn(BOW_tr, labels_tr, NumNeighbors=12, Distance="euclidean");
 
-%template = templateLinear("Learner", "svm", "Regularization", "ridge");
-%SVM = fitcecoc(BOW_tr, labels_tr, "Learners", template, "Coding", "onevsall", "Verbose", 1);
+template = templateSVM("KernelFunction", "rbf", "KernelScale", "auto", "Standardize", true, "BoxConstraint", 4);
+SVM = fitcecoc(BOW_tr, labels_tr, "Learners", template, "Coding", "onevsall", "Verbose", 1);
 
 
 %% istogrammi BOW test
@@ -111,24 +113,24 @@ for class=0:9
 		im=im2double(imread(['image.orig/' num2str(100*class+nimage), '.jpg']));
 
 		% croppo l'immagine con dimensioni pari al minimo tra le due, in modo che la dimensione maggiore sia tagliata mantenendo il contenuto centrale
-		%padding = floor((size(im)-imsize)./2);
-		%im=im(padding(1)+1:imsize, padding(2)+1:imsize, :);
+		padding = floor((size(im, 1:2)-imsize)/2);
+		im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
 
 		%im=imresize(im, [imsize imsize]); % TBD provare a fare crop invece che resize (stretch)
 
-		realsize = size(im, 1:2);
-		scale = min(imsize/realsize(2), imsize/realsize(1));
-		im = imresize(im, scale);
+		% realsize = size(im, 1:2);
+		% scale = min(imsize/realsize(2), imsize/realsize(1));
+		% im = imresize(im, scale);
 		im=rgb2gray(im);
 
-		realsize = size(im, 1:2);
-		impadded = zeros(imsize);
-		impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
-			imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
+		% realsize = size(im, 1:2);
+		% impadded = zeros(imsize);
+		% impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
+		% 	imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
 
 		% specifichiamo il metodo perché di default non sa inferirlo
 		% il sottoinsieme di punti ridotto di quelli sul bordo non mi interessa per come sono stati calcolati i punti quindi dontcare
-		[imfeatures,dontcare] = extractFeatures(impadded, pointPositions, 'Method', 'SURF');
+		[imfeatures,dontcare] = extractFeatures(im, pointPositions, 'Method', 'SURF');
 
 		% Distanze di ogni punto della matrice dall'altro punto dell'altra matrice.
 		% Se le parole nel vocabolario diventano molto la grandezza di d potrebbe esplodere
@@ -160,13 +162,13 @@ disp("classificazione del test set")
 % end
 % toc
 
-%predicted_class_svm = predict(SVM, BOW_te);
-predicted_class_knn = predict(knn, BOW_te);
+predicted_class_svm = predict(SVM, BOW_te);
+%predicted_class_knn = predict(knn, BOW_te);
 
 %% misurazione performance
 
 % Confusion Matrix
-CM = confusionmat(labels_te, predicted_class_knn);
+CM = confusionmat(labels_te, predicted_class_svm);
 CM = CM./repmat(sum(CM, 2), 1, size(CM, 2));
 CM
 
