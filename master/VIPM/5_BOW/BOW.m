@@ -21,7 +21,7 @@ toc
 %% estrazione features
 disp('estrazione features')
 
-% TODO: TBD, fix nel caso di necessità del validation set
+% Standard Ratio 80%:20% -> More training samples -> Better accuracy overall (similar variance in evaluation during training)
 Nim4training = 80;
 
 features = [];
@@ -61,10 +61,10 @@ toc
 %% creazione del vocabolario
 disp('kmeans')
 % 100 parole
-K = 2500; %TODO - TBD
+K = 1000 %TODO - TBD
 tic
 % Clusterizzare le feature in K cluster
-[IDX, C] = kmeans(features, K, "MaxIter", 500, "Display", "final");
+[IDX, C] = kmeans(features, K, "MaxIter", 2000, "Display", "final");
 toc
 
 %% istogrammi BOW training
@@ -86,7 +86,7 @@ for class=0:9
 		H = hist(imfeaturesIDX, 1:K);
 		% normalizziamo l'istogramma in modo che la somma sia 1
 		% -> possiamo confrontare anche immagini con grandezze diverse 
-		H = H./sum(H);
+		H = H ./ (norm(H) + eps);
 		BOW_tr = [BOW_tr; H];
 		labels_tr = [labels_tr; class];
 	end
@@ -141,7 +141,7 @@ for class=0:9
 		[dontcare, words] = min(D, [], 2);
 		% dontcare perché non mi interessa il valore del minimo ma solo l'indice del minimo riga per riga (seconda dimensione).
 		H = hist(words, 1:K);
-		H = H./sum(H);
+		H = H ./ (norm(H) + eps);
 		BOW_te = [BOW_te; H];
 		labels_te = [labels_te; class];
 	end
