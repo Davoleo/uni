@@ -1,3 +1,5 @@
+rng(159)
+
 clc
 clear
 close all
@@ -30,10 +32,10 @@ for class=0:9
 		im=im2double(imread(['image.orig/' num2str(100*class+nimage), '.jpg']));
 		
 		% croppo l'immagine con dimensioni pari al minimo tra le due, in modo che la dimensione maggiore sia tagliata mantenendo il contenuto centrale
-		padding = floor((size(im, 1:2)-imsize)/2);
-		im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
+		%padding = floor((size(im, 1:2)-imsize)/2);
+		%im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
 		
-		%im=imresize(im, [imsize imsize]);
+		im=imresize(im, [imsize imsize]);
 
 		% Resize while keeping ratio
 		% realsize = size(im, 1:2);
@@ -59,10 +61,10 @@ toc
 %% creazione del vocabolario
 disp('kmeans')
 % 100 parole
-K = 4000; %TODO - TBD
+K = 2500; %TODO - TBD
 tic
 % Clusterizzare le feature in K cluster
-[IDX, C] = kmeans(features, K, "MaxIter", 1000, "Display", "final");
+[IDX, C] = kmeans(features, K, "MaxIter", 500, "Display", "final");
 toc
 
 %% istogrammi BOW training
@@ -113,10 +115,10 @@ for class=0:9
 		im=im2double(imread(['image.orig/' num2str(100*class+nimage), '.jpg']));
 
 		% croppo l'immagine con dimensioni pari al minimo tra le due, in modo che la dimensione maggiore sia tagliata mantenendo il contenuto centrale
-		padding = floor((size(im, 1:2)-imsize)/2);
-		im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
+		%padding = floor((size(im, 1:2)-imsize)/2);
+		%im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
 
-		%im=imresize(im, [imsize imsize]); % TBD provare a fare crop invece che resize (stretch)
+		im=imresize(im, [imsize imsize]); % TBD provare a fare crop invece che resize (stretch)
 
 		% realsize = size(im, 1:2);
 		% scale = min(imsize/realsize(2), imsize/realsize(1));
@@ -126,7 +128,7 @@ for class=0:9
 		% realsize = size(im, 1:2);
 		% impadded = zeros(imsize);
 		% impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
-		% 	imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
+		% imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
 
 		% specifichiamo il metodo perché di default non sa inferirlo
 		% il sottoinsieme di punti ridotto di quelli sul bordo non mi interessa per come sono stati calcolati i punti quindi dontcare
