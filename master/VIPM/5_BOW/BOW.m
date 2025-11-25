@@ -7,7 +7,7 @@ close all
 disp("creazione griglia")
 
 pointPositions = [];
-featStep = 10; % TODO TBD
+featStep = 8; % TODO TBD
 imsize = 256; % Le immagini sono sempre 256x384 o 384x256
 
 tic
@@ -64,7 +64,12 @@ disp('kmeans')
 K = 1000 %TODO - TBD
 tic
 % Clusterizzare le feature in K cluster
-[IDX, C] = kmeans(features, K, "MaxIter", 2000, "Display", "final");
+%[IDX, C] = kmeans(features, K, "MaxIter", 2000, "Display", "final");
+
+% Load previously computed kmeans output
+load C.mat
+load IDX.mat
+
 toc
 
 %% istogrammi BOW training
@@ -100,7 +105,7 @@ disp('classifier')
 % Less accurate than SVMs most times
 %knn = fitcknn(BOW_tr, labels_tr, NumNeighbors=12, Distance="euclidean");
 
-template = templateSVM("KernelFunction", "rbf", "KernelScale", "auto", "Standardize", true, "BoxConstraint", 4);
+template = templateSVM("KernelFunction", "rbf", "KernelScale", "auto", "Standardize", true, "BoxConstraint", 8);
 SVM = fitcecoc(BOW_tr, labels_tr, "Learners", template, "Coding", "onevsall", "Verbose", 1);
 
 
