@@ -1,3 +1,7 @@
+% statefile = fullfile('.', 'RNGState.mat');
+% data = load(statefile);
+% state = data.state;
+% rng(state)
 rng(159)
 
 clc
@@ -7,8 +11,8 @@ close all
 disp("creazione griglia")
 
 pointPositions = [];
-featStep = 8; % TODO TBD
-imsize = 256; % Le immagini sono sempre 256x384 o 384x256
+featStep = 8; %! La griglia su cui estrarre le feature è resa molto spessa in modo da ottenere più dettagli possibili
+imsize = 256; %! Le immagini sono sempre 256x384 o 384x256
 
 tic
 for ii = featStep:featStep:imsize-featStep
@@ -21,7 +25,7 @@ toc
 %% estrazione features
 disp('estrazione features')
 
-% Standard Ratio 80%:20% -> More training samples -> Better accuracy overall (similar variance in evaluation during training)
+%! Standard Ratio 80%:20% -> More training samples -> Better accuracy overall (similar variance in evaluation during training)
 Nim4training = 80;
 
 features = [];
@@ -35,6 +39,8 @@ for class=0:9
 		%padding = floor((size(im, 1:2)-imsize)/2);
 		%im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
 		
+		%! Sia il crop che il resize mantendo un padding di pixel neri come bande ai lati per evitare stretching dell'immagine ha dato risultati peggiori
+		% I test sono mantenuti commentati sopra e sotto per permettere di essere provati
 		im=imresize(im, [imsize imsize]);
 
 		% Resize while keeping ratio
@@ -48,8 +54,9 @@ for class=0:9
 		% impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
 		% imsize/2+(1:realsize(2))-floor(realsize(2)/2))=im;
 
-		% specifichiamo il metodo perché di default non sa inferirlo
+		% specifichiamo il metodo perché di default non sa inferirlo senza usare la detect
 		% il sottoinsieme di punti ridotto di quelli sul bordo non mi interessa per come sono stati calcolati i punti quindi dontcare
+		% ! Qui se si utilizza rescaling mantenendo il ratio è necessario cambiare il parametro dell'immagine a 'impadded'
 		[imfeatures,dontcare] = extractFeatures(im, pointPositions, 'Method', 'SURF');
 		features = [features; imfeatures];
 		% per ogni riga (descrittore) costruiamo una colonna con le categorie e il numero dell'immagine
@@ -61,10 +68,12 @@ toc
 %% creazione del vocabolario
 disp('kmeans')
 % 100 parole
-K = 1000 %TODO - TBD
+K = 1000 %! Buon compromesso tra il numero di classi e un numero medio di 100 visual words per immagine
 tic
 % Clusterizzare le feature in K cluster
 %[IDX, C] = kmeans(features, K, "MaxIter", 2000, "Display", "final");
+%* ^ Disabilitato per performance reasons, i risultati sono salvati dentro C.mat e IDX.mat
+%*   scommentare per eseguire kmeans from scratch
 
 % Load previously computed kmeans output
 load C.mat
@@ -91,6 +100,7 @@ for class=0:9
 		H = hist(imfeaturesIDX, 1:K);
 		% normalizziamo l'istogramma in modo che la somma sia 1
 		% -> possiamo confrontare anche immagini con grandezze diverse 
+		%* Questa norma ha dato risultati leggermente migliori (0.5% improvements)
 		H = H ./ (norm(H) + eps);
 		BOW_tr = [BOW_tr; H];
 		labels_tr = [labels_tr; class];
@@ -102,9 +112,10 @@ toc
 disp('classifier')
 % input: BOW_tr e labels_tr
 
-% Less accurate than SVMs most times
+%* Less accurate than SVMs most times
 %knn = fitcknn(BOW_tr, labels_tr, NumNeighbors=12, Distance="euclidean");
 
+%! SVM non-lineare è il classificatore che ha dato i risultati migliori
 template = templateSVM("KernelFunction", "rbf", "KernelScale", "auto", "Standardize", true, "BoxConstraint", 8);
 SVM = fitcecoc(BOW_tr, labels_tr, "Learners", template, "Coding", "onevsall", "Verbose", 1);
 
@@ -119,17 +130,21 @@ for class=0:9
 	for nimage=Nim4training:99
 		im=im2double(imread(['image.orig/' num2str(100*class+nimage), '.jpg']));
 
+		%* cropping
 		% croppo l'immagine con dimensioni pari al minimo tra le due, in modo che la dimensione maggiore sia tagliata mantenendo il contenuto centrale
 		%padding = floor((size(im, 1:2)-imsize)/2);
 		%im=im(padding(1)+1:padding(1)+imsize, padding(2)+1:padding(2)+imsize, :);
 
+		%* resize (stretch)
 		im=imresize(im, [imsize imsize]); % TBD provare a fare crop invece che resize (stretch)
 
+		%* resize (maintain ratio) [part 1]
 		% realsize = size(im, 1:2);
 		% scale = min(imsize/realsize(2), imsize/realsize(1));
 		% im = imresize(im, scale);
 		im=rgb2gray(im);
 
+		%* resize (maintain ratio) [part 2]
 		% realsize = size(im, 1:2);
 		% impadded = zeros(imsize);
 		% impadded(imsize/2+(1:realsize(1))-floor(realsize(1)/2), ...
@@ -137,7 +152,7 @@ for class=0:9
 
 		% specifichiamo il metodo perché di default non sa inferirlo
 		% il sottoinsieme di punti ridotto di quelli sul bordo non mi interessa per come sono stati calcolati i punti quindi dontcare
-		[imfeatures,dontcare] = extractFeatures(im, pointPositions, 'Method', 'SURF');
+		[imfeatures,~] = extractFeatures(im, pointPositions, 'Method', 'SURF');
 
 		% Distanze di ogni punto della matrice dall'altro punto dell'altra matrice.
 		% Se le parole nel vocabolario diventano molto la grandezza di d potrebbe esplodere
