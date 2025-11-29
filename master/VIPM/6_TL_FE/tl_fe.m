@@ -9,11 +9,11 @@ net = alexnet;
 % 	Nel layer di convoluzione si trova anche una sorta di pooling perché le size sono diverse 
 analyzeNetwork(net);
 
-%%
 size = net.Layers(1).InputSize;
-layer = 'conv1';
 
-%% 
+%% peppers test
+peplayer = 'conv1';
+
 im = imread('peppers.png');
 
 % La rete si aspetta valori double 0-255 tutto il resto della
@@ -24,7 +24,7 @@ im = double(imresize(im, size(1:2)));
 % Quindi se dobbiamo visualizzare non si riuscirebbe
 
 % Stiamo tirando fuori direttamente le feature dalla funzione d'attivazione della rete
-feat = activations(net, im, layer);
+feat = activations(net, im, peplayer);
 % Se vogliamo tirare fuori i risultati con una forma diversa possiamo usare OutputAs
 % feat = activations(net, im, layer, "OutputAs", "rows");
 
@@ -43,75 +43,93 @@ end
 
 % Stesso dataset, però stavolta tiriamo fuori le feature attraverso questa rete neurale -> Più efficiente.
 
-%% estrazione feature sul training set
+%% simplicity classification
 
-layer = 'relu7';
+layernames = {'relu2', 'relu4', 'relu6'};
+layers = [7 13 18];
+accs = [];
 
-feat_tr = [];
-labels_tr = [];
-Nim4training = 70;
+for i = 1:3
+	disp(['feature extraction: ' char(layernames(i))])
 
-tic
-for class=0:9
-	for nimage=0:Nim4training-1
-		disp([num2str(class) ' ' num2str(nimage)])
-		im = double(imread(['image.orig\' num2str(class*100+nimage) '.jpg']));
-		% Resize nella stessa dimensione che la rete si aspetta
-		im = imresize(im, size(1:2));
-		feat_temp = activations(net, im, layer, "OutputAs", "rows");
-		% Ogni volta copia l'array aggiungendo le nuove feature e cancella quello vecchio -> inefficient
-		feat_tr = [feat_tr; feat_temp];
-		labels_tr = [labels_tr; class];
-	end
+	[feat_tr, labels_tr, feat_te, labels_te] = cnnlayerextract(net, size, layers(i));
+
+	%% normalizzazione features
+	% relu7 non normalizzato: 0.8967
+	% relu7 non normalizzato: 0.9433
+
+	norm(feat_tr(1,:));
+	norm(feat_te(1,:));
+
+	% Per fare in modo che le feature siano più comparabili
+	feat_tr = feat_tr./sqrt(sum(feat_tr.^2,2));
+	feat_te = feat_te./sqrt(sum(feat_te.^2,2));
+
+	norm(feat_tr(1,:));
+	norm(feat_te(1,:));
+
+	%% classificazione 1-NN
+	% Distanze di tutti gli elementi della matrice da tutti gli elementi dell'altra (di default distanza euclidea)
+	D = pdist2(feat_te, feat_tr);
+	% non ci interessa la distanza minima ma solo l'indice in cui si trova
+	[dummy, idx_pred_te] = min(D, [], 2);
+	% Andiamo a prendere il label di training dell'elemento con la distanza minima
+	lab_pred_te = labels_tr(idx_pred_te);
+	% Calcolo dell'accuracy (quante volte le label matchano quelle di test)
+	acc = numel(find(lab_pred_te == labels_te)) / numel(labels_te)
+	accs = [accs, acc];
 end
-toc
 
-%% estrazione feature sul test set
-
-feat_te = [];
-labels_te = [];
-
-tic
-for class=0:9
-	for nimage=Nim4training:99
-		disp([num2str(class) ' ' num2str(nimage)])
-		im = double(imread(['image.orig\' num2str(class*100+nimage) '.jpg']));
-		% Resize nella stessa dimensione che la rete si aspetta
-		im = imresize(im, size(1:2));
-		feat_temp = activations(net, im, layer, "OutputAs", "rows");
-		% Ogni volta copia l'array aggiungendo le nuove feature e cancella quello vecchio -> inefficient
-		feat_te = [feat_te; feat_temp];
-		labels_te = [labels_te; class];
-	end
+for index=1:3
+	disp([char(layernames(index)), ': ', num2str(accs(index))])
 end
-toc
-
-%% normalizzazione features
-% relu7 non normalizzato: 0.8967
-% relu7 non normalizzato: 0.9433
-
-norm(feat_tr(1,:))
-norm(feat_te(1,:))
-
-% Per fare in modo che le feature siano più comparabili
-feat_tr = feat_tr./sqrt(sum(feat_tr.^2,2));
-feat_te = feat_te./sqrt(sum(feat_te.^2,2));
-
-norm(feat_tr(1,:))
-norm(feat_te(1,:))
-
-%% classificazione 1-NN
-% Distanze di tutti gli elementi della matrice da tutti gli elementi dell'altra (di default distanza euclidea)
-D = pdist2(feat_te, feat_tr);
-% non ci interessa la distanza minima ma solo l'indice in cui si trova
-[dummy, idx_pred_te] = min(D, [], 2);
-% Andiamo a prendere il label di training dell'elemento con la distanza minima
-lab_pred_te = labels_tr(idx_pred_te);
-% Calcolo dell'accuracy (quante volte le label matchano quelle di test)
-acc = numel(find(lab_pred_te == labels_te)) / numel(labels_te)
 
 % In generale più due dataset sono simili più funzioneranno meglio le feature verso la fine della rete CNN
 % Meno sono simili più funzionano meglio le feature iniziali della rete
 % Assignment: Provare a tagliare la rete in 3 punti diversi per vedere come cambia l'outcome
 	% 1 taglio verso l'inizio | 1 taglio verso la metà | 1 taglio verso la fine ||> Si possono fare le prove anche senza normalizzare
 	% Extra: Cambiare il classificatore da 1-NN -> ... (e.g. SVM) | 
+
+
+function [feat_tr, labels_tr, feat_te, labels_te] = cnnlayerextract(net, inputsize, layer)
+	%% estrazione feature sul training set
+
+	feat_tr = [];
+	labels_tr = [];
+	Nim4training = 70;
+
+	tic
+	for class=0:9
+		for nimage=0:Nim4training-1
+			%disp([num2str(class) ' ' num2str(nimage)])
+			im = double(imread(['image.orig\' num2str(class*100+nimage) '.jpg']));
+			% Resize nella stessa dimensione che la rete si aspetta
+			im = imresize(im, inputsize(1:2));
+			feat_temp = activations(net, im, layer, "OutputAs", "rows");
+			% Ogni volta copia l'array aggiungendo le nuove feature e cancella quello vecchio -> inefficient
+			feat_tr = [feat_tr; feat_temp];
+			labels_tr = [labels_tr; class];
+		end
+	end
+	toc
+
+	%% estrazione feature sul test set
+
+	feat_te = [];
+	labels_te = [];
+
+	tic
+	for class=0:9
+		for nimage=Nim4training:99
+			%disp([num2str(class) ' ' num2str(nimage)])
+			im = double(imread(['image.orig\' num2str(class*100+nimage) '.jpg']));
+			% Resize nella stessa dimensione che la rete si aspetta
+			im = imresize(im, inputsize(1:2));
+			feat_temp = activations(net, im, layer, "OutputAs", "rows");
+			% Ogni volta copia l'array aggiungendo le nuove feature e cancella quello vecchio -> inefficient
+			feat_te = [feat_te; feat_temp];
+			labels_te = [labels_te; class];
+		end
+	end
+	toc
+end
