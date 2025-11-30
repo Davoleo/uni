@@ -48,6 +48,7 @@ end
 layernames = {'relu2', 'relu4', 'relu6'};
 layers = [7 13 18];
 accs = [];
+accs_svm = [];
 
 for i = 1:3
 	disp(['feature extraction: ' char(layernames(i))])
@@ -78,10 +79,20 @@ for i = 1:3
 	% Calcolo dell'accuracy (quante volte le label matchano quelle di test)
 	acc = numel(find(lab_pred_te == labels_te)) / numel(labels_te)
 	accs = [accs, acc];
+
+
+	%% SVM classification
+	template = templateSVM("KernelFunction", "rbf", "KernelScale", "auto");
+	SVM = fitcecoc(feat_tr, labels_tr, "Learners", template, "Coding", "onevsall", "Verbose", 1);
+	predicted_class_svm = predict(SVM, feat_te);
+
+	acc_svm = numel(find(predicted_class_svm == labels_te)) / numel(labels_te)
+	accs_svm = [accs_svm, acc_svm];
+	
 end
 
 for index=1:3
-	disp([char(layernames(index)), ': ', num2str(accs(index))])
+	disp([char(layernames(index)), ': ', num2str(accs(index)), ' | ', num2str(accs_svm(index))])
 end
 
 % In generale più due dataset sono simili più funzioneranno meglio le feature verso la fine della rete CNN
