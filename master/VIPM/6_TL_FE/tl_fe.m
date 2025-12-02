@@ -46,23 +46,24 @@ end
 %% simplicity classification
 
 layernames = {'relu2', 'relu4', 'relu6'};
-layers = [7 13 18];
-accs = [];
-accs_svm = [];
+layers = [7 13 18]; 	% Layer indices
+accs = []; 				% Accuracy list (1-NN classifier)
+accs_svm = []; 			% Accuracy list (SVM classifier)
 
 for i = 1:3
 	disp(['feature extraction: ' char(layernames(i))])
 
+	% Args: Network, InputSize, Layer index to extract features from
 	[feat_tr, labels_tr, feat_te, labels_te] = cnnlayerextract(net, size, layers(i));
 
 	%% normalizzazione features
 	% relu7 non normalizzato: 0.8967
-	% relu7 non normalizzato: 0.9433
+	% relu7 normalizzato: 0.9433
 
 	norm(feat_tr(1,:));
 	norm(feat_te(1,:));
 
-	% Per fare in modo che le feature siano più comparabili
+	% Normalizzazione: Per fare in modo che le feature siano più comparabili
 	feat_tr = feat_tr./sqrt(sum(feat_tr.^2,2));
 	feat_te = feat_te./sqrt(sum(feat_te.^2,2));
 
@@ -86,11 +87,13 @@ for i = 1:3
 	SVM = fitcecoc(feat_tr, labels_tr, "Learners", template, "Coding", "onevsall", "Verbose", 1);
 	predicted_class_svm = predict(SVM, feat_te);
 
+	% Computazione del valore dell'accuracy per classificatore SVM
 	acc_svm = numel(find(predicted_class_svm == labels_te)) / numel(labels_te)
 	accs_svm = [accs_svm, acc_svm];
 	
 end
 
+% Stampa dei risultati in console
 for index=1:3
 	disp([char(layernames(index)), ': ', num2str(accs(index)), ' | ', num2str(accs_svm(index))])
 end
@@ -112,6 +115,7 @@ function [feat_tr, labels_tr, feat_te, labels_te] = cnnlayerextract(net, inputsi
 	tic
 	for class=0:9
 		for nimage=0:Nim4training-1
+			% Debug print
 			%disp([num2str(class) ' ' num2str(nimage)])
 			im = double(imread(['image.orig\' num2str(class*100+nimage) '.jpg']));
 			% Resize nella stessa dimensione che la rete si aspetta
@@ -132,6 +136,7 @@ function [feat_tr, labels_tr, feat_te, labels_te] = cnnlayerextract(net, inputsi
 	tic
 	for class=0:9
 		for nimage=Nim4training:99
+			% Debug print
 			%disp([num2str(class) ' ' num2str(nimage)])
 			im = double(imread(['image.orig\' num2str(class*100+nimage) '.jpg']));
 			% Resize nella stessa dimensione che la rete si aspetta

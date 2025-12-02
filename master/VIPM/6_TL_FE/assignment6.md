@@ -7,12 +7,12 @@ Estrazione delle feature da 3 layer diversi della rete:
 
 L'estrazione ha mostrato i seguenti risultati di accuracy di classificazione:
 
-|                           | `relu2` | `relu4 `| `relu6`|
-|---------------------------|---------|---------|--------|
-| **Normalized (1-NN)**     | 75.67%  | 83.33%  | 93.67% |
-| **Not Normalized (1-NN)** | 49.33%  | 48.00%  | 82.00% |
-| **Normalized (SVM)**      | 82.67%  | 88.67%  | 95.00% |
-| **Not Normalized (SVM)**  | 83.33%  | 88.33%  | 95.00% |
+|                           | `relu2` | `relu4 `| `relu6`|`relu7` (lab)|
+|---------------------------|---------|---------|--------|-------------|
+| **Normalized (1-NN)**     | 75.67%  | 83.33%  | 93.67% |    94.33%   |
+| **Not Normalized (1-NN)** | 49.33%  | 48.00%  | 82.00% |    89.67%   |
+| **Normalized (SVM)**      | 82.67%  | 88.67%  | 95.00% |     ---     |
+| **Not Normalized (SVM)**  | 83.33%  | 88.33%  | 95.00% |     ---     |
 
 
 Possiamo notare che in entrambi i casi (feature normalizzate e non) 
