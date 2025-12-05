@@ -34,6 +34,7 @@ master/AML/assignment*[0-9]/**/*.weights.h5
 # dataset
 master/VIPM/5_BOW/image.orig
 master/VIPM/6_TL_FE/image.orig
+master/VIPM/7_TL_FT/image.orig
 
 # ------------- Visual studio Solutions ----------
 # IG
