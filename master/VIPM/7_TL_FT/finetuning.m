@@ -2,12 +2,13 @@ clear
 close all
 clc
 
-rng(42)
+% current best seed: 130/140
+rng(140)
 
 net = alexnet;
 
 sz = net.Layers(1).InputSize;
-analyzeNetwork(net);
+%analyzeNetwork(net);
 
 
 %% cut layers
@@ -41,7 +42,7 @@ layers = [
 % ImageDatastore assegnerebbe in automatico le label se i file fossero in cartelle diverse per ogni classe, 
 % ma nel nostro caso non è così
 
-imds = imageDatastore('image.orig\');
+imds = imageDatastore('image.orig\', 'Labels', zeros(1000,1));
 
 % Utilizziamo il nome del file per assegnare la label manualmente
 labels = [];
@@ -58,19 +59,20 @@ imds = imageDatastore('image.orig\', 'Labels', labels);
 
 %% divisione train/test/validation
 % Split randomico tra training e test (tenendo conto di ogni label)
-[imdsSemi, imdsTest] = splitEachLabel(imds, 0.8, 'randomized');
-[imdsTrain, imdsVal] = splitEachLabel(imdsSemi, 0.85, 'randomized');
+
+[imdsTrain, imdsTest, imdsVal] = splitEachLabel(imds, 0.68, 0.2, 'randomized');
 
 %% data augmentation
 % non abbiamo tantissimi dati, trainare 60M di parametri senza congelare pesi abbiamo bisogno di fare data augmentation
-pixelRange=[-2 2];
-imageAugmenter=imageDataAugmenter( ...
-	'RandXReflection', true,       ...
-	...'RandXTranslation', pixelRange,... % Traslazione random di -2 +2 pixel [asse X]
-	...'RandYTranslation', pixelRange, ...% Traslazione random di -2 +2 pixel [asse Y]
-	'RandRotation', [-10, 10], ...
-	'RandXScale', [0.9, 1.1], ...
-	'RandYScale', [0.9, 1.1] ...
+pixelRange=[-10 10];
+scaleRange=[0.9, 1.1];
+imageAugmenter=imageDataAugmenter(  ...
+	'RandXReflection', true,        ...
+	'RandXTranslation', pixelRange, ...% Traslazione random di -10 +10 pixel [asse X]
+	'RandYTranslation', pixelRange, ...% Traslazione random di -10 +10 pixel [asse Y]
+	'RandRotation', [-10, 10], 		...%* Small rotation adjustments for images (takes into account capturing orientation variance)
+	'RandXScale', scaleRange, 		...
+	'RandYScale', scaleRange 		...
 );
 
 % Image data store che contiene le immagini con la data augmentation
@@ -84,15 +86,17 @@ augimdsTest = augmentedImageDatastore(sz(1:2), imdsTest);
 %% configurazione fine-tuning
 options = trainingOptions(		...
 	'sgdm',						...
-	'MiniBatchSize', 15,		... % TODO TBD
-	'MaxEpochs', 6, 			... % TODO TBD
+	'MiniBatchSize', 32,		... % TODO TBD
+	'MaxEpochs', 15, 			... % TODO TBD
 	'InitialLearnRate', 1e-4,	... % TODO TBD
 	'shuffle', 'every-epoch',	...
-	'ValidationData', augimdsVal,...% TODO TBD :check: - Al momento si sta utilizzando il test set come validation non è proprio ottimale ma okay
-	'ValidationFrequency', 3,...
-	'ValidationPatience', 15, ...
-	'Verbose', false,...
-	'Plots', 'training-progress' ...
+	'ValidationData', augimdsVal,...%* TBD :check: - Al momento si sta utilizzando il test set come validation non è proprio ottimale ma okay
+	'ValidationFrequency', 3,	...
+	...'ValidationPatience', 30,...
+	'L2Regularization', 0.005, 	...
+	'Verbose', false,			...
+	'Plots', 'training-progress', 			...
+	'OutputNetwork', 'best-validation-loss' ...
 );
 
 %% training
