@@ -64,7 +64,7 @@ imds = imageDatastore('image.orig\', 'Labels', labels);
 
 %% data augmentation
 % non abbiamo tantissimi dati, trainare 60M di parametri senza congelare pesi abbiamo bisogno di fare data augmentation
-pixelRange=[-10 10];
+pixelRange=[-20 20];
 scaleRange=[0.9, 1.1];
 imageAugmenter=imageDataAugmenter(  ...
 	'RandXReflection', true,        ...
@@ -86,7 +86,7 @@ augimdsTest = augmentedImageDatastore(sz(1:2), imdsTest);
 %% configurazione fine-tuning
 options = trainingOptions(		...
 	'sgdm',						...
-	'MiniBatchSize', 32,		... % TODO TBD
+	'MiniBatchSize', 64,		... % TODO TBD
 	'MaxEpochs', 15, 			... % TODO TBD
 	'InitialLearnRate', 1e-4,	... % TODO TBD
 	'shuffle', 'every-epoch',	...
