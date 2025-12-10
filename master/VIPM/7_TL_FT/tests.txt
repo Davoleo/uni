@@ -1,3 +1,0 @@
-default: 96.67%
-Minibatchsize=64: 95.83% val 95.00% test
-Augment: Translate -20+20: 98.33% val 95% test

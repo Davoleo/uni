@@ -2,21 +2,19 @@ clear
 close all
 clc
 
-% current best seed: 130/140
-rng(140)
+rng(42)
 
 net = alexnet;
 
 sz = net.Layers(1).InputSize;
 %analyzeNetwork(net);
 
-
 %% cut layers
 
 % Prendiamo tutti i layer fino a quell prima del penultimo
-layersTransfer = net.Layers(1:end-6); % TODO : Scegliere dove tagliare (original 3)
+layersTransfer = net.Layers(1:end-6); % TBD :check: <- (original: end-3)
 % Congeliamo i pesi di questi layer
-layersTransfer = freezeWeights(layersTransfer); % <--- TBD
+layersTransfer = freezeWeights(layersTransfer);
 
 %% replace layers
 numClasses = 10;
@@ -25,6 +23,7 @@ layers = [
 	% Permette di adattare il learning rate di questi layer come fattore del learning rate degli altri
 	% In questo caso learning rate 20 volte più alto del resto della rete
 	% Cosicché anche scongelando tutti i layer quelli che mi interessano imparano di più che gli altri
+	dropoutLayer(0.4)
 	fullyConnectedLayer(numClasses, 'WeightLearnRateFactor', 20, 'BiasLearnRateFactor', 20) 
 	softmaxLayer 
 	classificationLayer
@@ -64,13 +63,13 @@ imds = imageDatastore('image.orig\', 'Labels', labels);
 
 %% data augmentation
 % non abbiamo tantissimi dati, trainare 60M di parametri senza congelare pesi abbiamo bisogno di fare data augmentation
-pixelRange=[-20 20];
+pixelRange=[-10 10];
 scaleRange=[0.9, 1.1];
 imageAugmenter=imageDataAugmenter(  ...
 	'RandXReflection', true,        ...
 	'RandXTranslation', pixelRange, ...% Traslazione random di -10 +10 pixel [asse X]
 	'RandYTranslation', pixelRange, ...% Traslazione random di -10 +10 pixel [asse Y]
-	'RandRotation', [-10, 10], 		...%* Small rotation adjustments for images (takes into account capturing orientation variance)
+	'RandRotation', [-5, 5], 		...%* Small rotation adjustments for images (takes into account capturing orientation variance)
 	'RandXScale', scaleRange, 		...
 	'RandYScale', scaleRange 		...
 );
@@ -92,11 +91,10 @@ options = trainingOptions(		...
 	'shuffle', 'every-epoch',	...
 	'ValidationData', augimdsVal,...%* TBD :check: - Al momento si sta utilizzando il test set come validation non è proprio ottimale ma okay
 	'ValidationFrequency', 3,	...
-	...'ValidationPatience', 30,...
-	'L2Regularization', 0.005, 	...
+	'ValidationPatience', 15,...
+	'L2Regularization', 0.001, 	...
 	'Verbose', false,			...
-	'Plots', 'training-progress', 			...
-	'OutputNetwork', 'best-validation-loss' ...
+	'Plots', 'training-progress'...
 );
 
 %% training

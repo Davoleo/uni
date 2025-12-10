@@ -1,6 +1,0 @@
-Cambiamenti effettuati:
-- Train / Test / Val Split: 68%-20%-12%
-- CNN Layer cut: end-3 -> end-6 
-- Epochs: 6 -> 15
-- MiniBatchSize: 15 -> 32
-- L2Regularization: 0.005
