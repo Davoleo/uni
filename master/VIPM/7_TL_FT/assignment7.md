@@ -26,6 +26,7 @@ Modificate le opzioni di training per migliorare l'accuracy il più possibile sp
 - **EarlyStopping (ValidationPatience)**: Aggiunto per terminare l'allenamento presto se non vi sono miglioramenti dopo un certo numero di minibatch propagations
 - ~~***OutputNetwork**: best-validation-loss*~~: Inizialmente è stato utilizzato questo parametro per ottenere il network che avesse i risultati migliori sul validation set, tuttavia per come MATLAB gestisce/crea i dataset durante lo split, una buona performance sul validation set non rispecchiava altrettanto buone prestazioni sul test set, perciò si è deciso di scartare questa opzione e utilizzare l'ultimo network restituito dall'allenamento con Early-Stopping
 
-default: 96.67%
-Minibatchsize=64: 95.83% val 95.00% test
-Augment: Translate -20+20: 98.33% val 95% test
+### Risultati
+Il modello mostra una buona generalizzazione durante il training riuscendo a raggiungere risultati vicino al 100% come accuracy discostandosi di poco rispetto alla validation accuracy curve, il risultato finale per il validation set dopo la terminazione dell'alenamento è di 96.67%.
+![training](training.png)
+Non si tratta del risultato migliore all'interno del training rispetto al validation set, ma permette di generalizzare meglio per la valutazione sul test set che mostra una performance di: 97.50%
