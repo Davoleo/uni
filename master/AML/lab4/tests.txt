@@ -1,0 +1,5 @@
+no-batrch-normalization + dropout (0.2): 54~% training set | 51.56% test set
+batch normalization + dropout (0.2): 44.66% training set | 45.54% test set
+batch normalization: 63% training set | 33% test set
+single layer + dropout (0.2): 52.3% | 53.4%
+RMProp -> Adam: +2% circa
