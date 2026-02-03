@@ -37,6 +37,10 @@ master/VIPM/6_TL_FE/image.orig
 master/VIPM/7_TL_FT/image.orig
 master/VIPM/8_class_detection/dataset_detection_minimal
 
+# final project: dataset
+master/VIPM/final_project/data/*
+!master/VIPM/final_project/data/sports_labels.csv
+
 # ------------- Visual studio Solutions ----------
 # IG
 **/Grafica/.vs

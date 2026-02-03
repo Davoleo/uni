@@ -1,3 +1,6 @@
 [submodule "PSS/Assignment 2/2024_assignment2_concentration"]
 	path = PSS/Assignment 2/2024_assignment2_concentration
 	url = https://gitlab.com/processossw/2024_assignment2_concentration.git
+[submodule "master/AML/final"]
+	path = master/AML/final
+	url = https://github.com/Moeasy64/AML-report
