@@ -121,5 +121,14 @@
     "editor.insertSpaces": false,
     "editor.detectIndentation": false,
 	//Changes C/C++ Pointer Alignment (cause I don't like `int *variable`)
-	"C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, PointerAlignment: Left }"
+	"C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: WebKit, PointerAlignment: Left }",
+	"python-envs.pythonProjects": [
+		{
+			"path": "master/VIPM/final_project",
+			"envManager": "ms-python.python:venv",
+			"packageManager": "ms-python.python:pip"
+		}
+	],
+	"python-envs.defaultEnvManager": "ms-python.python:poetry",
+	"python-envs.defaultPackageManager": "ms-python.python:poetry"
 }
