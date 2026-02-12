@@ -1,0 +1,10 @@
+0. CNN from scratch (Tensorflow): 0.90 train acc - 0.55 val acc [overfitting]
+
+1. No layers frozen (complete finetuning) [very slight overfitting] [no data augment]
+0.999 train acc - 0.966 val acc - 30 mins on GPU
+
+2. All layers frozen except for the new FC one
+0.8636 train acc - 0.904 validation acc - 14mins on GPU | epoch: 15/20
+
+
+3. 

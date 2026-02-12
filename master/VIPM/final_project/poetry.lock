@@ -1608,6 +1608,18 @@ type = "file"
 url = "../../../../torchaudio-2.9.0+rocm7.2.0.gite3c6ee2b-cp312-cp312-linux_x86_64.whl"
 
 [[package]]
+name = "torchinfo"
+version = "1.8.0"
+description = "Model summary in PyTorch, based off of the original torchsummary."
+optional = false
+python-versions = ">=3.7"
+groups = ["main"]
+files = [
+    {file = "torchinfo-1.8.0-py3-none-any.whl", hash = "sha256:2e911c2918603f945c26ff21a3a838d12709223dc4ccf243407bce8b6e897b46"},
+    {file = "torchinfo-1.8.0.tar.gz", hash = "sha256:72e94b0e9a3e64dc583a8e5b7940b8938a1ac0f033f795457f27e6f4e7afa2e9"},
+]
+
+[[package]]
 name = "torchvision"
 version = "0.24.0+rocm7.2.0.gitb919bd0c"
 description = "image and video datasets and models for torch deep learning"
@@ -1716,4 +1728,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<3.15"
-content-hash = "c86c4dac42aadd80a22ec2cb0954457cd81ba4313313d782f0e15172a7a0eaaf"
+content-hash = "74252e205e6cf8475609a97b62e1a558534b674a97d3a541223dd7d6366a768a"

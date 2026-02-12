@@ -7,6 +7,8 @@ import torch.backends.cudnn as cudnn
 import torchvision
 from torchvision import datasets, models, transforms
 
+from torchinfo import summary
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -44,6 +46,9 @@ class_names = train_ds.classes
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu'
 print(f"Accelerator: {device}")
 
+#* CPU training
+# device = 'cpu'
+
 
 def imdisplay(input, title=None):
 	"""Display tensor as image"""
@@ -74,7 +79,7 @@ def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 		max_accuracy = 0.0
 
 		for epoch in range(num_epochs):
-			print(f'Epoch progress: {epoch}/{num_epochs - 1}')
+			print(f'Epoch progress: {epoch+1}/{num_epochs}')
 			print('-' * 20)
 
 			# Phases
@@ -155,7 +160,7 @@ def display_predicts(model, num_images=6):
 				ax = plt.subplot(num_images // 2, 2, image_counter)
 				ax.axis('off')
 				ax.set_title(f'predicted: {class_names[preds[j]]}')
-				plt.imshow(inputs.cpu().data[j])
+				plt.imshow(inputs.cpu().data[j].numpy().transpose(1,2,0))
 
 				if image_counter == num_images:
 					model.train(mode=was_training)
@@ -164,14 +169,20 @@ def display_predicts(model, num_images=6):
 
 model_base = models.resnet18(weights='IMAGENET1K_V1')
 
+#* COMMENT THIS TO TRAIN V1
+# Freeze parameters for convolutional layers
+for param in model_base.parameters():
+	param.requires_grad = False
+
 # Fully connected layer input features
 num_features = model_base.fc.in_features
-
 # Replace new Fully connected layer
 model_base.fc = nn.Linear(num_features, len(class_names))
 
 model_ft = model_base.to(device)
 loss = nn.CrossEntropyLoss()
+
+summary(model_ft)
 
 optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
 
