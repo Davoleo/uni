@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
+from torch.utils.tensorboard import SummaryWriter
 
 import torchvision
 from torchvision import datasets, models, transforms
@@ -20,20 +21,25 @@ cudnn.benchmark = True
 plt.ion()
 
 data_transforms = {
-	'train': transforms.ToTensor(),
+	'train': transforms.Compose(transforms=[
+		transforms.RandomHorizontalFlip(),
+		transforms.ToTensor()
+	]),
 	'val': transforms.ToTensor(),
 }
 
 # Data Directories
 train_dir = 'data/train'
 val_dir = 'data/valid'
+test_dir = 'data/test'
 # Datasets
 train_ds = datasets.ImageFolder(train_dir, data_transforms['train'])
 val_ds = datasets.ImageFolder(val_dir, data_transforms['val'])
+test_ds = datasets.ImageFolder(test_dir)
 
 # Data Loading
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=8, shuffle=True, num_workers=4)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=8, shuffle=True, num_workers=4)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=64, shuffle=True, num_workers=4)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=64, shuffle=True, num_workers=4)
 
 # dataset sizes
 train_size = len(train_ds)
@@ -49,6 +55,8 @@ print(f"Accelerator: {device}")
 #* CPU training
 # device = 'cpu'
 
+# Tensorboard
+writer = SummaryWriter()
 
 def imdisplay(input, title=None):
 	"""Display tensor as image"""
@@ -125,6 +133,9 @@ def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 
 				epoch_loss = running_loss / (train_size if phase == 'train' else val_size)
 				epoch_accuracy = running_corrects.double() / (train_size if phase == 'train' else val_size)
+				# Log values in tensorboard
+				writer.add_scalar("train/Loss", epoch_loss, epoch)
+				writer.add_scalar("train/Accuracy", epoch_accuracy, epoch)
 
 				print(f"{phase} Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}")
 
@@ -171,8 +182,8 @@ model_base = models.resnet18(weights='IMAGENET1K_V1')
 
 #* COMMENT THIS TO TRAIN V1
 # Freeze parameters for convolutional layers
-for param in model_base.parameters():
-	param.requires_grad = False
+# for param in model_base.parameters():
+#	param.requires_grad = False
 
 # Fully connected layer input features
 num_features = model_base.fc.in_features
@@ -189,8 +200,12 @@ optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
 # Learning rate decay: 0.1 factor every 7 epochs
 ft_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
-# Train and Evaluate
+# Training
 model_ft = train(model_ft, loss, optimizer_ft, ft_lr_scheduler, num_epochs=20)
+writer.flush()
+writer.close()
+
+# Display some predictions
 display_predicts(model_ft)
 
 plotflush()
