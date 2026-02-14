@@ -15,7 +15,8 @@ dependencies = [
     "flake8 (>=7.3.0,<8.0.0)",
     "matplotlib (>=3.10.8,<4.0.0)",
     "ipykernel (>=7.2.0,<8.0.0)",
-    "torchinfo (>=1.8.0,<2.0.0)"
+    "torchinfo (>=1.8.0,<2.0.0)",
+    "scikit-learn (>=1.8.0,<2.0.0)",
 ]
 
 [build-system]
@@ -25,7 +26,3 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 package-mode = false
 
-[dependency-groups]
-dev = [
-    "tensorboard (>=2.20.0,<3.0.0)"
-]

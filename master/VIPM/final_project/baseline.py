@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
-from torch.utils.tensorboard import SummaryWriter
 
 import torchvision
 from torchvision import datasets, models, transforms
@@ -38,8 +37,8 @@ val_ds = datasets.ImageFolder(val_dir, data_transforms['val'])
 test_ds = datasets.ImageFolder(test_dir)
 
 # Data Loading
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=64, shuffle=True, num_workers=4)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=64, shuffle=True, num_workers=4)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=128, shuffle=True, num_workers=4)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=128, shuffle=True, num_workers=4)
 
 # dataset sizes
 train_size = len(train_ds)
@@ -54,9 +53,6 @@ print(f"Accelerator: {device}")
 
 #* CPU training
 # device = 'cpu'
-
-# Tensorboard
-writer = SummaryWriter()
 
 def imdisplay(input, title=None):
 	"""Display tensor as image"""
@@ -76,6 +72,13 @@ inputs, classes = next(iter(train_loader))
 
 grid = torchvision.utils.make_grid(inputs)
 imdisplay(grid, title=[class_names[x] for x in classes])
+
+metrics = {
+	'train_loss': [],
+	'train_accuracy': [],
+	'val_loss': [],
+	'val_accuracy': []
+}
 
 def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 	since = time.time()
@@ -133,9 +136,8 @@ def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 
 				epoch_loss = running_loss / (train_size if phase == 'train' else val_size)
 				epoch_accuracy = running_corrects.double() / (train_size if phase == 'train' else val_size)
-				# Log values in tensorboard
-				writer.add_scalar("train/Loss", epoch_loss, epoch)
-				writer.add_scalar("train/Accuracy", epoch_accuracy, epoch)
+				metrics[f"{phase}_loss"].append(epoch_loss)
+				metrics[f"{phase}_accuracy"].append(epoch_accuracy)
 
 				print(f"{phase} Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}")
 
@@ -178,12 +180,37 @@ def display_predicts(model, num_images=6):
 					return
 		model.train(mode=was_training)
 
+def plot_performance(metrics):
+	fig = plt.figure()
+	fig, ax = plt.subplots(1, 2)
+	fig.tight_layout()
+	train_acc = metrics['train_accuracy'].cpu()
+	valid_acc = metrics['val_accuracy'].cpu()
+	train_loss = metrics['train_loss'].cpu()
+	valid_loss = metrics['val_loss'].cpu()
+	ax[0].set_xlabel('Epoch')
+	ax[0].set_ylabel('Loss')
+	ax[0].set_title('Loss')
+	ax[0].plot(train_loss)
+	ax[0].plot(valid_loss)
+	ax[1].set_title('Accuracy')
+	ax[1].set_xlabel('Epoch')
+	ax[1].set_ylabel('Accuracy')
+	ax[1].plot(train_acc)
+	ax[1].plot(valid_acc)
+	plt.show()
+
 model_base = models.resnet18(weights='IMAGENET1K_V1')
 
 #* COMMENT THIS TO TRAIN V1
 # Freeze parameters for convolutional layers
-# for param in model_base.parameters():
+#for param in model_base.parameters():
 #	param.requires_grad = False
+
+#* Partial Freeze V4
+model_base.layer1.requires_grad_(False)
+model_base.layer2.requires_grad_(False)
+model_base.layer3.requires_grad_(False)
 
 # Fully connected layer input features
 num_features = model_base.fc.in_features
@@ -201,11 +228,14 @@ optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
 ft_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
 # Training
-model_ft = train(model_ft, loss, optimizer_ft, ft_lr_scheduler, num_epochs=20)
-writer.flush()
-writer.close()
+model_ft = train(model_ft, loss, optimizer_ft, ft_lr_scheduler, num_epochs=16)
+
+plot_performance(metrics)
 
 # Display some predictions
 display_predicts(model_ft)
+
+# Save model for evaluation
+torch.save(model_ft.state_dict(), os.path.join('models', 'fullfinetuning+horflip.pt'))
 
 plotflush()

@@ -5,6 +5,8 @@
 
 2. No layers frozen (complete finetuning) [data aug: horizontal flipping]
 
-
 3. All layers frozen except for the new FC one
 0.8636 train acc - 0.904 validation acc - 14mins on GPU | epoch: 15/20
+
+4. Partial Freezing (all layers frozen except last sequential block + FC)
+0.874 train acc - 0.892 validation acc - 25mins on GPU | epoch 20/20
