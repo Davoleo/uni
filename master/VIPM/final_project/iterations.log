@@ -9,4 +9,4 @@
 0.8636 train acc - 0.904 validation acc - 14mins on GPU | epoch: 15/20
 
 4. Partial Freezing (all layers frozen except last sequential block + FC)
-0.874 train acc - 0.892 validation acc - 25mins on GPU | epoch 20/20
+0.872 train acc - 0.890 validation acc - 19mins on GPU | epoch 14/16

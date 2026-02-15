@@ -17,6 +17,7 @@ dependencies = [
     "ipykernel (>=7.2.0,<8.0.0)",
     "torchinfo (>=1.8.0,<2.0.0)",
     "scikit-learn (>=1.8.0,<2.0.0)",
+    "timm (>=1.0.24,<2.0.0)",
 ]
 
 [build-system]

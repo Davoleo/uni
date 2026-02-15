@@ -1,3 +1,4 @@
+import timm
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -201,32 +202,22 @@ def plot_performance(metrics):
 	ax[1].plot(valid_acc)
 	plt.show()
 
-model_base = models.resnet18(weights='IMAGENET1K_V1')
 
-#* COMMENT THIS TO finetune completely
-# Freeze parameters for convolutional layers
-# for param in model_base.parameters():
-#	param.requires_grad = False
+#from project_models import resnet18
+#model_base = resnet18()
 
-#* Partial Freeze V4
-model_base.layer1.requires_grad_(False)
-model_base.layer2.requires_grad_(False)
-model_base.layer3.requires_grad_(False)
-
-# Fully connected layer input features
-num_features = model_base.fc.in_features
-# Replace new Fully connected layer
-model_base.fc = nn.Linear(num_features, len(class_names))
+model_base = timm.create_model('efficientnet_b3.in21k', pretrained=True, num_classes=100)
 
 model_ft = model_base.to(device)
 loss = nn.CrossEntropyLoss()
 
 summary(model_ft)
 
-optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-4)
 
 # Learning rate decay: 0.1 factor every 7 epochs
-ft_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+# from 1e-4 to 1e-6 with a cosine slope
+ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
 
 # Training
 model_ft = train(model_ft, loss, optimizer_ft, ft_lr_scheduler, num_epochs=16)
@@ -237,6 +228,6 @@ plot_performance(metrics)
 display_predicts(model_ft)
 
 # Save model for evaluation
-torch.save(model_ft.state_dict(), os.path.join('models', 'partialfreezingv4+horflip.pt'))
+torch.save(model_ft.state_dict(), os.path.join('models', 'v4adam.pt'))
 
 plotflush()
