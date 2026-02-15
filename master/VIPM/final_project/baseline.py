@@ -47,6 +47,13 @@ val_size = len(val_ds)
 # Classes
 class_names = train_ds.classes
 
+metrics = {
+	'train_loss': [],
+	'train_accuracy': [],
+	'val_loss': [],
+	'val_accuracy': []
+}
+
 # Use accelerator to train
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu'
 print(f"Accelerator: {device}")
@@ -73,12 +80,6 @@ inputs, classes = next(iter(train_loader))
 grid = torchvision.utils.make_grid(inputs)
 imdisplay(grid, title=[class_names[x] for x in classes])
 
-metrics = {
-	'train_loss': [],
-	'train_accuracy': [],
-	'val_loss': [],
-	'val_accuracy': []
-}
 
 def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 	since = time.time()
@@ -137,7 +138,7 @@ def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 				epoch_loss = running_loss / (train_size if phase == 'train' else val_size)
 				epoch_accuracy = running_corrects.double() / (train_size if phase == 'train' else val_size)
 				metrics[f"{phase}_loss"].append(epoch_loss)
-				metrics[f"{phase}_accuracy"].append(epoch_accuracy)
+				metrics[f"{phase}_accuracy"].append(epoch_accuracy.cpu())
 
 				print(f"{phase} Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}")
 
@@ -184,10 +185,10 @@ def plot_performance(metrics):
 	fig = plt.figure()
 	fig, ax = plt.subplots(1, 2)
 	fig.tight_layout()
-	train_acc = metrics['train_accuracy'].cpu()
-	valid_acc = metrics['val_accuracy'].cpu()
-	train_loss = metrics['train_loss'].cpu()
-	valid_loss = metrics['val_loss'].cpu()
+	train_acc = metrics['train_accuracy']
+	valid_acc = metrics['val_accuracy']
+	train_loss = metrics['train_loss']
+	valid_loss = metrics['val_loss']
 	ax[0].set_xlabel('Epoch')
 	ax[0].set_ylabel('Loss')
 	ax[0].set_title('Loss')
@@ -202,9 +203,9 @@ def plot_performance(metrics):
 
 model_base = models.resnet18(weights='IMAGENET1K_V1')
 
-#* COMMENT THIS TO TRAIN V1
+#* COMMENT THIS TO finetune completely
 # Freeze parameters for convolutional layers
-#for param in model_base.parameters():
+# for param in model_base.parameters():
 #	param.requires_grad = False
 
 #* Partial Freeze V4
@@ -236,6 +237,6 @@ plot_performance(metrics)
 display_predicts(model_ft)
 
 # Save model for evaluation
-torch.save(model_ft.state_dict(), os.path.join('models', 'fullfinetuning+horflip.pt'))
+torch.save(model_ft.state_dict(), os.path.join('models', 'partialfreezingv4+horflip.pt'))
 
 plotflush()

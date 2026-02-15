@@ -40,6 +40,8 @@ master/VIPM/8_class_detection/dataset_detection_minimal
 # final project: dataset
 master/VIPM/final_project/data/*
 !master/VIPM/final_project/data/sports_labels.csv
+# final project: model parameters
+master/VIPM/final_project/models/*.pt
 
 # ------------- Visual studio Solutions ----------
 # IG
