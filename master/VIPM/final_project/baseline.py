@@ -1,9 +1,9 @@
-import timm
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.optim import lr_scheduler
 import torch.backends.cudnn as cudnn
+from torch import Tensor
 
 import torchvision
 from torchvision import datasets, models, transforms
@@ -16,6 +16,8 @@ import matplotlib.pyplot as plt
 import os
 import time
 from tempfile import TemporaryDirectory
+
+from project_models import *
 
 cudnn.benchmark = True
 plt.ion()
@@ -56,7 +58,7 @@ metrics = {
 }
 
 # Use accelerator to train
-device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu'
+device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu' # type: ignore | Accelerator always has a type if it's available
 print(f"Accelerator: {device}")
 
 #* CPU training
@@ -82,7 +84,7 @@ grid = torchvision.utils.make_grid(inputs)
 imdisplay(grid, title=[class_names[x] for x in classes])
 
 
-def train(model, lossfun, optimizer, scheduler, num_epochs=20):
+def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 	since = time.time()
 
 	with TemporaryDirectory() as tempdir:
@@ -107,7 +109,7 @@ def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 					dataloader = val_loader
 				
 				running_loss = 0.0
-				running_corrects = 0
+				running_corrects: Tensor = torch.tensor(0, device=device)
 
 				# Iterate
 				for inputs,labels in dataloader:
@@ -134,14 +136,14 @@ def train(model, lossfun, optimizer, scheduler, num_epochs=20):
 					running_corrects += torch.sum(preds == labels.data)
 
 				if phase == 'train':
-					scheduler.step()
+					scheduler.step() if scheduler is not None else ""
 
 				epoch_loss = running_loss / (train_size if phase == 'train' else val_size)
 				epoch_accuracy = running_corrects.double() / (train_size if phase == 'train' else val_size)
 				metrics[f"{phase}_loss"].append(epoch_loss)
 				metrics[f"{phase}_accuracy"].append(epoch_accuracy.cpu())
 
-				print(f"{phase} Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}")
+				print(f"[{phase}] Loss: {epoch_loss:.4f}, Accuracy: {epoch_accuracy:.4f}")
 
 				# deep copy
 				if phase == 'val' and epoch_accuracy > max_accuracy:
@@ -206,21 +208,39 @@ def plot_performance(metrics):
 #from project_models import resnet18
 #model_base = resnet18()
 
-model_base = timm.create_model('efficientnet_b3.in21k', pretrained=True, num_classes=100)
+# pretrain on imagenet 21k since it contains sport subcategories
+model_base = efficientnet_b3()
+
+for param in model_base.parameters():
+	param.requires_grad = False
+
+print([n for n, _ in model_base.named_children()])
+
+# unfreeze classifier
+model_base.classifier.requires_grad_(True)
 
 model_ft = model_base.to(device)
-loss = nn.CrossEntropyLoss()
-
 summary(model_ft)
 
-optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-4)
+loss = nn.CrossEntropyLoss()
+optimizer_ft = optim.AdamW(model_ft.parameters(), lr=1e-3, weight_decay=1e-2)
 
 # Learning rate decay: 0.1 factor every 7 epochs
 # from 1e-4 to 1e-6 with a cosine slope
-ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
+# ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
 
-# Training
-model_ft = train(model_ft, loss, optimizer_ft, ft_lr_scheduler, num_epochs=16)
+# Training Stage 1
+model_ft = train(model_ft, loss, optimizer_ft, num_epochs=10)
+
+# Unfreeze conv head
+optimizer_ft = optim.AdamW([
+	{"params": model_ft.classifier.parameters(), "lr": 2e-4},
+	{"params": model_ft.global_pool.parameters(), "lr": 2e-4},
+	{"params": model_ft.bn2.parameters(), "lr": 2e-4},
+	{"params": model_ft.conv_head.parameters(), "lr": 2e-5},
+])
+model_ft.conv_head.requires_grad_(True)
+model_ft = train(model_ft, loss, optimizer_ft, num_epochs=15)
 
 plot_performance(metrics)
 
@@ -228,6 +248,6 @@ plot_performance(metrics)
 display_predicts(model_ft)
 
 # Save model for evaluation
-torch.save(model_ft.state_dict(), os.path.join('models', 'v4adam.pt'))
+torch.save(model_ft.state_dict(), os.path.join('models', 'v5.2efficientnet_b3_staged_ft1-2.pt'))
 
 plotflush()

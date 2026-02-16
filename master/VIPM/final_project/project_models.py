@@ -1,3 +1,4 @@
+import timm
 from torch import nn
 from torchvision import models
 
@@ -18,3 +19,6 @@ def resnet18(class_names, load_weights=True):
 	# Replace new Fully connected layer
 	model.fc = nn.Linear(num_features, len(class_names))
 	return model
+
+def efficientnet_b3():
+	return timm.create_model('tf_efficientnetv2_b3.in21k', pretrained=True, num_classes=100)

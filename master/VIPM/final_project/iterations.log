@@ -10,3 +10,14 @@
 
 4. Partial Freezing (all layers frozen except last sequential block + FC)
 0.872 train acc - 0.890 validation acc - 19mins on GPU | epoch 14/16
+
+5. EFFICIENTNET_B3_IMAGENET21K - No freezing
+0.9999 train acc - 0.9540 validation acc - 35mins on GPU | epoch 14/16
+
+5.1. EFFICIENTNET_B3_IMAGENET21K - Partial Freezing (train head conv + classifier)
+0.9606 train acc - 0.8340 validation acc - 11 mins on GPU | epoch 16/16
+0.914 test accuracy - 0.9122 F1-score
+
+5.2. EFFICIENTNET_B3_IMAGENET21K - Partial Freezing - staged finetuning
+0.9997 train acc - 0.9120 validation acc - 9+9 mins on GPU | epoch 10+15/25
+0.916 test accuracy - 0.9154 F1-score
