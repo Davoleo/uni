@@ -21,3 +21,7 @@
 5.2. EFFICIENTNET_B3_IMAGENET21K - Partial Freezing - staged finetuning
 0.9997 train acc - 0.9120 validation acc - 9+9 mins on GPU | epoch 10+15/25
 0.916 test accuracy - 0.9154 F1-score
+
+5.3. EFFICIENTNET_B3_IMAGENET21K - Partial Freezing + dropout (0.5)
+0.9555 train acc - 0.9400 validation acc - 13 mins on GPU | epoch 13/20
+0.954 test accuracy - 0.9532 F1-score

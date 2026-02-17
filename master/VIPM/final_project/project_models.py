@@ -21,4 +21,12 @@ def resnet18(class_names, load_weights=True):
 	return model
 
 def efficientnet_b3():
-	return timm.create_model('tf_efficientnetv2_b3.in21k', pretrained=True, num_classes=100)
+	model = timm.create_model('tf_efficientnetv2_b3.in21k', pretrained=True, num_classes=100)
+	
+	# Add dropout
+	infeatures: Tensor = model.classifier.in_features # type: ignore
+	model.classifier = nn.Sequential(
+		nn.Dropout(0.5),
+		nn.Linear(infeatures, 100)
+	)
+	return model

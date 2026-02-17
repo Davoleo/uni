@@ -218,29 +218,32 @@ print([n for n, _ in model_base.named_children()])
 
 # unfreeze classifier
 model_base.classifier.requires_grad_(True)
+model_base.conv_head.requires_grad_(True)
 
 model_ft = model_base.to(device)
 summary(model_ft)
 
 loss = nn.CrossEntropyLoss()
-optimizer_ft = optim.AdamW(model_ft.parameters(), lr=1e-3, weight_decay=1e-2)
+optimizer_ft = optim.AdamW(model_ft.parameters(), lr=2e-4, weight_decay=1e-2)
 
 # Learning rate decay: 0.1 factor every 7 epochs
 # from 1e-4 to 1e-6 with a cosine slope
 # ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
 
 # Training Stage 1
-model_ft = train(model_ft, loss, optimizer_ft, num_epochs=10)
+model_ft = train(model_ft, loss, optimizer_ft, num_epochs=20)
 
+
+# Training stage 2
 # Unfreeze conv head
-optimizer_ft = optim.AdamW([
-	{"params": model_ft.classifier.parameters(), "lr": 2e-4},
-	{"params": model_ft.global_pool.parameters(), "lr": 2e-4},
-	{"params": model_ft.bn2.parameters(), "lr": 2e-4},
-	{"params": model_ft.conv_head.parameters(), "lr": 2e-5},
-])
-model_ft.conv_head.requires_grad_(True)
-model_ft = train(model_ft, loss, optimizer_ft, num_epochs=15)
+# optimizer_ft = optim.AdamW([
+# 	{"params": model_ft.classifier.parameters(), "lr": 2e-4},
+# 	{"params": model_ft.global_pool.parameters(), "lr": 2e-4},
+# 	{"params": model_ft.bn2.parameters(), "lr": 2e-4},
+# 	{"params": model_ft.conv_head.parameters(), "lr": 2e-5},
+# ], weight_decay=1e-2)
+# model_ft.conv_head.requires_grad_(True)
+# model_ft = train(model_ft, loss, optimizer_ft, num_epochs=15)
 
 plot_performance(metrics)
 
@@ -248,6 +251,6 @@ plot_performance(metrics)
 display_predicts(model_ft)
 
 # Save model for evaluation
-torch.save(model_ft.state_dict(), os.path.join('models', 'v5.2efficientnet_b3_staged_ft1-2.pt'))
+torch.save(model_ft.state_dict(), os.path.join('models', 'v5.3efficientnet_b3_partialfreeze+dropout.pt'))
 
 plotflush()
