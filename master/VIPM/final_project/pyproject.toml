@@ -2,16 +2,17 @@
 name = "vipm-final"
 version = "0.1.0"
 description = "CNN project to classify sport images even in degraded conditions"
-authors = [
-    {name = "Davoleo, Moeasy64"}
-]
+authors = [{ name = "Davoleo, Moeasy64" }]
 requires-python = ">=3.12,<3.15"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
 dependencies = [
-    "numpy (==1.26.4)",
-    "torch @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torch-2.9.1%2Brocm7.2.0.lw.git7e1940d4-cp312-cp312-linux_x86_64.whl",
-    "torchvision @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchvision-0.24.0%2Brocm7.2.0.gitb919bd0c-cp312-cp312-linux_x86_64.whl",
-    "torchaudio @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/triton-3.5.1%2Brocm7.2.0.gita272dfa8-cp312-cp312-linux_x86_64.whl",
-    "triton @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchaudio-2.9.0%2Brocm7.2.0.gite3c6ee2b-cp312-cp312-linux_x86_64.whl",
+	"pyqt6",
     "flake8 (>=7.3.0,<8.0.0)",
     "matplotlib (>=3.10.8,<4.0.0)",
     "ipykernel (>=7.2.0,<8.0.0)",
@@ -20,10 +21,98 @@ dependencies = [
     "timm (>=1.0.24,<2.0.0)",
 ]
 
+[project.optional-dependencies]
+stable = [
+	"torch @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torch-2.9.1%2Brocm7.2.0.lw.git7e1940d4-cp312-cp312-linux_x86_64.whl",
+	"torchvision @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchvision-0.24.0%2Brocm7.2.0.gitb919bd0c-cp312-cp312-linux_x86_64.whl",
+	"triton @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/triton-3.5.1%2Brocm7.2.0.gita272dfa8-cp312-cp312-linux_x86_64.whl",
+	"torchaudio @ https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/torchaudio-2.9.0%2Brocm7.2.0.gite3c6ee2b-cp312-cp312-linux_x86_64.whl",
+]
+nightly = [
+	"torch==2.9.1+rocm7.13.0a20260315",
+	"torchaudio==2.9.0+rocm7.13.0a20260315",
+	"torchvision==0.24.0+rocm7.13.0a20260315",
+	"triton==3.5.1+rocm7.13.0a20260315",
+]
+cpu = [
+	"torch>=2.9.1",
+	"torchaudio>=2.9.0",
+	"torchvision>=0.24.0",
+]
+
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.10.10,<0.11.0"]
+build-backend = "uv_build"
 
-[tool.poetry]
-package-mode = false
+[tool.uv]
+package = false
+# override non-standard dependency names to avoid conflict issues with other
+# project dependencies
+# override-dependencies = [
+# 	"torch>=2.9.1",
+# 	"torchvision>=0.24.0",
+# 	"torchaudio>=2.9.0"
+# ]
+conflicts = [
+	[
+		{extra = "cpu"},
+		{extra = "stable"},
+		{extra = "nightly"}
+	]
+]
 
+[tool.uv.sources]
+torch = [
+	{ index = "the_rock_nightly", extra = "nightly" },
+	{ index = "pytorch-cpu", extra = "cpu" },
+#	{ index = "amd-rocm", extra = "stable" }
+]
+torchvision = [
+	{ index = "the_rock_nightly", extra = "nightly" },
+	{ index = "pytorch-cpu", extra = "cpu" },
+#	{ index = "amd-rocm", extra = "stable" }
+]
+torchaudio = [
+	{ index = "the_rock_nightly", extra = "nightly" },
+	{ index = "pytorch-cpu", extra = "cpu" },
+#	{ index = "amd-rocm", extra = "stable" }
+]
+triton = [
+	{ index = "the_rock_nightly", extra = "nightly" },
+#	{ index = "amd-rocm", extra = "stable" }
+]
+
+# [[tool.uv.index]]
+# name = "amd-rocm"
+# url = "https://repo.radeon.com/rocm/manylinux/rocm-rel-7.2/"
+# explicit = true
+
+[[tool.uv.index]]
+name = "the_rock_nightly"
+url = "https://rocm.nightlies.amd.com/v2/gfx120X-all/"
+explicit = true
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple/"
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+default = false
+
+# Override "torch" metadata removing rocm[libraries (we install them separately)]
+[[tool.uv.dependency-metadata]]
+name = "torch"
+version = "2.9.1+rocm7.13.0a20260315"
+requires-dist = [
+	"filelock",
+	"typing-extensions>=4.10.0",
+	"setuptools; python_version >= '3.12'",
+	"sympy>=1.13.3",
+	"networkx>=2.5.1",
+	"jinja2",
+	"fsspec>=0.8.5",
+	"triton==3.5.1+rocm7.13.0a20260315"
+]
