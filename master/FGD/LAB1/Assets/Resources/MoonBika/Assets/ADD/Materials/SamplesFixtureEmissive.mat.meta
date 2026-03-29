@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 73c28ce5f256d4b4abbda3e19a4552d7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Materials/SamplesFixtureEmissive.mat
+  uploadId: 698221

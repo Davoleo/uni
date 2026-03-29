@@ -1,0 +1,19 @@
+{
+    "name": "ParallelCascades.BindGradientToTexture.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:de223e6dd233e7a4bb079fd546746339",
+        "GUID:c9e5275b6e324ef3aa0128c00005595a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

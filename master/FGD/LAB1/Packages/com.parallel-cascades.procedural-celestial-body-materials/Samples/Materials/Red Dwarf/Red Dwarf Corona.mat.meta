@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6a52e30cf64990f43b0f3fafa1f04ccd
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Samples/Materials/Red
+    Dwarf/Red Dwarf Corona.mat
+  uploadId: 718772

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7f63759bf8ea1a446a8a0f2c12f1012c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Materials/SimpleMat/Shader Graphs_Scrolling
+    1.mat
+  uploadId: 698221

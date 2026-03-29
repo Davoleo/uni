@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: d622cb5a3892c61488d76095d3a52214
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Model/Sphere.prefab
+  uploadId: 698221

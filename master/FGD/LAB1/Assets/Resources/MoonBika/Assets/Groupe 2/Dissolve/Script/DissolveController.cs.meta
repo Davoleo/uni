@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1c991dd3d3013124c95537854d378d06
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 2/Dissolve/Script/DissolveController.cs
+  uploadId: 698221

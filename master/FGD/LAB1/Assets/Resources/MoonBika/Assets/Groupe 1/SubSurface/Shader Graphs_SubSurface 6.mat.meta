@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7d7031b9bc969fb40b7be07ebc1483c6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 1/SubSurface/Shader Graphs_SubSurface
+    6.mat
+  uploadId: 698221

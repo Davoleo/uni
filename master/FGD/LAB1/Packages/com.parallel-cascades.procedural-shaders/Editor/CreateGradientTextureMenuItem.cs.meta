@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: f0ec3cf1aef84208a82c778f6484f8ac
+timeCreated: 1733056161
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/Editor/CreateGradientTextureMenuItem.cs
+  uploadId: 718772

@@ -1,0 +1,17 @@
+{
+    "name": "com.parallel-cascades.procedural-shaders",
+    "version": "1.0.0",
+    "displayName": "Parallel Cascades Procedural Shaders",
+    "description": "Common shaders written in HLSL or built in Shader Graph for use with procedural materials in Unity.",
+    "author":
+    {
+       "name": "Parallel Cascades",
+       "email": "emil.a.tonev@gmail.com",
+       "url": "https://parallel-cascades.github.io/"
+    },
+    "unity": "6000.0",
+    "keywords": ["unity", "shaders", "materials", "procedural", "shader graph", "hlsl", "urp"],
+    "dependencies": {
+        "com.unity.shadergraph": "17.0.3"
+    }
+ }

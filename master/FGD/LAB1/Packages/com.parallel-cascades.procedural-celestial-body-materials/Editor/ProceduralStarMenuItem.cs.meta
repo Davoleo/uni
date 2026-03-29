@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: db09ff2eaea544e998187796d9b58344
+timeCreated: 1727451178
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Editor/ProceduralStarMenuItem.cs
+  uploadId: 718772

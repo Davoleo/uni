@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 88fd6dcda58f1c347a3a9a38480c8dfe
+timeCreated: 1719323832
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/Subgraphs/3D Voronoi.shadersubgraph
+  uploadId: 718772

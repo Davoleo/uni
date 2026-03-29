@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 592cc59cdd33b164bb6c051a0730b6e8
+timeCreated: 1465564332
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/Skins/Materials/Specular/StealthSkin.mat
+  uploadId: 133914

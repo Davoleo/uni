@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1bbe3cca8489ab34ea079cf880714ae2
+timeCreated: 1465564333
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/Skins/Materials/Specular/TigerSkin.mat
+  uploadId: 133914

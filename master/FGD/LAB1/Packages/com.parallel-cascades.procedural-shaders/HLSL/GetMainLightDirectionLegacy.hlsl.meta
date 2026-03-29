@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 02bf369b438c55d47bc3df344e4fe619
+timeCreated: 1728391495
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/HLSL/GetMainLightDirectionLegacy.hlsl
+  uploadId: 718772

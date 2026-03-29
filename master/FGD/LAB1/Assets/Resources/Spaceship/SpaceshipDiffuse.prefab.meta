@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 81a45116981bb514c866bab4841bb1fe
+timeCreated: 1465584301
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/SpaceshipDiffuse.prefab
+  uploadId: 133914

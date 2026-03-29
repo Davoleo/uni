@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: dc717ae495e0bf04b82ef9a27f1a0e2a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Model/Rocket/Rocket.mat
+  uploadId: 698221

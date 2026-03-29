@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 32e30d56ccbd65246a4f29a6d8a67548
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Samples/Sample
+    Scene.unity
+  uploadId: 718772

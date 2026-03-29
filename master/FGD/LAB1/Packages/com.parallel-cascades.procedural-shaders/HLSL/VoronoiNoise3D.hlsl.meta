@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 1c00f43c643264b4283d153dbba9ec0a
+timeCreated: 1719323809
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/HLSL/VoronoiNoise3D.hlsl
+  uploadId: 718772

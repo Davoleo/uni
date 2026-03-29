@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: e32cae2a5bbfb41888ef2ba8391ab87d
+labels:
+- Unlit
+- Shader
+- Flat
+- Gradient
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 3/Portal/Shader 1/GradientSkybox.shader
+  uploadId: 698221

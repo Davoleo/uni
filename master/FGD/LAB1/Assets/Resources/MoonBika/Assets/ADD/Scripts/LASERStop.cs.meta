@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 950bdb55812955c4f9503b4e3e1f43b0
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Scripts/LASERStop.cs
+  uploadId: 698221

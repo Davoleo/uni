@@ -1,0 +1,11 @@
+﻿fileFormatVersion: 2
+guid: 0007a8b8ef6827e4998abd368ca9ff63
+timeCreated: 1719323832
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/Subgraphs/FBM Simplex
+    Noise 3D.shadersubgraph
+  uploadId: 718772

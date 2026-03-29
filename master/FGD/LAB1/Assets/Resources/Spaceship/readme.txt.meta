@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 15e432b2635f3694dbb3cfd18c5d67fb
+timeCreated: 1472046184
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/readme.txt
+  uploadId: 133914

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 058c498e56a75824aa62026c9078169a
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/LICENSE.md
+  uploadId: 718772

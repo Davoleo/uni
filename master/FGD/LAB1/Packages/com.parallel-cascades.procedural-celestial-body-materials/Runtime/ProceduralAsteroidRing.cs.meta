@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: bfcfaaa77f6d4b2f81052767b3526a08
+timeCreated: 1732010847
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Runtime/ProceduralAsteroidRing.cs
+  uploadId: 718772

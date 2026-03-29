@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2cabc6244dc687a4d89b3973eb70ccc3
+timeCreated: 1465564333
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/Skins/Materials/Specular/RedSkin.mat
+  uploadId: 133914

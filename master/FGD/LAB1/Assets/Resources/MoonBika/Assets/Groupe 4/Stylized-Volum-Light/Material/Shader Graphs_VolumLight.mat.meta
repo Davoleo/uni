@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 44cccfd0e2b0e914d9e1c61de420535a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 4/Stylized-Volum-Light/Material/Shader
+    Graphs_VolumLight.mat
+  uploadId: 698221

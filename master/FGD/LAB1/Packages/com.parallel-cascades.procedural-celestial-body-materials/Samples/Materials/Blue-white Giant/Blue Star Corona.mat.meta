@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e56dc8f71e0e05d46bc0bc875fc18c37
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Samples/Materials/Blue-white
+    Giant/Blue Star Corona.mat
+  uploadId: 718772

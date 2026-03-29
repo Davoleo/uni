@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: af80bf9c8cdbefd44b3437e238a8717c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 3/OUTLINE/Shader Graphs_Outline 1.mat
+  uploadId: 698221

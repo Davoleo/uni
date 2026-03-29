@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 6264637890c27ab4ea5496f0531181ff
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Samples/URP
+    Settings/Sample Universal Render Pipeline Asset.asset
+  uploadId: 718772

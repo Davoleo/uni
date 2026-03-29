@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 3c7612b4d3da4a9e8f111f86f06a68a3
+timeCreated: 1734689633
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Shaders/HLSL/GlowEffects.hlsl
+  uploadId: 718772

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 049252eafd9ee7d46926c627fc4f50ac
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 2/Caustics/Materials/Shader Graphs_Caustics
+    2.mat
+  uploadId: 698221
