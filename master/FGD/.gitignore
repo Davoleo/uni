@@ -4,8 +4,7 @@ LAB*/[Oo]bj/
 LAB*/[Bb]uild/ 
 LAB*/[Bb]uilds/ 
 LAB*/[Ll]ogs/
-# For some reason shortened path doesn't work for this one
-master/FGD/LAB*/[Uu]ser[Ss]ettings/
+LAB*/[Uu]ser[Ss]ettings/
 LAB*/Assets/AssetStoreTools*
 
 # log files
