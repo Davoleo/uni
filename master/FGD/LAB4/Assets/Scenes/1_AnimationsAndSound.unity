@@ -10162,6 +10162,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1719608343640076242, guid: 73fc3488243010c48843c198972d1180, type: 3}
       insertIndex: -1
       addedObject: {fileID: 231924116}
+    - targetCorrespondingSourceObject: {fileID: 1719608343640076242, guid: 73fc3488243010c48843c198972d1180, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 231924122}
   m_SourcePrefab: {fileID: 100100000, guid: 73fc3488243010c48843c198972d1180, type: 3}
 --- !u!1 &231924115 stripped
 GameObject:
@@ -10279,6 +10282,18 @@ MonoBehaviour:
   MeshRoot: {fileID: 1338237956}
   CameraFollowPoint: {fileID: 109368256}
   CrouchedCapsuleHeight: 1
+--- !u!114 &231924122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231924115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23bc810146d15344abe82ae86f66184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &232834355
 PrefabInstance:
   m_ObjectHideFlags: 0
