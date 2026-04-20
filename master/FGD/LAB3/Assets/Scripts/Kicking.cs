@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Kicking : MonoBehaviour
 {
-    public Transform playerPos;
+    public GameObject playerPos;
     public float multiplier = 1F;
 
     private Rigidbody ballRB;
@@ -17,31 +17,34 @@ public class Kicking : MonoBehaviour
         ballRB = GetComponent<Rigidbody>();
     }
 
+    private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log(other.transform.name);
+    }
+
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (!playerClose)
         {
-            ballCharge += Time.fixedDeltaTime;
+            ballCharge = 0;
+            return;
         }
 
-        if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            Vector3 direction = Vector3.Normalize(playerPos.position - transform.position);
+            ballCharge += Time.fixedDeltaTime;
+        } 
+        else if (ballCharge > 0)
+        {
+            Vector3 direction = Vector3.Normalize(transform.position - playerPos.transform.position);
             ballRB.AddForce(direction * (multiplier * ballCharge));
             ballCharge = 0;
         }
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Vector3.Distance(playerPos.position, transform.position) < 2)
-        {
-            playerClose = true;
-        }
-        else
-        {
-            playerClose = false;
-        }
+        playerClose = Vector3.Distance(playerPos.transform.position, transform.position) < 3;
     }
 }
