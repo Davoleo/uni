@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 19c11aadfe9986e4db69b001d36a9f9e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.common-utilities/Runtime/FlyCamera.cs
+  uploadId: 718772

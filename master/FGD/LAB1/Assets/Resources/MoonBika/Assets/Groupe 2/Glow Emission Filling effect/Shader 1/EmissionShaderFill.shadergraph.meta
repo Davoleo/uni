@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9ec943c67a970a34d963c38a65b8c2bd
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 2/Glow Emission Filling effect/Shader
+    1/EmissionShaderFill.shadergraph
+  uploadId: 698221

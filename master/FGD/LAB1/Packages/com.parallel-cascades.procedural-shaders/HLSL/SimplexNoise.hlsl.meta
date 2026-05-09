@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 4b02cde3830aa4c44a1ff959fa4204ed
+timeCreated: 1719323809
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/HLSL/SimplexNoise.hlsl
+  uploadId: 718772

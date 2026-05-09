@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 31a11de43e4bf2e41ab7f4d699613741
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4300000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Model/SplineExtrude_Spline.asset
+  uploadId: 698221

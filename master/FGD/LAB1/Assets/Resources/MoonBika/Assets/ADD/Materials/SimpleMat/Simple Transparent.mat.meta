@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9f6cad47c870dd64183713deee6e7fb8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Materials/SimpleMat/Simple Transparent.mat
+  uploadId: 698221

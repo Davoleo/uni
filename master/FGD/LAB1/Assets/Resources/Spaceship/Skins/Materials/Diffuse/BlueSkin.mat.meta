@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b19c86773c723b84ca302629de0474fb
+timeCreated: 1465826449
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/Skins/Materials/Diffuse/BlueSkin.mat
+  uploadId: 133914

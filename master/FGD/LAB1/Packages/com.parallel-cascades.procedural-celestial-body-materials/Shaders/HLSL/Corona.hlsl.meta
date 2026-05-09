@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 1011600dbe964301865b54b06d0bffce
+timeCreated: 1729242635
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Shaders/HLSL/Corona.hlsl
+  uploadId: 718772

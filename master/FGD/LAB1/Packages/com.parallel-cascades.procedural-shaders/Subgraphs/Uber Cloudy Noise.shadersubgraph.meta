@@ -1,0 +1,11 @@
+﻿fileFormatVersion: 2
+guid: df89428658decf8409024ad5f4e0fb74
+timeCreated: 1719323832
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/Subgraphs/Uber Cloudy
+    Noise.shadersubgraph
+  uploadId: 718772

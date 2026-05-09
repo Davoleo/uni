@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: d7c1018b76ce0d44eae4739b96f1fcac
+timeCreated: 1719323832
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/Subgraphs/Sample Palette.shadersubgraph
+  uploadId: 718772

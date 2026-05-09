@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 262af590d6d57e94f8a641d0fe0df527
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Materials/material/GPU INSTENCE 3.mat
+  uploadId: 698221

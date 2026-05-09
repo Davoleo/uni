@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 061bfce32970e2e4799769434794398c
+ScriptedImporter:
+  fileIDToRecycleName:
+    4800000: MainAsset
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 4/Screene Effect/Materials/Shaders/Hologram.ShaderGraph
+  uploadId: 698221

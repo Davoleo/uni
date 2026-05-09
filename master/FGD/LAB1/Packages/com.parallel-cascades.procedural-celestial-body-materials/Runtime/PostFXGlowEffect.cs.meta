@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: a43c2b115ab642cd9a905f3728cc9d5a
+timeCreated: 1734702677
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Runtime/PostFXGlowEffect.cs
+  uploadId: 718772

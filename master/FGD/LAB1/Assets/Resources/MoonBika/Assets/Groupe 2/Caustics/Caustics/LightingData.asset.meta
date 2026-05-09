@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: eda406d9662ff6d49a66b4cbdba1404a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 112000000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 2/Caustics/Caustics/LightingData.asset
+  uploadId: 698221

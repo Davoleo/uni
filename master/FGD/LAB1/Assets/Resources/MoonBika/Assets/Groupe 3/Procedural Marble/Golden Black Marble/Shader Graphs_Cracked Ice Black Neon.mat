@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shader Graphs_Cracked Ice Black Neon
+  m_Shader: {fileID: -6465566751694194690, guid: 5ff185de76b2198408caa6accb8241bb, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _SampleTexture2D_37a239a8542d406f9a492ccc0102b096_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2542395626a88bf44ad2389edd5d3e2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3878d87c81f34bbb8ebf220cc5cbd51e_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 77f790ce045813f408453a840291c089, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_57d0765e8e72466583959396803c4490_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 9272c6d53748d4c47951c7f3c573941c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_79aacea297b9450bb6c689b9390873f4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 77f790ce045813f408453a840291c089, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_9912d70c70d94bb481a233eae3889dc4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2542395626a88bf44ad2389edd5d3e2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_f9bbcc176a314ff7a9fd703a67793d97_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2542395626a88bf44ad2389edd5d3e2b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Ambient_Occlusion: 1
+    - _Blend_Opacity: -10
+    - _Blue_Gold: 1
+    - _Boolean: 1
+    - _Flickering_Intensity: 0
+    - _Flikring: 1
+    - _Max_Flickering_Intensity: 1
+    - _Metalic: 0
+    - _Parallel: 1
+    - _Parallex_Offset: 1.5
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Smouthness: 1
+    - _Statick_Cracks_Intensity: 1
+    m_Colors:
+    - _Emmision: {r: 1, g: 0.7270336, b: 0, a: 0}
+    - _Gold: {r: 0, g: 0, b: 0, a: 0}
+    - _Gold_1: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
+--- !u!114 &6052248841523004586
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10

@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: c28b73d85503427a8953e7fe18de9c2d
+timeCreated: 1734689838
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Shaders/HLSL/GasGiantGlow.hlsl
+  uploadId: 718772

@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 0a028474efd246a4b4014ad07c30501e
+timeCreated: 1726567880
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/HLSL/RaySphereIntersection.hlsl
+  uploadId: 718772

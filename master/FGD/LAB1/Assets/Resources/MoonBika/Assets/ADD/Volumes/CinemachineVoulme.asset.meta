@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2314f7b150984d0488e0810e958bbb77
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Volumes/CinemachineVoulme.asset
+  uploadId: 698221

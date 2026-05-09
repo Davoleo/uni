@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 1080fad5c2d95ab468b2b41583c25d73
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 3/SCREEN EFFECT/Side 2/Full Screen Shader
+    2.shadergraph
+  uploadId: 698221

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: e49bae99bee940bbaff8c221157828d2
+timeCreated: 1731103714
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Shaders/HLSL/AsteroidRing.hlsl
+  uploadId: 718772

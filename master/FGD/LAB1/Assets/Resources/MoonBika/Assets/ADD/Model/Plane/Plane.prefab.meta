@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5c06d0447381a0d4896a3936abc87ef2
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Model/Plane/Plane.prefab
+  uploadId: 698221

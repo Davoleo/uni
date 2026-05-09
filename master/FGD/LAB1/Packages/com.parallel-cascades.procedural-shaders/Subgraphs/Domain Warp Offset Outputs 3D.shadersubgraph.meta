@@ -1,0 +1,11 @@
+﻿fileFormatVersion: 2
+guid: 63a30d5558be21f4a80bad9754ebe1f0
+timeCreated: 1719323832
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-shaders/Subgraphs/Domain Warp
+    Offset Outputs 3D.shadersubgraph
+  uploadId: 718772

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 79ed0bcb40d5d6640b892a7d6803604f
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Lens Flare/LensFlare.asset
+  uploadId: 698221

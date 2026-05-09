@@ -1,0 +1,31 @@
+{
+  "name": "com.parallel-cascades.procedural-celestial-body-materials",
+  "version": "1.0.0",
+  "displayName": "Parallel Cascades Procedural Celestial Body Materials",
+  "description": "Procedural shaders and toolkit for swirling gas giants and roiling stars, star coronas, atmospheric glow and asteroid rings.",
+  "author": {
+    "name": "Parallel Cascades",
+    "email": "emil.a.tonev@gmail.com",
+    "url": "https://parallel-cascades.github.io/"
+  },
+  "unity": "6000.0",
+  "keywords": [
+    "3D",
+    "asteroid ring",
+    "atmosphere",
+    "celestial body",
+    "gas giant",
+    "planet",
+    "procedural",
+    "shader graph",
+    "star",
+    "star corona"
+  ],
+  "dependencies": {
+    "com.unity.shadergraph": "17.0.3",
+    "com.unity.render-pipelines.universal": "17.0.3",
+    "com.parallel-cascades.common-utilities": "1.0.0",
+    "com.parallel-cascades.procedural-shaders": "1.0.0",
+    "com.parallel-cascades.bind-gradient-to-texture": "1.0.0"
+  }
+}

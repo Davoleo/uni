@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: adf3b3701e224ad4084cbd3e034c7829
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/ADD/Model/Torus.prefab
+  uploadId: 698221

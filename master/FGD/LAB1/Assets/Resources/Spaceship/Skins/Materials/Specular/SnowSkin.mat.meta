@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ead3b2fbcabbbe44db2307d4abb7ae74
+timeCreated: 1465564334
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 70188
+  packageName: Galactic Heroes Cartoon Spaceship
+  packageVersion: 1.0
+  assetPath: Assets/Spaceship/Skins/Materials/Specular/SnowSkin.mat
+  uploadId: 133914

@@ -1,0 +1,20 @@
+{
+    "name": "ParallelCascades.ProceduralCelestialBodyMaterials.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:529ff73bd87cfa640b04eaeb9c7014b8",
+        "GUID:c9e5275b6e324ef3aa0128c00005595a",
+        "GUID:6d762e571b208d548bb39e6b461014e4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 86c459f16d1794f4db53af81d6ba723a
+PackageManifestImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.bind-gradient-to-texture/package.json
+  uploadId: 718772

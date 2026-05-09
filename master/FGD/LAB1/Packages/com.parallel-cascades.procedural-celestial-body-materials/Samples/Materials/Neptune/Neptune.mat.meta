@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c5daaf1485ac52648a9a478aae4ea278
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 296362
+  packageName: Procedural Celestial Body Materials
+  packageVersion: 1.1.0
+  assetPath: Packages/com.parallel-cascades.procedural-celestial-body-materials/Samples/Materials/Neptune/Neptune.mat
+  uploadId: 718772

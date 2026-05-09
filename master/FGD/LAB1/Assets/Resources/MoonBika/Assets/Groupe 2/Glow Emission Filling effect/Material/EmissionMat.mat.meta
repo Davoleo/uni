@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 229d11affc3b0ff40806189a6650998a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 2/Glow Emission Filling effect/Material/EmissionMat.mat
+  uploadId: 698221

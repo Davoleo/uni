@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c94692327ac8aed4b875264aa55e24be
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 280624
+  packageName: Essential URP Shaders
+  packageVersion: 1.0.0
+  assetPath: Assets/MoonBika/Assets/Groupe 3/Interractive Clouds Particles/Material/Shader
+    Graphs_Cloud.mat
+  uploadId: 698221
