@@ -1,27 +1,30 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.optim import lr_scheduler
-import torch.backends.cudnn as cudnn
-from torch import Tensor
 
-import torchvision
-from torchvision import datasets, models, transforms
-
-from torchinfo import summary
-
-import numpy as np
-import matplotlib.pyplot as plt
+"""
+TASK 1 of the project.
+It uses test and train folders.
+"""
 
 import os
 import time
 from tempfile import TemporaryDirectory
+
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+import torch.backends.cudnn as cudnn
+import torch.optim as optim
+import torchvision
+from torch import Tensor
+from torchinfo import summary
+from torchvision import datasets, transforms
 
 from project_models import *
 
 cudnn.benchmark = True
 plt.ion()
 
+# Data Augmentation - Horizontal flip and transform to tensor
+# TODO: implement different augmentation methods
 data_transforms = {
 	'train': transforms.Compose(transforms=[
 		transforms.RandomHorizontalFlip(),
@@ -34,6 +37,7 @@ data_transforms = {
 train_dir = 'data/train'
 val_dir = 'data/valid'
 test_dir = 'data/test'
+
 # Datasets
 train_ds = datasets.ImageFolder(train_dir, data_transforms['train'])
 val_ds = datasets.ImageFolder(val_dir, data_transforms['val'])
@@ -75,7 +79,7 @@ def imdisplay(input, title=None):
 
 def plotflush():
 	plt.ioff()
-	plt.show()	
+	plt.show()
 
 # Load a batch
 inputs, classes = next(iter(train_loader))
@@ -109,6 +113,7 @@ def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 					dataloader = val_loader
 				
 				running_loss = 0.0
+				# Instantiate a counter in the GPU as a tensor so it can be modified inside GPU
 				running_corrects: Tensor = torch.tensor(0, device=device)
 
 				# Iterate
@@ -214,13 +219,14 @@ model_base = efficientnet_b3()
 for param in model_base.parameters():
 	param.requires_grad = False
 
-print([n for n, _ in model_base.named_children()])
+# print([n for n, _ in model_base.named_children()])
 
 # unfreeze classifier
 model_base.classifier.requires_grad_(True)
 model_base.conv_head.requires_grad_(True)
 
 model_ft = model_base.to(device)
+# Show current status of the model architectures (layers etc.)
 summary(model_ft)
 
 loss = nn.CrossEntropyLoss()
