@@ -33,9 +33,9 @@ def compute_confidence_interval(data: Tensor, confidence: float = 0.95) -> Tenso
 
 # Model init
 # model = resnet18(class_names, load_weights=False)
-model = efficientnet_b3()
+model = Baseline1(dropout=True, batchnorm=True)
 # model load
-model.load_state_dict(torch.load(os.path.join('models', 'v5.3efficientnet_b3_partialfreeze+dropout.pt')))
+model.load_state_dict(torch.load(os.path.join('models', 'v1.2_baseline_batchnorm_all.pt')))
 model.eval()
 
 

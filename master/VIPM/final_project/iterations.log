@@ -25,3 +25,39 @@
 5.3. EFFICIENTNET_B3_IMAGENET21K - Partial Freezing + dropout (0.5)
 0.9555 train acc - 0.9400 validation acc - 13 mins on GPU | epoch 13/20
 0.954 test accuracy - 0.9532 F1-score
+
+
+### FROM SCRATCH
+
+======================================================
+V1 - Baseline | Training result: serious overfitting
+Epoch progress: 20/20
+--------------------
+[train] Loss: 0.1249, Accuracy: 0.9609
+[val] Loss: 5.8923, Accuracy: 0.4060
+training time: 6mins 12secs
+Best Val Accuracy: 0.484000
+
+Test Set results: Accuracy: 0.458, F1-Score: 0.4462567987567987
+
+======================================================
+V1.1 - Baseline + dropout | Training result: moderate overfitting
+Epoch progress: 20/20
+--------------------
+[train] Loss: 1.1266, Accuracy: 0.6865
+[val] Loss: 2.4384, Accuracy: 0.4420
+training time: 6mins 14secs
+Best Val Accuracy: 0.452000
+
+Test Set Results: Accuracy: 0.45, F1-Score: 0.4344452930110825
+
+======================================================
+V1.2 - Baseline + batch normalization (on all conv layers) | Training result: high overfitting
+Epoch progress: 20/20
+--------------------
+[train] Loss: 0.2143, Accuracy: 0.9328
+[val] Loss: 2.8431, Accuracy: 0.4880
+training time: 7mins 5secs
+Best Val Accuracy: 0.488000
+
+Test Set results: Accuracy: 0.52, F1-Score: 0.5105157182858422

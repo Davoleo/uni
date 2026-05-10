@@ -20,6 +20,8 @@ from torchvision import datasets, transforms
 
 from project_models import *
 
+#torch.manual_seed(42)
+
 cudnn.benchmark = True
 plt.ion()
 
@@ -44,8 +46,8 @@ val_ds = datasets.ImageFolder(val_dir, data_transforms['val'])
 test_ds = datasets.ImageFolder(test_dir)
 
 # Data Loading
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=128, shuffle=True, num_workers=4)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=128, shuffle=True, num_workers=4)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=4)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=32, shuffle=True, num_workers=4)
 
 # dataset sizes
 train_size = len(train_ds)
@@ -85,7 +87,7 @@ def plotflush():
 inputs, classes = next(iter(train_loader))
 
 grid = torchvision.utils.make_grid(inputs)
-imdisplay(grid, title=[class_names[x] for x in classes])
+#imdisplay(grid, title=[class_names[x] for x in classes])
 
 
 def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
@@ -214,23 +216,14 @@ def plot_performance(metrics):
 #model_base = resnet18()
 
 # pretrain on imagenet 21k since it contains sport subcategories
-model_base = efficientnet_b3()
-
-for param in model_base.parameters():
-	param.requires_grad = False
-
-# print([n for n, _ in model_base.named_children()])
-
-# unfreeze classifier
-model_base.classifier.requires_grad_(True)
-model_base.conv_head.requires_grad_(True)
+model_base = Baseline1(dropout=True, batchnorm=True)
 
 model_ft = model_base.to(device)
 # Show current status of the model architectures (layers etc.)
 summary(model_ft)
 
 loss = nn.CrossEntropyLoss()
-optimizer_ft = optim.AdamW(model_ft.parameters(), lr=2e-4, weight_decay=1e-2)
+optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
 
 # Learning rate decay: 0.1 factor every 7 epochs
 # from 1e-4 to 1e-6 with a cosine slope
@@ -257,6 +250,6 @@ plot_performance(metrics)
 display_predicts(model_ft)
 
 # Save model for evaluation
-torch.save(model_ft.state_dict(), os.path.join('models', 'v5.3efficientnet_b3_partialfreeze+dropout.pt'))
+torch.save(model_ft.state_dict(), os.path.join('models', 'v1.2_baseline_batchnorm_lastconv.pt'))
 
 plotflush()
