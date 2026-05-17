@@ -1,13 +1,17 @@
+import argparse
+import os
+
+import scipy
 import torch
+from sklearn.metrics import accuracy_score, f1_score
 from torch import Tensor
 from torchvision import datasets, transforms
 
-from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
-
 from project_models import *
 
-import scipy
-import os
+parser = argparse.ArgumentParser()
+parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
+args = parser.parse_args()
 
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu' # type: ignore
 print(f"Accelerator: {device}")
@@ -35,7 +39,7 @@ def compute_confidence_interval(data: Tensor, confidence: float = 0.95) -> Tenso
 # model = resnet18(class_names, load_weights=False)
 model = Baseline1(dropout=True, batchnorm=True)
 # model load
-model.load_state_dict(torch.load(os.path.join('models', 'v1.2_baseline_batchnorm_all.pt')))
+model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True))
 model.eval()
 
 

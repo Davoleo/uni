@@ -4,7 +4,11 @@ TASK 1 of the project.
 It uses test and train folders.
 """
 
+import argparse
 import os
+import random
+import subprocess
+import sys
 import time
 from tempfile import TemporaryDirectory
 
@@ -20,16 +24,32 @@ from torchvision import datasets, transforms
 
 from project_models import *
 
-#torch.manual_seed(42)
-
 cudnn.benchmark = True
 plt.ion()
+
+SEED = 42
+
+def seed_everything(seed: int):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    # cudnn.deterministic is intentionally left False — enabling it on ROCm triggers
+    # fallback kernel paths that produce NaN gradients, killing training entirely.
+
+seed_everything(SEED)
+_rng = torch.Generator()
+_rng.manual_seed(SEED)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
+args = parser.parse_args()
 
 # Data Augmentation - Horizontal flip and transform to tensor
 # TODO: implement different augmentation methods
 data_transforms = {
 	'train': transforms.Compose(transforms=[
 		transforms.RandomHorizontalFlip(),
+		transforms.RandomResizedCrop(224, scale=(0.6, 1.0)),
 		transforms.ToTensor()
 	]),
 	'val': transforms.ToTensor(),
@@ -46,7 +66,7 @@ val_ds = datasets.ImageFolder(val_dir, data_transforms['val'])
 test_ds = datasets.ImageFolder(test_dir)
 
 # Data Loading
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=4)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=4, generator=_rng)
 val_loader = torch.utils.data.DataLoader(val_ds, batch_size=32, shuffle=True, num_workers=4)
 
 # dataset sizes
@@ -163,7 +183,7 @@ def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 		print(f'Best Val Accuracy: {max_accuracy:4f}')
 
 		model.load_state_dict(torch.load(best_model_path, weights_only=True))
-	return model
+	return model, max_accuracy, time_elapsed
 
 def display_predicts(model, num_images=6):
 	was_training = model.training
@@ -190,6 +210,24 @@ def display_predicts(model, num_images=6):
 					model.train(mode=was_training)
 					return
 		model.train(mode=was_training)
+
+def write_training_log(name, elapsed, num_epochs, log_path='iterations.log'):
+	mins, secs = int(elapsed // 60), int(elapsed % 60)
+	result = subprocess.run([sys.executable, 'evaluate.py', '--name', name], capture_output=True, text=True)
+	test_line = next((l.strip() for l in result.stdout.splitlines() if l.startswith('Accuracy:')), 'evaluation failed')
+	entry = (
+		f"\n{'=' * 54}\n"
+		f"{name}\n"
+		f"Epoch progress: {num_epochs}/{num_epochs}\n"
+		f"--------------------\n"
+		f"[train] Loss: {metrics['train_loss'][-1]:.4f}, Accuracy: {float(metrics['train_accuracy'][-1]):.4f}\n"
+		f"[val] Loss: {metrics['val_loss'][-1]:.4f}, Accuracy: {float(metrics['val_accuracy'][-1]):.4f}\n"
+		f"training time: {mins}mins {secs}secs\n"
+		f"Best Val Accuracy: {max(float(a) for a in metrics['val_accuracy']):.6f}\n"
+		f"\nTest Set results: {test_line}\n"
+	)
+	with open(log_path, 'a') as f:
+		f.write(entry)
 
 def plot_performance(metrics):
 	fig = plt.figure()
@@ -230,7 +268,7 @@ optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
 # ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
 
 # Training Stage 1
-model_ft = train(model_ft, loss, optimizer_ft, num_epochs=20)
+model_ft, _best_val, _elapsed = train(model_ft, loss, optimizer_ft, num_epochs=20)
 
 
 # Training stage 2
@@ -250,6 +288,7 @@ plot_performance(metrics)
 display_predicts(model_ft)
 
 # Save model for evaluation
-torch.save(model_ft.state_dict(), os.path.join('models', 'v1.2_baseline_batchnorm_lastconv.pt'))
+torch.save(model_ft.state_dict(), os.path.join('models', f'{args.name}.pt'))
+write_training_log(args.name, _elapsed, 20)
 
 plotflush()

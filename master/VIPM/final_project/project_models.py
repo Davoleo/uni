@@ -52,11 +52,11 @@ class Baseline1(nn.Module):
 		self.conv1 = nn.Conv2d(in_channels=3, out_channels=32, kernel_size=3, padding=0)
 		if (batchnorm): self.bn1 = nn.BatchNorm2d(32)
 		self.pool1 = nn.MaxPool2d(kernel_size=2, stride=2)
-		
+
 		self.conv2 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding=0)
 		if (batchnorm): self.bn2 = nn.BatchNorm2d(64)
 		self.pool2 = nn.MaxPool2d(kernel_size=2, stride=2)
-		
+
 		self.conv3 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=0)
 		if (batchnorm): self.bn3 = nn.BatchNorm2d(128)
 		self.pool3 = nn.MaxPool2d(kernel_size=2, stride=2)
@@ -67,7 +67,7 @@ class Baseline1(nn.Module):
 
 		# Fully conected layers
 		self.fc = nn.Linear(256 * 12 * 12, 100)
-	
+
 	def forward(self, x):
 		x = self.conv1(x)
 		if (self.batchnorm): x = self.bn1(x)
@@ -88,10 +88,10 @@ class Baseline1(nn.Module):
 
 		# Flattening to linear
 		x = torch.flatten(x, 1)
-		
+
 		# dropout
 		if (self.dropout):
 			x = nn.functional.dropout(x, 0.5)
-		
+
 		x = self.fc(x)
 		return x

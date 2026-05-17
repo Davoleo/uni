@@ -61,3 +61,13 @@ training time: 7mins 5secs
 Best Val Accuracy: 0.488000
 
 Test Set results: Accuracy: 0.52, F1-Score: 0.5105157182858422
+
+======================================================
+V1.2 - Baseline + random resize image crop + batch normalization (on all conv layers) | Training result: high overfitting
+[train] Loss: 0.7902, Accuracy: 0.7762
+[val] Loss: 1.9234, Accuracy: 0.5600
+
+training time: 4mins 29secs
+Best Val Accuracy: 0.624000
+--------------------
+Test Set results: Accuracy: 0.674, F1-Score: 0.656646943636074
