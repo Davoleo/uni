@@ -20,7 +20,8 @@ import torch.optim as optim
 import torchvision
 from torch import Tensor
 from torchinfo import summary
-from torchvision import datasets, transforms
+from torchvision import datasets
+from torchvision.transforms import v2
 
 from project_models import *
 
@@ -47,12 +48,17 @@ args = parser.parse_args()
 # Data Augmentation - Horizontal flip and transform to tensor
 # TODO: implement different augmentation methods
 data_transforms = {
-	'train': transforms.Compose(transforms=[
-		transforms.RandomHorizontalFlip(),
-		transforms.RandomResizedCrop(224, scale=(0.6, 1.0)),
-		transforms.ToTensor()
+	'train': v2.Compose(transforms=[
+		v2.ToImage(),
+		v2.RandomHorizontalFlip(),
+		v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
+		# Using torch.float32 already normalizes the tensor channels values
+		v2.ToDtype(torch.float32, scale=True)
 	]),
-	'val': transforms.ToTensor(),
+	'val': v2.Compose(transforms=[
+		v2.ToImage(),
+		v2.ToDtype(torch.float32, scale=True)
+	])
 }
 
 # Data Directories
@@ -67,7 +73,7 @@ test_ds = datasets.ImageFolder(test_dir)
 
 # Data Loading
 train_loader = torch.utils.data.DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=4, generator=_rng)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=32, shuffle=True, num_workers=4)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=64, shuffle=True, num_workers=4, generator=_rng)
 
 # dataset sizes
 train_size = len(train_ds)
@@ -93,7 +99,7 @@ print(f"Accelerator: {device}")
 def imdisplay(input, title=None):
 	"""Display tensor as image"""
 	input = input.numpy().transpose((1,2,0))
-	input = np.clip(input, 0, 1)
+	print(input)
 	plt.imshow(input)
 	if title is not None:
 		plt.title(title)
@@ -104,10 +110,10 @@ def plotflush():
 	plt.show()
 
 # Load a batch
-inputs, classes = next(iter(train_loader))
+demo_inputs, _ = next(iter(train_loader))
 
-grid = torchvision.utils.make_grid(inputs)
-#imdisplay(grid, title=[class_names[x] for x in classes])
+grid = torchvision.utils.make_grid(demo_inputs)
+# imdisplay(grid, title=[class_names[x] for x in classes])
 
 
 def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
@@ -133,7 +139,7 @@ def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 				else:
 					model.eval()
 					dataloader = val_loader
-				
+
 				running_loss = 0.0
 				# Instantiate a counter in the GPU as a tensor so it can be modified inside GPU
 				running_corrects: Tensor = torch.tensor(0, device=device)
@@ -157,7 +163,7 @@ def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 						if phase == 'train':
 							loss.backward()
 							optimizer.step()
-					
+
 					# stats
 					running_loss += loss.item() * inputs.size(0)
 					running_corrects += torch.sum(preds == labels.data)
@@ -177,7 +183,7 @@ def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 					max_accuracy = epoch_accuracy
 					torch.save(model.state_dict(), best_model_path)
 			print()
-		
+
 		time_elapsed = time.time() - since
 		print(f'training time: {time_elapsed // 60:.0f}mins {time_elapsed % 60:.0f}secs')
 		print(f'Best Val Accuracy: {max_accuracy:4f}')
@@ -198,7 +204,7 @@ def display_predicts(model, num_images=6):
 
 			outputs = model(inputs)
 			_, preds = torch.max(outputs, 1)
-			
+
 			for j in range(inputs.size()[0]):
 				image_counter += 1
 				ax = plt.subplot(num_images // 2, 2, image_counter)
@@ -247,6 +253,7 @@ def plot_performance(metrics):
 	ax[1].set_ylabel('Accuracy')
 	ax[1].plot(train_acc)
 	ax[1].plot(valid_acc)
+	plt.savefig(os.path.join('models', f'{args.name}.png'))
 	plt.show()
 
 
