@@ -137,3 +137,24 @@ training time: 8mins 18secs
 Best Val Accuracy: 0.754000
 
 Test Set results: Accuracy: 0.792, F1-Score: 0.7779246586746585
+======================================================
+v1.10_random_erasing [REVERTED] Training Results: not good (removing edges is a technique that affects performance too much)
+Epoch progress: 40/40
+--------------------
+[train] Loss: 1.4146, Accuracy: 0.6078
+[val] Loss: 1.7122, Accuracy: 0.5640
+training time: 13mins 0secs
+Best Val Accuracy: 0.626000
+
+Test Set results: Accuracy: 0.628, F1-Score: 0.6039565082544622
+
+======================================================
+v1.11_rand_adjust_sharpness: Training results: less prone to overfitting but needs more epoch to train (60)
+Epoch progress: 60/60
+--------------------
+[train] Loss: 0.9916, Accuracy: 0.7127
+[val] Loss: 0.9689, Accuracy: 0.7460
+training time: 19mins 30secs
+Best Val Accuracy: 0.746000
+
+Test Set results: Accuracy: 0.78, F1-Score: 0.7713966311466309

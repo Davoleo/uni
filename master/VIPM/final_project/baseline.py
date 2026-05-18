@@ -26,7 +26,7 @@ from torchvision.transforms import v2
 from project_models import *
 
 SEED = 42
-NUM_EPOCHS = 40
+NUM_EPOCHS = 60
 BATCH_SIZE = 32
 
 # cudnn.benchmark = True
@@ -54,6 +54,7 @@ data_transforms = {
 		v2.ToImage(),
 		v2.RandomHorizontalFlip(),
 		v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
+		v2.RandomAdjustSharpness(sharpness_factor=2),
 		# Using torch.float32 already normalizes the tensor channels values
 		v2.ToDtype(torch.float32, scale=True)
 	]),
@@ -119,8 +120,7 @@ grid = torchvision.utils.make_grid(demo_inputs)
 #plotflush()
 #exit(0)
 
-
-def train(model, lossfun, optimizer, scheduler=None, num_epochs=NUM_EPOCHS):
+def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
 	since = time.time()
 
 	with TemporaryDirectory() as tempdir:
@@ -279,7 +279,7 @@ optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
 # ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
 
 # Training Stage 1
-model_ft, _best_val, _elapsed = train(model_ft, loss, optimizer_ft, num_epochs=40)
+model_ft, _best_val, _elapsed = train(model_ft, loss, optimizer_ft, num_epochs=NUM_EPOCHS)
 
 
 # Training stage 2
@@ -300,6 +300,6 @@ display_predicts(model_ft)
 
 # Save model for evaluation
 torch.save(model_ft.state_dict(), os.path.join('models', f'{args.name}.pt'))
-write_training_log(args.name, _elapsed, 20)
+write_training_log(args.name, _elapsed, NUM_EPOCHS)
 
 plotflush()
