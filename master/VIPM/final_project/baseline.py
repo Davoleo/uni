@@ -265,7 +265,7 @@ def plot_performance(metrics):
 #model_base = resnet18()
 
 # pretrain on imagenet 21k since it contains sport subcategories
-model_base = Baseline2(dropout=True, batchnorm=True)
+model_base = Baseline2()
 
 model_ft = model_base.to(device)
 # Show current status of the model architectures (layers etc.)
