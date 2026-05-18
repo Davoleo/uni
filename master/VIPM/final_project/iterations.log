@@ -71,6 +71,7 @@ training time: 4mins 29secs
 Best Val Accuracy: 0.624000
 --------------------
 Test Set results: Accuracy: 0.674, F1-Score: 0.656646943636074
+
 ======================================================
 v1.4_gaussian_blur - [REVERTED] Training result: Very bad feature learining (because no edges most likely)
 Epoch progress: 20/20
@@ -92,3 +93,47 @@ training time: 7mins 0secs
 Best Val Accuracy: 0.468000
 
 Test Set results: Accuracy: 0.508, F1-Score: 0.48716069748964475
+
+======================================================
+v1.6_adaptiveavgpool
+Epoch progress: 20/20
+--------------------
+[train] Loss: 2.0423, Accuracy: 0.4558
+[val] Loss: 2.4452, Accuracy: 0.4060
+training time: 4mins 17secs
+Best Val Accuracy: 0.426000
+
+Test Set results: Accuracy: 0.454, F1-Score: 0.4162040307473744
+
+======================================================
+v1.7_no_dropout_inference
+Epoch progress: 20/20
+--------------------
+[train] Loss: 2.0325, Accuracy: 0.4625
+[val] Loss: 1.8096, Accuracy: 0.5280
+training time: 4mins 20secs
+Best Val Accuracy: 0.528000
+
+Test Set results: Accuracy: 0.528, F1-Score: 0.49278011454564485
+
+======================================================
+v1.8_conv5
+Epoch progress: 20/20
+--------------------
+[train] Loss: 1.2515, Accuracy: 0.6488
+[val] Loss: 1.2886, Accuracy: 0.6520
+training time: 4mins 15secs
+Best Val Accuracy: 0.652000
+
+Test Set results: Accuracy: 0.686, F1-Score: 0.6703256041344277
+
+======================================================
+v1.9_more_epochs
+Epoch progress: 40/40
+--------------------
+[train] Loss: 0.7121, Accuracy: 0.7895
+[val] Loss: 0.8928, Accuracy: 0.7540
+training time: 8mins 18secs
+Best Val Accuracy: 0.754000
+
+Test Set results: Accuracy: 0.792, F1-Score: 0.7779246586746585

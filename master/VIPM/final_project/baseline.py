@@ -25,10 +25,12 @@ from torchvision.transforms import v2
 
 from project_models import *
 
-cudnn.benchmark = True
-plt.ion()
-
 SEED = 42
+NUM_EPOCHS = 40
+BATCH_SIZE = 32
+
+# cudnn.benchmark = True
+plt.ion()
 
 def seed_everything(seed: int):
     random.seed(seed)
@@ -72,8 +74,8 @@ val_ds = datasets.ImageFolder(val_dir, data_transforms['val'])
 test_ds = datasets.ImageFolder(test_dir)
 
 # Data Loading
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=32, shuffle=True, num_workers=4, generator=_rng)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=64, shuffle=True, num_workers=4, generator=_rng)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, generator=_rng)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, generator=_rng)
 
 # dataset sizes
 train_size = len(train_ds)
@@ -118,7 +120,7 @@ grid = torchvision.utils.make_grid(demo_inputs)
 #exit(0)
 
 
-def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
+def train(model, lossfun, optimizer, scheduler=None, num_epochs=NUM_EPOCHS):
 	since = time.time()
 
 	with TemporaryDirectory() as tempdir:
@@ -263,7 +265,7 @@ def plot_performance(metrics):
 #model_base = resnet18()
 
 # pretrain on imagenet 21k since it contains sport subcategories
-model_base = Baseline1(dropout=True, batchnorm=True)
+model_base = Baseline2(dropout=True, batchnorm=True)
 
 model_ft = model_base.to(device)
 # Show current status of the model architectures (layers etc.)
@@ -277,7 +279,7 @@ optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
 # ft_lr_scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
 
 # Training Stage 1
-model_ft, _best_val, _elapsed = train(model_ft, loss, optimizer_ft, num_epochs=20)
+model_ft, _best_val, _elapsed = train(model_ft, loss, optimizer_ft, num_epochs=40)
 
 
 # Training stage 2
