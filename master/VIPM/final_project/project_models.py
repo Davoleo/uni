@@ -90,7 +90,7 @@ class Baseline1(nn.Module):
 		x = torch.flatten(x, 1)
 
 		# dropout
-		if (self.dropout):
+		if (self.dropout and self.training):
 			x = nn.functional.dropout(x, 0.5)
 
 		x = self.fc(x)

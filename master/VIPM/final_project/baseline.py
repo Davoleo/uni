@@ -99,7 +99,6 @@ print(f"Accelerator: {device}")
 def imdisplay(input, title=None):
 	"""Display tensor as image"""
 	input = input.numpy().transpose((1,2,0))
-	print(input)
 	plt.imshow(input)
 	if title is not None:
 		plt.title(title)
@@ -110,10 +109,13 @@ def plotflush():
 	plt.show()
 
 # Load a batch
-demo_inputs, _ = next(iter(train_loader))
+demo_inputs, demo_classes = next(iter(train_loader))
 
 grid = torchvision.utils.make_grid(demo_inputs)
-# imdisplay(grid, title=[class_names[x] for x in classes])
+#imdisplay(grid, title=[class_names[x] for x in demo_classes])
+
+#plotflush()
+#exit(0)
 
 
 def train(model, lossfun, optimizer, scheduler=None, num_epochs=20):
