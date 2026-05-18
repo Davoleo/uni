@@ -84,7 +84,7 @@ Best Val Accuracy: 0.358000
 Test Set results: Accuracy: 0.412, F1-Score: 0.37076581133005276
 
 ======================================================
-v1.5_no_dropout_val_inference
+v1.5_no_dropout_val_inference Training result: Found first cause of overfitting
 Epoch progress: 20/20
 --------------------
 [train] Loss: 1.6986, Accuracy: 0.5652
@@ -95,7 +95,7 @@ Best Val Accuracy: 0.468000
 Test Set results: Accuracy: 0.508, F1-Score: 0.48716069748964475
 
 ======================================================
-v1.6_adaptiveavgpool
+v1.6_adaptiveavgpool Training results: Found second cause of overfitting
 Epoch progress: 20/20
 --------------------
 [train] Loss: 2.0423, Accuracy: 0.4558
@@ -106,7 +106,7 @@ Best Val Accuracy: 0.426000
 Test Set results: Accuracy: 0.454, F1-Score: 0.4162040307473744
 
 ======================================================
-v1.7_no_dropout_inference
+v1.7_no_dropout_inference Training results: adaptiveavgpool + no dropout solved overfitting
 Epoch progress: 20/20
 --------------------
 [train] Loss: 2.0325, Accuracy: 0.4625
@@ -117,7 +117,7 @@ Best Val Accuracy: 0.528000
 Test Set results: Accuracy: 0.528, F1-Score: 0.49278011454564485
 
 ======================================================
-v1.8_conv5
+v1.8_conv5 Training results: Better performances for adaptiveavgpool
 Epoch progress: 20/20
 --------------------
 [train] Loss: 1.2515, Accuracy: 0.6488
@@ -128,7 +128,7 @@ Best Val Accuracy: 0.652000
 Test Set results: Accuracy: 0.686, F1-Score: 0.6703256041344277
 
 ======================================================
-v1.9_more_epochs
+v1.9_more_epochs Training results: Can push more epochs now, very little overfitting but good val and test accuracy
 Epoch progress: 40/40
 --------------------
 [train] Loss: 0.7121, Accuracy: 0.7895
