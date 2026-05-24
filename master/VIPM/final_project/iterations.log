@@ -160,7 +160,7 @@ Best Val Accuracy: 0.746000
 Test Set results: Accuracy: 0.78, F1-Score: 0.7713966311466309
 
 ======================================================
-v1.12_80_epochs: Diminishing return on last 20 epochs, not really worth (seems a lot more but RX6950 just performs better on training)
+v1.12_80_epochs: [REVERTED] Diminishing return on last 20 epochs, not really worth (seems a lot more but RX6950 just performs better on training)
 Epoch progress: 80/80
 --------------------
 [train] Loss: 0.3604, Accuracy: 0.8914

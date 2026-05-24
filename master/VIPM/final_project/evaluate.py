@@ -1,57 +1,45 @@
 import argparse
 import os
 
-import scipy
 import torch
 from sklearn.metrics import accuracy_score, f1_score
-from torch import Tensor
-from torchvision import datasets, transforms
+from torchvision import datasets
+from torchvision.transforms import v2
 
-from project_models import *
+from project_models import Baseline2
+from project_utils import get_device
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
+parser.add_argument('--test-dir', default='data/test', help='Test set directory')
 args = parser.parse_args()
 
-device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu' # type: ignore
-print(f"Accelerator: {device}")
+device = get_device()
 
-test_dir = 'data/test'
-test_ds = datasets.ImageFolder(test_dir, transform=transforms.ToTensor())
+transform = v2.Compose([
+    v2.ToImage(),
+    v2.ToDtype(torch.float32, scale=True),
+])
 
-loader = torch.utils.data.DataLoader(test_ds, batch_size=len(test_ds))
-# Classes
-class_names = test_ds.classes
+test_ds = datasets.ImageFolder(args.test_dir, transform=transform)
+loader = torch.utils.data.DataLoader(test_ds, batch_size=64)
 
-# TODO : Implement confidence intervals (very confused)
-def compute_confidence_interval(data: Tensor, confidence: float = 0.95) -> Tensor:
-	"""
-	Compute confidence intervals analitically for :param data: to obtain interval in which the mean should fall :param confidence:% of the times 
-	"""
-	n = len(data)
-	mean: Tensor = data.mean()
-	se: Tensor = data.std(unbiased=True) / (n**0.5)
-	t_p: float = float(scipy.stats.t.ppf((1+confidence) / 2., n-1))
-	ci = t_p * se
-	return torch.tensor([mean, ci])
-
-# Model init
-# model = resnet18(class_names, load_weights=False)
 model = Baseline2()
-# model load
-model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True))
+model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True, map_location=device))
+model.to(device)
 model.eval()
 
+all_preds = []
+all_labels = []
 
 with torch.no_grad():
-	for images, labels in loader:
-		outputs = model(images)
-		_, preds = torch.max(outputs, 1)
-		
-		accuracy = accuracy_score(labels, preds)
-		f1 = f1_score(labels, preds, average='macro')
-		#cm = confusion_matrix(labels, preds, labels=class_names)
+    for images, labels in loader:
+        images = images.to(device)
+        outputs = model(images)
+        _, preds = torch.max(outputs, 1)
+        all_preds.extend(preds.cpu().tolist())
+        all_labels.extend(labels.tolist())
 
-		print(f"Accuracy: {accuracy}, F1-Score: {f1}")
-		print('-'*20)
-#print(cm)
+accuracy = accuracy_score(all_labels, all_preds)
+f1 = f1_score(all_labels, all_preds, average='macro')
+print(f"Accuracy: {accuracy:.4f}, F1-Score: {f1:.4f}")
