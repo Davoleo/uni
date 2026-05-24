@@ -26,7 +26,7 @@ from torchvision.transforms import v2
 from project_models import *
 
 SEED = 42
-NUM_EPOCHS = 60
+NUM_EPOCHS = 80
 BATCH_SIZE = 32
 
 # cudnn.benchmark = True
