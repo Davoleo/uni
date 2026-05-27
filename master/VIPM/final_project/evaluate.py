@@ -7,19 +7,26 @@ from torchvision import datasets
 from torchvision.transforms import v2
 
 from project_models import Baseline2
+from project_transforms import AutoGammaCorrection
 from project_utils import get_device
+
+ENHANCEMENTS = {
+    'gamma': AutoGammaCorrection(),
+}
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
 parser.add_argument('--test-dir', default='data/test', help='Test set directory')
+parser.add_argument('--enhance', default=None, choices=list(ENHANCEMENTS),
+                    help='Unsupervised enhancement applied before classification')
 args = parser.parse_args()
 
 device = get_device()
 
-transform = v2.Compose([
-    v2.ToImage(),
-    v2.ToDtype(torch.float32, scale=True),
-])
+transform_steps = [v2.ToImage(), v2.ToDtype(torch.float32, scale=True)]
+if args.enhance:
+    transform_steps.append(ENHANCEMENTS[args.enhance])
+transform = v2.Compose(transform_steps)
 
 test_ds = datasets.ImageFolder(args.test_dir, transform=transform)
 loader = torch.utils.data.DataLoader(test_ds, batch_size=64)

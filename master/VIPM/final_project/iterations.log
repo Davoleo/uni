@@ -169,3 +169,10 @@ training time: 17mins 9secs
 Best Val Accuracy: 0.832000
 
 Test Set results: Accuracy: 0.836, F1-Score: 0.8272195304695303
+
+====================================================== TASK 2 ======================================================
+No gamma correction, bare bone baseline2 on degraded test set
+v1.12_80_epochs on degraded test set: Accuracy: 0.5620, F1-Score: 0.5541
+
+with gamma correction
+Accuracy: 0.7820, F1-Score: 0.7688
