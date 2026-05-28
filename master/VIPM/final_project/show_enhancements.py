@@ -1,3 +1,10 @@
-from project_transforms import AutoGammaCorrection, show_enhancement
+from torchvision import transforms
 
-show_enhancement(AutoGammaCorrection())
+from project_transforms import *
+
+composed = transforms.Compose([
+	WhiteBalance(WBAlgorithm.GRAY_WORLD),
+	AutoGammaCorrection()
+])
+
+show_enhancement(composed, n=5)
