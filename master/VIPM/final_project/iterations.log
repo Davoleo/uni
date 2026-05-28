@@ -174,5 +174,11 @@ Test Set results: Accuracy: 0.836, F1-Score: 0.8272195304695303
 No gamma correction, bare bone baseline2 on degraded test set
 v1.12_80_epochs on degraded test set: Accuracy: 0.5620, F1-Score: 0.5541
 
-with gamma correction
-Accuracy: 0.7820, F1-Score: 0.7688
+with gamma correction (naive)
+Accuracy: 0.4760, F1-Score: 0.4623
+
+with white balancing (gray world assumption)
+Accuracy: 0.5320, F1-Score: 0.5295
+
+with wb (gray world) + gamma correction (naive)
+Accuracy: 0.4500, F1-Score: 0.4459
