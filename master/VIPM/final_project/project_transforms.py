@@ -1,6 +1,7 @@
 import math
 import os
 import random
+from enum import Enum
 from statistics import median, mean
 
 import matplotlib.pyplot as plt
@@ -40,6 +41,41 @@ class AutoGammaCorrection(nn.Module):
 
 _to_tensor = v2.Compose([v2.ToImage(), v2.ToDtype(torch.float32, scale=True)])
 
+class WBAlgorithm(Enum):
+	WHITE_PATCH = 1
+	GRAY_WORLD = 2
+    
+
+class WhiteBalance(nn.Module):
+    """
+    White Balance transform.
+    Supports different 'WBAlgorithm's
+    """
+    def __init__(self, algorithm: WBAlgorithm) -> None:
+        super().__init__()
+        self.algorithm = algorithm
+
+    def forward(self, img: torch.Tensor) -> torch.Tensor:
+
+        match self.algorithm:
+            case WBAlgorithm.WHITE_PATCH:
+                # max: reducing the last 2 dimensions (keep channels)
+                imageMaxRGB = img.amax((1,2))
+                # White Patch
+                coeffs = imageMaxRGB / 1
+                print('WP coeffs: ', coeffs)
+                # Patch application // need to fill last 2 dimensions w/None
+                wbImage = img * coeffs[:, None, None]
+                return wbImage
+            case WBAlgorithm.GRAY_WORLD:
+                # mean: reducing the last 2 dimensions (keep channels)
+                imageMeanRGB = img.mean(dim=(1,2))
+                # gray world
+                coeffs = 0.5 / imageMeanRGB
+                print('GW coeffs: ', coeffs)
+                # apply
+                wbImage = img * coeffs[:, None, None]
+                return wbImage
 
 def show_enhancement(transform, test_dir='data/test_degradato', n=3, seed=None):
     """Show n random images from test_dir before and after applying transform."""
