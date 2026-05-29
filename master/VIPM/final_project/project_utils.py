@@ -3,6 +3,7 @@ import random
 import subprocess
 import sys
 import time
+from typing import Literal
 from tempfile import TemporaryDirectory
 
 import matplotlib.pyplot as plt
@@ -142,3 +143,31 @@ def write_training_log(name, elapsed, num_epochs, metrics,
     )
     with open(log_path, 'a') as f:
         f.write(entry)
+
+
+@torch.no_grad()
+def topk_accuracy(preds, truth, topk=1,):
+    r'''
+    Top-K Accuracy
+
+    preds (batch_size, class_cnt)
+    answer (batch_size)
+    '''
+    #save the batch size before tensor mangling
+    bz = truth.size(0)
+    #ignore preds values. its indices shapes: (sz,cnt) -> (sz,topk)
+    _, indices = preds.topk(topk)
+    #transpose the k best indice
+    preds = indices.t()  #(sz,topk) -> (topk, sz)
+    
+    #repeat same labels topk times to match preds's shape
+    truth = truth.view(1, -1)       #(sz) -> (1,sz)
+    truth = truth.expand_as(preds) #(1,sz) -> (topk,sz)
+
+    correct = (preds == truth)    #(topk,sz) of bool vals
+    correct = correct.flatten()     #(topk*sz) of bool vals
+    correct = correct.float()       #(topk*sz) of 1s or 0s
+    correct = correct.sum()         #counts 1s (correct guesses)
+    correct = correct.mul_(100/bz)  #convert into percentage
+
+    return correct.item()

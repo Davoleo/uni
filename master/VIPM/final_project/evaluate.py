@@ -2,13 +2,13 @@ import argparse
 import os
 
 import torch
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import f1_score
 from torchvision import datasets
 from torchvision.transforms import v2
 
 from project_models import Baseline2
 from project_transforms import *
-from project_utils import get_device
+from project_utils import get_device, topk_accuracy
 
 ENHANCEMENTS = {
     'wb': WhiteBalance(algorithm=WBAlgorithm.WHITE_PATCH),
@@ -46,17 +46,28 @@ model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weig
 model.to(device)
 model.eval()
 
-all_preds = []
-all_labels = []
+topks = (1,3,5)
+topkacc = []
+f1 = None
 
-with torch.no_grad():
-    for images, labels in loader:
-        images = images.to(device)
-        outputs = model(images)
-        _, preds = torch.max(outputs, 1)
-        all_preds.extend(preds.cpu().tolist())
-        all_labels.extend(labels.tolist())
+for k in topks:
+    all_accuracies = []
+    all_labels = []
+    all_preds = []
 
-accuracy = accuracy_score(all_labels, all_preds)
-f1 = f1_score(all_labels, all_preds, average='macro')
-print(f"Accuracy: {accuracy:.4f}, F1-Score: {f1:.4f}")
+    with torch.no_grad():
+        for images, labels in loader:
+            images = images.to(device)
+            outputs = model(images)
+            all_accuracies.append(topk_accuracy(outputs, labels.to(device), topk=k))
+            if k == 1:
+                _, preds = torch.max(outputs, 1)
+                all_preds.extend(preds.cpu().tolist())
+                all_labels.extend(labels.tolist())
+
+    topkacc.append(sum(all_accuracies) / len(all_accuracies))
+
+    if k == 1:
+        f1 = f1_score(all_labels, all_preds, average='macro')
+
+print(f"F1-Score: {f1:.4f}, Accuracy: {topkacc[0]:.4f}, Top-3 Acc: {topkacc[1]:.4f}, Top-5 Acc: {topkacc[2]:.4f}")
