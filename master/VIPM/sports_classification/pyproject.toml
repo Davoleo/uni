@@ -50,6 +50,7 @@ package = false
 # override non-standard dependency names to avoid conflict issues with other
 # project dependencies
 # override-dependencies = [
+# 	"rocm[libraries]==7.13.0a20260513",
 # 	"torch>=2.9.1",
 # 	"torchvision>=0.24.0",
 # 	"torchaudio>=2.9.0"

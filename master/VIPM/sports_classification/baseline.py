@@ -13,7 +13,7 @@ from torchinfo import summary
 from torchvision import datasets
 
 from project_models import Baseline2
-from project_utils import get_device, get_transforms, plot_performance, seed_everything, train, write_training_log
+from project_utils import get_device, get_baseline_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
 NUM_EPOCHS = 60
@@ -29,7 +29,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
 args = parser.parse_args()
 
-data_transforms = get_transforms()
+data_transforms = get_baseline_transforms()
 
 train_ds = datasets.ImageFolder('data/train', data_transforms['train'])
 val_ds = datasets.ImageFolder('data/valid', data_transforms['val'])

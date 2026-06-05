@@ -26,7 +26,7 @@ def seed_everything(seed: int):
     # fallback kernel paths that produce NaN gradients, killing training entirely.
 
 
-def get_transforms() -> dict:
+def get_baseline_transforms() -> dict:
     return {
         'train': v2.Compose([
             v2.ToImage(),
@@ -40,6 +40,18 @@ def get_transforms() -> dict:
             v2.ToDtype(torch.float32, scale=True),
         ]),
     }
+
+def get_degraded_transforms() -> dict:
+    base_transf = get_baseline_transforms()
+    base_transf['train'] = v2.Compose([
+        v2.ToImage(),
+        v2.RandomHorizontalFlip(),
+        v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
+        v2.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
+        v2.RandomAdjustSharpness(sharpness_factor=2),
+        v2.ToDtype(torch.float32, scale=True)
+    ])
+    return base_transf
 
 
 def plot_performance(metrics: dict, save_path: str):

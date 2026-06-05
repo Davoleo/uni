@@ -17,10 +17,10 @@ from torchvision import datasets
 from torchvision.transforms import v2
 
 from project_models import Baseline2
-from project_utils import get_device, get_transforms, plot_performance, seed_everything, train, write_training_log
+from project_utils import get_device, get_degraded_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
-NUM_EPOCHS = 60
+NUM_EPOCHS = 80
 BATCH_SIZE = 32
 
 plt.ion()
@@ -33,13 +33,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
 args = parser.parse_args()
 
-data_transforms = get_transforms()
-
 # Task 2B: extend training transforms with degradation simulation
-#data_transforms['train'] = v2.Compose([
-#    v2.ToImage(),
-#    TODO: Data Augmentation and enhancement of the degraded images
-#])
+data_transforms = get_degraded_transforms()
+
 
 train_ds = datasets.ImageFolder('data/train', data_transforms['train'])
 val_ds = datasets.ImageFolder('data/valid', data_transforms['val'])

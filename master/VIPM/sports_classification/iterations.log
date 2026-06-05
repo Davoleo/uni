@@ -182,3 +182,25 @@ Accuracy: 0.5320, F1-Score: 0.5295
 
 with wb (gray world) + gamma correction (naive)
 Accuracy: 0.4500, F1-Score: 0.4459
+
+======================================================
+v2.0_color_jitter: Training results, separation between training and validation curve [validation is now always higher]
+Epoch progress: 60/60
+--------------------
+[train] Loss: 1.2886, Accuracy: 0.6409
+[val] Loss: 0.9709, Accuracy: 0.7460
+Training time: 32mins 23secs        [long training time due to training on RX9070-WSL environement]
+Best Val Accuracy: 0.746000
+
+Test Set results: evaluation failed
+
+======================================================
+v2.1_more_epochs: scarce improvements for 20 more training epochs, but no trace of overfitting.
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.0131, Accuracy: 0.7131
+[val] Loss: 0.8720, Accuracy: 0.7600
+Training time: 39mins 57secs        [long training time due to training on RX9070-WSL environement]
+Best Val Accuracy: 0.760000
+
+Test Set results: evaluation failed
