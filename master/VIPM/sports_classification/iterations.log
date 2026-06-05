@@ -206,3 +206,5 @@ Best Val Accuracy: 0.760000
 
 Test Set results: F1-Score: 0.7750, Accuracy: 78.5156, Top-3 Acc: 91.3311, Top-5 Acc: 94.9369
 Degraded Test Set results: 0.6113, Accuracy: 61.9742, Top-3 Acc: 81.2951, Top-5 Acc: 86.8990
+
+contrast stetch test set enhancement: not worth it [Acc -5.5%]
