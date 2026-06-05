@@ -192,7 +192,8 @@ Epoch progress: 60/60
 Training time: 32mins 23secs        [long training time due to training on RX9070-WSL environement]
 Best Val Accuracy: 0.746000
 
-Test Set results: evaluation failed
+Test Set results: F1-Score: 0.7613, Accuracy: 77.2085, Top-3 Acc: 91.4213, Top-5 Acc: 93.7650
+Degraded Test Set results: F1-Score: 0.5785, Accuracy: 58.6238, Top-3 Acc: 78.6659, Top-5 Acc: 85.1412
 
 ======================================================
 v2.1_more_epochs: scarce improvements for 20 more training epochs, but no trace of overfitting.
@@ -203,4 +204,5 @@ Epoch progress: 80/80
 Training time: 39mins 57secs        [long training time due to training on RX9070-WSL environement]
 Best Val Accuracy: 0.760000
 
-Test Set results: evaluation failed
+Test Set results: F1-Score: 0.7750, Accuracy: 78.5156, Top-3 Acc: 91.3311, Top-5 Acc: 94.9369
+Degraded Test Set results: 0.6113, Accuracy: 61.9742, Top-3 Acc: 81.2951, Top-5 Acc: 86.8990

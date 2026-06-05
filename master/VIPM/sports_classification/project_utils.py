@@ -131,17 +131,28 @@ def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, va
     return model, max_accuracy, time_elapsed
 
 
-def write_training_log(name, elapsed, num_epochs, metrics,
-                       test_dir='data/test', log_path='iterations.log'):
+def write_training_log(name, elapsed, num_epochs, metrics, degraded=True, log_path='iterations.log'):
     mins, secs = int(elapsed // 60), int(elapsed % 60)
     result = subprocess.run(
-        [sys.executable, 'evaluate.py', '--name', name, '--test-dir', test_dir],
+        [sys.executable, 'evaluate.py', '--name', name],
         capture_output=True, text=True
     )
-    test_line = next(
+    clean_test_line = next(
         (line.strip() for line in result.stdout.splitlines() if line.startswith('Accuracy:')),
         'evaluation failed'
     )
+
+    degraded_test_line = None
+    if (degraded):
+        result = subprocess.run(
+            [sys.executable, 'evaluate.py', '--name', name, '--degraded' if degraded else ''],
+            capture_output=True, text=True
+        )
+        degraded_test_line = next(
+        (line.strip() for line in result.stdout.splitlines() if line.startswith('Accuracy:')),
+        'evaluation failed'
+        )
+
     entry = (
         f"\n{'=' * 54}\n"
         f"{name}\n"
@@ -151,7 +162,8 @@ def write_training_log(name, elapsed, num_epochs, metrics,
         f"[val] Loss: {metrics['val_loss'][-1]:.4f}, Accuracy: {float(metrics['val_accuracy'][-1]):.4f}\n"
         f"Training time: {mins}mins {secs}secs\n"
         f"Best Val Accuracy: {max(float(a) for a in metrics['val_accuracy']):.6f}\n"
-        f"\nTest Set results: {test_line}\n"
+        f"\nClean Test Set results: {clean_test_line}\n"
+        f"\nDegraded Test Set Results: {degraded_test_line}" if degraded else ""
     )
     with open(log_path, 'a') as f:
         f.write(entry)

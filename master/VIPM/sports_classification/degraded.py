@@ -71,7 +71,7 @@ model_ft, _best_val, _elapsed = train(
 plot_performance(metrics, os.path.join('models', f'{args.name}.png'))
 
 torch.save(model_ft.state_dict(), os.path.join('models', f'{args.name}.pt'))
-write_training_log(args.name, _elapsed, NUM_EPOCHS, metrics, test_dir='data/test_degradato')
+write_training_log(args.name, _elapsed, NUM_EPOCHS, metrics, degraded=True)
 
 plt.ioff()
 plt.show()
