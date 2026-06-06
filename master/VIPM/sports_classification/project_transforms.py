@@ -1,5 +1,6 @@
 import math
 import os
+import io
 import random
 from enum import Enum
 from statistics import median, mean
@@ -42,8 +43,8 @@ class AutoGammaCorrection(nn.Module):
 _to_tensor = v2.Compose([v2.ToImage(), v2.ToDtype(torch.float32, scale=True)])
 
 class WBAlgorithm(Enum):
-	WHITE_PATCH = 1
-	GRAY_WORLD = 2
+    WHITE_PATCH = 1
+    GRAY_WORLD = 2
     
 
 class WhiteBalance(nn.Module):
@@ -126,3 +127,17 @@ class ContrastStretch(nn.Module):
         high = torch.quantile(img, self.high / 100.0)
         img = (img - low) / (high - low + 1e-6)
         return img.clamp(0, 1)
+    
+class JPEGCompression(nn.Module):
+    def __init__(self, quality_range=(20,50)):
+        super().__init__()
+        self.quality_range = quality_range
+    
+    def forward(self, img: torch.Tensor) -> torch.Tensor:
+        quality = random.randint(*self.quality_range)
+        pil_img = F.to_pil_image(img.clamp(0, 1))
+        with io.BytesIO() as buf:
+            pil_img.save(buf, format='JPEG', quality=quality)
+            buf.seek(0)
+            compressed = Image.open(buf).convert('RGB')
+        return F.to_tensor(compressed)

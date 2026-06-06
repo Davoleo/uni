@@ -11,6 +11,8 @@ import numpy as np
 import torch
 from torchvision.transforms import v2
 
+from project_transforms import JPEGCompression
+
 
 def get_device() -> str:
     device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else 'cpu'  # type: ignore
@@ -51,7 +53,7 @@ def get_degraded_transforms() -> dict:
             brightness=0.35,
             contrast=0.4,
             saturation=(0.7, 3.0),  # tuple → asymmetric; degradation is predominantly a saturation increase
-            hue=0.25,  # covers ~80% of observed hue shifts
+            hue=0.29,  # covers ~90% of observed hue shifts
         ),
         v2.RandomAdjustSharpness(sharpness_factor=2),
         v2.ToDtype(torch.float32, scale=True)
@@ -143,7 +145,7 @@ def write_training_log(name, elapsed, num_epochs, metrics, degraded=True, log_pa
         capture_output=True, text=True
     )
     clean_test_line = next(
-        (line.strip() for line in result.stdout.splitlines() if line.startswith('Accuracy:')),
+        (line.strip() for line in result.stdout.splitlines() if line.startswith('F1-Score:')),
         'evaluation failed'
     )
 
@@ -154,7 +156,7 @@ def write_training_log(name, elapsed, num_epochs, metrics, degraded=True, log_pa
             capture_output=True, text=True
         )
         degraded_test_line = next(
-        (line.strip() for line in result.stdout.splitlines() if line.startswith('Accuracy:')),
+        (line.strip() for line in result.stdout.splitlines() if line.startswith('F1-Score:')),
         'evaluation failed'
         )
 
@@ -168,7 +170,7 @@ def write_training_log(name, elapsed, num_epochs, metrics, degraded=True, log_pa
         f"Training time: {mins}mins {secs}secs\n"
         f"Best Val Accuracy: {max(float(a) for a in metrics['val_accuracy']):.6f}\n"
         f"\nClean Test Set results: {clean_test_line}\n"
-        f"\nDegraded Test Set Results: {degraded_test_line}" if degraded else ""
+        f"Degraded Test Set Results: {degraded_test_line}" if degraded else ""
     )
     with open(log_path, 'a') as f:
         f.write(entry)

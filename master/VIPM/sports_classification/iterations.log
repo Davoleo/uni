@@ -234,3 +234,47 @@ Best Val Accuracy: 0.840000
 Clean Test Set results: F1-Score: 0.8377, Accuracy: 84.2548, Top-3 Acc: 93.7650, Top-5 Acc: 97.1304
 
 Degraded Test Set Results: 0.7274, Accuracy: 73.1070, Top-3 Acc: 88.9423, Top-5 Acc: 92.9838
+======================================================
+v2.3_jitter_param_tuning [on RX9070]
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.2584, Accuracy: 0.6491
+[val] Loss: 0.8800, Accuracy: 0.7480
+Training time: 26mins 51secs
+Best Val Accuracy: 0.748000
+
+Clean Test Set results: F1-Score: 0.7973, Accuracy: 80.7993, Top-3 Acc: 91.1358, Top-5 Acc: 95.3275
+Degraded Test Set Results: F1-Score: 0.6834, Accuracy: 69.3960, Top-3 Acc: 83.2482, Top-5 Acc: 89.1376
+======================================================
+v2.4_gaussian_noise [REVERTED]
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.5688, Accuracy: 0.5769
+[val] Loss: 1.1197, Accuracy: 0.6840
+Training time: 26mins 46secs
+Best Val Accuracy: 0.702000
+
+Clean Test Set results: F1-Score: 0.7299, Accuracy: 74.5643, Top-3 Acc: 88.8822, Top-5 Acc: 93.2242
+Degraded Test Set Results: F1-Score: 0.5925, Accuracy: 60.1412, Top-3 Acc: 76.4573, Top-5 Acc: 83.0379
+======================================================
+v2.4_jpeg_compression	[REVERTED]
+Epoch progress: 80/80
+--------------------
+[train] Loss: 2.4728, Accuracy: 0.4086
+[val] Loss: 1.2161, Accuracy: 0.6640
+Training time: 27mins 4secs
+Best Val Accuracy: 0.686000
+
+Clean Test Set results: F1-Score: 0.7146, Accuracy: 72.9868, Top-3 Acc: 87.8606, Top-5 Acc: 92.1575
+Degraded Test Set Results: F1-Score: 0.6078, Accuracy: 62.7554, Top-3 Acc: 79.0415, Top-5 Acc: 85.6671
+======================================================
+v2.6_more_hue_shift		[REVERTED]
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.2745, Accuracy: 0.6470
+[val] Loss: 1.1335, Accuracy: 0.6920
+Training time: 26mins 45secs
+Best Val Accuracy: 0.716000
+
+Clean Test Set results: F1-Score: 0.7383, Accuracy: 75.7362, Top-3 Acc: 88.6869, Top-5 Acc: 93.8101
+Degraded Test Set Results: F1-Score: 0.6506, Accuracy: 66.2260, Top-3 Acc: 82.9327, Top-5 Acc: 87.8606
