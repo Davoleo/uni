@@ -17,7 +17,7 @@ ENHANCEMENTS = {
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
-parser.add_argument('--degraded', action='store_true', default=False, help='Use degraded test set insteado of the clean one')
+parser.add_argument('--degraded', action='store_true', default=False, help='Use degraded test set instead of the clean one')
 parser.add_argument('--enhance', nargs='+', default=None, choices=list(ENHANCEMENTS),
                     help='Unsupervised enhancement applied before classification')
 args = parser.parse_args()

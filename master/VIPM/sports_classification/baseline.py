@@ -16,7 +16,7 @@ from project_models import Baseline2
 from project_utils import get_device, get_baseline_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
-NUM_EPOCHS = 60
+NUM_EPOCHS = 80
 BATCH_SIZE = 32
 
 plt.ion()

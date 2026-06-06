@@ -206,3 +206,29 @@ Best Val Accuracy: 0.760000
 
 Test Set results: F1-Score: 0.7750, Accuracy: 78.5156, Top-3 Acc: 91.3311, Top-5 Acc: 94.9369
 Degraded Test Set results: 0.6113, Accuracy: 61.9742, Top-3 Acc: 81.2951, Top-5 Acc: 86.8990
+======================================================
+v2.2_jitter_param_tuning:
+- Team colors are often discriminative features — hue=0.1 can shift red jerseys toward orange dropped to 0.05
+- sports images tend to be colorful (grass, jerseys, equipment) so aggressive desaturation might discard useful signal. sat to 0.2
+Epoch progress: 80/80
+--------------------
+[train] Loss: 0.4535, Accuracy: 0.8611
+[val] Loss: 0.6213, Accuracy: 0.8240
+Training time: 19mins 20secs
+Best Val Accuracy: 0.836000
+
+Clean Test Set results: F1-Score: 0.8428, Accuracy: 85.0811, Top-3 Acc: 94.3960, Top-5 Acc: 96.5445
+
+Degraded Test Set Results: F1-Score: 0.6681, Accuracy: 66.8570, Top-3 Acc: 82.6472, Top-5 Acc: 88.5367
+======================================================
+v2.3_jitter_param_tuning
+Epoch progress: 80/80
+--------------------
+[train] Loss: 0.6582, Accuracy: 0.8046
+[val] Loss: 0.6547, Accuracy: 0.8140
+Training time: 19mins 37secs
+Best Val Accuracy: 0.840000
+
+Clean Test Set results: F1-Score: 0.8377, Accuracy: 84.2548, Top-3 Acc: 93.7650, Top-5 Acc: 97.1304
+
+Degraded Test Set Results: 0.7274, Accuracy: 73.1070, Top-3 Acc: 88.9423, Top-5 Acc: 92.9838

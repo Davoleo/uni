@@ -47,7 +47,12 @@ def get_degraded_transforms() -> dict:
         v2.ToImage(),
         v2.RandomHorizontalFlip(),
         v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
-        v2.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1),
+        v2.ColorJitter(
+            brightness=0.35,
+            contrast=0.4,
+            saturation=(0.7, 3.0),  # tuple → asymmetric; degradation is predominantly a saturation increase
+            hue=0.25,  # covers ~80% of observed hue shifts
+        ),
         v2.RandomAdjustSharpness(sharpness_factor=2),
         v2.ToDtype(torch.float32, scale=True)
     ])
