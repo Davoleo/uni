@@ -183,6 +183,8 @@ Accuracy: 0.5320, F1-Score: 0.5295
 with wb (gray world) + gamma correction (naive)
 Accuracy: 0.4500, F1-Score: 0.4459
 
+contrast stetch test set enhancement: not worth it [Acc -5.5%]
+
 ======================================================
 v2.0_color_jitter: Training results, separation between training and validation curve [validation is now always higher]
 Epoch progress: 60/60

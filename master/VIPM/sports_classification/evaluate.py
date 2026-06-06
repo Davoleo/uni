@@ -13,6 +13,7 @@ from project_utils import get_device, topk_accuracy
 ENHANCEMENTS = {
     'wb': WhiteBalance(algorithm=WBAlgorithm.WHITE_PATCH),
     'gamma': AutoGammaCorrection(),
+    'cs': ContrastStretch(low_percentile=8)
 }
 
 parser = argparse.ArgumentParser()

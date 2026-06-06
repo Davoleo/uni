@@ -107,3 +107,22 @@ def show_enhancement(transform, test_dir='data/test_degradato', n=3, seed=None):
 
     fig.tight_layout()
     plt.show()
+
+class ContrastStretch(nn.Module):
+    """
+    Contrast Stretch helps spreading the pixel values apart.
+    We take the percentiles low and high to avoid clipped pixels and 
+    stretch the values of the rest of the content to be in [0:1]
+    Effectively tries to restore the dynamic range of the image by making 
+    the difference between pixel velues in the middle of the intesity range more important.
+    """
+    def __init__(self, low_percentile=5, high_percentile=95):
+        super().__init__()
+        self.low = low_percentile
+        self.high = high_percentile
+
+    def forward(self, img: torch.Tensor):
+        low = torch.quantile(img, self.low / 100.0)
+        high = torch.quantile(img, self.high / 100.0)
+        img = (img - low) / (high - low + 1e-6)
+        return img.clamp(0, 1)
