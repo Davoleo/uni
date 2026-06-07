@@ -13,7 +13,7 @@ from torchinfo import summary
 from torchvision import datasets
 
 from project_models import Baseline2
-from project_utils import get_device, get_baseline_transforms, plot_performance, seed_everything, train, write_training_log
+from project_utils import get_device, get_val_transforms, get_cpu_train_transform, get_gpu_train_transform, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
 NUM_EPOCHS = 80
@@ -29,13 +29,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
 args = parser.parse_args()
 
-data_transforms = get_baseline_transforms()
+gpu_train_transform = get_gpu_train_transform(degraded=False)
 
-train_ds = datasets.ImageFolder('data/train', data_transforms['train'])
-val_ds = datasets.ImageFolder('data/valid', data_transforms['val'])
+train_ds = datasets.ImageFolder('data/train', get_cpu_train_transform())
+val_ds = datasets.ImageFolder('data/valid', get_val_transforms())
 
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, generator=_rng)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, generator=_rng)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=8, pin_memory=True, prefetch_factor=2, persistent_workers=True, generator=_rng)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=8, pin_memory=True, prefetch_factor=2, persistent_workers=True, generator=_rng)
 
 class_names = train_ds.classes
 
@@ -74,27 +74,29 @@ def display_predicts(model, num_images=6):
     model.train(mode=was_training)
 
 
-model_ft = Baseline2().to(device)
-summary(model_ft)
+model = Baseline2().to(device)
+summary(model)
 
 loss_fn = nn.CrossEntropyLoss()
-optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
+optimizer_ft = optim.Adam(model.parameters(), lr=1e-3)
 
-# Cosine LR decay example (unused):
-# scheduler = lr_scheduler.CosineAnnealingLR(optimizer_ft, T_max=45, eta_min=1e-6)
+torch.set_float32_matmul_precision('high')
+model_compiled = torch.compile(model)
 
-model_ft, _best_val, _elapsed = train(
-    model_ft, loss_fn, optimizer_ft,
+model_compiled, _best_val, _elapsed = train(
+    model_compiled, loss_fn, optimizer_ft,
     train_loader=train_loader, val_loader=val_loader,
     train_size=len(train_ds), val_size=len(val_ds),
     device=device, metrics=metrics,
     num_epochs=NUM_EPOCHS,
+    train_gpu_transform=gpu_train_transform,
+    use_amp=True
 )
 
 plot_performance(metrics, os.path.join('models', f'{args.name}.png'))
-display_predicts(model_ft)
+display_predicts(model)
 
-torch.save(model_ft.state_dict(), os.path.join('models', f'{args.name}.pt'))
+torch.save(model.state_dict(), os.path.join('models', f'{args.name}.pt'))
 write_training_log(args.name, _elapsed, NUM_EPOCHS, metrics)
 
 plt.ioff()

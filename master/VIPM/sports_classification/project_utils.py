@@ -28,37 +28,30 @@ def seed_everything(seed: int):
     # fallback kernel paths that produce NaN gradients, killing training entirely.
 
 
-def get_baseline_transforms() -> dict:
-    return {
-        'train': v2.Compose([
-            v2.ToImage(),
-            v2.RandomHorizontalFlip(),
-            v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
-            v2.RandomAdjustSharpness(sharpness_factor=2),
-            v2.ToDtype(torch.float32, scale=True),
-        ]),
-        'val': v2.Compose([
-            v2.ToImage(),
-            v2.ToDtype(torch.float32, scale=True),
-        ]),
-    }
-
-def get_degraded_transforms() -> dict:
-    base_transf = get_baseline_transforms()
-    base_transf['train'] = v2.Compose([
+def get_val_transforms():
+    return v2.Compose([
         v2.ToImage(),
-        v2.RandomHorizontalFlip(),
-        v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
-        v2.ColorJitter(
-            brightness=0.35,
-            contrast=0.4,
-            saturation=(0.7, 3.0),  # tuple → asymmetric; degradation is predominantly a saturation increase
-            hue=0.25,  # covers ~80% of observed hue shifts
-        ),
-        v2.RandomAdjustSharpness(sharpness_factor=2),
         v2.ToDtype(torch.float32, scale=True)
     ])
-    return base_transf
+
+
+def get_cpu_train_transform():
+    return v2.ToImage()
+
+
+def get_gpu_train_transform(degraded=False):
+    steps = [
+        v2.RandomHorizontalFlip(),
+        v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
+    ]
+    if degraded:
+        steps.append(v2.ColorJitter(
+            brightness=0.35, contrast=0.4,
+            saturation=(0.7, 3.0), hue=0.25,
+        ))
+    steps.append(v2.RandomAdjustSharpness(sharpness_factor=2))
+    steps.append(v2.ToDtype(torch.float32, scale=True))
+    return v2.Compose(steps)
 
 
 def plot_performance(metrics: dict, save_path: str):
@@ -104,8 +97,10 @@ def mixup_criterion(criterion, pred, y_a, y_b, lam):
 
 
 def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, val_size,
-          device, metrics, scheduler=None, num_epochs=20, mixup_alpha=0.0):
+          device, metrics, scheduler=None, num_epochs=20,
+          train_gpu_transform=None, use_amp=False):
     since = time.time()
+    scaler = torch.GradScaler() if use_amp else None
 
     with TemporaryDirectory() as tempdir:
         best_model_path = os.path.join(tempdir, 'best_model_params.pt')
@@ -124,31 +119,27 @@ def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, va
                 running_corrects = torch.tensor(0, device=device)
 
                 for inputs, labels in dataloader:
-                    inputs = inputs.to(device)
-                    labels = labels.to(device)
+                    inputs = inputs.to(device, non_blocking=True)
+                    labels = labels.to(device, non_blocking=True)
+                    if phase == 'train' and train_gpu_transform is not None:
+                        inputs = train_gpu_transform(inputs)
                     optimizer.zero_grad()
 
                     with torch.set_grad_enabled(phase == 'train'):
-                        if phase == 'train' and mixup_alpha > 0:
-                            # apply mixup to blend inputs and labels for regularization
-                            inputs, targets_a, targets_b, lam = mixup_data(inputs, labels, mixup_alpha)
-                            outputs = model(inputs)
-                            loss = mixup_criterion(lossfun, outputs, targets_a, targets_b, lam)
-                            # always backward and optimizer step because we're already in 'train' phase if we mixup
-                            loss.backward()
-                            optimizer.step()
-                            _, preds = torch.max(outputs, 1)
-                            running_loss += loss.item() * inputs.size(0)
-                            running_corrects += torch.sum(preds == targets_a.data)
-                        else:
+                        with torch.autocast(device_type=device, dtype=torch.float16, enabled=(use_amp and phase == 'train')):
                             outputs = model(inputs)
                             _, preds = torch.max(outputs, 1)
                             loss = lossfun(outputs, labels)
-                            if phase == 'train':
+                        if phase == 'train':
+                            if scaler is not None:
+                                scaler.scale(loss).backward()
+                                scaler.step(optimizer)
+                                scaler.update()
+                            else:
                                 loss.backward()
                                 optimizer.step()
-                            running_loss += loss.item() * inputs.size(0)
-                            running_corrects += torch.sum(preds == labels.data)
+                        running_loss += loss.item() * inputs.size(0)
+                        running_corrects += torch.sum(preds == labels.data)
 
                 if phase == 'train' and scheduler is not None:
                     scheduler.step()

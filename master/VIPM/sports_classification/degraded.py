@@ -12,12 +12,13 @@ import matplotlib.pyplot as plt
 import torch
 import torch.optim as optim
 from torch import nn
+from torch.optim import lr_scheduler
 from torchinfo import summary
 from torchvision import datasets
 from torchvision.transforms import v2
 
 from project_models import Baseline2
-from project_utils import get_device, get_degraded_transforms, plot_performance, seed_everything, train, write_training_log
+from project_utils import get_device, get_val_transforms, get_cpu_train_transform, get_gpu_train_transform, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
 NUM_EPOCHS = 80
@@ -34,14 +35,13 @@ parser.add_argument('--name', required=True, help='Checkpoint name (saved as mod
 args = parser.parse_args()
 
 # Task 2B: extend training transforms with degradation simulation
-data_transforms = get_degraded_transforms()
+gpu_train_transform = get_gpu_train_transform(degraded=True)
 
+train_ds = datasets.ImageFolder('data/train',  get_cpu_train_transform())
+val_ds = datasets.ImageFolder('data/valid', get_val_transforms())
 
-train_ds = datasets.ImageFolder('data/train', data_transforms['train'])
-val_ds = datasets.ImageFolder('data/valid', data_transforms['val'])
-
-train_loader = torch.utils.data.DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, generator=_rng)
-val_loader = torch.utils.data.DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=4, generator=_rng)
+train_loader = torch.utils.data.DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=8, pin_memory=True, prefetch_factor=2, persistent_workers=True, generator=_rng)
+val_loader = torch.utils.data.DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=8, pin_memory=True, prefetch_factor=2, persistent_workers=True, generator=_rng)
 
 class_names = train_ds.classes
 
@@ -54,23 +54,30 @@ metrics = {
 
 device = get_device()
 
-model_ft = Baseline2().to(device)
-summary(model_ft)
+model = Baseline2().to(device)
+summary(model)
 
 loss_fn = nn.CrossEntropyLoss(label_smoothing=0.1)
-optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
+optimizer_ft = optim.Adam(model.parameters(), lr=1e-3)
 
-model_ft, _best_val, _elapsed = train(
-    model_ft, loss_fn, optimizer_ft,
+#scheduler = lr_scheduler.CosineAnnealingWarmRestarts(optimizer_ft, T_0=20, T_mult=2, eta_min=1e-6)
+
+torch.set_float32_matmul_precision('high')
+model_compiled = torch.compile(model)
+
+model_compiled, _best_val, _elapsed = train(
+    model_compiled, loss_fn, optimizer_ft,
     train_loader=train_loader, val_loader=val_loader,
     train_size=len(train_ds), val_size=len(val_ds),
     device=device, metrics=metrics,
     num_epochs=NUM_EPOCHS,
+#    scheduler=scheduler,
+    train_gpu_transform=gpu_train_transform,
 )
 
 plot_performance(metrics, os.path.join('models', f'{args.name}.png'))
 
-torch.save(model_ft.state_dict(), os.path.join('models', f'{args.name}.pt'))
+torch.save(model.state_dict(), os.path.join('models', f'{args.name}.pt'))
 write_training_log(args.name, _elapsed, NUM_EPOCHS, metrics, degraded=True)
 
 plt.ioff()

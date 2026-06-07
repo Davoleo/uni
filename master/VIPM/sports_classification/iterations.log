@@ -280,15 +280,15 @@ Clean Test Set results: F1-Score: 0.7383, Accuracy: 75.7362, Top-3 Acc: 88.6869,
 Degraded Test Set Results: F1-Score: 0.6506, Accuracy: 66.2260, Top-3 Acc: 82.9327, Top-5 Acc: 87.8606
 ======================================================
 v2.7_label_smoothing: Results: slight improvements over v2.3, avoid overconfidence on clean features like color cues. some confusion between variants of sports still remains.
-Epoch progress: 80/80
+Epoch progress: 80/80	[renewed with more GPU Offloading that's why results a re a lot higher than 2.3]
 --------------------
-[train] Loss: 2.0035, Accuracy: 0.6644
-[val] Loss: 1.7437, Accuracy: 0.7580
-Training time: 28mins 32secs
-Best Val Accuracy: 0.758000
+[train] Loss: 1.4219, Accuracy: 0.8729
+[val] Loss: 1.6898, Accuracy: 0.7560
+Training time: 28mins 51secs
+Best Val Accuracy: 0.826000
 
-Clean Test Set results: F1-Score: 0.8097, Accuracy: 81.8359, Top-3 Acc: 91.4814, Top-5 Acc: 95.7181
-Degraded Test Set Results: F1-Score: 0.6832, Accuracy: 69.7416, Top-3 Acc: 84.0745, Top-5 Acc: 88.2212
+Clean Test Set results: evaluation failed
+Degraded Test Set Results: evaluation failed
 ======================================================
 v2.8_mixup	[REVERTED] -- too much regularization causes the model to fail to learn (underfitting, both because there are not enough epochs, would need 200+)
 Epoch progress: 80/80
@@ -311,3 +311,15 @@ Best Val Accuracy: 0.682000
 
 Clean Test Set results: F1-Score: 0.6590, Accuracy: 68.8702, Top-3 Acc: 84.2097, Top-5 Acc: 88.8972
 Degraded Test Set Results: F1-Score: 0.5071, Accuracy: 51.3672, Top-3 Acc: 69.7867, Top-5 Acc: 78.1250
+======================================================
+v2.10_lr_scheduling [REVERTED] worse than v2.7
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.5861, Accuracy: 0.8168
+[val] Loss: 1.7450, Accuracy: 0.7540
+Training time: 34mins 38secs
+Best Val Accuracy: 0.794000
+
+Clean Test Set results: evaluation failed
+Degraded Test Set Results: evaluation failed
+======================================================
