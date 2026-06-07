@@ -80,8 +80,31 @@ def plot_performance(metrics: dict, save_path: str):
     plt.show()
 
 
+def mixup_data(x, y, alpha=0.2):
+    if alpha > 0:
+        # the beta distribution is U-shaped so most of the times 0.2 would give blended images with 10/90% and 90/10% proportions
+        lam = np.random.beta(alpha, alpha)
+    else:
+        lam = 1.0
+
+    batch_size = x.size(0)
+    index = torch.randperm(batch_size, device=x.device)
+
+    mixed_x = lam * x + (1 - lam) * x[index]
+    y_a, y_b = y, y[index]
+    return mixed_x, y_a, y_b, lam
+
+
+def mixup_criterion(criterion, pred, y_a, y_b, lam):
+    """
+    Loss function is changed to make use of the lam (proportions of the 2 images)
+    to instruct the model of the mixup between the 2 classes as the answer.
+    """
+    return lam * criterion(pred, y_a) + (1 - lam) * criterion(pred, y_b)
+
+
 def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, val_size,
-          device, metrics, scheduler=None, num_epochs=20):
+          device, metrics, scheduler=None, num_epochs=20, mixup_alpha=0.0):
     since = time.time()
 
     with TemporaryDirectory() as tempdir:
@@ -106,15 +129,26 @@ def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, va
                     optimizer.zero_grad()
 
                     with torch.set_grad_enabled(phase == 'train'):
-                        outputs = model(inputs)
-                        _, preds = torch.max(outputs, 1)
-                        loss = lossfun(outputs, labels)
-                        if phase == 'train':
+                        if phase == 'train' and mixup_alpha > 0:
+                            # apply mixup to blend inputs and labels for regularization
+                            inputs, targets_a, targets_b, lam = mixup_data(inputs, labels, mixup_alpha)
+                            outputs = model(inputs)
+                            loss = mixup_criterion(lossfun, outputs, targets_a, targets_b, lam)
+                            # always backward and optimizer step because we're already in 'train' phase if we mixup
                             loss.backward()
                             optimizer.step()
-
-                    running_loss += loss.item() * inputs.size(0)
-                    running_corrects += torch.sum(preds == labels.data)
+                            _, preds = torch.max(outputs, 1)
+                            running_loss += loss.item() * inputs.size(0)
+                            running_corrects += torch.sum(preds == targets_a.data)
+                        else:
+                            outputs = model(inputs)
+                            _, preds = torch.max(outputs, 1)
+                            loss = lossfun(outputs, labels)
+                            if phase == 'train':
+                                loss.backward()
+                                optimizer.step()
+                            running_loss += loss.item() * inputs.size(0)
+                            running_corrects += torch.sum(preds == labels.data)
 
                 if phase == 'train' and scheduler is not None:
                     scheduler.step()

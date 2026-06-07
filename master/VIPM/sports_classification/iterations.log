@@ -289,3 +289,25 @@ Best Val Accuracy: 0.758000
 
 Clean Test Set results: F1-Score: 0.8097, Accuracy: 81.8359, Top-3 Acc: 91.4814, Top-5 Acc: 95.7181
 Degraded Test Set Results: F1-Score: 0.6832, Accuracy: 69.7416, Top-3 Acc: 84.0745, Top-5 Acc: 88.2212
+======================================================
+v2.8_mixup	[REVERTED] -- too much regularization causes the model to fail to learn (underfitting, both because there are not enough epochs, would need 200+)
+Epoch progress: 80/80
+--------------------
+[train] Loss: 2.6401, Accuracy: 0.2178
+[val] Loss: 1.8941, Accuracy: 0.5200
+Training time: 33mins 11secs
+Best Val Accuracy: 0.558000
+
+Clean Test Set results: F1-Score: 0.5722, Accuracy: 59.2999, Top-3 Acc: 80.1232, Top-5 Acc: 85.2915
+Degraded Test Set Results: F1-Score: 0.4528, Accuracy: 46.2440, Top-3 Acc: 67.1575, Top-5 Acc: 78.1851
+======================================================
+v2.9_mixup_no_color_jitter [REVERTED] -- even without color jitter it's still too much regularization (5-layers CNN is too simple to learn blended images correctly)
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.9623, Accuracy: 0.3094
+[val] Loss: 1.6794, Accuracy: 0.5680
+Training time: 31mins 2secs
+Best Val Accuracy: 0.682000
+
+Clean Test Set results: F1-Score: 0.6590, Accuracy: 68.8702, Top-3 Acc: 84.2097, Top-5 Acc: 88.8972
+Degraded Test Set Results: F1-Score: 0.5071, Accuracy: 51.3672, Top-3 Acc: 69.7867, Top-5 Acc: 78.1250
