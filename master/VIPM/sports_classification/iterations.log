@@ -278,3 +278,14 @@ Best Val Accuracy: 0.716000
 
 Clean Test Set results: F1-Score: 0.7383, Accuracy: 75.7362, Top-3 Acc: 88.6869, Top-5 Acc: 93.8101
 Degraded Test Set Results: F1-Score: 0.6506, Accuracy: 66.2260, Top-3 Acc: 82.9327, Top-5 Acc: 87.8606
+======================================================
+v2.7_label_smoothing: Results: slight improvements over v2.3, avoid overconfidence on clean features like color cues. some confusion between variants of sports still remains.
+Epoch progress: 80/80
+--------------------
+[train] Loss: 2.0035, Accuracy: 0.6644
+[val] Loss: 1.7437, Accuracy: 0.7580
+Training time: 28mins 32secs
+Best Val Accuracy: 0.758000
+
+Clean Test Set results: F1-Score: 0.8097, Accuracy: 81.8359, Top-3 Acc: 91.4814, Top-5 Acc: 95.7181
+Degraded Test Set Results: F1-Score: 0.6832, Accuracy: 69.7416, Top-3 Acc: 84.0745, Top-5 Acc: 88.2212

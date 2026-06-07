@@ -57,7 +57,7 @@ device = get_device()
 model_ft = Baseline2().to(device)
 summary(model_ft)
 
-loss_fn = nn.CrossEntropyLoss()
+loss_fn = nn.CrossEntropyLoss(label_smoothing=0.1)
 optimizer_ft = optim.Adam(model_ft.parameters(), lr=1e-3)
 
 model_ft, _best_val, _elapsed = train(
