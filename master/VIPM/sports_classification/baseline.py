@@ -13,7 +13,7 @@ from torchinfo import summary
 from torchvision import datasets
 
 from project_models import Baseline2
-from project_utils import get_device, get_val_transforms, get_cpu_train_transform, get_gpu_train_transform, plot_performance, seed_everything, train, write_training_log
+from project_utils import get_device, get_val_transforms, get_train_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
 NUM_EPOCHS = 80
@@ -29,9 +29,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
 args = parser.parse_args()
 
-gpu_train_transform = get_gpu_train_transform(degraded=False)
-
-train_ds = datasets.ImageFolder('data/train', get_cpu_train_transform())
+train_ds = datasets.ImageFolder('data/train', get_train_transforms(degraded=False))
 val_ds = datasets.ImageFolder('data/valid', get_val_transforms())
 
 train_loader = torch.utils.data.DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=8, pin_memory=True, prefetch_factor=2, persistent_workers=True, generator=_rng)
@@ -89,7 +87,6 @@ model_compiled, _best_val, _elapsed = train(
     train_size=len(train_ds), val_size=len(val_ds),
     device=device, metrics=metrics,
     num_epochs=NUM_EPOCHS,
-    train_gpu_transform=gpu_train_transform,
     use_amp=True
 )
 

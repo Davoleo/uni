@@ -34,13 +34,9 @@ def get_val_transforms():
         v2.ToDtype(torch.float32, scale=True)
     ])
 
-
-def get_cpu_train_transform():
-    return v2.ToImage()
-
-
-def get_gpu_train_transform(degraded=False):
+def get_train_transforms(degraded=False):
     steps = [
+        v2.ToImage(),
         v2.RandomHorizontalFlip(),
         v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
     ]
@@ -119,7 +115,8 @@ def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, va
                 running_corrects = torch.tensor(0, device=device)
 
                 for inputs, labels in dataloader:
-                    inputs = inputs.to(device, non_blocking=True)
+                    # memory_format = torch.channels_last (helps for rocm optimization)
+                    inputs = inputs.to(device, non_blocking=True, memory_format=torch.channels_last)
                     labels = labels.to(device, non_blocking=True)
                     if phase == 'train' and train_gpu_transform is not None:
                         inputs = train_gpu_transform(inputs)
