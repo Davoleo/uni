@@ -333,3 +333,14 @@ Best Val Accuracy: 0.780000
 
 Clean Test Set results: F1-Score: 0.8070, Accuracy: 81.8660, Top-3 Acc: 91.6166, Top-5 Acc: 94.2007
 Degraded Test Set Results: F1-Score: 0.6673, Accuracy: 67.1575, Top-3 Acc: 84.7055, Top-5 Acc: 88.5517
+======================================================
+v2.12_scale_up_model
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.4869, Accuracy: 0.8548
+[val] Loss: 1.5571, Accuracy: 0.8000
+Training time: 35mins 44secs
+Best Val Accuracy: 0.806000
+
+Clean Test Set results: F1-Score: 0.8524, Accuracy: 85.5769, Top-3 Acc: 94.2007, Top-5 Acc: 96.9351
+Degraded Test Set Results: F1-Score: 0.7305, Accuracy: 73.3474, Top-3 Acc: 87.3347, Top-5 Acc: 91.3762

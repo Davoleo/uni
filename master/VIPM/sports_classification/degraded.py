@@ -17,7 +17,7 @@ from torchinfo import summary
 from torchvision import datasets
 from torchvision.transforms import v2
 
-from project_models import Baseline2
+from project_models import Baseline3
 from project_utils import get_device, get_val_transforms, get_train_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
@@ -52,8 +52,7 @@ metrics = {
 
 device = get_device()
 
-# memory_format = torch.channels_last (helps for rocm optimization)
-model = Baseline2().to(device, memory_format=torch.channels_last) # type: ignore
+model = Baseline3().to(device)
 summary(model)
 
 loss_fn = nn.CrossEntropyLoss(label_smoothing=0.1)

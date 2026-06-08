@@ -115,8 +115,7 @@ def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, va
                 running_corrects = torch.tensor(0, device=device)
 
                 for inputs, labels in dataloader:
-                    # memory_format = torch.channels_last (helps for rocm optimization)
-                    inputs = inputs.to(device, non_blocking=True, memory_format=torch.channels_last)
+                    inputs = inputs.to(device, non_blocking=True)
                     labels = labels.to(device, non_blocking=True)
                     if phase == 'train' and train_gpu_transform is not None:
                         inputs = train_gpu_transform(inputs)
