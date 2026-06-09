@@ -86,3 +86,18 @@ class TestExtractDenseSift:
         d8 = task3.extract_dense_sift(img, step=8)
         d16 = task3.extract_dense_sift(img, step=16)
         assert d8.shape[0] > d16.shape[0]
+
+
+class TestBuildCodebook:
+    def test_cluster_centers_shape(self):
+        descs = make_descs(2000)
+        kmeans = task3.build_codebook(descs, K=50)
+        assert kmeans.cluster_centers_.shape == (50, 128)
+
+    def test_predict_returns_valid_indices(self):
+        descs = make_descs(2000)
+        kmeans = task3.build_codebook(descs, K=50)
+        words = kmeans.predict(make_descs(10, seed=1))
+        assert words.shape == (10,)
+        assert words.min() >= 0
+        assert words.max() < 50
