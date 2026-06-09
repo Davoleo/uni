@@ -208,6 +208,7 @@ Best Val Accuracy: 0.760000
 
 Test Set results: F1-Score: 0.7750, Accuracy: 78.5156, Top-3 Acc: 91.3311, Top-5 Acc: 94.9369
 Degraded Test Set results: 0.6113, Accuracy: 61.9742, Top-3 Acc: 81.2951, Top-5 Acc: 86.8990
+
 ======================================================
 v2.2_jitter_param_tuning:
 - Team colors are often discriminative features — hue=0.1 can shift red jerseys toward orange dropped to 0.05
@@ -222,6 +223,7 @@ Best Val Accuracy: 0.836000
 Clean Test Set results: F1-Score: 0.8428, Accuracy: 85.0811, Top-3 Acc: 94.3960, Top-5 Acc: 96.5445
 
 Degraded Test Set Results: F1-Score: 0.6681, Accuracy: 66.8570, Top-3 Acc: 82.6472, Top-5 Acc: 88.5367
+
 ======================================================
 v2.3_jitter_param_tuning
 Epoch progress: 80/80
@@ -280,7 +282,7 @@ Clean Test Set results: F1-Score: 0.7383, Accuracy: 75.7362, Top-3 Acc: 88.6869,
 Degraded Test Set Results: F1-Score: 0.6506, Accuracy: 66.2260, Top-3 Acc: 82.9327, Top-5 Acc: 87.8606
 ======================================================
 v2.7_label_smoothing: Results: slight improvements over v2.3, avoid overconfidence on clean features like color cues. some confusion between variants of sports still remains.
-Epoch progress: 80/80	[renewed with more GPU Offloading that's why results a re a lot higher than 2.3]
+Epoch progress: 80/80	[renewed with more GPU Offloading that's why results are a lot higher than 2.3]
 --------------------
 [train] Loss: 1.4219, Accuracy: 0.8729
 [val] Loss: 1.6898, Accuracy: 0.7560
@@ -323,6 +325,31 @@ Best Val Accuracy: 0.794000
 Clean Test Set results: evaluation failed
 Degraded Test Set Results: evaluation failed
 ======================================================
+
+v2.7_label_smoothing [on RX6950xt]
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.4173, Accuracy: 0.8775
+[val] Loss: 1.5442, Accuracy: 0.8100
+Training time: 16mins 41secs
+Best Val Accuracy: 0.820000
+
+Clean Test Set results: F1-Score: 0.8090, Accuracy: 81.7308, Top-3 Acc: 92.0222, Top-5 Acc: 95.2374
+Degraded Test Set Results: F1-Score: 0.6922, Accuracy: 69.6965, Top-3 Acc: 84.7506, Top-5 Acc: 89.1376
+======================================================
+
+v2.11_autocontrast_and_grayscale
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.4533, Accuracy: 0.8665
+[val] Loss: 1.5419, Accuracy: 0.8280
+Training time: 17mins 42secs
+Best Val Accuracy: 0.830000
+
+Clean Test Set results: F1-Score: 0.8345, Accuracy: 84.3600, Top-3 Acc: 93.7200, Top-5 Acc: 95.9135
+Degraded Test Set Results: F1-Score: 0.6980, Accuracy: 70.7632, Top-3 Acc: 86.3131, Top-5 Acc: 89.7236
+======================================================
+
 v2.11_batch_size_128
 Epoch progress: 80/80
 --------------------
@@ -333,6 +360,10 @@ Best Val Accuracy: 0.780000
 
 Clean Test Set results: F1-Score: 0.8070, Accuracy: 81.8660, Top-3 Acc: 91.6166, Top-5 Acc: 94.2007
 Degraded Test Set Results: F1-Score: 0.6673, Accuracy: 67.1575, Top-3 Acc: 84.7055, Top-5 Acc: 88.5517
+
+======================================================
+TTA enabled [REVERTED]
+
 ======================================================
 v2.12_scale_up_model
 Epoch progress: 80/80
@@ -346,6 +377,18 @@ Clean Test Set results: F1-Score: 0.8524, Accuracy: 85.5769, Top-3 Acc: 94.2007,
 Degraded Test Set Results: F1-Score: 0.7305, Accuracy: 73.3474, Top-3 Acc: 87.3347, Top-5 Acc: 91.3762
 
 ======================================================
+v2.12_scale_up_model_rx6950xt
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.4773, Accuracy: 0.8612
+[val] Loss: 1.6135, Accuracy: 0.7920
+Training time: 38mins 16secs
+Best Val Accuracy: 0.820000
+
+Clean Test Set results: F1-Score: 0.8393, Accuracy: 84.2999, Top-3 Acc: 93.6148, Top-5 Acc: 95.7632
+Degraded Test Set Results: F1-Score: 0.7376, Accuracy: 74.0084, Top-3 Acc: 87.6202, Top-5 Acc: 91.2260
+
+======================================================
 v2.13_b3_random_erasing [REVERTED]: unfortunately it still isn't good to approximate clipped black images.
 Epoch progress: 80/80
 --------------------
@@ -356,3 +399,9 @@ Best Val Accuracy: 0.816000
 
 Clean Test Set results: F1-Score: 0.8234, Accuracy: 83.6689, Top-3 Acc: 93.7650, Top-5 Acc: 96.5895
 Degraded Test Set Results: F1-Score: 0.6902, Accuracy: 69.4411, Top-3 Acc: 86.2530, Top-5 Acc: 90.3546
+
+======================================================
+Task3 BoVW+SPM (K=500, step=8, levels=[0,1,2], LinearSVC C=1.0)
+CV accuracy (5-fold): 0.1840 ± 0.0258
+Clean Test    — Accuracy: 0.2580  F1: 0.2314
+Degraded Test — Accuracy: 0.2260  F1: 0.2089
