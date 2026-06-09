@@ -344,3 +344,15 @@ Best Val Accuracy: 0.806000
 
 Clean Test Set results: F1-Score: 0.8524, Accuracy: 85.5769, Top-3 Acc: 94.2007, Top-5 Acc: 96.9351
 Degraded Test Set Results: F1-Score: 0.7305, Accuracy: 73.3474, Top-3 Acc: 87.3347, Top-5 Acc: 91.3762
+
+======================================================
+v2.13_b3_random_erasing [REVERTED]: unfortunately it still isn't good to approximate clipped black images.
+Epoch progress: 80/80
+--------------------
+[train] Loss: 1.6041, Accuracy: 0.8111
+[val] Loss: 1.6937, Accuracy: 0.7700
+Training time: 28mins 12secs
+Best Val Accuracy: 0.816000
+
+Clean Test Set results: F1-Score: 0.8234, Accuracy: 83.6689, Top-3 Acc: 93.7650, Top-5 Acc: 96.5895
+Degraded Test Set Results: F1-Score: 0.6902, Accuracy: 69.4411, Top-3 Acc: 86.2530, Top-5 Acc: 90.3546

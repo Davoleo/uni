@@ -6,7 +6,7 @@ from sklearn.metrics import f1_score
 from torchvision import datasets
 from torchvision.transforms import v2
 
-from project_models import Baseline2
+from project_models import Baseline3 as Baseline
 from project_transforms import *
 from project_utils import get_device, topk_accuracy
 
@@ -42,7 +42,7 @@ print(test_dir, )
 test_ds = datasets.ImageFolder(test_dir, transform=transform)
 loader = torch.utils.data.DataLoader(test_ds, batch_size=64)
 
-model = Baseline2()
+model = Baseline()
 model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True, map_location=device))
 model.to(device)
 model.eval()

@@ -1,7 +1,7 @@
 """
 Task 2: Classification on the degraded test set.
 Approaches:
-  A) Unsupervised image enhancement at inference time (see evaluate.py --test-dir)
+  A) Unsupervised image enhancement at inference time (see evaluate.py --enhance)
   B) Training with degradation-aware data augmentation (transforms extended below)
 """
 
@@ -22,7 +22,7 @@ from project_utils import get_device, get_val_transforms, get_train_transforms, 
 
 SEED = 42
 NUM_EPOCHS = 80
-BATCH_SIZE = 256
+BATCH_SIZE = 128
 
 plt.ion()
 
@@ -74,7 +74,7 @@ model, _best_val, _elapsed = train(
     device=device, metrics=metrics,
     num_epochs=NUM_EPOCHS,
 #    scheduler=scheduler,
-	use_amp=True
+	use_amp=False
 )
 
 plot_performance(metrics, os.path.join('models', f'{args.name}.png'))
