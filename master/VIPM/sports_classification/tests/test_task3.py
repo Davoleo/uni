@@ -149,3 +149,29 @@ class TestTrainClassifier:
         clf, _ = task3.train_classifier(X, y, C=1.0)
         preds = clf.predict(X[:5])
         assert preds.shape == (5,)
+
+
+class TestEvaluate:
+    def _fitted_clf(self):
+        rng = np.random.default_rng(0)
+        X = rng.random((100, 50)).astype(np.float32)
+        y = np.repeat(np.arange(10), 10)
+        clf, _ = task3.train_classifier(X, y, C=1.0)
+        return clf, X, y
+
+    def test_returns_accuracy_and_f1(self):
+        clf, X, y = self._fitted_clf()
+        m = task3.evaluate(clf, X, y, [str(i) for i in range(10)])
+        assert 'accuracy' in m and 'f1' in m
+        assert 0.0 <= m['accuracy'] <= 1.0
+        assert 0.0 <= m['f1'] <= 1.0
+
+    def test_predictions_shape(self):
+        clf, X, y = self._fitted_clf()
+        m = task3.evaluate(clf, X, y, [str(i) for i in range(10)])
+        assert m['predictions'].shape == (100,)
+
+    def test_confusion_matrix_shape(self):
+        clf, X, y = self._fitted_clf()
+        m = task3.evaluate(clf, X, y, [str(i) for i in range(10)])
+        assert m['confusion_matrix'].shape == (10, 10)
