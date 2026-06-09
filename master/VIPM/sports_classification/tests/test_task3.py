@@ -62,3 +62,27 @@ class TestLoadImage:
         result = task3.load_image(p)
         assert result.shape == (224, 224)
         assert result.dtype == np.uint8
+
+
+class TestExtractDenseSift:
+    def test_returns_2d_float32_array(self):
+        img = make_gray()
+        descs = task3.extract_dense_sift(img, step=8)
+        assert descs.ndim == 2
+        assert descs.dtype == np.float32
+
+    def test_descriptor_dim_is_128(self):
+        img = make_gray()
+        descs = task3.extract_dense_sift(img, step=8)
+        assert descs.shape[1] == 128
+
+    def test_keypoint_count_matches_grid(self):
+        img = make_gray(224, 224)
+        descs = task3.extract_dense_sift(img, step=8)
+        assert descs.shape[0] == 784
+
+    def test_larger_step_gives_fewer_descriptors(self):
+        img = make_gray(224, 224)
+        d8 = task3.extract_dense_sift(img, step=8)
+        d16 = task3.extract_dense_sift(img, step=16)
+        assert d8.shape[0] > d16.shape[0]

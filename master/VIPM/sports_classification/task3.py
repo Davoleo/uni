@@ -58,3 +58,13 @@ def load_image(path, size=IMG_SIZE):
     img = cv2.imread(path)
     img = cv2.resize(img, (size, size))
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+
+def extract_dense_sift(img_gray, step=SIFT_STEP):
+    H, W = img_gray.shape
+    kps = [cv2.KeyPoint(float(x), float(y), float(step))
+           for y in range(0, H, step)
+           for x in range(0, W, step)]
+    sift = cv2.SIFT_create()
+    _, descs = sift.compute(img_gray, kps)
+    return descs  # (N, 128), float32
