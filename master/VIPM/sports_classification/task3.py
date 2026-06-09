@@ -68,3 +68,11 @@ def extract_dense_sift(img_gray, step=SIFT_STEP):
     sift = cv2.SIFT_create()
     _, descs = sift.compute(img_gray, kps)
     return descs  # (N, 128), float32
+
+
+def build_codebook(all_descriptors, K=CODEBOOK_SIZE):
+    kmeans = MiniBatchKMeans(
+        n_clusters=K, batch_size=4096, random_state=42, n_init=3
+    )
+    kmeans.fit(all_descriptors)
+    return kmeans
