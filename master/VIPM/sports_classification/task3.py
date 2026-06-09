@@ -116,3 +116,39 @@ def train_classifier(X, y, C=1.0):
     scores = cross_val_score(clf, X, y, cv=cv, scoring='accuracy')
     clf.fit(X, y)
     return clf, scores
+
+
+def evaluate(clf, X, y, class_names):
+    preds = clf.predict(X)
+    return {
+        'accuracy': accuracy_score(y, preds),
+        'f1': f1_score(y, preds, average='macro', zero_division=0),
+        'predictions': preds,
+        'confusion_matrix': confusion_matrix(y, preds),
+    }
+
+
+def save_confusion_matrix(cm, class_names, save_path):
+    fig, ax = plt.subplots(figsize=(20, 20))
+    im = ax.imshow(cm, interpolation='nearest', cmap='Blues')
+    plt.colorbar(im, ax=ax)
+    ax.set_xlabel('Predicted')
+    ax.set_ylabel('True')
+    ax.set_title('Confusion Matrix — Task 3 BoVW+SPM')
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=100)
+    plt.close()
+
+
+def log_results(tag, clean_metrics, degraded_metrics, cv_scores):
+    lines = [
+        "\n======================================================",
+        tag,
+        f"CV accuracy (5-fold): {cv_scores.mean():.4f} ± {cv_scores.std():.4f}",
+        f"Clean Test    — Accuracy: {clean_metrics['accuracy']:.4f}  "
+        f"F1: {clean_metrics['f1']:.4f}",
+        f"Degraded Test — Accuracy: {degraded_metrics['accuracy']:.4f}  "
+        f"F1: {degraded_metrics['f1']:.4f}",
+    ]
+    with open('iterations.log', 'a') as f:
+        f.write('\n'.join(lines) + '\n')
