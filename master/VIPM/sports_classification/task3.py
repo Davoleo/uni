@@ -108,3 +108,11 @@ def encode_spm(img_gray, kmeans, K=CODEBOOK_SIZE, step=SIFT_STEP, levels=SPM_LEV
 
     feature = np.concatenate(parts)
     return feature / (np.linalg.norm(feature) + 1e-8)
+
+
+def train_classifier(X, y, C=1.0):
+    clf = LinearSVC(C=C, max_iter=2000, random_state=42)
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    scores = cross_val_score(clf, X, y, cv=cv, scoring='accuracy')
+    clf.fit(X, y)
+    return clf, scores

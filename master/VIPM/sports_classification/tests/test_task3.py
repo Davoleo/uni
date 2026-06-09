@@ -124,3 +124,28 @@ class TestEncodeSpm:
     def test_feature_is_non_negative(self):
         feat = task3.encode_spm(make_gray(), self.kmeans, K=self.K)
         assert (feat >= 0).all()
+
+
+class TestTrainClassifier:
+    def _make_data(self, n_classes=10, n_per_class=10, n_features=50):
+        rng = np.random.default_rng(0)
+        X = rng.random((n_classes * n_per_class, n_features)).astype(np.float32)
+        y = np.repeat(np.arange(n_classes), n_per_class)
+        return X, y
+
+    def test_returns_clf_and_five_cv_scores(self):
+        X, y = self._make_data()
+        clf, scores = task3.train_classifier(X, y, C=1.0)
+        assert scores.shape == (5,)
+        assert hasattr(clf, 'predict')
+
+    def test_cv_scores_in_valid_range(self):
+        X, y = self._make_data()
+        _, scores = task3.train_classifier(X, y, C=1.0)
+        assert (scores >= 0.0).all() and (scores <= 1.0).all()
+
+    def test_clf_predicts_correct_shape(self):
+        X, y = self._make_data()
+        clf, _ = task3.train_classifier(X, y, C=1.0)
+        preds = clf.predict(X[:5])
+        assert preds.shape == (5,)
