@@ -139,10 +139,11 @@ class TestTrainClassifier:
         assert scores.shape == (5,)
         assert hasattr(clf, 'predict')
 
-    def test_cv_scores_in_valid_range(self):
+    def test_clf_is_fitted_on_full_data(self):
         X, y = self._make_data()
-        _, scores = task3.train_classifier(X, y, C=1.0)
-        assert (scores >= 0.0).all() and (scores <= 1.0).all()
+        clf, _ = task3.train_classifier(X, y, C=1.0)
+        assert hasattr(clf, 'coef_')
+        assert clf.coef_.shape[1] == X.shape[1]
 
     def test_clf_predicts_correct_shape(self):
         X, y = self._make_data()
@@ -175,3 +176,25 @@ class TestEvaluate:
         clf, X, y = self._fitted_clf()
         m = task3.evaluate(clf, X, y, [str(i) for i in range(10)])
         assert m['confusion_matrix'].shape == (10, 10)
+
+
+class TestSaveConfusionMatrix:
+    def test_creates_png_file(self, tmp_path):
+        cm = np.zeros((3, 3), dtype=int)
+        cm[0, 0] = 5
+        out = str(tmp_path / "cm.png")
+        task3.save_confusion_matrix(cm, ['a', 'b', 'c'], out)
+        assert os.path.isfile(out)
+        assert os.path.getsize(out) > 0
+
+
+class TestLogResults:
+    def test_appends_to_log(self, tmp_path, monkeypatch):
+        monkeypatch.chdir(tmp_path)
+        scores = np.array([0.5, 0.6, 0.55, 0.58, 0.52])
+        clean = {'accuracy': 0.55, 'f1': 0.54}
+        degraded = {'accuracy': 0.40, 'f1': 0.38}
+        task3.log_results('test-tag', clean, degraded, scores)
+        log = (tmp_path / 'iterations.log').read_text()
+        assert 'test-tag' in log
+        assert 'CV accuracy' in log
