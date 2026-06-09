@@ -16,3 +16,49 @@ def make_gray(H=224, W=224, seed=0):
 def make_descs(n=1000, seed=0):
     rng = np.random.default_rng(seed)
     return rng.random((n, 128)).astype(np.float32)
+
+
+class TestLoadDataset:
+    def test_returns_three_elements(self, tmp_path):
+        for cls in ['alpha', 'beta', 'gamma']:
+            d = tmp_path / cls
+            d.mkdir()
+            for i in range(2):
+                img = np.zeros((10, 10, 3), dtype=np.uint8)
+                import cv2
+                cv2.imwrite(str(d / f"{i}.jpg"), img)
+        paths, labels, class_names = task3.load_dataset(str(tmp_path))
+        assert len(paths) == 6
+        assert len(labels) == 6
+        assert len(class_names) == 3
+
+    def test_labels_are_contiguous_ints(self, tmp_path):
+        for cls in ['aaa', 'bbb']:
+            d = tmp_path / cls
+            d.mkdir()
+            img = np.zeros((10, 10, 3), dtype=np.uint8)
+            import cv2
+            cv2.imwrite(str(d / "0.jpg"), img)
+        _, labels, _ = task3.load_dataset(str(tmp_path))
+        assert set(labels) == {0, 1}
+
+    def test_class_names_are_sorted(self, tmp_path):
+        for cls in ['zzz', 'aaa', 'mmm']:
+            d = tmp_path / cls
+            d.mkdir()
+            img = np.zeros((10, 10, 3), dtype=np.uint8)
+            import cv2
+            cv2.imwrite(str(d / "0.jpg"), img)
+        _, _, class_names = task3.load_dataset(str(tmp_path))
+        assert class_names == ['aaa', 'mmm', 'zzz']
+
+
+class TestLoadImage:
+    def test_returns_grayscale_224x224(self, tmp_path):
+        import cv2
+        img = np.zeros((100, 150, 3), dtype=np.uint8)
+        p = str(tmp_path / "test.jpg")
+        cv2.imwrite(p, img)
+        result = task3.load_image(p)
+        assert result.shape == (224, 224)
+        assert result.dtype == np.uint8

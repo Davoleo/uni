@@ -16,3 +16,45 @@ SIFT_STEP = 8
 CODEBOOK_SIZE = 500
 SPM_LEVELS = [0, 1, 2]
 SPM_WEIGHTS = {0: 0.25, 1: 0.25, 2: 0.5}
+
+
+def load_dataset(split_dir):
+    """
+    Load image paths and labels from a directory structure.
+
+    Args:
+        split_dir: Path to directory containing class subfolders
+
+    Returns:
+        paths: List of image file paths
+        labels: List of integer labels (0-indexed, contiguous)
+        class_names: List of sorted class names
+    """
+    class_names = sorted(
+        d for d in os.listdir(split_dir)
+        if os.path.isdir(os.path.join(split_dir, d))
+    )
+    paths, labels = [], []
+    for idx, cls in enumerate(class_names):
+        cls_dir = os.path.join(split_dir, cls)
+        for fname in sorted(os.listdir(cls_dir)):
+            if fname.lower().endswith(('.jpg', '.jpeg', '.png')):
+                paths.append(os.path.join(cls_dir, fname))
+                labels.append(idx)
+    return paths, labels, class_names
+
+
+def load_image(path, size=IMG_SIZE):
+    """
+    Load and preprocess an image.
+
+    Args:
+        path: Path to image file
+        size: Target image size (default: IMG_SIZE=224)
+
+    Returns:
+        Grayscale image resized to (size, size) as uint8
+    """
+    img = cv2.imread(path)
+    img = cv2.resize(img, (size, size))
+    return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
