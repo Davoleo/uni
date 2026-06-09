@@ -1,0 +1,18 @@
+# Compilazione LaTeX
+*.aux
+*.log
+*.out
+*.toc
+*.nav
+*.snm
+*.vrb
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.synctex(busy)
+
+# Biber / BibLaTeX
+*.bbl
+*.bcf
+*.blg
+*.run.xml
