@@ -101,3 +101,26 @@ class TestBuildCodebook:
         assert words.shape == (10,)
         assert words.min() >= 0
         assert words.max() < 50
+
+
+class TestEncodeSpm:
+    def setup_method(self):
+        self.K = 50
+        self.kmeans = task3.build_codebook(make_descs(5000), K=self.K)
+
+    def test_output_shape_is_k_times_21(self):
+        feat = task3.encode_spm(make_gray(), self.kmeans, K=self.K)
+        assert feat.shape == (self.K * 21,)
+
+    def test_output_is_l2_normalized(self):
+        feat = task3.encode_spm(make_gray(), self.kmeans, K=self.K)
+        assert abs(np.linalg.norm(feat) - 1.0) < 1e-5
+
+    def test_different_images_differ(self):
+        f1 = task3.encode_spm(make_gray(seed=0), self.kmeans, K=self.K)
+        f2 = task3.encode_spm(make_gray(seed=99), self.kmeans, K=self.K)
+        assert not np.allclose(f1, f2)
+
+    def test_feature_is_non_negative(self):
+        feat = task3.encode_spm(make_gray(), self.kmeans, K=self.K)
+        assert (feat >= 0).all()

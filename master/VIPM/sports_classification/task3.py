@@ -76,3 +76,35 @@ def build_codebook(all_descriptors, K=CODEBOOK_SIZE):
     )
     kmeans.fit(all_descriptors)
     return kmeans
+
+
+def encode_spm(img_gray, kmeans, K=CODEBOOK_SIZE, step=SIFT_STEP, levels=SPM_LEVELS):
+    H, W = img_gray.shape
+    kps = [cv2.KeyPoint(float(x), float(y), float(step))
+           for y in range(0, H, step)
+           for x in range(0, W, step)]
+    sift = cv2.SIFT_create()
+    _, descs = sift.compute(img_gray, kps)
+    words = kmeans.predict(descs)
+    kp_xy = np.array([(kp.pt[0], kp.pt[1]) for kp in kps])  # (N, 2)
+
+    parts = []
+    for level in levels:
+        n_cells = 2 ** level
+        w = SPM_WEIGHTS[level]
+        cell_w = W / n_cells
+        cell_h = H / n_cells
+        for ci in range(n_cells):       # row
+            for cj in range(n_cells):   # col
+                mask = (
+                    (kp_xy[:, 0] >= cj * cell_w) &
+                    (kp_xy[:, 0] < (cj + 1) * cell_w) &
+                    (kp_xy[:, 1] >= ci * cell_h) &
+                    (kp_xy[:, 1] < (ci + 1) * cell_h)
+                )
+                hist = np.bincount(words[mask], minlength=K).astype(np.float32)
+                hist /= (hist.sum() + 1e-8)
+                parts.append(w * hist)
+
+    feature = np.concatenate(parts)
+    return feature / (np.linalg.norm(feature) + 1e-8)
