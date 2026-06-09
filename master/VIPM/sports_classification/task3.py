@@ -157,3 +157,87 @@ def log_results(tag, clean_metrics, degraded_metrics, cv_scores):
     ]
     with open('iterations.log', 'a') as f:
         f.write('\n'.join(lines) + '\n')
+
+
+def main():
+    import time
+
+    DATA_DIR = 'data'
+    MODELS_DIR = 'models'
+    K = CODEBOOK_SIZE
+
+    # 1. Load validation set (Task 3 training data)
+    print("Loading validation set...")
+    val_paths, val_labels, class_names = load_dataset(os.path.join(DATA_DIR, 'valid'))
+    print(f"  {len(val_paths)} images, {len(class_names)} classes")
+
+    # 2. Extract dense SIFT from all validation images
+    print("Extracting dense SIFT descriptors from validation set...")
+    all_descs, val_grays = [], []
+    for path in val_paths:
+        img = load_image(path)
+        val_grays.append(img)
+        all_descs.append(extract_dense_sift(img))
+    all_descs_flat = np.vstack(all_descs)
+    print(f"  Total descriptors: {all_descs_flat.shape[0]}")
+
+    # 3. Build codebook
+    print(f"Building codebook (K={K})...")
+    t0 = time.time()
+    kmeans = build_codebook(all_descs_flat, K=K)
+    print(f"  Done in {time.time() - t0:.1f}s")
+
+    # 4. Encode validation images with SPM
+    print("Encoding validation images (SPM)...")
+    X_val = np.array([encode_spm(img, kmeans, K) for img in val_grays])
+    y_val = np.array(val_labels)
+
+    # 5. Train SVM with cross-validation
+    print("Training LinearSVC (5-fold CV)...")
+    clf, cv_scores = train_classifier(X_val, y_val, C=1.0)
+    print(f"  CV accuracy: {cv_scores.mean():.4f} ± {cv_scores.std():.4f}")
+
+    # 6. Save models
+    os.makedirs(MODELS_DIR, exist_ok=True)
+    with open(os.path.join(MODELS_DIR, 'task3_codebook.pkl'), 'wb') as f:
+        pickle.dump(kmeans, f)
+    with open(os.path.join(MODELS_DIR, 'task3_svm.pkl'), 'wb') as f:
+        pickle.dump(clf, f)
+    print("Models saved to models/")
+
+    # 7. Evaluate on clean test set
+    print("Evaluating on clean test set...")
+    test_paths, test_labels, _ = load_dataset(os.path.join(DATA_DIR, 'test'))
+    X_test = np.array([encode_spm(load_image(p), kmeans, K) for p in test_paths])
+    y_test = np.array(test_labels)
+    clean_m = evaluate(clf, X_test, y_test, class_names)
+    print(f"  Accuracy: {clean_m['accuracy']:.4f}   F1: {clean_m['f1']:.4f}")
+
+    # 8. Evaluate on degraded test set
+    print("Evaluating on degraded test set...")
+    deg_paths, deg_labels, _ = load_dataset(os.path.join(DATA_DIR, 'test_degradato'))
+    X_deg = np.array([encode_spm(load_image(p), kmeans, K) for p in deg_paths])
+    y_deg = np.array(deg_labels)
+    deg_m = evaluate(clf, X_deg, y_deg, class_names)
+    print(f"  Accuracy: {deg_m['accuracy']:.4f}   F1: {deg_m['f1']:.4f}")
+
+    # 9. Save confusion matrices
+    save_confusion_matrix(
+        clean_m['confusion_matrix'], class_names,
+        os.path.join(MODELS_DIR, 'task3_confusion_clean.png')
+    )
+    save_confusion_matrix(
+        deg_m['confusion_matrix'], class_names,
+        os.path.join(MODELS_DIR, 'task3_confusion_degraded.png')
+    )
+
+    # 10. Log results
+    log_results(
+        'Task3 BoVW+SPM (K=500, step=8, levels=[0,1,2], LinearSVC C=1.0)',
+        clean_m, deg_m, cv_scores
+    )
+    print("Results logged to iterations.log")
+
+
+if __name__ == '__main__':
+    main()
