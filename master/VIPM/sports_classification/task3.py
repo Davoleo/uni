@@ -1,6 +1,7 @@
 # task3.py
 import os
 import pickle
+import time
 import numpy as np
 import cv2
 from sklearn.cluster import MiniBatchKMeans
@@ -56,6 +57,8 @@ def load_image(path, size=IMG_SIZE):
         Grayscale image resized to (size, size) as uint8
     """
     img = cv2.imread(path)
+    if img is None:
+        raise FileNotFoundError(f"Could not read image: {path}")
     img = cv2.resize(img, (size, size))
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -160,8 +163,6 @@ def log_results(tag, clean_metrics, degraded_metrics, cv_scores):
 
 
 def main():
-    import time
-
     DATA_DIR = 'data'
     MODELS_DIR = 'models'
     K = CODEBOOK_SIZE
