@@ -42,6 +42,8 @@ master/VIPM/sports_classification/data/*
 !master/VIPM/sports_classification/data/sports_labels.csv
 # final project: model parameters
 master/VIPM/sports_classification/models/*.pt
+# final project: MIOPEN cache
+master/VIPM/sports_classification/models/miopen_conv_cache.udb
 
 # ------------- Visual studio Solutions ----------
 # IG
