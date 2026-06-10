@@ -60,6 +60,8 @@ optimizer_ft = optim.Adam(model.parameters(), lr=1e-3)
 
 #scheduler = lr_scheduler.CosineAnnealingWarmRestarts(optimizer_ft, T_0=20, T_mult=2, eta_min=1e-6)
 
+# Set algo MIOPEN cudnn benchmark cache env var
+os.environ['MIOPEN_USER_DB_PATH'] = os.path.join('models', 'miopen_conv_cache.udb')
 # free optimization for fixed-size inputs
 torch.backends.cudnn.benchmark = True
 
