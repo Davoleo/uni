@@ -1,6 +1,9 @@
 \documentclass{beamer}
 \usetheme{Berlin}
 
+\usepackage[backend=biber, style=numeric]{biblatex}
+\addbibresource{references.bib}
+
 \title{Sports Classification}
 \subtitle{Dataset Analysis \& Model Evaluation}
 \author{Gabriele Moisè, Leonardo Davoli}
@@ -17,49 +20,14 @@
   \tableofcontents
 \end{frame}
 
-\section{Dataset}
-\begin{frame}{Dataset Overview}
-  \begin{itemize}
-    \item Sorgente e dimensioni
-    \item Classi e distribuzione
-    \item Feature principali
-  \end{itemize}
-\end{frame}
+\input{dataset_and_tools}
+\input{task1}
+\input{task2}
+\input{task3}
 
-\section{Task 1}
-\begin{frame}{Preprocessing}
-  \begin{itemize}
-    \item Gestione valori mancanti
-    \item Normalizzazione / encoding
-    \item Train/val/test split
-  \end{itemize}
-\end{frame}
-
-\section{Task 2}
-\begin{frame}{Model Architecture}
-  \begin{block}{Scelta del modello}
-    Descrizione del modello usato.
-  \end{block}
-\end{frame}
-
-\section{Task 3}
-\begin{frame}{Results}
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      Confusion matrix qui
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      Metriche qui
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Conclusions}
-  \begin{itemize}
-    \item Risultati principali
-    \item Limiti
-    \item Sviluppi futuri
-  \end{itemize}
+\begin{frame}[allowframebreaks]{References}
+  \nocite{*}
+  \printbibliography
 \end{frame}
 
 \end{document}
