@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Monitoring : MonoBehaviour
 {
-    private const float MonitoringDist = 15;
+    private const float MonitoringDist = 12;
     
     private Camera securityCamera;
     private float prevDistance = float.PositiveInfinity;
