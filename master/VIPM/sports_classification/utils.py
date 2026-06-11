@@ -11,7 +11,7 @@ import numpy as np
 import torch
 from torchvision.transforms import v2
 
-from project_transforms import JPEGCompression
+from transforms import JPEGCompression
 
 
 def get_device() -> str:

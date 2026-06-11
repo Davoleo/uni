@@ -17,8 +17,8 @@ from torchinfo import summary
 from torchvision import datasets
 from torchvision.transforms import v2
 
-from project_models import Baseline3
-from project_utils import get_device, get_val_transforms, get_train_transforms, plot_performance, seed_everything, train, write_training_log
+from models import Baseline3
+from utils import get_device, get_val_transforms, get_train_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
 NUM_EPOCHS = 80
