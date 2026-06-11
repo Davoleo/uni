@@ -6,9 +6,9 @@ from sklearn.metrics import f1_score
 from torchvision import datasets
 from torchvision.transforms import v2
 
-from project_models import Baseline3 as Baseline
-from project_transforms import *
-from project_utils import get_device, topk_accuracy
+from models import Baseline3 as Baseline
+from transforms import *
+from utils import get_device, topk_accuracy
 
 ENHANCEMENTS = {
     'wb': WhiteBalance(algorithm=WBAlgorithm.WHITE_PATCH),

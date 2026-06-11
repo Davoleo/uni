@@ -1,6 +1,6 @@
 from torchvision import transforms
 
-from project_transforms import *
+from transforms import *
 
 composed = transforms.Compose([
     WhiteBalance(WBAlgorithm.GRAY_WORLD),
