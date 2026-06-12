@@ -8,7 +8,7 @@ from torchvision.transforms import v2
 
 from models import Baseline3 as Baseline
 from transforms import *
-from utils import get_device, topk_accuracy
+from utils import get_device, topk_accuracy, predict_tta
 
 ENHANCEMENTS = {
     'wb': WhiteBalance(algorithm=WBAlgorithm.WHITE_PATCH),
@@ -21,6 +21,7 @@ parser.add_argument('--name', required=True, help='Checkpoint name (loaded from 
 parser.add_argument('--degraded', action='store_true', default=False, help='Use degraded test set instead of the clean one')
 parser.add_argument('--enhance', nargs='+', default=None, choices=list(ENHANCEMENTS),
                     help='Unsupervised enhancement applied before classification')
+parser.add_argument('--tta', action='store_true', default=False, help='Evaluate against augmented Test set instead of the clean one only and average results.')
 args = parser.parse_args()
 
 device = get_device()
@@ -59,7 +60,14 @@ for k in topks:
     with torch.no_grad():
         for images, labels in loader:
             images = images.to(device)
-            outputs = model(images)
+
+            if args.tta:
+                outputs = predict_tta(model, images, tta_transforms)
+                all_accuracies.append(topk_accuracy(outputs, labels.to(device), topk=k))
+            else:
+                outputs = model(images)
+                all_accuracies.append(topk_accuracy(outputs, labels.to(device), topk=k))
+
             all_accuracies.append(topk_accuracy(outputs, labels.to(device), topk=k))
             if k == 1:
                 _, preds = torch.max(outputs, 1)
