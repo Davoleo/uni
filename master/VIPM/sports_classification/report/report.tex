@@ -1,5 +1,12 @@
 \documentclass{beamer}
-\usetheme{Berlin}
+\usetheme{Darmstadt}
+\usecolortheme{seahorse}
+
+\makeatletter
+\beamer@sb@subsectionfalse
+\makeatother
+
+% \setbeamertemplate{itemize items}[square]
 
 \usepackage[backend=biber, style=numeric]{biblatex}
 \addbibresource{references.bib}
@@ -13,12 +20,19 @@
 \begin{document}
 
 \begin{frame}
-  \titlepage
+  \titlepage\
 \end{frame}
 
 \begin{frame}{Outline}
-  \tableofcontents
+  \tableofcontents[hideallsubsections]
 \end{frame}
+
+\AtBeginSection[special star text]
+{
+  \begin{frame}{Section Outline}
+    \tableofcontents[currentsection,hideothersubsections]
+  \end{frame}
+}
 
 \input{architecture}
 \input{task1}
@@ -27,7 +41,7 @@
 
 \begin{frame}[allowframebreaks]{References}
   \nocite{*}
-  \printbibliography
+  \printbibliography\
 \end{frame}
 
 \end{document}

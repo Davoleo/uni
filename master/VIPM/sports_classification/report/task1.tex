@@ -1,5 +1,17 @@
 \section{Task 1}
 \makeatletter\def\@currentlabel{Task 1}\makeatother\label{sec:task1}
+
+\subsection{Overview}
+\begin{frame}{Overview}
+  \begin{block}{Prompt}
+    Classification of a dataset with 100 classes of different sports, on the clean test set.
+  \end{block}
+  \vspace{\baselineskip}
+  The sheer number of classes and different variants of sports required us to make use of moderate augmnentation even in this task,
+  to generate enough data samples to allow the model to learn correctly while trying to avoid overfitting and class confusion.
+\end{frame}
+
+\subsection{Model}
 \begin{frame}{Model}
   \begin{itemize}
     \item Gestione valori mancanti
@@ -7,7 +19,7 @@
     \item Train/val/test split
   \end{itemize}
 \end{frame}
-
+\subsection{Augmentation Techniques}
 \begin{frame}{Augmentation Techniques}
   \begin{itemize}
     \item Aug1
