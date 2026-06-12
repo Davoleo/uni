@@ -1,13 +1,8 @@
 \section{Architecture \& Environment}
-\begin{frame}{Architecture \& Environment}
-  \begin{itemize}
-    \item Project Architecture
-    \item Framework and Libraries
-    \item Hardware
-  \end{itemize}
-\end{frame}
 
-\begin{frame}{Project Architecture \textendash\ Source Files}
+
+\subsection{Project Architecture}
+\begin{frame}{Project Architecture}{Source Files}
   The project is organized in different \textbf{Python} scripts in the root folder, these scripts can either be \textit{entrypoints} or \textit{utility} scripts
 
   \begin{itemize}
@@ -21,7 +16,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Project Architecture \textendash\ Other Folders}
+\begin{frame}{Project Architecture}{Other Folders}
   \begin{itemize}
     \item \texttt{data}: Contains the dataset subdivided in \texttt{test, test\_degradato, train, valid} and in 100 different folders (1 per class)
     \item \texttt{docs}: Contains documentation and references about the project code and dataset.
@@ -30,6 +25,7 @@
   \end{itemize}
 \end{frame}
 
+\subsection{Libraries \& Frameworks}
 \begin{frame}{Project Libraries \& Frameworks}
   \begin{itemize}
     \item \texttt{matplotlib}: MATLAB-like plotting library
@@ -43,9 +39,13 @@
   \end{itemize}
 \end{frame}
 
+\subsection{Hardware}
 \begin{frame}{ROCm and GPUs}
-  In order to train the models we used \textbf{ROCm} (AMD's open source high performace compute library) on 2 AMD consumer cards: RX6950 \& RX9070.
-  Significant effort to setup a working environment.
+  \begin{block}{Hardware Note}
+    In order to train the models we used \textbf{ROCm} (AMD's open source high performace compute library) on 2 AMD consumer cards: RX6950 \& RX9070.
+    Significant effort to setup a working environment.
+  \end{block}
+  \pause\
 
   Final project env setup allows both CPU and GPU-accellerated conditional setups, by conditionally sourcing libraries from 3 different sources:
   \begin{itemize}
