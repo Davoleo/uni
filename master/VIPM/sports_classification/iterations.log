@@ -376,6 +376,9 @@ Best Val Accuracy: 0.806000
 Clean Test Set results: F1-Score: 0.8524, Accuracy: 85.5769, Top-3 Acc: 94.2007, Top-5 Acc: 96.9351
 Degraded Test Set Results: F1-Score: 0.7305, Accuracy: 73.3474, Top-3 Acc: 87.3347, Top-5 Acc: 91.3762
 
+TTA Clean Test Set Inference:    F1-Score: 0.8541, Accuracy: 85.8173, Top-3 Acc: 94.4411, Top-5 Acc: 98.1971
+TTA Degraded Test Set Inference: F1-Score: 0.7487, Accuracy: 74.4141, Top-3 Acc: 87.5751, Top-5 Acc: 93.1791
+
 ======================================================
 v2.12_scale_up_model_rx6950xt
 Epoch progress: 80/80

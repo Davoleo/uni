@@ -141,3 +141,13 @@ class JPEGCompression(nn.Module):
             buf.seek(0)
             compressed = Image.open(buf).convert('RGB')
         return F.to_tensor(compressed)
+    
+tta_transforms = [
+    v2.Identity(),                  # original image
+    v2.RandomHorizontalFlip(p=1.0), # flip image
+    v2.Compose([                    # simulate zooomed image
+        v2.CenterCrop(190),
+        v2.Resize(224)
+    ]),
+    v2.ColorJitter(brightness=0.1), # small brightness shifts to compensate some of the jitter
+]
