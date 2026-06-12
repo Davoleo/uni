@@ -1,5 +1,5 @@
-\section{Dataset and Tools}
-\begin{frame}{Dataset Overview}
+\section{Architecture \& Environment}
+\begin{frame}{Architecture \& Environment}
   \begin{itemize}
     \item Project Architecture
     \item Framework and Libraries
@@ -30,9 +30,27 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{ROCm and GPUs}
-  In order to train the models we used ROCm on 2 AMD consumer cards: \textbf{RX6950} \& \textbf{RX9070}.
+\begin{frame}{Project Libraries \& Frameworks}
+  \begin{itemize}
+    \item \texttt{matplotlib}: MATLAB-like plotting library
+    \item \texttt{numpy}: MATLAB-like matrices and numerical operations
+    \item \texttt{torch}: PyTorch main Machine Learning framework used
+    \item \texttt{torchvision}: Pytorch sub-library for computer vision
+    \item \texttt{torchinfo}: model summary and number of parameters
+    \item \texttt{timm}: pre-trained and famous model architectures sourcing
+    \item \texttt{scikit-learn}: some utility functions to compute metrics on inference
+    \item \texttt{opencv}: open computer vision library used in task3 to apply handcrafted feature extraciton and other operations
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{PyTorch???}
+\begin{frame}{ROCm and GPUs}
+  In order to train the models we used \textbf{ROCm} (AMD's open source high performace compute library) on 2 AMD consumer cards: RX6950 \& RX9070.
+  Significant effort to setup a working environment.
+
+  Final project env setup allows both CPU and GPU-accellerated conditional setups, by conditionally sourcing libraries from 3 different sources:
+  \begin{itemize}
+    \item \textbf{CPU}:\@ \texttt{uv sync --extra cpu}
+    \item \textbf{GPU RX6950}:\@ \texttt{uv sync --extra stable}
+    \item \textbf{GPU RX9070}:\@ \texttt{uv sync --extra nightly}
+  \end{itemize}
 \end{frame}
