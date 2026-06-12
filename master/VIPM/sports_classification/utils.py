@@ -224,3 +224,15 @@ def topk_accuracy(preds, truth, topk=1,):
     correct = correct.mul_(100/bz)  #convert into percentage
 
     return correct.item()
+
+def predict_tta(model, images, tta_transforms):
+    """
+    Averaged softmax probabilities across tta_transforms.
+    """
+    n_transf = len(tta_transforms)
+    batch = len(images)
+    # Stacking: [batch*n_transf, channels, height, width] - all augmentations are part of the same batch
+    augmented_batch = torch.cat([transf(images) for transf in tta_transforms], dim=0)
+    all_probs = model(augmented_batch).softmax(dim=1)
+    # reshapin to [n_transf, batch_size, classes] and average over transforms
+    return all_probs.view(n_transf, batch, -1).mean(dim=0)
