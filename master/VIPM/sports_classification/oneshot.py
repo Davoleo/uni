@@ -21,15 +21,24 @@ SPM_WEIGHTS = {0: 0.25, 1: 0.25, 2: 0.5}
 
 def load_dataset(split_dir):
     """
-    Load image paths and labels from a directory structure.
+    Scan a directory of class subfolders and return image paths with integer labels.
+
+    Expects the layout:
+        split_dir/
+            class_a/  img1.jpg  img2.jpg  ...
+            class_b/  img1.jpg  ...
+
+    Class names are sorted alphabetically so label indices are deterministic across
+    calls — label 0 always maps to the lexicographically first class. Non-image files
+    and nested subdirectories are silently skipped.
 
     Args:
-        split_dir: Path to directory containing class subfolders
+        split_dir: Path to the split root (e.g. 'data/valid', 'data/test').
 
     Returns:
-        paths: List of image file paths
-        labels: List of integer labels (0-indexed, contiguous)
-        class_names: List of sorted class names
+        paths:       List[str] — absolute paths to every image found.
+        labels:      List[int] — integer class index, parallel to `paths`.
+        class_names: List[str] — sorted class names; class_names[i] is the name for label i.
     """
     class_names = sorted(
         d for d in os.listdir(split_dir)
@@ -47,14 +56,22 @@ def load_dataset(split_dir):
 
 def load_image(path, size=IMG_SIZE):
     """
-    Load and preprocess an image.
+    Load an image from disk, resize it to a square, and convert it to grayscale.
+
+    Resizing to a fixed square (default 224×224) ensures every image produces the
+    same number of dense SIFT keypoints, which is required for fixed-length SPM
+    feature vectors. The BGR→grayscale conversion discards colour because SIFT
+    operates on intensity gradients only.
 
     Args:
-        path: Path to image file
-        size: Target image size (default: IMG_SIZE=224)
+        path: Path to the image file.
+        size: Side length in pixels for the output square (default: IMG_SIZE=224).
 
     Returns:
-        Grayscale image resized to (size, size) as uint8
+        np.ndarray of shape (size, size), dtype uint8 — grayscale pixel values.
+
+    Raises:
+        FileNotFoundError: If cv2.imread cannot decode the file at `path`.
     """
     img = cv2.imread(path)
     if img is None:
@@ -64,16 +81,54 @@ def load_image(path, size=IMG_SIZE):
 
 
 def extract_dense_sift(img_gray, step=SIFT_STEP):
+    """
+    Compute SIFT descriptors at every point on a regular grid (dense sampling).
+
+    Unlike standard SIFT, which first detects salient keypoints, this function
+    places keypoints unconditionally every `step` pixels in both axes. This ensures
+    uniform spatial coverage — including flat regions like grass or sky that have no
+    detectable corners but are highly discriminative for scene classification.
+
+    Each descriptor is a 128-dimensional histogram of gradient orientations in a
+    16×16 patch around the keypoint, computed at scale `step`.
+
+    Args:
+        img_gray: np.ndarray of shape (H, W), dtype uint8 — grayscale input image.
+        step:     Grid spacing in pixels (default: SIFT_STEP=8). Smaller values
+                  produce more descriptors but increase computation and memory.
+
+    Returns:
+        kps:   List[cv2.KeyPoint] of length N — grid keypoints with (x, y) positions.
+        descs: np.ndarray of shape (N, 128), dtype float32 — descriptor for each keypoint.
+        N = (H // step) * (W // step) is the number of grid points.
+    """
     H, W = img_gray.shape
     kps = [cv2.KeyPoint(float(x), float(y), float(step))
            for y in range(0, H, step)
            for x in range(0, W, step)]
     sift = cv2.SIFT_create()
     _, descs = sift.compute(img_gray, kps)
-    return descs  # (N, 128), float32
+    return kps, descs
 
 
 def build_codebook(all_descriptors, K=CODEBOOK_SIZE):
+    """
+    Cluster a large set of SIFT descriptors into K visual words (the codebook).
+
+    The codebook is the vocabulary for the Bag of Visual Words model. Each cluster
+    center represents a prototypical local patch appearance. MiniBatchKMeans is used
+    instead of standard KMeans because the descriptor matrix (millions of 128-d
+    vectors) is too large to fit comfortably in memory all at once.
+
+    Args:
+        all_descriptors: np.ndarray of shape (M, 128) — all SIFT descriptors pooled
+                         from the training set (one row per descriptor).
+        K:               Number of clusters / visual words (default: CODEBOOK_SIZE=500).
+
+    Returns:
+        sklearn MiniBatchKMeans fitted on `all_descriptors`. Use kmeans.predict()
+        to assign new descriptors to their nearest visual word.
+    """
     kmeans = MiniBatchKMeans(
         n_clusters=K, batch_size=4096, random_state=42, n_init=3
     )
@@ -82,12 +137,43 @@ def build_codebook(all_descriptors, K=CODEBOOK_SIZE):
 
 
 def encode_spm(img_gray, kmeans, K=CODEBOOK_SIZE, step=SIFT_STEP, levels=SPM_LEVELS):
+    """
+    Encode an image as a Spatial Pyramid Matching (SPM) feature vector.
+
+    SPM extends plain BoVW by computing visual-word histograms at multiple spatial
+    resolutions and concatenating them. This preserves rough spatial layout information
+    that a single global histogram would discard.
+
+    For each level L in `levels`, the image is divided into a (2^L × 2^L) grid of cells.
+    Inside each cell, the visual words of the keypoints that fall within it are counted
+    into a normalized histogram. All per-cell histograms are weighted and concatenated:
+
+        level 0 → 1×1  = 1  cell  × K visual words, weight 0.25  (global context, standard BoVW)
+        level 1 → 2×2  = 4  cells × K visual words, weight 0.25  (coarse layout)
+        level 2 → 4×4  = 16 cells × K visual words, weight 0.50  (fine layout)
+
+    Total feature length = (1 + 4 + 16) × K = 21 × 500 = 10 500 dimensions.
+
+    The higher weight on level 2 follows Lazebnik et al. (CVPR 2006), who show that
+    finer spatial resolution carries more discriminative information.
+
+    The final vector is L2-normalized so that SVM distances are not affected by
+    differences in image texture density.
+
+    Args:
+        img_gray: np.ndarray (H, W) uint8 — grayscale image, must be the same size
+                  used when building the codebook because the codebook is trained on dense SIFT.
+        kmeans:   Fitted MiniBatchKMeans codebook (from build_codebook).
+        K:        Codebook size, must match the K used in build_codebook.
+        step:     Dense SIFT grid spacing in pixels.
+        levels:   List of pyramid levels to include (default [0, 1, 2]).
+
+    Returns:
+        np.ndarray of shape (len(levels_cells_total * K,), dtype float32 — L2-normalised
+        SPM feature vector ready for LinearSVC.
+    """
     H, W = img_gray.shape
-    kps = [cv2.KeyPoint(float(x), float(y), float(step))
-           for y in range(0, H, step)
-           for x in range(0, W, step)]
-    sift = cv2.SIFT_create()
-    _, descs = sift.compute(img_gray, kps)
+    kps, descs = extract_dense_sift(img_gray, step)
     words = kmeans.predict(descs)
     kp_xy = np.array([(kp.pt[0], kp.pt[1]) for kp in kps])  # (N, 2)
 
@@ -114,6 +200,27 @@ def encode_spm(img_gray, kmeans, K=CODEBOOK_SIZE, step=SIFT_STEP, levels=SPM_LEV
 
 
 def train_classifier(X, y, C=1.0):
+    """
+    Train a LinearSVC on SPM features and estimate generalization accuracy via CV.
+
+    LinearSVC is the standard choice for BoVW/SPM pipelines: the high-dimensional
+    sparse histograms are linearly separable in practice, and LinearSVC scales to
+    tens of thousands of samples much faster than kernel SVM.
+
+    Cross-validation is run first (for reporting) and then the classifier is
+    re-fitted on the full dataset so the returned model uses all available data.
+
+    Args:
+        X: np.ndarray of shape (N, D) — SPM feature matrix (one row per image).
+        y: np.ndarray of shape (N,)   — integer class labels.
+        C: SVM regularization parameter. Smaller C = stronger regularization.
+           Default 1.0 works well for L2-normalised SPM features.
+
+    Returns:
+        clf: Fitted LinearSVC trained on the full (X, y).
+        scores: np.ndarray of shape (5,) — per-fold accuracy from 5-fold CV,
+                useful for reporting mean ± std without a separate held-out set.
+    """
     clf = LinearSVC(C=C, max_iter=2000, random_state=42)
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     scores = cross_val_score(clf, X, y, cv=cv, scoring='accuracy')
@@ -122,6 +229,28 @@ def train_classifier(X, y, C=1.0):
 
 
 def evaluate(clf, X, y, class_names):
+    """
+    Run inference and compute classification metrics on a labeled set.
+
+    Macro-averaged F1 is reported alongside accuracy because the dataset may have
+    class imbalance — macro F1 weights all classes equally regardless of size, so
+    it penalizes poor performance on minority classes that accuracy would mask.
+
+    Args:
+        clf:         Fitted classifier with a predict() method.
+        X:           np.ndarray (N, D) — feature matrix for the evaluation set.
+        y:           np.ndarray (N,)   — ground-truth integer labels.
+        class_names: List[str]         — class name for each label index (used
+                     as keys in the confusion matrix; not used here directly but
+                     kept for interface consistency with save_confusion_matrix).
+
+    Returns:
+        dict with keys:
+            'accuracy':         float — fraction of correctly classified images.
+            'f1':               float — macro-averaged F1 across all classes.
+            'predictions':      np.ndarray (N,) — predicted label for each image.
+            'confusion_matrix': np.ndarray (C, C) — row = true, col = predicted.
+    """
     preds = clf.predict(X)
     return {
         'accuracy': accuracy_score(y, preds),
@@ -178,7 +307,8 @@ def main():
     for path in val_paths:
         img = load_image(path)
         val_grays.append(img)
-        all_descs.append(extract_dense_sift(img))
+        _, descs = extract_dense_sift(img)
+        all_descs.append(descs)
     all_descs_flat = np.vstack(all_descs)
     print(f"  Total descriptors: {all_descs_flat.shape[0]}")
 
