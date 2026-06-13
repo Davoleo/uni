@@ -1,26 +1,203 @@
 \section{Task 3}
 \makeatletter\def\@currentlabel{Task 3}\makeatother\label{sec:task3}
-\begin{frame}{Bag of Visual Words}
+
+% ── Slide 1: Overview ────────────────────────────────────────────────────────
+\subsection{Overview}
+\begin{frame}{Overview}
+  \begin{block}{Prompt}
+    Classification of the same 100-class sports dataset using only \textbf{handcrafted visual features}, with the \textit{validation set} as the sole training data (500 images — 5 per class).
+  \end{block}
+  \vspace{\baselineskip}
+  With only 5 samples per class, training a CNN from scratch is not viable — Task~1 already showed that even with a full training set, a scratch-built network overfits severely.
+  We therefore adopt a classical \textbf{Bag of Visual Words} pipeline: \textbf{Dense SIFT} extraction, \textbf{K-Means} codebook, \textbf{SPM} encoding, and a \textbf{LinearSVC} classifier.
+\end{frame}
+
+% ── Slide 2: Tools overview ───────────────────────────────────────────────────
+\subsection{Tools Overview}
+\begin{frame}{Tools at a Glance: SIFT · BoVW · SPM}
   \begin{columns}
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.33\textwidth}
+      \textbf{SIFT}\\
+      \textit{Scale-Invariant Feature Transform}
+      \vspace{0.3em}
       \begin{itemize}
-        \item Extraction of visual features (Keypoints and descriptors) through \textit{SIFT}.
-        \item Creation of the Codebook through K-Means (exactly K visual words).
+        \item Describes local image patches as 128-d gradient-orientation histograms.
+        \item Invariant to scale, rotation, and illumination changes.
+        \item We use \textbf{Dense} SIFT: keypoints on a fixed grid (step = 8 px).
       \end{itemize}
     \end{column}
-    \begin{column}{0.5\textwidth}
-      Some codebook example maybe.
+    \begin{column}{0.33\textwidth}
+      \textbf{BoVW}\\
+      \textit{Bag of Visual Words}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item Analogy of NLP's Bag of Words applied to images.
+        \item K-Means clusters descriptors into $K$ \emph{visual words}.
+        \item Each image becomes a \textbf{frequency histogram} over the vocabulary.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+      \textbf{SPM}\\
+      \textit{Spatial Pyramid Matching}
+      \vspace{0.3em}
+      \begin{itemize}
+        \item Extends BoVW by computing histograms at multiple spatial scales.
+        \item Captures \emph{where} visual words appear, not just \emph{how often}.
+        \item Proven effective for scene and action classification \cite{lazebnik2006}.
+      \end{itemize}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{SPM Encoding}
+% ── Slide 3: Dense SIFT ──────────────────────────────────────────────────────
+\subsection{Pipeline}
+\begin{frame}{Pipeline — Step 1: Dense SIFT Extraction}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{img/task3_sift_dense.png}
+  \end{center}
+  \vspace{0.1em}
+  \small
+  Standard SIFT detects keypoints only at \textbf{corners and blobs} — water surfaces and grass fields are largely \textbf{skipped}.
+  Dense SIFT places keypoints on a fixed grid (step = 8 px), giving $28{\times}28 = 784$ descriptors per image regardless of texture.
 \end{frame}
 
-\begin{frame}{Train SVM with Cross-Validation}
+% ── Slide 4: Codebook ────────────────────────────────────────────────────────
+\begin{frame}{Pipeline — Step 2: Codebook via K-Means}
+  \begin{center}
+    \includegraphics[width=0.85\textwidth]{img/task3_codebook.png}
+  \end{center}
+  \vspace{0.3em}
   \begin{itemize}
-    \item Risultati principali
-    \item Limiti
-    \item Sviluppi futuri
+    \item All descriptors from the training set ($500$ images $\times$ 784 kpts $\approx 392$K vectors) are pooled.
+    \item \textbf{MiniBatchKMeans} clusters them into $K = 500$ visual words (cluster centroids).
+    \item Each new descriptor is \textbf{vector-quantised}: assigned to its nearest visual word.
   \end{itemize}
+\end{frame}
+
+% ── Slide 5: SPM ─────────────────────────────────────────────────────────────
+\begin{frame}{Pipeline — Step 3: SPM Encoding}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/task3_spm.png}
+  \end{center}
+  \begin{itemize}
+    \item Three pyramid levels: $L \in \{0, 1, 2\}$ → $1 + 4 + 16 = 21$ cells.
+    \item Each cell contributes a $K$-bin histogram → total vector: $21 \times 500 = \mathbf{10\,500}$ dimensions.
+    \item Weights: $w_0 = w_1 = 0.25$, $w_2 = 0.50$ (finer levels more discriminative).
+    \item Final vector is \textbf{L2-normalised} before classification.
+  \end{itemize}
+\end{frame}
+
+% ── Slide 6: SVM training ────────────────────────────────────────────────────
+\begin{frame}{Pipeline — Step 4: LinearSVC with Cross-Validation}
+  \begin{columns}
+    \begin{column}{0.58\textwidth}
+      \textbf{Why LinearSVC?}
+      \begin{itemize}
+        \item High-dimensional L2-normalised SPM vectors are \textbf{linearly separable} in practice \cite{lazebnik2006}.
+        \item Scales to $N = 500$ samples and $D = 10\,500$ features in seconds.
+        \item Kernel SVM (RBF) would overfit on such a small dataset.
+      \end{itemize}
+      \vspace{0.5em}
+      \textbf{Training details:}
+      \begin{itemize}
+        \item \textbf{5-fold Stratified CV} to estimate generalisation.
+        \item Regularisation $C = 1.0$; re-fit on full set after CV.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \begin{block}{Cross-Validation Result}
+        \centering
+        \vspace{0.3em}
+        CV Accuracy\\[0.4em]
+        \Large$\mathbf{0.184 \pm 0.026}$
+        \vspace{0.3em}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 7: Results ─────────────────────────────────────────────────────────
+\subsection{Results}
+\begin{frame}{Results}
+  \begin{columns}
+    \begin{column}{0.54\textwidth}
+      \begin{block}{Clean Test Set}
+        \centering
+        Accuracy: \textbf{0.258}\\
+        F1-Score: \textbf{0.231}
+      \end{block}
+      \vspace{0.4em}
+      \begin{block}{Degraded Test Set}
+        \centering
+        Accuracy: \textbf{0.226}\\
+        F1-Score: \textbf{0.209}
+      \end{block}
+      \vspace{0.4em}
+      \small
+      \begin{itemize}
+        \item Performance well above random chance ($\frac{1}{100} = 1\%$).
+        \item Gap between clean and degraded is \textbf{small} (\textasciitilde{}3\%), showing the SIFT-based pipeline is more \textbf{robust} to image degradation than deep models.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{center}
+        \textbf{Confusion Matrix — Clean Test}\\[0.3em]
+        \includegraphics[width=\textwidth]{../models/task3_confusion_clean.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ── Slide 8: Error analysis with misclassified examples ──────────────────────
+\begin{frame}{Results — Error Analysis}
+  \begin{center}
+    \includegraphics[width=0.92\textwidth]{img/task3_misclassified.png}
+  \end{center}
+\end{frame}
+
+% ── Slide 9: Conclusions ─────────────────────────────────────────────────────
+\subsection{Conclusions}
+\begin{frame}{Conclusions — Task 3}
+  % Top: 2×2 grid of takeaways
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item BoVW+SPM achieves \textbf{25.8\%} accuracy vs \textbf{85\%+} of Task 1 — gap driven by the extreme data constraint.
+        \item Feature extraction is \textbf{completely unsupervised} — no labels used.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item Degraded-set drop \textbf{\textless{}4\%} vs \textasciitilde{}22\% for EfficientNet: SIFT is robust to illumination shifts.
+        \item Both attempted improvements \textbf{hurt} — root cause is data scarcity, not the pipeline.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.4em}
+  \rule{\textwidth}{0.3pt}
+  \vspace{0.2em}
+
+  % Bottom: ablation table + why
+  \begin{columns}
+    \begin{column}{0.50\textwidth}
+      \begin{alertblock}{Ablation Results}
+        \centering
+        \small
+        \begin{tabular}{lcc}
+          & \textbf{Clean} & \textbf{Deg.} \\
+          \hline
+          Baseline ($K$=500) & 0.258 & 0.226 \\
+          $K$=2000           & 0.246 & 0.200 \\
+          $K$=500 + TF-IDF   & 0.214 & 0.170 \\
+        \end{tabular}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \small
+      \textbf{Why?} With only 5 images/class, every visual word is statistically rare.
+      A larger vocabulary is underpopulated and TF-IDF amplifies noise instead of suppressing it.
+      The true bottleneck is data, not the pipeline.
+    \end{column}
+  \end{columns}
 \end{frame}
