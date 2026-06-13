@@ -5,7 +5,7 @@ A differenza delle bag of word tradizionali che lavorano su sequenze di caratter
 vera e propria BoVW dobbiamo prima ottenere delle visual feature:
 Le immagini vengono divise in patch, ad ogni patch sono assegnati:
    1. **Keypoints**: punti fondamentali dell'immagine, invarianti rispetto a determinate caratteristiche in base al classificatore utilizzato (rotazione, espansione, scaling).
-   2. **Descriptors**: Creo (con SIFT) un vettore di 128 numeri che rappresenta cosa c'è nell'intorno del keypoint (es: intorno 16x16 pixel) attraverso lo studio dei gradienti dell'immagine (variazioni di illuminazione). Lo scopo principale di un descrpitor è essere univoco e robusto. Per essere robusto deve assicurarmi che, se riprendo il soggetto da un'angolazione diversa, il suo descriptor deve essere idealmente identico (o quasi, nel pratico). 
+   2. **Descriptors**: Creo (con SIFT) un vettore di 128 numeri che rappresenta cosa c'è nell'intorno del keypoint (es: intorno 16x16 pixel) attraverso lo studio dei gradienti dell'immagine (variazioni di illuminazione). Lo scopo principale di un descriptor è essere univoco e robusto. Per essere robusto deve assicurarmi che, se riprendo il soggetto da un'angolazione diversa, il suo descriptor deve essere idealmente identico (o quasi, nel pratico). 
 
 Le visual feature vengono estratte tramite SIFT (Scale Invariant Feature Transform), ORB o SURF.
 
