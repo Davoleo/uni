@@ -408,3 +408,15 @@ Task3 BoVW+SPM (K=500, step=8, levels=[0,1,2], LinearSVC C=1.0)
 CV accuracy (5-fold): 0.1840 ± 0.0258
 Clean Test    — Accuracy: 0.2580  F1: 0.2314
 Degraded Test — Accuracy: 0.2260  F1: 0.2089
+
+======================================================
+Task3 BoVW+SPM (K=2000, step=8, levels=[0,1,2], LinearSVC C=1.0)
+CV accuracy (5-fold): 0.1960 ± 0.0467
+Clean Test    — Accuracy: 0.2460  F1: 0.2274
+Degraded Test — Accuracy: 0.2000  F1: 0.1851
+
+======================================================
+Task3 BoVW+SPM+TF-IDF (K=500, step=8, levels=[0,1,2], LinearSVC C=1.0)
+CV accuracy (5-fold): 0.1660 ± 0.0344
+Clean Test    — Accuracy: 0.2140  F1: 0.1865
+Degraded Test — Accuracy: 0.1700  F1: 0.1540
