@@ -47,7 +47,7 @@ Linear: 1-9                            3,686,500
   In order to tackle overfitting we initially added \textbf{Dropout} to the model:
 
   \begin{verbatim}
-if (self.dropout and self.training):
+if (self.dropout):
     x = nn.functional.dropout(x, 0.5)
   \end{verbatim}
 
@@ -101,8 +101,8 @@ Linear: 1-13                           3,686,500
   \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Baseline \textendash\ Iteration 3}
-  To improve performance and generalization we decided to try adding a bit of image augmentation.
+\begin{frame}{Baseline \textendash\ Iteration 3}
+  We decided to try adding some data augmentation.
   Specifically in Iteration 3 we added \textbf{Random Resized Crop}, 
   which crops a random subregion in the image and rescales it to fit a certain size.
   
@@ -111,6 +111,86 @@ Linear: 1-13                           3,686,500
   \end{center}
 
   This improved metrics quite a bit both in training and validation, so we decided to keep it.
+  \begin{columns}
+    \begin{column}{0.333\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.7902,\\ Accuracy: 0.7762.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.333\linewidth}
+      \begin{itemize}
+        \item [val] Loss: 1.9234,\\ Accuracy: 0.5600.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.333\linewidth}
+      \begin{itemize}
+        \item [test] \textit{Accuracy}: 0.674,\\ \textit{F1-Score}: 0.656.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Baseline \textendash\ Iteration 4}
+  In the 4th iteration we tried adding some \textbf{Gaussian Blur} to simulate
+  blur / low quality in the original photos.
+  
+  \begin{center}
+    \includegraphics[width=\linewidth]{img/gaussian_blur.png}
+  \end{center}
+
+  This, even if it was applied very lightly, had a bad effect on the network learning features, 
+  due to what we assume is, the \textbf{loss of important edges} that defined objects inside the sport scene to aid classification.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 4}{Results}
+  \textbf{Gaussian Blur} was unnecessary, so we decided to \textit{revert this augmentation}.
+  
+  \begin{columns}
+    \begin{column}{0.3\linewidth}
+      Test Set results: \textit{Accuracy}: 0.412, \textit{F1-Score}: 0.370.
+    \end{column}
+    \begin{column}{0.7\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.4_gaussian_blur.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 5}
+  During 5th iteration we reintroduced \textbf{Dropout} fixing the oversight we made in Iteration 1:
+  \textit{dropout should only be applied during training and not during inference}, 
+  and it should be properly guarded in \texttt{pytorch}.
+  
+  \vspace{\baselineskip}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+if (self.dropout \textcolor{teal}{and self.training}):
+    x = nn.functional.dropout(x, 0.5)
+  \end{Verbatim}
+
+  \vspace{\baselineskip}
+
+  This fixed some of the \textit{``overfitting''} previously causing performace degradation of the network during inference.
+  Since random neurons \textit{should not} be turned off during evaluation.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 5}{Results}
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 1.6986,\\ Accuracy: 0.5652
+        \item [val] Loss: 2.2267,\\ Accuracy: 0.4680 \\ best acc.: 0.4680
+        \item [test] \textit{Accuracy}: 0.508,\\ \textit{F1-Score}: 0.487.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.5_no_dropout_val_inference.png}
+      \end{center}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 
