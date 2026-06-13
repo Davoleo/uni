@@ -44,7 +44,7 @@
 \subsection{Hardware}
 \begin{frame}{ROCm and GPUs}
   \begin{block}{Hardware Note}
-    In order to train the models we used \textbf{ROCm} (AMD's open source high performace compute library) on 2 AMD consumer cards: RX6950 \& RX9070.
+    In order to train the models we used \textbf{ROCm} (AMD's open source high performace compute library) on 2 AMD consumer cards: RX6950XT \& RX9070.
     Significant effort to setup a working environment.
   \end{block}
   \pause\
@@ -52,7 +52,7 @@
   Final project env setup allows both CPU and GPU-accellerated conditional setups, by conditionally sourcing libraries from 3 different sources:
   \begin{itemize}
     \item \textbf{CPU}:\@ \texttt{uv sync --extra cpu}
-    \item \textbf{GPU RX6950}:\@ \texttt{uv sync --extra stable}
+    \item \textbf{GPU RX6950XT}:\@ \texttt{uv sync --extra stable}
     \item \textbf{GPU RX9070}:\@ \texttt{uv sync --extra nightly}
   \end{itemize}
 \end{frame}
