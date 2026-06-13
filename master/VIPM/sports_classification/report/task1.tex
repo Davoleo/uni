@@ -193,6 +193,41 @@ if (self.dropout \textcolor{teal}{and self.training}):
   \end{columns}
 \end{frame}
 
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 6}
+  \textbf{2D Adaptive Average Pooling} helped to regularize the model even more effectively
+  removing any remaining trace of overfitting in our model.
+
+  \vspace{\baselineskip}
+
+  This, when prepended to a normal \textit{Flattening} layer, 
+  allows the network to extract the best feature match from the Convolution output into the classifier.
+
+  \vspace{\baselineskip}
+
+  \begin{verbatim}
+    self.AdaptiveAvgPool2d = nn.AdaptiveAvgPool2d(1)
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 6}
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 2.0423,\\ Accuracy: 0.4558
+        \item [val] Loss: 2.4452,\\ Accuracy: 0.4060 \\ best acc.: 0.4260
+        \item [test] \textit{Accuracy}: 0.454,\\ \textit{F1-Score}: 0.416.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.6_adaptiveavgpool.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \vspace{\baselineskip}
+  \textbf{Iteration 7} is dedicated to merging Iteration 5 and Iteration 6 changes.
+\end{frame}
+
 
 \subsection{Baseline 2}
 \begin{frame}{Augmentation Techniques}
