@@ -1,3 +1,4 @@
+%chktex-file 8
 \section{Task 1}
 \makeatletter\def\@currentlabel{Task 1}\makeatother\label{sec:task1}
 
@@ -11,15 +12,109 @@
   to generate enough data samples to allow the model to learn correctly while trying to avoid overfitting and class confusion.
 \end{frame}
 
-\subsection{Model}
-\begin{frame}{Model}
-  \begin{itemize}
-    \item Gestione valori mancanti
-    \item Normalizzazione / encoding
-    \item Train/val/test split
-  \end{itemize}
+\subsection{Baseline 1}
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 0}
+  The network we used initially was a CNN with 4 layers.
+
+  \begin{verbatim}
+Conv2d: 1-1                            896
+MaxPool2d: 1-2                         --
+Conv2d: 1-3                            18,496
+MaxPool2d: 1-4                         --
+Conv2d: 1-5                            73,856
+MaxPool2d: 1-6                         --
+Conv2d: 1-7                            295,168
+MaxPool2d: 1-8                         --
+Linear: 1-9                            3,686,500
+  \end{verbatim}
 \end{frame}
-\subsection{Augmentation Techniques}
+
+\begin{frame}{Baseline \textendash\ Iteration 0}{Results}
+  \textbf{Serious overfitting}: the model wasn't regularized at all and only managed to learn the training set.
+  \begin{columns}
+    \begin{column}{0.3\linewidth}
+      Test Set results: \textit{Accuracy}: 0.458, \textit{F1-Score}: 0.446.
+    \end{column}
+    \begin{column}{0.7\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.1-baseline.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 1}
+  In order to tackle overfitting we initially added \textbf{Dropout} to the model:
+
+  \begin{verbatim}
+if (self.dropout and self.training):
+    x = nn.functional.dropout(x, 0.5)
+  \end{verbatim}
+
+  This lowered validation accuracy even more, but it also regularized training accuracy to be in line with it, 
+  so it was overall a good iteration.
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 2}
+  For the 3rd iteration we decided to experiment with \textbf{Batch Normalization} applied on all convolution layers.
+  This allows us to normalize the values of the feature extracted by the previous convolutional layer, 
+  with additional trainable parameters to allow it to adapt during the training.
+
+  \begin{Verbatim}[fontsize=\small]
+Conv2d: 1-1                            896
+BatchNorm2d: 1-2                       64
+MaxPool2d: 1-3                         --
+Conv2d: 1-4                            18,496
+BatchNorm2d: 1-5                       128
+MaxPool2d: 1-6                         --
+Conv2d: 1-7                            73,856
+BatchNorm2d: 1-8                       256
+MaxPool2d: 1-9                         --
+Conv2d: 1-10                           295,168
+BatchNorm2d: 1-11                      512
+MaxPool2d: 1-12                        --
+Linear: 1-13                           3,686,500
+  \end{Verbatim}
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iterations 1 and 2}{Results}
+  Dropout resulted in strong regularization, but affected training and validation too much,
+  so we decided to keep BatchNormalization effect which was milder and expand from there. 
+  \vspace{\baselineskip}
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \textbf{Iteration 1}:
+      \begin{itemize}
+        \item [train] Loss: 1.1266,\\ Accuracy: 0.6865
+        \item [val] Loss: 2.4384,\\ Accuracy: 0.4420 \\ (best acc.: 0.452000)
+        \item [test] \textit{Accuracy}: 0.45,\\ \textit{F1-Score}: 0.434.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \textbf{Iteration 2}:
+      \begin{itemize}
+        \item [train] Loss: 0.2143,\\ Accuracy: 0.9328
+        \item [val] Loss: 2.8431,\\ Accuracy: 0.4880 \\  (best acc.: 0.488000)
+        \item [test] \textit{Accuracy}: 0.52,\\ \textit{F1-Score}: 0.511.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 3}
+  To improve performance and generalization we decided to try adding a bit of image augmentation.
+  Specifically in Iteration 3 we added \textbf{Random Resized Crop}, 
+  which crops a random subregion in the image and rescales it to fit a certain size.
+  
+  \begin{center}
+    \includegraphics[width=\linewidth]{img/random_resized_crop.png}
+  \end{center}
+
+  This improved metrics quite a bit both in training and validation, so we decided to keep it.
+\end{frame}
+
+
+\subsection{Baseline 2}
 \begin{frame}{Augmentation Techniques}
   \begin{itemize}
     \item Aug1
