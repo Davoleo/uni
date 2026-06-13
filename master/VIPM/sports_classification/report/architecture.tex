@@ -4,24 +4,26 @@
 \subsection{Project Architecture}
 \begin{frame}{Project Architecture}{Source Files}
   The project is organized in different \textbf{Python} scripts in the root folder, these scripts can either be \textit{entrypoints} or \textit{utility} scripts
+  \pause\
 
   \begin{itemize}
     \item \texttt{baseline.py}: Entrypoint model training for~\ref{sec:task1}.
     \item \texttt{degraded.py}: Entrypoint model training for~\ref{sec:task2}.
     \item \texttt{oneshot.py}: Entrypoint model training for~\ref{sec:task3}.
-    \item \texttt{evaluate.py}: Entrypoint inferenza per tutti i modelli.
+    \item \texttt{evaluate.py}: Entrypoint for inference on all models.\pause\
     \item \texttt{models.py}: Utility file containing all used models.
     \item \texttt{transforms.py}: Utility file containing some transforms used for image enhancement / augmentation.
     \item \texttt{utils.py}: Utility containing other functions used globally in the project.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Project Architecture}{Other Folders}
+\begin{frame}{Project Architecture}{Other Folders \& Files}
   \begin{itemize}
     \item \texttt{data}: Contains the dataset subdivided in \texttt{test, test\_degradato, train, valid} and in 100 different folders (1 per class)
     \item \texttt{docs}: Contains documentation and references about the project code and dataset.
     \item \texttt{models}: Contains \textbf{pytorch model checkpoints}
     \item \texttt{report}: Contains this report presentation.
+    \item \texttt{iterations.log}: Contains all model iterations and their relative results with comments and rationales.
   \end{itemize}
 \end{frame}
 
