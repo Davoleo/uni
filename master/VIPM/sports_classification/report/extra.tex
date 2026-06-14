@@ -1,0 +1,25 @@
+%chktex-file 8
+\section{Extra}
+\makeatletter\def\@currentlabel{Extra}\makeatother\label{sec:summary}
+
+\begin{frame}{Model Comparison --- Task 1 \& 2}
+  \begin{center}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lcccc}
+      \hline
+      \textbf{Model} & \textbf{Clean Acc} & \textbf{Clean F1} & \textbf{Degraded Acc} & \textbf{Degraded F1} \\
+      \hline
+      Baseline2 & 83.6\% & 0.827 & 73.1\% & 0.727 \\[2pt]
+      Baseline3 (v2.12) & 85.6\% & 0.852 & 73.3\% & 0.731 \\
+      \quad + TTA & 85.8\% & 0.854 & 74.4\% & 0.749 \\[2pt]
+      EfficientNet & 95.4\% & 0.953 & 87.8\% & 0.879 \\
+      \quad + TTA & 96.5\% & 0.965 & 89.4\% & 0.893 \\
+      \hline
+    \end{tabular}}
+  \end{center}
+  \vspace{0.3\baselineskip}
+  \begin{itemize}
+    \item TTA (4-view averaged inference) gives consistent $+$1--2\% gains on both test sets
+    \item EfficientNet closes \textbf{14\%} of the remaining degradation gap left by Baseline3
+  \end{itemize}
+\end{frame}
