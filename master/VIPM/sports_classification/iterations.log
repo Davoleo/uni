@@ -362,9 +362,6 @@ Clean Test Set results: F1-Score: 0.8070, Accuracy: 81.8660, Top-3 Acc: 91.6166,
 Degraded Test Set Results: F1-Score: 0.6673, Accuracy: 67.1575, Top-3 Acc: 84.7055, Top-5 Acc: 88.5517
 
 ======================================================
-TTA enabled [REVERTED]
-
-======================================================
 v2.12_scale_up_model
 Epoch progress: 80/80
 --------------------

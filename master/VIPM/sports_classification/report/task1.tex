@@ -209,7 +209,7 @@ if (self.dropout \textcolor{teal}{and self.training}):
   \end{verbatim}
 \end{frame}
 
-\begin{frame}{Baseline \textendash\ Iteration 6}
+\begin{frame}{Baseline \textendash\ Iteration 6}{Results}
   \begin{columns}
     \begin{column}{0.35\linewidth}
       \begin{itemize}
@@ -230,6 +230,169 @@ if (self.dropout \textcolor{teal}{and self.training}):
 
 
 \subsection{Baseline 2}
+\begin{frame}[fragile]{Baseline2 \textendash\ Iteration 8}
+  Now that the major overfitting causes have been fixed, 
+  we focused on expanding the model to better classify images in the 100 classes.
+
+  New layer: \textbf{conv5} with its own pooling and batch-norm.
+  
+  \begin{Verbatim}[fontsize=\scriptsize]
+Conv2d: 1-1                            896
+BatchNorm2d: 1-2                       64
+MaxPool2d: 1-3                         --
+Conv2d: 1-4                            18,496
+BatchNorm2d: 1-5                       128
+MaxPool2d: 1-6                         --
+Conv2d: 1-7                            73,856
+BatchNorm2d: 1-8                       256
+MaxPool2d: 1-9                         --
+Conv2d: 1-10                           295,168
+BatchNorm2d: 1-11                      512
+MaxPool2d: 1-12                        --
+Conv2d: 1-13                           1,180,160
+BatchNorm2d: 1-14                      1,024
+MaxPool2d: 1-15                        --
+AdaptiveAvgPool2d: 1-16                --
+Linear: 1-17                           51,300
+Total params: 1,621,860
+  \end{Verbatim}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 8}{Results}
+  The results show overall improvements on training, 
+  validation and test metrics as well as an upward trend.
+    
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 1.2515,\\ Accuracy: 0.6488
+        \item [val] Loss: 1.2886,\\ Accuracy: 0.6520 \\ best acc.: 0.6520
+        \item [test] \textit{Accuracy}: 0.686,\\ \textit{F1-Score}: 0.670.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.8_conv5.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 4mins 15secs}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 9}
+  Thanks to the good results and trend in the previous iteration 
+  we tried to push more epochs to take advantage of it.
+
+  From 20 epochs to 40 epochs of training.
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.7121,\\ Accuracy: 0.7895
+        \item [val] Loss: 0.8928,\\ Accuracy: 0.7540 \\ best acc.: 0.7540
+        \item [test] \textit{Accuracy}: 0.792,\\ \textit{F1-Score}: 0.7779
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.9_more_epochs.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 8mins 18secs}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 10}
+  The previous iteration had good results but during the last epochs, 
+  \textit{validation metrics} started to show a \textbf{declining trend} with respect to the training ones.
+
+  \vspace{\baselineskip}
+
+  So we've tried adding some more image augmentation to counter that trend, 
+  more specifically in this iteration we tried adding some \textbf{Random Erasing}.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 10}{Results}
+  The results were not exciting, even when considering the gap between the two GPU accuracies
+  with the same seed, so the iteration was \alert{reverted}.
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 1.4146,\\ Accuracy: 0.6078
+        \item [val] Loss: 1.7122,\\ Accuracy: 0.5640 \\ best acc.: 0.6260
+        \item [test] \textit{Accuracy}: 0.628,\\ \textit{F1-Score}: 0.6039
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.10_random_erasing.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 13mins}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 11}
+  Iteration 4 didn't help much since \textbf{Gaussian Blur} actively removes important edges,
+  we've tried to sharpen the image instead to bring out more important edges
+  to aid classification using \textbf{RandomAdjustSharpness}.
+
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/random_adjust_sharpness.png}
+  \end{center}
+
+  This should also help \textit{define objects} that have \textbf{smaller size or low resolution} in the images more.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 11}{Results}
+  The results were not exciting, even when considering the gap between the two GPU accuracies
+  with the same seed, so the iteration was \alert{reverted}.
+
+  \vspace{\baselineskip}
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.9916,\\ Accuracy: 0.7127
+        \item [val] Loss: 0.9689,\\ Accuracy: 0.7460 \\ best acc.: 0.7460
+        \item [test] \textit{Accuracy}: 0.780,\\ \textit{F1-Score}: 0.771
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.77\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.11_rand_adjust_sharpness.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 19mins 30secs}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 12}
+  In the end we've tried increasing epochs from 60 to 80 to push the model as much as possible,
+  although the improvements weren't much higher, 
+  while also considering the difference in architecture training, more overfitting (\textasciitilde10\%), and longer training time on the same hardware;
+  so we \alert{reverted} the change.
+
+  \vspace{\baselineskip}
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.3604,\\ Accuracy: 0.8914
+        \item [val] Loss: 0.8194,\\ Accuracy: 0.8000 \\ best acc.: 0.8320
+        \item [test] \textit{Accuracy}: 0.836,\\ \textit{F1-Score}: 0.827
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.77\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.11_rand_adjust_sharpness.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 17mins 9secs}
+\end{frame}
+
 \begin{frame}{Augmentation Techniques}
   \begin{itemize}
     \item Aug1
