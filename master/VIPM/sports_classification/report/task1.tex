@@ -41,6 +41,7 @@ Linear: 1-9                            3,686,500
       \end{center}
     \end{column}
   \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 6mins 12secs}
 \end{frame}
 
 \begin{frame}[fragile]{Baseline \textendash\ Iteration 1}
@@ -99,6 +100,7 @@ Linear: 1-13                           3,686,500
       \end{itemize}
     \end{column}
   \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 6mins 14secs / 7mins 5secs}
 \end{frame}
 
 \begin{frame}{Baseline \textendash\ Iteration 3}
@@ -128,6 +130,7 @@ Linear: 1-13                           3,686,500
       \end{itemize}
     \end{column}
   \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 4mins 29secs}
 \end{frame}
 
 
@@ -156,6 +159,7 @@ Linear: 1-13                           3,686,500
       \end{center}
     \end{column}
   \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 7mins 3secs}
 \end{frame}
 
 \begin{frame}[fragile]{Baseline \textendash\ Iteration 5}
@@ -191,6 +195,7 @@ if (self.dropout \textcolor{teal}{and self.training}):
       \end{center}
     \end{column}
   \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 7mins}
 \end{frame}
 
 \begin{frame}[fragile]{Baseline \textendash\ Iteration 6}
@@ -226,6 +231,7 @@ if (self.dropout \textcolor{teal}{and self.training}):
   \end{columns}
   \vspace{\baselineskip}
   \textbf{Iteration 7} is dedicated to merging Iteration 5 and Iteration 6 changes.
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 4mins 20secs}
 \end{frame}
 
 
@@ -374,8 +380,6 @@ Total params: 1,621,860
   while also considering the difference in architecture training, more overfitting (\textasciitilde10\%), and longer training time on the same hardware;
   so we \alert{reverted} the change.
 
-  \vspace{\baselineskip}
-
   \begin{columns}
     \begin{column}{0.35\linewidth}
       \begin{itemize}
@@ -383,14 +387,14 @@ Total params: 1,621,860
         \item [val] Loss: 0.8194,\\ Accuracy: 0.8000 \\ best acc.: 0.8320
         \item [test] \textit{Accuracy}: 0.836,\\ \textit{F1-Score}: 0.827
       \end{itemize}
+      \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 17mins 9secs}
     \end{column}
-    \begin{column}{0.77\linewidth}
+    \begin{column}{0.60\linewidth}
       \begin{center}
-        \includegraphics[width=\textwidth]{../models/v1.11_rand_adjust_sharpness.png}
+        \includegraphics[width=\textwidth]{../models/v1.12_80_epochs.png}
       \end{center}
     \end{column}
   \end{columns}
-  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 17mins 9secs}
 \end{frame}
 
 \begin{frame}{Augmentation Techniques}
