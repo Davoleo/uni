@@ -1,19 +1,79 @@
+%chktex-file 8
 \section{Task 2}
 \makeatletter\def\@currentlabel{Task 2}\makeatother\label{sec:task2}
-\begin{frame}{Degraded Set Analysis}
-\end{frame}
 
-\begin{frame}{Model Architecture}
-  \begin{block}{Model Enhancements}
-    Descrizione del modello usato.
+\subsection{Overview}
+\begin{frame}{Overview}
+  \begin{block}{Prompt}
+    Classify the degraded test set using two non-exclusive approaches:
+    unsupervised image enhancement at inference time, and
+    augmentation-aware retraining of the classifier.
   \end{block}
+  \vspace{\baselineskip}
+  The degraded test set contains 500 images sharing the same ground truth as the clean test set,
+  but acquired under strong degradation.
+  Our workflow was to first measure the performance drop, then characterize the degradation
 \end{frame}
 
-\begin{frame}{Image Enhancements}
+\subsection{Baseline on the Degraded Set}
+\begin{frame}{Baseline on the Degraded Set}
+  We began by evaluating the Task 1 best model (\texttt{v1.12\_80\_epochs}, 83.6\% clean accuracy)
+  directly on the degraded test set without any modification.
+  \vspace{\baselineskip}
+  \begin{columns}[onlytextwidth]
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [clean] \textit{Acc}: 83.6\%,\\ \textit{F1}: 0.827
+        \item [degraded] \textit{Acc}: 56.2\%,\\ \textit{F1}: 0.554
+      \end{itemize}
+      \vspace{0.5\baselineskip}
+      A \textbf{27-point drop}: the model had never seen degraded images during training
+      and could not generalise to them.
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.12_80_epochs.png}
+      \end{center}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Other Augmentation Methods}
+\subsection{Approach A \textendash\ Unsupervised Enhancement}
+\begin{frame}{Unsupervised Enhancement \textendash\ Techniques}
+  Before modifying training, we attempted to correct the degradation \textit{at inference time}
+  using classic unsupervised techniques:
+  \vspace{0.5\baselineskip}
+  \begin{itemize}
+    \item \textbf{Auto Gamma Correction}: estimates a per-image gamma exponent from the mean
+          brightness to pull it towards midgray (0.5).
+          Dark images are brightened ($\gamma < 1$), bright images darkened ($\gamma > 1$).
+    \item \textbf{White Balance --- Gray World}: assumes the average scene color is neutral grey;
+          scales each RGB channel by $0.5\,/\,\mu_c$.
+    \item \textbf{Contrast Stretch}: expands the dynamic range using the 8\textsuperscript{th}
+          percentile as the black point, clipping and rescaling to $[0, 1]$.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Results}
+\begin{frame}{Unsupervised Enhancement \textendash\ Results}
+  \begin{center}
+    \begin{tabular}{lcc}
+      \hline
+      Technique & Accuracy & F1 \\
+      \hline
+      No enhancement (baseline) & 56.2\% & 0.554 \\
+      Auto Gamma Correction     & 47.6\% & 0.462 \\
+      White Balance (Gray World) & 53.2\% & 0.530 \\
+      WB + Gamma                & 45.0\% & 0.446 \\
+      Contrast Stretch          & $\approx$52\% & --- \\
+      \hline
+    \end{tabular}
+  \end{center}
+  \vspace{0.5\baselineskip}
+  Every technique worsened or negligibly changed the results.
+  These methods all act on \textit{brightness}, \textit{contrast} and \textit{white balance}
+  --- yet none of them improved things. \\
+  \vspace{0.5\baselineskip}
+  $\Rightarrow$ The degradation must be different in nature.
+  We decided to understand what it actually is before going further.
 \end{frame}
+
