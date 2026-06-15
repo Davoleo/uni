@@ -2,19 +2,35 @@
 \section{Extra}
 \makeatletter\def\@currentlabel{Extra}\makeatother\label{sec:summary}
 
+\subsection{EfficientNet B3}
+\begin{frame}{EfficientNet B3}
+  \begin{columns}[T]
+    \begin{column}{0.4\linewidth}
+      This is a \textit{pre-trained} model on \textbf{ImageNet21K} that already has some sport subcategories;
+
+      this means it starts ahead of all other models, 
+      and only needs \textbf{finetuning} of certain layers while \textit{freezing the head} to classify the test sets very well.
+    \end{column}
+    \begin{column}{0.6\linewidth}
+      \includegraphics[width=\linewidth]{../models/v5.3_efficientnet_partialfreezing+dropout.png}
+      There were 4 iterations for this model where we tried different finetuning levels and techniques, the best one was \textbf{v5.3}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 \begin{frame}{Model Comparison --- Task 1 \& 2}
   \begin{center}
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{lcccc}
-      \hline
+      \toprule
       \textbf{Model} & \textbf{Clean Acc} & \textbf{Clean F1} & \textbf{Degraded Acc} & \textbf{Degraded F1} \\
-      \hline
+      \midrule
       Baseline2 & 83.6\% & 0.827 & 73.1\% & 0.727 \\[2pt]
       Baseline3 (v2.12) & 85.6\% & 0.852 & 73.3\% & 0.731 \\
       \quad + TTA & 85.8\% & 0.854 & 74.4\% & 0.749 \\[2pt]
-      EfficientNet & 95.4\% & 0.953 & 87.8\% & 0.879 \\
+      EfficientNet B3 (v5.3) & 95.4\% & 0.953 & 87.8\% & 0.879 \\
       \quad + TTA & 96.5\% & 0.965 & 89.4\% & 0.893 \\
-      \hline
+      \bottomrule
     \end{tabular}}
   \end{center}
   \vspace{0.3\baselineskip}
@@ -23,3 +39,18 @@
     \item EfficientNet closes \textbf{14\%} of the remaining degradation gap left by Baseline3
   \end{itemize}
 \end{frame}
+
+\subsection{Model Comparison}
+\begin{frame}{Model Comparison}{Clean / Degraded}
+  \hspace*{-11mm}
+  \includegraphics[width=\paperwidth]{img/inference_summary4.png}
+\end{frame}
+
+{\newgeometry{margin=0pt}
+  \begin{frame}[plain]
+    \begin{center}
+      \vspace*{4mm}
+      \includegraphics[height=\paperheight]{img/inference_summary.png}
+    \end{center}
+  \end{frame}
+}
