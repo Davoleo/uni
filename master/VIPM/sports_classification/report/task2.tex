@@ -143,6 +143,8 @@
   Degraded accuracy improved from 56.2\% to 58.6\%.
   Color augmentation is the right direction.
   The clean set drops slightly as the model must now handle color variation.
+
+  \let\thefootnote\relax\footnotetext{Trained on RX9070-WSL \textendash\ 32mins 23secs}
 \end{frame}
 
 \begin{frame}{Iteration v2.1 \textendash\ More Epochs}
@@ -168,17 +170,19 @@
   Small consistent improvement from longer training.
   We next focused on whether the augmentation parameters themselves were well-calibrated
   for the actual degradation.
+  \let\thefootnote\relax\footnotetext{Trained on RX9070-WSL \textendash\ 39mins 57secs}
 \end{frame}
 
 \begin{frame}[fragile]{Iteration v2.2 \textendash\ Jitter Tuning (Wrong Direction)}
-  We adjusted ColorJitter to protect \textit{team color features},
-  which are strong discriminative cues (e.g.\ jersey colors):
-  \begin{Verbatim}[fontsize=\small]
+  We adjusted ColorJitter to protect \textit{key color features},
+  which are strong discriminative cues (e.g.\ field and sky colors):
+  \begin{Verbatim}[fontsize=\footnotesize]
 ColorJitter(brightness=0.3, contrast=0.3,
             saturation=0.2, hue=0.05)
   \end{Verbatim}
-  \texttt{hue} was reduced from 0.1 to 0.05 (covering only $\pm$18°) to avoid shifting
-  red jerseys to orange. Saturation was kept conservatively low.
+  \texttt{hue} was reduced from 0.1 to 0.05 (covering only $\pm$18°) and saturation was kept conservatively low.
+
+  \vspace{-0.6\baselineskip}
   \begin{columns}[onlytextwidth]
     \begin{column}{0.3\linewidth}
       \begin{itemize}
@@ -194,6 +198,7 @@ ColorJitter(brightness=0.3, contrast=0.3,
   \end{columns}
   Clean accuracy improved strongly, but \texttt{hue=0.05} covers only $\pm$18° while
   78\% of degraded images have shifts \texttt{\char`<}14° \textendash{} the parameter is \textbf{4 \texttimes{} too small}.
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 19mins 20secs}
 \end{frame}
 
 \begin{frame}[fragile]{Iteration v2.3 \textendash\ Analysis-Driven Parameters}
@@ -207,6 +212,8 @@ ColorJitter(brightness=0.35, contrast=0.4,
     \item \texttt{saturation=(0.7, 3.0)}: asymmetric tuple --- the degradation is
           almost entirely a saturation \textit{increase} (mean 1.65$\times$, max 7.11$\times$)
   \end{itemize}
+
+  \vspace{-0.6\baselineskip}
   \begin{columns}[onlytextwidth]
     \begin{column}{0.3\linewidth}
       \begin{itemize}
@@ -233,12 +240,14 @@ ColorJitter(brightness=0.35, contrast=0.4,
       \toprule
       Iteration & Degraded Acc & Why reverted \\
       \midrule
-      v2.4 --- Gaussian noise & 60.1\% & The majority of edge feature became irrelevant \\
+      v2.4 --- Gaussian noise & 60.1\% & The majority of edge features became irrelevant \\
       v2.5 --- JPEG compression & 62.8\% & In the dataset we didn't find any JPEG compression noise \\
-      v2.6 --- More hue shift & 66.2\% & Exceeds data range, hurts clean set \\
+      v2.6 --- More hue shift & 66.2\% & Exceeds data range, introduces more class confusion \\
       v2.8 --- Mixup ($\alpha=0.2$) & 46.2\% & Too much regularisation; CNN underfits \\
-      v2.9 --- Mixup (no jitter) & 51.4\% & Still underfitting \\
+      v2.9 --- Mixup (no jitter) & 51.4\% & Still underfitting, confirms mixup is too much for architecture \\
       v2.10 --- LR scheduling & --- & No major effects other than increasing training time \\
+      v2.10b --- AutoContrast & 70.7\% & Insufficient effect on degraded set \\
+      v2.13 --- Random erasing & 69.4\% & Black patches cannot approximate color crushing. \\
       \bottomrule
     \end{tabular}}
   \end{center}
@@ -252,7 +261,6 @@ ColorJitter(brightness=0.35, contrast=0.4,
   The rationale: with color distortion at test time, the model should not be
   overconfident on color-specific cues (e.g.\ team colors) that are unreliable on the
   degraded set.
-  \vspace{\baselineskip}
   \begin{columns}[onlytextwidth]
     \begin{column}{0.35\linewidth}
       \begin{itemize}
@@ -271,22 +279,51 @@ ColorJitter(brightness=0.35, contrast=0.4,
   \vspace{0.5\baselineskip}
   Modest improvement in degraded robustness.
   Label smoothing was retained in subsequent runs as a regulariser alongside color jitter.
+  \tiny\let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 16mins 41secs}
+\end{frame}
+
+\begin{frame}{Iteration v2.11 \textendash\ Batch Size}
+  After optimizing \textbf{compute offloading} and using \textbf{Automatic Mixed Precision} for GPU computation,
+  we decided to increase batch size $(32 \rightarrow 128)$ to take advantage of the improved pipeline,
+  This didn't affect the network training too much and performance metrics stayed relatively stable.
+  \vspace{\baselineskip}
+  
+  \begin{columns}[onlytextwidth]
+    \begin{column}{0.3\linewidth}
+      {\small\setlength{\leftmargin}{4em}
+      \begin{itemize}
+        \item [train] \textit{Acc}: 77.0\%,
+        \item [val] \textit{Acc}: 78.0\%,
+        \item [clean] \textit{Acc}: 81.9\%,\\ \textit{F1}: 0.8070
+        \item [degraded] \textit{Acc}: 67.2\%,\\ \textit{F1}: 0.6673
+      \end{itemize}}
+    \end{column}
+    \begin{column}{0.7\linewidth}
+      \includegraphics[width=\textwidth]{../models/v2.11_batch_size_128.png}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 28mins 29secs}
 \end{frame}
 
 \begin{frame}{Iteration v2.12 \textendash\ Scaling Up the Model}
-  AutoContrast + RandomGrayscale (v2.11, \textit{reverted}, 70.8\%) showed insufficient gains.
-  Instead, we scaled up from \textbf{Baseline2} to \textbf{Baseline3}
+  We scaled up from \textbf{Baseline2} to \textbf{Baseline3}
   (channel widths 32--512 $\to$ 64--512) and added
   \textbf{Test-Time Augmentation} (TTA:\@ 4 views averaged at inference):
-  \vspace{-0.6\baselineskip}
-  {\small\setlength{\leftmargini}{4em}
-  \begin{itemize}
-    \item [clean] \textit{Acc}: 85.6\%, \textit{F1}: 0.852
-    \item [degraded] \textit{Acc}: 73.4\%, \textit{F1}: 0.731
-    \item [deg.+TTA] \textit{Acc}: \textbf{74.4\%}, \textit{F1}: \textbf{0.749}
-    \item [v2.13] Random erasing tested and reverted: black patches cannot approximate color casts.
-  \end{itemize}}
-  {\centering\includegraphics[height=3.2cm, keepaspectratio]{../models/v2.12_scale_up_model.png}\par}
+  \vspace{\baselineskip}
+  \begin{columns}[onlytextwidth]
+    \begin{column}{0.3\linewidth}
+      {\small\setlength{\leftmargin}{4em}
+      \begin{itemize}
+        \item [clean] \textit{Acc}: 85.6\%,\\ \textit{F1}: 0.852
+        \item [degraded] \textit{Acc}: 73.4\%,\\ \textit{F1}: 0.731
+        \item [deg.+TTA] \textit{Acc}: \textbf{74.4\%},\\ \textit{F1}: \textbf{0.749}
+      \end{itemize}}
+    \end{column}
+    \begin{column}{0.7\linewidth}
+      \includegraphics[width=\linewidth]{../models/v2.12_scale_up_model.png}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 35mins 44secs}
 \end{frame}
 
 \begin{frame}{v2.12 \textendash\ Cross-GPU Results}
