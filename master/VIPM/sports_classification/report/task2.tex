@@ -1,4 +1,6 @@
 %chktex-file 8
+%chktex-file 36
+
 \section{Task 2}
 \makeatletter\def\@currentlabel{Task 2}\makeatother\label{sec:task2}
 
@@ -48,15 +50,15 @@
 \begin{frame}{Unsupervised Enhancement \textendash\ Results}
   \begin{center}
     \begin{tabular}{lcc}
-      \hline
+      \toprule
       Technique & Accuracy & F1 \\
-      \hline
+      \midrule
       No enhancement (baseline) & 56.2\% & 0.554 \\
       Auto Gamma Correction     & 47.6\% & 0.462 \\
       White Balance (Gray World) & 53.2\% & 0.530 \\
       WB + Gamma                & 45.0\% & 0.446 \\
       Contrast Stretch          & $\approx$52\% & --- \\
-      \hline
+      \bottomrule
     \end{tabular}
   \end{center}
   \vspace{0.5\baselineskip}
@@ -75,14 +77,14 @@
   \vspace{0.5\baselineskip}
   \begin{center}
     \begin{tabular}{lccc}
-      \hline
+      \toprule
       Metric & Clean & Degraded & $\Delta$ \\
-      \hline
+      \midrule
       Brightness (mean pixel, 0--255) & 118.8 & 118.9 & $+$0.15 \\
       Contrast (pixel std) & 61.4 & 62.6 & $+$1.19 \\
       \textbf{Saturation (HSV, 0--255)} & 83.1 & \textbf{100.6} & \textbf{$+$17.5} \\
       Hue std & 60.0 & 52.8 & $-$7.2 \\
-      \hline
+      \bottomrule
     \end{tabular}
   \end{center}
   \vspace{0.5\baselineskip}
@@ -97,30 +99,24 @@
 
 \begin{frame}{Degraded Set Analysis \textendash\ Visual Examples}
   Two dominant degradation patterns were observed:
-  \vspace{0.5\baselineskip}
+  \vspace{0.45\baselineskip}
   \begin{columns}[onlytextwidth]
-    \begin{column}{0.5\linewidth}
-      \textbf{Color cast}: a global hue shift is applied to the whole image.
-      \begin{itemize}
-        \item White ice rink $\to$ strong \textit{teal cast} (figure skating)
-        \item Warm neutral background $\to$ \textit{purple/cool cast} (balance beam)
-        \item Natural lighting $\to$ \textit{blue shift} (tennis)
-      \end{itemize}
+    \begin{column}{0.45\linewidth}
+      \begin{tabular}{cc}
+        \includegraphics[width=0.5\linewidth]{../data/test/basketball/3.jpg} & \includegraphics[width=0.5\linewidth]{../data/test_degradato/basketball/3.jpg}\\
+        \includegraphics[width=0.5\linewidth]{../data/test/figure skating women/3.jpg} & \includegraphics[width=0.5\linewidth]{../data/test_degradato/figure skating women/3.jpg}
+      \end{tabular}
     \end{column}
-    \begin{column}{0.5\linewidth}
-      \textbf{Contrast collapse}: shadow and black regions are lifted toward dark grey,
-      reducing the dynamic range.
-      \begin{itemize}
-        \item Pure black background $\to$ dark grey (parallel bar, uneven bars)
-      \end{itemize}
+    \begin{column}{0.45\linewidth}
+      \begin{tabular}{cc}
+        \includegraphics[width=0.5\linewidth]{../data/test/formula 1 racing/3.jpg} & \includegraphics[width=0.5\linewidth]{../data/test_degradato/formula 1 racing/3.jpg}\\
+        \includegraphics[width=0.5\linewidth]{../data/test/boxing/3.jpg} & \includegraphics[width=0.5\linewidth]{../data/test_degradato/boxing/3.jpg}
+      \end{tabular}
     \end{column}
   \end{columns}
-  % [PLACEHOLDER: insert side-by-side clean / degraded image comparison]
   \vspace{0.5\baselineskip}
-  This explains why gamma and white balance failed: the degradation is a
-  \textbf{per-image color distortion} of varying direction and magnitude,
-  not a uniform exposure or WB shift.
-  $\Rightarrow$ We retrain with augmentation that simulates exactly these distortions.
+  The images present issues with overall \textbf{heavy color casting}, 
+  \textit{bloom} artifacts which also include \textbf{color crushing} and some \textbf{contrast collapse} on certain images.
 \end{frame}
 
 \subsection{Approach B \textendash\ Augmentation-Aware Training}
@@ -197,7 +193,7 @@ ColorJitter(brightness=0.3, contrast=0.3,
     \end{column}
   \end{columns}
   Clean accuracy improved strongly, but \texttt{hue=0.05} covers only $\pm$18° while
-  78\% of degraded images have shifts $>$14° --- the parameter is \textbf{4$\times$ too small}.
+  78\% of degraded images have shifts \texttt{\char`<}14° \textendash{} the parameter is \textbf{4 \texttimes{} too small}.
 \end{frame}
 
 \begin{frame}[fragile]{Iteration v2.3 \textendash\ Analysis-Driven Parameters}
@@ -234,16 +230,16 @@ ColorJitter(brightness=0.35, contrast=0.4,
   \begin{center}
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{lcc}
-      \hline
+      \toprule
       Iteration & Degraded Acc & Why reverted \\
-      \hline
+      \midrule
       v2.4 --- Gaussian noise & 60.1\% & The majority of edge feature became irrelevant \\
       v2.5 --- JPEG compression & 62.8\% & In the dataset we didn't find any JPEG compression noise \\
       v2.6 --- More hue shift & 66.2\% & Exceeds data range, hurts clean set \\
       v2.8 --- Mixup ($\alpha=0.2$) & 46.2\% & Too much regularisation; CNN underfits \\
       v2.9 --- Mixup (no jitter) & 51.4\% & Still underfitting \\
       v2.10 --- LR scheduling & --- & No major effects other than increasing training time \\
-      \hline
+      \bottomrule
     \end{tabular}}
   \end{center}
   \vspace{0.5\baselineskip}
@@ -281,7 +277,7 @@ ColorJitter(brightness=0.35, contrast=0.4,
   AutoContrast + RandomGrayscale (v2.11, \textit{reverted}, 70.8\%) showed insufficient gains.
   Instead, we scaled up from \textbf{Baseline2} to \textbf{Baseline3}
   (channel widths 32--512 $\to$ 64--512) and added
-  \textbf{Test-Time Augmentation} (TTA: 4 views averaged at inference):
+  \textbf{Test-Time Augmentation} (TTA:\@ 4 views averaged at inference):
   \vspace{-0.6\baselineskip}
   {\small\setlength{\leftmargini}{4em}
   \begin{itemize}
@@ -300,12 +296,12 @@ ColorJitter(brightness=0.35, contrast=0.4,
   \begin{center}
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{lcccccc}
-      \hline
+      \toprule
       GPU & Clean Acc & Clean F1 & Deg.\ Acc & Deg.\ F1 & Deg.+TTA Acc & Deg.+TTA F1 \\
-      \hline
+      \midrule
       RX9070 (ROCm nightly)   & 85.6\% & 0.852 & 73.3\% & 0.731 & \textbf{74.4\%} & \textbf{0.749} \\
       RX6950 XT (ROCm stable) & 84.3\% & 0.839 & 74.0\% & 0.738 & --- & --- \\
-      \hline
+      \bottomrule
     \end{tabular}}
   \end{center}
   \vspace{0.5\baselineskip}
@@ -318,9 +314,9 @@ ColorJitter(brightness=0.35, contrast=0.4,
 \begin{frame}{Task 2 \textendash\ Results Summary and Conclusions}
   \begin{center}
     \begin{tabular}{lcc}
-      \hline
+      \toprule
       Model / Strategy & Degraded Acc & F1 \\
-      \hline
+      \midrule
       v1.12 (Task~1 model, no augment) & 56.2\% & 0.554 \\
       Best unsupervised enhancement (WB) & 53.2\% & 0.530 \\
       v2.0 --- ColorJitter (60 ep) & 58.6\% & 0.579 \\
@@ -328,7 +324,7 @@ ColorJitter(brightness=0.35, contrast=0.4,
       v2.3 --- Analysis-driven params & 73.1\% & 0.727 \\
       v2.7 --- + Label smoothing & 69.7\% & 0.692 \\
       \textbf{v2.12 --- Baseline3 + TTA} & \textbf{74.4\%} & \textbf{0.749} \\
-      \hline
+      \bottomrule
     \end{tabular}
   \end{center}
   \vspace{0.5\baselineskip}

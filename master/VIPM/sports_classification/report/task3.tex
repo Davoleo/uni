@@ -23,7 +23,7 @@
       \begin{itemize}
         \item Describes local image patches as 128-d gradient-orientation histograms.
         \item Invariant to scale, rotation, and illumination changes.
-        \item We use \textbf{Dense} SIFT: keypoints on a fixed grid (step = 8 px).
+        \item We use \textbf{Dense} SIFT:\@ keypoints on a fixed grid (step = 8 px).
       \end{itemize}
     \end{column}
     \begin{column}{0.33\textwidth}
@@ -43,7 +43,7 @@
       \begin{itemize}
         \item Extends BoVW by computing histograms at multiple spatial scales.
         \item Captures \emph{where} visual words appear, not just \emph{how often}.
-        \item Proven effective for scene and action classification \cite{lazebnik2006}.
+        \item Proven effective for scene and action classification~\cite{lazebnik2006}.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -93,7 +93,7 @@
     \begin{column}{0.58\textwidth}
       \textbf{Why LinearSVC?}
       \begin{itemize}
-        \item High-dimensional L2-normalised SPM vectors are \textbf{linearly separable} in practice \cite{lazebnik2006}.
+        \item High-dimensional L2-normalised SPM vectors are \textbf{linearly separable} in practice~\cite{lazebnik2006}.
         \item Scales to $N = 500$ samples and $D = 10\,500$ features in seconds.
         \item Kernel SVM (RBF) would overfit on such a small dataset.
       \end{itemize}
@@ -101,7 +101,7 @@
       \textbf{Training details:}
       \begin{itemize}
         \item \textbf{5-fold Stratified CV} to estimate generalisation.
-        \item Regularisation $C = 1.0$; re-fit on full set after CV.
+        \item Regularisation $C = 1.0$; re-fit on full set after CV.\@
       \end{itemize}
     \end{column}
     \begin{column}{0.38\textwidth}
@@ -185,7 +185,7 @@
         \small
         \begin{tabular}{lcc}
           & \textbf{Clean} & \textbf{Deg.} \\
-          \hline
+          \midrule
           Baseline ($K$=500) & 0.258 & 0.226 \\
           $K$=2000           & 0.246 & 0.200 \\
           $K$=500 + TF-IDF   & 0.214 & 0.170 \\
