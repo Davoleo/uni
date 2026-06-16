@@ -16,9 +16,9 @@ uv sync --extra <cpu|stable|nightly>
 |---|---|
 | `cpu` | CPU-only |
 | `stable` | AMD RX6000 series (ROCm 7.2) |
-| `nightly` | AMD RX9000 series (ROCm nightly) |
+| `nightly` | AMD RX9070 (XT) cards (ROCm nightly) |
 
-For RX9000 cards, install ROCm SDK libs first:
+For RX9070 cards, install ROCm SDK libs after syncing:
 ```bash
 ./rocm_nightly.sh
 ```
@@ -35,18 +35,18 @@ Every script must be prefixed with `uv run --extra <extra>`. Examples below use 
 
 ```bash
 # Clean test set
-uv run --extra stable python evaluate.py --name <checkpoint_name>
+uv run --extra <target> python evaluate.py --name <checkpoint_name>
 
 # Degraded test set
-uv run --extra stable python evaluate.py --name <checkpoint_name> --degraded
+uv run --extra <target> python evaluate.py --name <checkpoint_name> --degraded
 
 # With Test-Time Augmentation (TTA)
-uv run --extra stable python evaluate.py --name <checkpoint_name> --degraded --tta
+uv run --extra <target> python evaluate.py --name <checkpoint_name> --degraded --tta
 
 # With unsupervised image enhancement (combinable)
-uv run --extra stable python evaluate.py --name <checkpoint_name> --degraded --enhance wb
-uv run --extra stable python evaluate.py --name <checkpoint_name> --degraded --enhance gamma
-uv run --extra stable python evaluate.py --name <checkpoint_name> --degraded --enhance wb gamma
+uv run --extra <target> python evaluate.py --name <checkpoint_name> --degraded --enhance wb
+uv run --extra <target> python evaluate.py --name <checkpoint_name> --degraded --enhance gamma
+uv run --extra <target> python evaluate.py --name <checkpoint_name> --degraded --enhance wb gamma
 ```
 
 `--name` is the checkpoint filename without extension (e.g. `v2.3_jitter_param_tuning`). Checkpoints are loaded from `models/<name>.pt`.
@@ -66,7 +66,7 @@ Available `--enhance` options:
 Re-run the full pipeline (extracts dense SIFT, builds codebook, trains SVM, evaluates on both test sets, saves confusion matrices):
 
 ```bash
-uv run --extra stable python oneshot.py
+uv run --extra <cpu|stable|nightly> python oneshot.py
 ```
 
 Results are appended to `iterations.log`. Confusion matrices are saved to `models/task3_confusion_clean.png` and `models/task3_confusion_degraded.png`.
@@ -78,13 +78,13 @@ Results are appended to `iterations.log`. Confusion matrices are saved to `model
 ### Task 1 — Scratch CNN (Baseline2)
 
 ```bash
-uv run --extra stable python baseline.py --name <checkpoint_name>
+uv run --extra <target> python baseline.py --name <checkpoint_name>
 ```
 
 ### Task 2 — Degradation-robust CNN (Baseline3)
 
 ```bash
-uv run --extra stable python degraded.py --name <checkpoint_name>
+uv run --extra <target> python degraded.py --name <checkpoint_name>
 ```
 
 The `degraded.py` script extends the training pipeline with color-jitter augmentation calibrated to match the degraded test set distribution (brightness ±0.35, contrast ±0.4, saturation 0.7–3.0×, hue ±0.25).
