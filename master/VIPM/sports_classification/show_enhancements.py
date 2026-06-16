@@ -9,4 +9,6 @@ composed = transforms.Compose([
 
 contrast_stretch = ContrastStretch(low_percentile=8)
 
-show_enhancement(composed, n=5)
+posterize = v2.RandomPosterize(2, p=1.0)
+
+show_enhancement(posterize, test_dir='data/test', n=5)
