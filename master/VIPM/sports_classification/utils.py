@@ -140,7 +140,7 @@ def train(model, lossfun, optimizer, *, train_loader, val_loader, train_size, va
 def write_training_log(name, elapsed, num_epochs, metrics, degraded=True, log_path='iterations.log'):
     mins, secs = int(elapsed // 60), int(elapsed % 60)
     result = subprocess.run(
-        [sys.executable, 'evaluate.py', '--name', name],
+        [sys.executable, 'evaluate.py', '--weights', name],
         capture_output=True, text=True
     )
     clean_test_line = next(
@@ -151,7 +151,7 @@ def write_training_log(name, elapsed, num_epochs, metrics, degraded=True, log_pa
     degraded_test_line = None
     if (degraded):
         result = subprocess.run(
-            [sys.executable, 'evaluate.py', '--name', name, '--degraded' if degraded else ''],
+            [sys.executable, 'evaluate.py', '--weights', name, '--degraded' if degraded else ''],
             capture_output=True, text=True
         )
         degraded_test_line = next(

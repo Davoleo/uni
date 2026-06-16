@@ -10,7 +10,7 @@ from utils import get_device
 
 parser = argparse.ArgumentParser()
 parser.add_argument('image', help='Path to the image to classify')
-parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
+parser.add_argument('--weights', required=True, help='Checkpoint name (loaded from models/<weights>.pt)')
 parser.add_argument('--model', required=True, choices=['baseline1', 'baseline2', 'baseline3', 'efficient-net'],
                     help='Model architecture matching the checkpoint')
 parser.add_argument('--topk', type=int, default=5, help='Number of top predictions to show (default: 5)')
@@ -42,7 +42,7 @@ match args.model:
     case _: raise ValueError("Unknown model")
 
 # load weights from args and send to device
-model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True, map_location=device))
+model.load_state_dict(torch.load(os.path.join('models', f'{args.weights}.pt'), weights_only=True, map_location=device))
 model.to(device)
 # Evaluate result
 model.eval()
