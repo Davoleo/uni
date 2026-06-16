@@ -12,7 +12,7 @@ from torch import nn
 from torchinfo import summary
 from torchvision import datasets
 
-from models import Baseline2
+from models import Baseline2 as Baseline
 from utils import get_device, get_val_transforms, get_train_transforms, plot_performance, seed_everything, train, write_training_log
 
 SEED = 42
@@ -72,8 +72,9 @@ def display_predicts(model, num_images=6):
     model.train(mode=was_training)
 
 
-model = Baseline2().to(device)
+model = Baseline().to(device)
 summary(model)
+exit()
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer_ft = optim.Adam(model.parameters(), lr=1e-3)
