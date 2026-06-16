@@ -1,20 +1,408 @@
+%chktex-file 8
+%chktex-file 36
 \section{Task 1}
 \makeatletter\def\@currentlabel{Task 1}\makeatother\label{sec:task1}
-\begin{frame}{Model}
-  \begin{itemize}
-    \item Gestione valori mancanti
-    \item Normalizzazione / encoding
-    \item Train/val/test split
-  \end{itemize}
+
+\subsection{Overview}
+\begin{frame}{Overview}
+  \begin{block}{Prompt}
+    Classification of a dataset with 100 classes of different sports, on the clean test set.
+  \end{block}
+  \vspace{\baselineskip}
+  The sheer number of classes and different variants of sports required us to make use of moderate augmentation even in this task,
+  to generate enough data samples to allow the model to learn correctly while trying to avoid overfitting and class confusion.
 \end{frame}
 
-\begin{frame}{Augmentation Techniques}
-  \begin{itemize}
-    \item Aug1
-    \item Aug2
-    \item So on
-  \end{itemize}
+\subsection{Baseline 1}
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 0}
+  The network we used initially was a CNN with 4 layers.
+
+  \begin{verbatim}
+Conv2d: 1-1                            896
+MaxPool2d: 1-2                         --
+Conv2d: 1-3                            18,496
+MaxPool2d: 1-4                         --
+Conv2d: 1-5                            73,856
+MaxPool2d: 1-6                         --
+Conv2d: 1-7                            295,168
+MaxPool2d: 1-8                         --
+Linear: 1-9                            3,686,500
+  \end{verbatim}
 \end{frame}
 
-\begin{frame}{Results}
+\begin{frame}{Baseline \textendash\ Iteration 0}{Results}
+  \textbf{Serious overfitting}: the model wasn't regularized at all and only managed to learn the training set.
+  \begin{columns}
+    \begin{column}{0.3\linewidth}
+      Test Set results: \textit{Accuracy}: 0.458, \textit{F1-Score}: 0.446.
+    \end{column}
+    \begin{column}{0.7\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.1-baseline.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 6mins 12secs}
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 1}
+  In order to tackle overfitting we initially added \textbf{Dropout} to the model:
+
+  \begin{verbatim}
+if (self.dropout):
+    x = nn.functional.dropout(x, 0.5)
+  \end{verbatim}
+
+  This lowered validation accuracy even more, but it also regularized training accuracy to be in line with it, 
+  so it was overall a good iteration.
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 2}
+  For the 3rd iteration we decided to experiment with \textbf{Batch Normalization} applied on all convolution layers.
+  This allows us to normalize the values of the feature extracted by the previous convolutional layer, 
+  with additional trainable parameters to allow it to adapt during the training.
+
+  \begin{Verbatim}[fontsize=\small]
+Conv2d: 1-1                            896
+BatchNorm2d: 1-2                       64
+MaxPool2d: 1-3                         --
+Conv2d: 1-4                            18,496
+BatchNorm2d: 1-5                       128
+MaxPool2d: 1-6                         --
+Conv2d: 1-7                            73,856
+BatchNorm2d: 1-8                       256
+MaxPool2d: 1-9                         --
+Conv2d: 1-10                           295,168
+BatchNorm2d: 1-11                      512
+MaxPool2d: 1-12                        --
+Linear: 1-13                           3,686,500
+  \end{Verbatim}
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iterations 1 and 2}{Results}
+  Dropout resulted in strong regularization, but affected training and validation too much,
+  so we decided to keep BatchNormalization effect which was milder and expand from there. 
+  \vspace{\baselineskip}
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \textbf{Iteration 1}:
+      \begin{itemize}
+        \item [train] Loss: 1.1266,\\ Accuracy: 0.6865
+        \item [val] Loss: 2.4384,\\ Accuracy: 0.4420 \\ (best acc.: 0.452000)
+        \item [test] \textit{Accuracy}: 0.45,\\ \textit{F1-Score}: 0.434.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      \textbf{Iteration 2}:
+      \begin{itemize}
+        \item [train] Loss: 0.2143,\\ Accuracy: 0.9328
+        \item [val] Loss: 2.8431,\\ Accuracy: 0.4880 \\  (best acc.: 0.488000)
+        \item [test] \textit{Accuracy}: 0.52,\\ \textit{F1-Score}: 0.511.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 6mins 14secs / 7mins 5secs}
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 3}
+  We decided to try adding some data augmentation.
+  Specifically in Iteration 3 we added \textbf{Random Resized Crop}, 
+  which crops a random subregion in the image and rescales it to fit a certain size.
+  
+  \begin{center}
+    \includegraphics[width=\linewidth]{img/random_resized_crop.png}
+    \tiny{Image from PyTorch Docs~\cite{torchvision_augmentation_api}}
+  \end{center}
+  \vspace{-0.6\baselineskip}
+
+  This improved metrics quite a bit both in training and validation, so we decided to keep it.
+  \begin{columns}
+    \begin{column}{0.333\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.7902,\\ Accuracy: 0.7762.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.333\linewidth}
+      \begin{itemize}
+        \item [val] Loss: 1.9234,\\ Accuracy: 0.5600.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.333\linewidth}
+      \begin{itemize}
+        \item [test] \textit{Accuracy}: 0.674,\\ \textit{F1-Score}: 0.656.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 4mins 29secs}
+\end{frame}
+
+
+\begin{frame}{Baseline \textendash\ Iteration 4}
+  In the 4th iteration we tried adding some \textbf{Gaussian Blur} to simulate
+  blur / low quality in the original photos.
+  
+  \begin{center}
+    \includegraphics[width=\linewidth]{img/gaussian_blur.png}
+    \tiny{Image from PyTorch Docs~\cite{torchvision_augmentation_api}}
+  \end{center}
+
+  This, even if it was applied very lightly, had a bad effect on the network learning features, 
+  due to what we assume is, the \textbf{loss of important edges} that defined objects inside the sport scene to aid classification.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 4}{Results}
+  \textbf{Gaussian Blur} was unnecessary, so we decided to \textit{revert this augmentation}.
+  
+  \begin{columns}
+    \begin{column}{0.3\linewidth}
+      Test Set results: \textit{Accuracy}: 0.412, \textit{F1-Score}: 0.370.
+    \end{column}
+    \begin{column}{0.7\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.4_gaussian_blur.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 7mins 3secs}
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 5}
+  During 5th iteration we reintroduced \textbf{Dropout} fixing the oversight we made in Iteration 1:
+  \textit{dropout should only be applied during training and not during inference}, 
+  and it should be properly guarded in \texttt{pytorch}.
+  
+  \vspace{\baselineskip}
+
+  \begin{Verbatim}[commandchars=\\\{\}]
+if (self.dropout \textcolor{teal}{and self.training}):
+    x = nn.functional.dropout(x, 0.5)
+  \end{Verbatim}
+
+  \vspace{\baselineskip}
+
+  This fixed some of the \textit{``overfitting''} previously causing performace degradation of the network during inference.
+  Since random neurons \textit{should not} be turned off during evaluation.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 5}{Results}
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 1.6986,\\ Accuracy: 0.5652
+        \item [val] Loss: 2.2267,\\ Accuracy: 0.4680 \\ best acc.: 0.4680
+        \item [test] \textit{Accuracy}: 0.508,\\ \textit{F1-Score}: 0.487.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.5_no_dropout_val_inference.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 7mins}
+\end{frame}
+
+\begin{frame}[fragile]{Baseline \textendash\ Iteration 6}
+  \textbf{2D Adaptive Average Pooling} helped to regularize the model even more effectively
+  removing any remaining trace of overfitting in our model.
+
+  \vspace{\baselineskip}
+
+  This, when prepended to a normal \textit{Flattening} layer, 
+  allows the network to extract the best feature match from the Convolution output into the classifier.
+
+  \vspace{\baselineskip}
+
+  \begin{verbatim}
+    self.AdaptiveAvgPool2d = nn.AdaptiveAvgPool2d(1)
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 6}{Results}
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 2.0423,\\ Accuracy: 0.4558
+        \item [val] Loss: 2.4452,\\ Accuracy: 0.4060 \\ best acc.: 0.4260
+        \item [test] \textit{Accuracy}: 0.454,\\ \textit{F1-Score}: 0.416.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.6_adaptiveavgpool.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \vspace{\baselineskip}
+  \textbf{Iteration 7} is dedicated to merging Iteration 5 and Iteration 6 changes.
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 4mins 20secs}
+\end{frame}
+
+
+\subsection{Baseline 2}
+\begin{frame}[fragile]{Baseline2 \textendash\ Iteration 8}
+  Now that the major overfitting causes have been fixed, 
+  we focused on expanding the model to better classify images in the 100 classes.
+
+  New layer: \textbf{conv5} with its own pooling and batch-norm.
+  
+  \begin{Verbatim}[fontsize=\scriptsize]
+Conv2d: 1-1                            896
+BatchNorm2d: 1-2                       64
+MaxPool2d: 1-3                         --
+Conv2d: 1-4                            18,496
+BatchNorm2d: 1-5                       128
+MaxPool2d: 1-6                         --
+Conv2d: 1-7                            73,856
+BatchNorm2d: 1-8                       256
+MaxPool2d: 1-9                         --
+Conv2d: 1-10                           295,168
+BatchNorm2d: 1-11                      512
+MaxPool2d: 1-12                        --
+Conv2d: 1-13                           1,180,160
+BatchNorm2d: 1-14                      1,024
+MaxPool2d: 1-15                        --
+AdaptiveAvgPool2d: 1-16                --
+Linear: 1-17                           51,300
+Total params: 1,621,860
+  \end{Verbatim}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 8}{Results}
+  The results show overall improvements on training, 
+  validation and test metrics as well as an upward trend.
+    
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 1.2515,\\ Accuracy: 0.6488
+        \item [val] Loss: 1.2886,\\ Accuracy: 0.6520 \\ best acc.: 0.6520
+        \item [test] \textit{Accuracy}: 0.686,\\ \textit{F1-Score}: 0.670.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.8_conv5.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 4mins 15secs}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 9}
+  Thanks to the good results and trend in the previous iteration 
+  we tried to push more epochs to take advantage of it.
+
+  From 20 epochs to 40 epochs of training.
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.7121,\\ Accuracy: 0.7895
+        \item [val] Loss: 0.8928,\\ Accuracy: 0.7540 \\ best acc.: 0.7540
+        \item [test] \textit{Accuracy}: 0.792,\\ \textit{F1-Score}: 0.7779
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.9_more_epochs.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 8mins 18secs}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 10}
+  The previous iteration had good results but during the last epochs,
+  \textit{validation metrics} started to show a \textbf{declining trend} with respect to the training ones.
+
+  \vspace{\baselineskip}
+
+  So we've tried adding some more image augmentation to counter that trend,
+  more specifically in this iteration we tried adding some \textbf{Random Erasing}.
+
+  \begin{center}
+    \includegraphics[width=\linewidth]{img/random_erasing.png}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 10}{Results}
+  The results were not exciting, even when considering the gap between the two GPU accuracies
+  with the same seed, so the iteration was \alert{reverted}.
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 1.4146,\\ Accuracy: 0.6078
+        \item [val] Loss: 1.7122,\\ Accuracy: 0.5640 \\ best acc.: 0.6260
+        \item [test] \textit{Accuracy}: 0.628,\\ \textit{F1-Score}: 0.6039
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.65\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.10_random_erasing.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 13mins}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 11}
+  Iteration 4 didn't help much since \textbf{Gaussian Blur} actively removes important edges,
+  we've tried to sharpen the image instead to bring out more important edges
+  to aid classification using \textbf{RandomAdjustSharpness}.
+
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/random_adjust_sharpness.png}
+    \tiny{Image from PyTorch Docs~\cite{torchvision_augmentation_api}}
+  \end{center}
+
+  This should also help \textit{define objects} that have \textbf{smaller size or low resolution} in the images more.
+\end{frame}
+
+\begin{frame}{Baseline \textendash\ Iteration 11}{Results}
+  \textbf{Sharpening} helped \textit{define edges} and slightly improved the model accuracy (keeping in mind the hardware difference).
+  
+  We also increased the \textbf{number of epochs} from 40 to 60 for this training.
+
+  \vspace{\baselineskip}
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.9916,\\ Accuracy: 0.7127
+        \item [val] Loss: 0.9689,\\ Accuracy: 0.7460 \\ best acc.: 0.7460
+        \item [test] \textit{Accuracy}: 0.780,\\ \textit{F1-Score}: 0.771
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.77\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.11_rand_adjust_sharpness.png}
+      \end{center}
+    \end{column}
+  \end{columns}
+  \let\thefootnote\relax\footnotetext{Trained on RX9070 \textendash\ 19mins 30secs}
+\end{frame}
+
+\begin{frame}{Baseline2 \textendash\ Iteration 12}
+  In the end we've tried increasing training epochs even more (from 60 to 80) 
+  to push the model as much as possible, although the improvements weren't much higher, 
+  considering the difference in architecture training, the improvements were very slight / minimal,
+  but we still decided to keep this version of the model.
+
+  \begin{columns}
+    \begin{column}{0.35\linewidth}
+      \begin{itemize}
+        \item [train] Loss: 0.3604,\\ Accuracy: 0.8914
+        \item [val] Loss: 0.8194,\\ Accuracy: 0.8000 \\ best acc.: 0.8320
+        \item [test] \textit{Accuracy}: 0.836,\\ \textit{F1-Score}: 0.827
+      \end{itemize}
+      \let\thefootnote\relax\footnotetext{Trained on RX6950 \textendash\ 17mins 9secs}
+    \end{column}
+    \begin{column}{0.60\linewidth}
+      \begin{center}
+        \includegraphics[width=\textwidth]{../models/v1.12_80_epochs.png}
+      \end{center}
+    \end{column}
+  \end{columns}
 \end{frame}

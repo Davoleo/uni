@@ -12,6 +12,27 @@ from PIL import Image
 from torch import nn
 from torchvision.transforms import v2
 
+def get_val_transforms():
+    return v2.Compose([
+        v2.ToImage(),
+        v2.ToDtype(torch.float32, scale=True)
+    ])
+
+def get_train_transforms(degraded=False):
+    steps = [
+        v2.ToImage(),
+        v2.RandomHorizontalFlip(),
+        v2.RandomResizedCrop(224, scale=(0.6, 1.0)),
+    ]
+    if degraded:
+        steps.append(v2.ColorJitter(
+            brightness=0.35, contrast=0.4,
+            saturation=(0.7, 3.0), hue=0.25,
+        ))
+    steps.append(v2.RandomAdjustSharpness(sharpness_factor=2))
+    steps.append(v2.ToDtype(torch.float32, scale=True))
+    return v2.Compose(steps)
+
 
 class AutoGammaCorrection(nn.Module):
     """

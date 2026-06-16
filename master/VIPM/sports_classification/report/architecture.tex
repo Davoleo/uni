@@ -1,38 +1,58 @@
-\section{Dataset and Tools}
-\begin{frame}{Dataset Overview}
-  \begin{itemize}
-    \item Project Architecture
-    \item Framework and Libraries
-    \item Hardware
-  \end{itemize}
-\end{frame}
+\section{Architecture \& Environment}
 
-\begin{frame}{Project Architecture \textendash\ Source Files}
+
+\subsection{Project Architecture}
+\begin{frame}{Project Architecture}{Source Files}
   The project is organized in different \textbf{Python} scripts in the root folder, these scripts can either be \textit{entrypoints} or \textit{utility} scripts
+  \pause\
 
   \begin{itemize}
     \item \texttt{baseline.py}: Entrypoint model training for~\ref{sec:task1}.
     \item \texttt{degraded.py}: Entrypoint model training for~\ref{sec:task2}.
     \item \texttt{oneshot.py}: Entrypoint model training for~\ref{sec:task3}.
-    \item \texttt{evaluate.py}: Entrypoint inferenza per tutti i modelli.
+    \item \texttt{evaluate.py}: Entrypoint for inference on all models.\pause\
     \item \texttt{models.py}: Utility file containing all used models.
     \item \texttt{transforms.py}: Utility file containing some transforms used for image enhancement / augmentation.
     \item \texttt{utils.py}: Utility containing other functions used globally in the project.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Project Architecture \textendash\ Other Folders}
+\begin{frame}{Project Architecture}{Other Folders \& Files}
   \begin{itemize}
     \item \texttt{data}: Contains the dataset subdivided in \texttt{test, test\_degradato, train, valid} and in 100 different folders (1 per class)
     \item \texttt{docs}: Contains documentation and references about the project code and dataset.
     \item \texttt{models}: Contains \textbf{pytorch model checkpoints}
     \item \texttt{report}: Contains this report presentation.
+    \item \texttt{iterations.log}: Contains all model iterations and their relative results with comments and rationales.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{ROCm and GPUs}
-  In order to train the models we used ROCm on 2 AMD consumer cards: \textbf{RX6950} \& \textbf{RX9070}.
+\subsection{Libraries \& Frameworks}
+\begin{frame}{Project Libraries \& Frameworks}
+  \begin{itemize}
+    \item \texttt{matplotlib}: MATLAB-like plotting library
+    \item \texttt{numpy}: MATLAB-like matrices and numerical operations
+    \item \texttt{torch}: PyTorch main Machine Learning framework used
+    \item \texttt{torchvision}: Pytorch sub-library for computer vision
+    \item \texttt{torchinfo}: model summary and number of parameters
+    \item \texttt{timm}: pre-trained and famous model architectures sourcing
+    \item \texttt{scikit-learn}: some utility functions to compute metrics on inference
+    \item \texttt{opencv}: open computer vision library used in task3 to apply handcrafted feature extraciton and other operations
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{PyTorch???}
+\subsection{Hardware}
+\begin{frame}{ROCm and GPUs}
+  \begin{block}{Hardware Note}
+    In order to train the models we used \textbf{ROCm} (AMD's open source high performace compute library) on 2 AMD consumer cards: RX6950XT \& RX9070.
+    Significant effort to setup a working environment.
+  \end{block}
+  \pause\
+
+  Final project env setup allows both CPU and GPU-accellerated conditional setups, by conditionally sourcing libraries from 3 different sources:
+  \begin{itemize}
+    \item \textbf{CPU}:\@ \texttt{uv sync --extra cpu}
+    \item \textbf{GPU RX6950XT}:\@ \texttt{uv sync --extra stable}
+    \item \textbf{GPU RX9070}:\@ \texttt{uv sync --extra nightly}
+  \end{itemize}
 \end{frame}
