@@ -6,7 +6,7 @@ from sklearn.metrics import f1_score
 from torchvision import datasets
 from torchvision.transforms import v2
 
-from models import Baseline2 as Baseline
+from models import Baseline1, Baseline2, Baseline3, efficientnet_b3
 from transforms import *
 from utils import get_device, topk_accuracy, predict_tta
 
@@ -18,6 +18,8 @@ ENHANCEMENTS = {
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
+parser.add_argument('--model', required=True, choices=['baseline1', 'baseline2', 'baseline3', 'efficient-net'], 
+                    help="The baseline model type to evalute the checkpoint on, see presentation and iterations.log for more info")
 parser.add_argument('--degraded', action='store_true', default=False, help='Use degraded test set instead of the clean one')
 parser.add_argument('--enhance', nargs='+', default=None, choices=list(ENHANCEMENTS),
                     help='Unsupervised enhancement applied before classification')
@@ -43,7 +45,15 @@ print(test_dir, )
 test_ds = datasets.ImageFolder(test_dir, transform=transform)
 loader = torch.utils.data.DataLoader(test_ds, batch_size=64)
 
-model = Baseline()
+model = None
+match (args.model):
+    case 'baseline1': model = Baseline1()
+    case 'baseline2': model = Baseline2()
+    case 'baseline3': model = Baseline3()
+    case 'efficient-net': model = efficientnet_b3()
+    case _: raise ValueError("--model should be set to one of the following values (baseline1|baseline2|baseline3|efficinet-net)")
+    
+
 model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True, map_location=device))
 model.to(device)
 model.eval()
