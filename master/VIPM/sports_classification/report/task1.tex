@@ -9,7 +9,7 @@
     Classification of a dataset with 100 classes of different sports, on the clean test set.
   \end{block}
   \vspace{\baselineskip}
-  The sheer number of classes and different variants of sports required us to make use of moderate augmnentation even in this task,
+  The sheer number of classes and different variants of sports required us to make use of moderate augmentation even in this task,
   to generate enough data samples to allow the model to learn correctly while trying to avoid overfitting and class confusion.
 \end{frame}
 
@@ -111,7 +111,9 @@ Linear: 1-13                           3,686,500
   
   \begin{center}
     \includegraphics[width=\linewidth]{img/random_resized_crop.png}
+    \tiny{Image from PyTorch Docs~\cite{torchvision_augmentation_api}}
   \end{center}
+  \vspace{-0.6\baselineskip}
 
   This improved metrics quite a bit both in training and validation, so we decided to keep it.
   \begin{columns}
@@ -141,6 +143,7 @@ Linear: 1-13                           3,686,500
   
   \begin{center}
     \includegraphics[width=\linewidth]{img/gaussian_blur.png}
+    \tiny{Image from PyTorch Docs~\cite{torchvision_augmentation_api}}
   \end{center}
 
   This, even if it was applied very lightly, had a bad effect on the network learning features, 
@@ -347,14 +350,16 @@ Total params: 1,621,860
 
   \begin{center}
     \includegraphics[width=\textwidth]{img/random_adjust_sharpness.png}
+    \tiny{Image from PyTorch Docs~\cite{torchvision_augmentation_api}}
   \end{center}
 
   This should also help \textit{define objects} that have \textbf{smaller size or low resolution} in the images more.
 \end{frame}
 
 \begin{frame}{Baseline \textendash\ Iteration 11}{Results}
-  The results were not exciting, even when considering the gap between the two GPU accuracies
-  with the same seed, so the iteration was \alert{reverted}.
+  \textbf{Sharpening} helped \textit{define edges} and slightly improved the model accuracy (keeping in mind the hardware difference).
+  
+  We also increased the \textbf{number of epochs} from 40 to 60 for this training.
 
   \vspace{\baselineskip}
 
@@ -376,10 +381,10 @@ Total params: 1,621,860
 \end{frame}
 
 \begin{frame}{Baseline2 \textendash\ Iteration 12}
-  In the end we've tried increasing epochs from 60 to 80 to push the model as much as possible,
-  although the improvements weren't much higher, 
-  while also considering the difference in architecture training, more overfitting (\textasciitilde10\%), and longer training time on the same hardware;
-  so we \alert{reverted} the change.
+  In the end we've tried increasing training epochs even more (from 60 to 80) 
+  to push the model as much as possible, although the improvements weren't much higher, 
+  considering the difference in architecture training, the improvements were very slight / minimal,
+  but we still decided to keep this version of the model.
 
   \begin{columns}
     \begin{column}{0.35\linewidth}
@@ -396,15 +401,4 @@ Total params: 1,621,860
       \end{center}
     \end{column}
   \end{columns}
-\end{frame}
-
-\begin{frame}{Augmentation Techniques}
-  \begin{itemize}
-    \item Aug1
-    \item Aug2
-    \item So on
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Results}
 \end{frame}

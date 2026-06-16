@@ -14,7 +14,7 @@
   \vspace{\baselineskip}
   The degraded test set contains 500 images sharing the same ground truth as the clean test set,
   but acquired under strong degradation.
-  Our workflow was to first measure the performance drop, then characterize the degradation
+  Our workflow was to first measure the performance drop, then characterize the degradation.
 \end{frame}
 
 \subsection{Baseline on the Degraded Set}
@@ -64,7 +64,7 @@
   \vspace{0.5\baselineskip}
   Every technique worsened or negligibly changed the results.
   These methods all act on \textit{brightness}, \textit{contrast} and \textit{white balance}
-  --- yet none of them improved things. \\
+  --- yet none of them improved accuracy. \\
   \vspace{0.5\baselineskip}
   $\Rightarrow$ The degradation must be different in nature.
   We decided to understand what it actually is before going further.
@@ -259,7 +259,7 @@ ColorJitter(brightness=0.35, contrast=0.4,
 \begin{frame}{Iteration v2.7 \textendash\ Label Smoothing}
   We added \textbf{label smoothing} ($\varepsilon = 0.1$) to the cross-entropy loss.
   The rationale: with color distortion at test time, the model should not be
-  overconfident on color-specific cues (e.g.\ team colors) that are unreliable on the
+  overconfident on color-specific cues (e.g.\ sky / grass colors) that are unreliable on the
   degraded set.
   \begin{columns}[onlytextwidth]
     \begin{column}{0.35\linewidth}
