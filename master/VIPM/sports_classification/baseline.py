@@ -73,8 +73,9 @@ def display_predicts(model, num_images=6):
     model.train(mode=was_training)
 
 
-model = Baseline2().to(device)
+model = Baseline().to(device)
 summary(model)
+exit()
 
 loss_fn = nn.CrossEntropyLoss()
 optimizer_ft = optim.Adam(model.parameters(), lr=1e-3)
