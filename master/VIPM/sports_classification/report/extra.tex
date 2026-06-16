@@ -21,15 +21,15 @@
 \begin{frame}{Model Comparison --- Task 1 \& 2}
   \begin{center}
     \resizebox{\textwidth}{!}{%
-    \begin{tabular}{lcccc}
+    \begin{tabular}{lcccccccc}
       \toprule
-      \textbf{Model} & \textbf{Clean Acc} & \textbf{Clean F1} & \textbf{Degraded Acc} & \textbf{Degraded F1} \\
+      \textbf{Model} & \textbf{Clean Acc} & \textbf{Clean F1} & \textbf{Clean Top-3} & \textbf{Clean Top-5} & \textbf{Deg.\ Acc} & \textbf{Deg.\ F1} & \textbf{Deg.\ Top-3} & \textbf{Deg.\ Top-5} \\
       \midrule
-      Baseline2 (v1.12) & 83.6\% & 0.827 & 73.1\% & 0.727 \\[2pt]
-      Baseline3 (v2.12) & 85.6\% & 0.852 & 73.3\% & 0.731 \\
-      \quad + TTA & 85.8\% & 0.854 & 74.4\% & 0.749 \\[2pt]
-      EfficientNet B3 (v5.3) & 95.4\% & 0.953 & 87.8\% & 0.879 \\
-      \quad + TTA & 96.5\% & 0.965 & 89.4\% & 0.893 \\
+      Baseline2 (v1.12)      & 83.6\% & 0.827 & 94.0\%    & 96.7\%    & 56.2\% & 0.727 & 75.7\%     & 81.0\% \\[2pt]
+      Baseline3 (v2.12)      & 85.6\% & 0.852 & 94.2\%    & 96.9\%     & 73.3\%  & 0.731 & 87.3\%      & 91.4\%  \\
+      \quad + TTA            & 85.8\% & 0.854 & 94.4\%     & 98.2\%     & 74.4\%  & 0.749 & 87.6\%      & 93.2\%  \\[2pt]
+      EfficientNet B3 (v5.3) & 95.4\% & 0.953 & --        & --        & 87.8\%  & 0.879 & 96.0\%     & 97.1\%  \\
+      \quad + TTA            & 96.5\% & 0.965 & 99.6\%     & 99.8\%     & 89.4\%  & 0.893 & 96.6\%      & 98.6\%  \\
       \bottomrule
     \end{tabular}}
   \end{center}
