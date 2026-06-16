@@ -1,10 +1,7 @@
 import argparse
-import os
 
-import torch
 from sklearn.metrics import f1_score
 from torchvision import datasets
-from torchvision.transforms import v2
 
 from models import Baseline2 as Baseline
 from transforms import *
