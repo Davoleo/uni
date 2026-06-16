@@ -27,7 +27,7 @@ _rng = torch.Generator()
 _rng.manual_seed(SEED)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
+parser.add_argument('--weights', required=True, help='Checkpoint name (saved as models/<weights>.pt)')
 args = parser.parse_args()
 
 train_ds = datasets.ImageFolder('data/train', get_train_transforms(degraded=False))
@@ -92,11 +92,11 @@ model_compiled, _best_val, _elapsed = train(
     use_amp=True
 )
 
-plot_performance(metrics, os.path.join('models', f'{args.name}.png'))
+plot_performance(metrics, os.path.join('models', f'{args.weights}.png'))
 display_predicts(model)
 
-torch.save(model.state_dict(), os.path.join('models', f'{args.name}.pt'))
-write_training_log(args.name, _elapsed, NUM_EPOCHS, metrics)
+torch.save(model.state_dict(), os.path.join('models', f'{args.weights}.pt'))
+write_training_log(args.weights, _elapsed, NUM_EPOCHS, metrics)
 
 plt.ioff()
 plt.show()

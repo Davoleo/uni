@@ -14,7 +14,7 @@ ENHANCEMENTS = {
 }
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', required=True, help='Checkpoint name (loaded from models/<name>.pt)')
+parser.add_argument('--weights', required=True, help='Checkpoint name (loaded from models/<weights>.pt)')
 parser.add_argument('--model', required=True, choices=['baseline1', 'baseline2', 'baseline3', 'efficient-net'], 
                     help="The baseline model type to evalute the checkpoint on, see presentation and iterations.log for more info")
 parser.add_argument('--degraded', action='store_true', default=False, help='Use degraded test set instead of the clean one')
@@ -51,7 +51,7 @@ match (args.model):
     case _: raise ValueError("--model should be set to one of the following values (baseline1|baseline2|baseline3|efficinet-net)")
     
 
-model.load_state_dict(torch.load(os.path.join('models', f'{args.name}.pt'), weights_only=True, map_location=device))
+model.load_state_dict(torch.load(os.path.join('models', f'{args.weights}.pt'), weights_only=True, map_location=device))
 model.to(device)
 model.eval()
 

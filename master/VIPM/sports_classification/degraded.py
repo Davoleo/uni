@@ -32,7 +32,7 @@ _rng = torch.Generator()
 _rng.manual_seed(SEED)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--name', required=True, help='Checkpoint name (saved as models/<name>.pt)')
+parser.add_argument('--weights', required=True, help='Checkpoint name (saved as models/<weights>.pt)')
 args = parser.parse_args()
 
 # Task 2B: extend training transforms with degradation simulation
@@ -80,10 +80,10 @@ model, _best_val, _elapsed = train(
 	use_amp=False
 )
 
-plot_performance(metrics, os.path.join('models', f'{args.name}.png'))
+plot_performance(metrics, os.path.join('models', f'{args.weights}.png'))
 
-torch.save(model.state_dict(), os.path.join('models', f'{args.name}.pt'))
-write_training_log(args.name, _elapsed, NUM_EPOCHS, metrics, degraded=True)
+torch.save(model.state_dict(), os.path.join('models', f'{args.weights}.pt'))
+write_training_log(args.weights, _elapsed, NUM_EPOCHS, metrics, degraded=True)
 
 plt.ioff()
 plt.show()
