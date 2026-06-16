@@ -1,6 +1,16 @@
 \documentclass{beamer}
-\usetheme{Berlin}
+\usetheme{Darmstadt}
+\usecolortheme{seahorse}
 
+% remove subsection smoothbar below frame title to avoid redundancy
+\makeatletter
+\beamer@sb@subsectionfalse{}
+\makeatother
+\setbeamertemplate{navigation symbols}{}
+% \setbeamertemplate{itemize items}[square]
+
+\usepackage{booktabs}
+\usepackage{fancyvrb}
 \usepackage[backend=biber, style=numeric]{biblatex}
 \addbibresource{references.bib}
 
@@ -13,21 +23,32 @@
 \begin{document}
 
 \begin{frame}
-  \titlepage
+  \titlepage\
+  \begin{center}
+    \textcolor{blue}{\hyperlink{https://github.com/Davoleo/uni/tree/master/master/VIPM/sports_classification}{Repository}}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Outline}
-  \tableofcontents
+  \tableofcontents[hideallsubsections]
 \end{frame}
+
+\AtBeginSection[special star text]
+{
+  \begin{frame}{Section Outline}
+    \tableofcontents[currentsection,hideothersubsections]
+  \end{frame}
+}
 
 \input{architecture}
 \input{task1}
 \input{task2}
 \input{task3}
+\input{extra}
 
 \begin{frame}[allowframebreaks]{References}
   \nocite{*}
-  \printbibliography
+  \printbibliography[heading=none]
 \end{frame}
 
 \end{document}
