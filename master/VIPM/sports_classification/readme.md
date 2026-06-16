@@ -115,7 +115,6 @@ uv run --extra stable python predict.py my_photo.jpg --model efficient-net --nam
 
 | Script | Purpose |
 |---|---|
-| `predict.py` | Classify a single image and print top-k predictions |
 | `conv_benchmark.py` | GPU convolution throughput benchmark (TFLOP/s) |
 | `show_enhancements.py` | Visualize before/after of image enhancement transforms |
 
