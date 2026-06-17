@@ -4,7 +4,7 @@
 A differenza delle bag of word tradizionali che lavorano su sequenze di caratteri, qui prima di arrivare ad avere una
 vera e propria BoVW dobbiamo prima ottenere delle visual feature:
 Le immagini vengono divise in patch, ad ogni patch sono assegnati:
-   1. **Keypoints**: punti fondamentali dell'immagine, invarianti rispetto a determinate caratteristiche in base al classificatore utilizzato (rotazione, espansione, scaling).
+   1. **Keypoints**: punti fondamentali dell'immagine, invarianti rispetto a determinate caratteristiche in base al classificatore utilizzato (SIFT è invariante rispetto a rotazione, scala, cambi di luminosità e prospettiva).
    2. **Descriptors**: Creo (con SIFT) un vettore di 128 numeri che rappresenta cosa c'è nell'intorno del keypoint (es: intorno 16x16 pixel) attraverso lo studio dei gradienti dell'immagine (variazioni di illuminazione). Lo scopo principale di un descriptor è essere univoco e robusto. Per essere robusto deve assicurarmi che, se riprendo il soggetto da un'angolazione diversa, il suo descriptor deve essere idealmente identico (o quasi, nel pratico). 
 
 Le visual feature vengono estratte tramite SIFT (Scale Invariant Feature Transform), ORB o SURF.
@@ -32,8 +32,11 @@ _term-frequency inverse document frequency_ (**TF-IDF**). Che pesa l'importanza 
 * Il **frequency vector** è un vettore di dimensione pari al numero di visual words nel vocabolario, che contiene il numero di volte che ogni visual word appare nell'immagine. Dal feature vector ricaviamo gli istogrammi. Nel caso di SPM, la sua dimensione aumenta in base ad $L$.
 
 # SIFT
-Nel nostro caso utilizziamo i Dense SIFT descriptors. In SIFT standard, l'algoritmo prima cerca dei keypoints nelle zone più interessanti (corners, edges etc.), quindi calcola i descrittori solo per queste zone, lasciandone altre, come il cielo o il prato, completamente prive di informazioni, ma nel nostro caso possono essere discriminanti.
+Nel nostro caso utilizziamo i Dense SIFT descriptors. In SIFT standard, l'algoritmo prima cerca dei keypoints nelle zone più interessanti (corners, edges etc.) quindi calcola i descrittori solo per queste zone, lasciandone altre, come il cielo o il prato, completamente prive di informazioni, ma nel nostro caso possono essere discriminanti.
 Il dense SIFT usa uno step (per noi 8) per calcolare un keypoint a distanza fissata, ad esempio con step 8 e un immagine 224x224 (come il nostro dataset), ci saranno 784 keypoints, indipendentemente se la location è interessante o meno.
+### Come SIFT tradizionale calcola i keypoints?
+La scelta del keypoint in SIFT avviene guardando un intorno di pixel, il più rilevante di questi diventerà il descrittore.
+
 # Spatial Pyramid Matching
 [Reference Here](https://scispace.com/pdf/beyond-bags-of-features-spatial-pyramid-matching-for-4aa5cbe2fz.pdf)
 
@@ -49,3 +52,21 @@ Nonostante l'aumento esponenziale, con $L$ ancora bassi come 2, la complessità 
 
 L'idea alla base di SPM è quella di calcolare un istogramma per ogni cella (in ogni livello) e non solo per l'immagine originale. Quello che si fa è poi fare un flattening degli istogrammi, ottenendo un singolo vettore di dimensione $500*(1+4+16)=10500$ come descritto sopra.
 A questo punto abbiamo codificato le informazioni spaziali in un unico vettore, un qualsiasi classificatore è in grado, basandosi su un certo range di dimensioni del vettore, di imparare la spazialità delle immagini. Nel nostro caso un classificatore come una SVM è la scelta migliore, una rete neurale o convoluzionale richiederebbe troppo campioni per raggiungere un buon risultato.
+
+# LinearSVC, confronto One-to-Rest
+Generalmente Le SVM possono fare classificazione binaria, ma esistono estensioni dell'algoritmo che permettono di eseguire classificazione multi-classe, tra questi algoritmi ci sono One-to-One e **One-to-Rest (OvR)**, quello che usiamo qui.
+OvR è utilizato dalla libreria _scikit-learn_ nella funzione _linearSVC_. Se si hanno $N$ classi, OvR addestra $N$ classificatori, ogni classificatore $i \in \{1 \dots N\}$ separa la classe $i$ da tutte le restanti $N-1$ classi raggruppate insieme. Ogni classificatore binario, sulla base della distanza fra il punto e l'iperpiano ottimale,
+assegna un punteggio negativo (se il punto non è dal lato della classe corretta) o positivo all'istanza in esame. Il classificatore $i$ che ha associato il punteggio più alto, assegnerà rispettiva classe $i$ all'istanza.
+
+# EfficientNet
+Il nostro modello è **EfficientNet B3** trainato su **ImageNet21K** (1M+ immagini, e contiene una sotto categoria contenente degli sport). Scelta anche per l'efficienza.
+A livello di freezing abbiamo allenato solo il classificatore e infine l'ultimo layer convoluzionale (conv head) e il classificatore (partial freezing, solo una parte dei layer convoluzionali è freezzata). Il classificatore l'abbiamo sostituito per predirre le nostre 100 classi + dropout dopo la conv head prima del classificatore.
+
+# Batch Normalization
+A ogni layer del modello rinormalizzo le feature tramite media e varianza, media e varianza diventano parametri allenabili, il training diventa più stabile e converge meglio.
+
+# Adaptive Average Pooling
+E' adattivo nel senso che ottengo la dimensione che voglio in output. La grandezza del pooling è quindi adattiva in base a che output vogliamo avere. Lo usiamo prima della parte Feed-Forward della rete.
+
+
+
