@@ -4,3 +4,6 @@
 [submodule "master/AML/final"]
 	path = master/AML/final
 	url = https://github.com/Moeasy64/AML-report
+[submodule "master/SI/log4j-shell-poc"]
+	path = master/SI/log4j-shell-poc
+	url = https://github.com/kozmer/log4j-shell-poc/
