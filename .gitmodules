@@ -1,9 +1,9 @@
-[submodule "PSS/Assignment 2/2024_assignment2_concentration"]
-	path = PSS/Assignment 2/2024_assignment2_concentration
-	url = https://gitlab.com/processossw/2024_assignment2_concentration.git
 [submodule "master/AML/final"]
 	path = master/AML/final
 	url = https://github.com/Moeasy64/AML-report
 [submodule "master/SI/log4j-shell-poc"]
 	path = master/SI/log4j-shell-poc
 	url = https://github.com/kozmer/log4j-shell-poc/
+[submodule "master/PSS/Assignment2/2024_assignment2_concentration"]
+	path = master/PSS/Assignment2/2024_assignment2_concentration
+	url = https://gitlab.com/processossw/2024_assignment2_concentration.git
